@@ -388,13 +388,13 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
-  Server: 'Server',
   Product: 'Product',
   Coupon: 'Coupon',
   Cart: 'Cart',
   CartItem: 'CartItem',
   Order: 'Order',
-  OrderItem: 'OrderItem'
+  OrderItem: 'OrderItem',
+  Server: 'Server'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -410,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "server" | "product" | "coupon" | "cart" | "cartItem" | "order" | "orderItem"
+    modelProps: "user" | "session" | "account" | "verification" | "product" | "coupon" | "cart" | "cartItem" | "order" | "orderItem" | "server"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -707,80 +707,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.VerificationCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.VerificationCountAggregateOutputType> | number
-        }
-      }
-    }
-    Server: {
-      payload: Prisma.$ServerPayload<ExtArgs>
-      fields: Prisma.ServerFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ServerFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ServerFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>
-        }
-        findFirst: {
-          args: Prisma.ServerFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ServerFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>
-        }
-        findMany: {
-          args: Prisma.ServerFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>[]
-        }
-        create: {
-          args: Prisma.ServerCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>
-        }
-        createMany: {
-          args: Prisma.ServerCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ServerCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>[]
-        }
-        delete: {
-          args: Prisma.ServerDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>
-        }
-        update: {
-          args: Prisma.ServerUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>
-        }
-        deleteMany: {
-          args: Prisma.ServerDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ServerUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ServerUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>[]
-        }
-        upsert: {
-          args: Prisma.ServerUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>
-        }
-        aggregate: {
-          args: Prisma.ServerAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateServer>
-        }
-        groupBy: {
-          args: Prisma.ServerGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ServerGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ServerCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ServerCountAggregateOutputType> | number
         }
       }
     }
@@ -1228,6 +1154,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Server: {
+      payload: Prisma.$ServerPayload<ExtArgs>
+      fields: Prisma.ServerFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ServerFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ServerFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>
+        }
+        findFirst: {
+          args: Prisma.ServerFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ServerFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>
+        }
+        findMany: {
+          args: Prisma.ServerFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>[]
+        }
+        create: {
+          args: Prisma.ServerCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>
+        }
+        createMany: {
+          args: Prisma.ServerCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ServerCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>[]
+        }
+        delete: {
+          args: Prisma.ServerDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>
+        }
+        update: {
+          args: Prisma.ServerUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>
+        }
+        deleteMany: {
+          args: Prisma.ServerDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ServerUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ServerUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>[]
+        }
+        upsert: {
+          args: Prisma.ServerUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServerPayload>
+        }
+        aggregate: {
+          args: Prisma.ServerAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateServer>
+        }
+        groupBy: {
+          args: Prisma.ServerGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ServerGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ServerCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ServerCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1281,7 +1281,8 @@ export const UserScalarFieldEnum = {
   banExpires: 'banExpires',
   username: 'username',
   firstname: 'firstname',
-  lastname: 'lastname'
+  lastname: 'lastname',
+  displayUsername: 'displayUsername'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -1333,36 +1334,19 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
-export const ServerScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  orderItemId: 'orderItemId',
-  name: 'name',
-  type: 'type',
-  status: 'status',
-  ip: 'ip',
-  port: 'port',
-  expiresAt: 'expiresAt',
-  resources: 'resources',
-  pterodactylData: 'pterodactylData',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ServerScalarFieldEnum = (typeof ServerScalarFieldEnum)[keyof typeof ServerScalarFieldEnum]
-
-
 export const ProductScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  slug: 'slug',
   title: 'title',
-  tag: 'tag',
-  deployMode: 'deployMode',
+  description: 'description',
   imageUrl: 'imageUrl',
   category: 'category',
+  deployMode: 'deployMode',
   labels: 'labels',
-  price: 'price',
+  monthlyPrice: 'monthlyPrice',
   specs: 'specs',
+  active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1377,6 +1361,9 @@ export const CouponScalarFieldEnum = {
   amount: 'amount',
   description: 'description',
   active: 'active',
+  expiresAt: 'expiresAt',
+  maxUses: 'maxUses',
+  usedCount: 'usedCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1387,7 +1374,9 @@ export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof 
 export const CartScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  createdAt: 'createdAt'
+  couponCode: 'couponCode',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type CartScalarFieldEnum = (typeof CartScalarFieldEnum)[keyof typeof CartScalarFieldEnum]
@@ -1397,7 +1386,10 @@ export const CartItemScalarFieldEnum = {
   id: 'id',
   cartId: 'cartId',
   productId: 'productId',
-  quantity: 'quantity'
+  quantity: 'quantity',
+  billingPeriod: 'billingPeriod',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type CartItemScalarFieldEnum = (typeof CartItemScalarFieldEnum)[keyof typeof CartItemScalarFieldEnum]
@@ -1406,11 +1398,15 @@ export type CartItemScalarFieldEnum = (typeof CartItemScalarFieldEnum)[keyof typ
 export const OrderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  totalAmount: 'totalAmount',
   status: 'status',
+  subtotalAmount: 'subtotalAmount',
+  discountAmount: 'discountAmount',
+  totalAmount: 'totalAmount',
+  couponCode: 'couponCode',
   deliveryMessage: 'deliveryMessage',
   deliveryData: 'deliveryData',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -1420,12 +1416,37 @@ export const OrderItemScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
   productId: 'productId',
+  productName: 'productName',
   quantity: 'quantity',
-  price: 'price',
-  expiresAt: 'expiresAt'
+  billingPeriod: 'billingPeriod',
+  unitPrice: 'unitPrice',
+  totalPrice: 'totalPrice',
+  specsSnapshot: 'specsSnapshot',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
 } as const
 
 export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
+
+
+export const ServerScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  orderItemId: 'orderItemId',
+  name: 'name',
+  type: 'type',
+  status: 'status',
+  ip: 'ip',
+  port: 'port',
+  expiresAt: 'expiresAt',
+  resources: 'resources',
+  pterodactylData: 'pterodactylData',
+  suspended: 'suspended',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ServerScalarFieldEnum = (typeof ServerScalarFieldEnum)[keyof typeof ServerScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1436,19 +1457,19 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const NullableJsonNullValueInput = {
   DbNull: DbNull,
   JsonNull: JsonNull
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -1518,6 +1539,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'ProductCategory'
+ */
+export type EnumProductCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductCategory'>
+    
+
+
+/**
+ * Reference to a field of type 'ProductCategory[]'
+ */
+export type ListEnumProductCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductCategory[]'>
+    
+
+
+/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -1546,20 +1581,6 @@ export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
 
 
 /**
- * Reference to a field of type 'productCategory'
- */
-export type EnumproductCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'productCategory'>
-    
-
-
-/**
- * Reference to a field of type 'productCategory[]'
- */
-export type ListEnumproductCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'productCategory[]'>
-    
-
-
-/**
  * Reference to a field of type 'CouponType'
  */
 export type EnumCouponTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CouponType'>
@@ -1570,6 +1591,20 @@ export type EnumCouponTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
  * Reference to a field of type 'CouponType[]'
  */
 export type ListEnumCouponTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CouponType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BillingPeriod'
+ */
+export type EnumBillingPeriodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BillingPeriod'>
+    
+
+
+/**
+ * Reference to a field of type 'BillingPeriod[]'
+ */
+export type ListEnumBillingPeriodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BillingPeriod[]'>
     
 
 
@@ -1714,13 +1749,13 @@ export type GlobalOmitConfig = {
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit
-  server?: Prisma.ServerOmit
   product?: Prisma.ProductOmit
   coupon?: Prisma.CouponOmit
   cart?: Prisma.CartOmit
   cartItem?: Prisma.CartItemOmit
   order?: Prisma.OrderOmit
   orderItem?: Prisma.OrderItemOmit
+  server?: Prisma.ServerOmit
 }
 
 /* Types for Logging */

@@ -4,14 +4,18 @@ import { prisma } from "#/db";
 import { auth } from "@/lib/auth";
 import { z } from "zod";
 
+const billingPeriodEnum = z.enum(["MONTHLY", "QUARTERLY", "SEMIANNUALLY", "YEARLY"]);
+
 const addToCartSchema = z.object({
   productId: z.string(),
   quantity: z.number().int().positive().optional(),
+  billingPeriod: billingPeriodEnum.optional(),
 });
 
 const updateCartItemSchema = z.object({
   itemId: z.string(),
   quantity: z.number().int(),
+  billingPeriod: billingPeriodEnum.optional(),
 });
 
 const removeFromCartSchema = z.object({
@@ -66,7 +70,10 @@ export const addToCart = createServerFn({ method: "POST" })
     if (existingItem) {
       return prisma.cartItem.update({
         where: { id: existingItem.id },
-        data: { quantity: existingItem.quantity + (data.quantity || 1) },
+        data: {
+          quantity: existingItem.quantity + (data.quantity || 1),
+          billingPeriod: data.billingPeriod ?? existingItem.billingPeriod,
+        },
         include: { product: true },
       });
     }
@@ -76,6 +83,7 @@ export const addToCart = createServerFn({ method: "POST" })
         cartId: cart.id,
         productId: data.productId,
         quantity: data.quantity || 1,
+        billingPeriod: data.billingPeriod ?? "MONTHLY",
       },
       include: { product: true },
     });
@@ -94,7 +102,10 @@ export const updateCartItem = createServerFn({ method: "POST" })
 
     return prisma.cartItem.update({
       where: { id: data.itemId },
-      data: { quantity: data.quantity },
+      data: {
+        quantity: data.quantity,
+        billingPeriod: data.billingPeriod ?? undefined,
+      },
       include: { product: true },
     });
   });
@@ -119,9 +130,9 @@ export const clearCart = createServerFn({ method: "POST" }).handler(
       where: { userId: session.user.id },
     });
 
-    if (!cart) return null;
+    if (!cart) return { success: true, message: "Cart already empty." };
 
     await prisma.cartItem.deleteMany({ where: { cartId: cart.id } });
-    return { success: true };
+    return { success: true, message: "Cart cleared." };
   }
 );

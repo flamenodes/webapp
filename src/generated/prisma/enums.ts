@@ -9,7 +9,7 @@
 * 🟢 You can import this file directly.
 */
 
-export const productCategory = {
+export const ProductCategory = {
   VPS: 'VPS',
   VDS: 'VDS',
   WEBHOST: 'WEBHOST',
@@ -19,15 +19,17 @@ export const productCategory = {
   MINECRAFT: 'MINECRAFT'
 } as const
 
-export type productCategory = (typeof productCategory)[keyof typeof productCategory]
+export type ProductCategory = (typeof ProductCategory)[keyof typeof ProductCategory]
 
 
-export const CouponType = {
-  FIXED: 'FIXED',
-  PERCENT: 'PERCENT'
+export const BillingPeriod = {
+  MONTHLY: 'MONTHLY',
+  QUARTERLY: 'QUARTERLY',
+  SEMIANNUALLY: 'SEMIANNUALLY',
+  YEARLY: 'YEARLY'
 } as const
 
-export type CouponType = (typeof CouponType)[keyof typeof CouponType]
+export type BillingPeriod = (typeof BillingPeriod)[keyof typeof BillingPeriod]
 
 
 export const OrderStatus = {
@@ -41,3 +43,11 @@ export const OrderStatus = {
 } as const
 
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
+
+
+export const CouponType = {
+  FIXED: 'FIXED',
+  PERCENT: 'PERCENT'
+} as const
+
+export type CouponType = (typeof CouponType)[keyof typeof CouponType]

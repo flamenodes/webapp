@@ -51,11 +51,12 @@ export const createPteroServer = createServerFn({ method: 'POST' })
         data: res.data,
       }
     } catch (err: any) {
-      console.log(err.response.data)
+      console.error(err?.response?.data ?? err?.message ?? err)
       return {
         success: false,
         message:
-          err.response.data.errors[0].detail ||
+          err?.response?.data?.errors?.[0]?.detail ||
+          err?.message ||
           'An error occurred while creating the server.',
       }
     }

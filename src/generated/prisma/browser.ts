@@ -38,11 +38,6 @@ export type Account = Prisma.AccountModel
  */
 export type Verification = Prisma.VerificationModel
 /**
- * Model Server
- * 
- */
-export type Server = Prisma.ServerModel
-/**
  * Model Product
  * 
  */
@@ -72,3 +67,8 @@ export type Order = Prisma.OrderModel
  * 
  */
 export type OrderItem = Prisma.OrderItemModel
+/**
+ * Model Server
+ * 
+ */
+export type Server = Prisma.ServerModel

@@ -3,35 +3,41 @@ import { createServerFn } from '@tanstack/react-start'
 import { getRequestHeaders } from '@tanstack/react-start/server'
 import { auth } from '@/lib/auth'
 import { z } from 'zod'
-import type { Prisma } from '@/generated/prisma/client'
 
-const createProductSchema: z.ZodType<Prisma.ProductCreateInput> = z.object({
+const productCategoryEnum = z.enum(['VPS', 'VDS', 'WEBHOST', 'DISCORD', 'DDOS_PROT', 'DEDICATED', 'MINECRAFT'])
+const productDeployModeEnum = z.string().default('PTERODACTYL')
+
+const createProductSchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string(),
-  title: z.string(),
+  slug: z.string(),
+  title: z.string().optional().nullable(),
+  description: z.string().optional().nullable(),
   tag: z.string().optional().nullable(),
-  deployMode: z.string().default('PTERODACTYL'),
+  deployMode: productDeployModeEnum,
   imageUrl: z.string().optional().nullable(),
-  category: z.enum(['VPS', 'VDS', 'WEBHOST', 'DISCORD', 'DDOS_PROT', 'DEDICATED', 'MINECRAFT']),
+  category: productCategoryEnum,
   labels: z.array(z.string()).default([]),
-  price: z.number().int(),
+  monthlyPrice: z.number().int(),
   specs: z.any().default({}),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
-}) as any
+  active: z.boolean().default(true),
+})
 
-const updateProductSchema: z.ZodType<Prisma.ProductUpdateInput & { id: string }> = z.object({
+const updateProductSchema = z.object({
   id: z.string(),
   name: z.string().optional(),
-  title: z.string().optional(),
+  slug: z.string().optional(),
+  title: z.string().optional().nullable(),
+  description: z.string().optional().nullable(),
   tag: z.string().optional().nullable(),
   deployMode: z.string().optional(),
   imageUrl: z.string().optional().nullable(),
-  category: z.enum(['VPS', 'VDS', 'WEBHOST', 'DISCORD', 'DDOS_PROT', 'DEDICATED', 'MINECRAFT']).optional(),
+  category: productCategoryEnum.optional(),
   labels: z.array(z.string()).optional(),
-  price: z.number().int().optional(),
+  monthlyPrice: z.number().int().optional(),
   specs: z.any().optional(),
-}) as any
+  active: z.boolean().optional(),
+})
 
 const deleteProductSchema = z.object({
   id: z.string(),
@@ -48,7 +54,12 @@ export const createProduct = createServerFn({ method: 'POST' })
     const session = await auth.api.getSession({ headers })
     if (!session?.user) throw new Error('Unauthorized')
 
-    return prisma.product.create({ data })
+    const product = await prisma.product.create({ data })
+    return {
+      success: true,
+      message: 'Product created successfully.',
+      data: product,
+    }
   })
 
 export const getProducts = createServerFn({ method: 'GET' }).handler(async () => {
@@ -71,10 +82,15 @@ export const updateProduct = createServerFn({ method: 'POST' })
     if (!session?.user) throw new Error('Unauthorized')
 
     const { id, ...updateData } = data
-    return prisma.product.update({
+    const product = await prisma.product.update({
       where: { id },
       data: updateData,
     })
+    return {
+      success: true,
+      message: 'Product updated successfully.',
+      data: product,
+    }
   })
 
 export const deleteProduct = createServerFn({ method: 'POST' })
@@ -84,5 +100,10 @@ export const deleteProduct = createServerFn({ method: 'POST' })
     const session = await auth.api.getSession({ headers })
     if (!session?.user) throw new Error('Unauthorized')
 
-    return prisma.product.delete({ where: { id: data.id } })
+    const deleted = await prisma.product.delete({ where: { id: data.id } })
+    return {
+      success: true,
+      message: 'Product deleted successfully.',
+      data: deleted,
+    }
   })
