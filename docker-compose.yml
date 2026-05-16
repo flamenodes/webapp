@@ -1,0 +1,28 @@
+
+services:
+  app:
+    image: node:22-alpine
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    command: sh -c "npm i -g pnpm && ([ -d node_modules ] || pnpm i) && pnpm dev"
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://aislx@postgres:5432/flamenodes
+      - CI=true
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: flamenodes
+      POSTGRES_USER: aislx
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+  node_modules:
