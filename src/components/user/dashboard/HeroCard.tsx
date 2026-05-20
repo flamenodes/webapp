@@ -1,5 +1,6 @@
-import { Flame, Hash, ShieldCheck, MapPin, Clock } from 'lucide-react'
+import { Hash, ShieldCheck, MapPin, Clock } from 'lucide-react'
 import { heroMeta } from '#/data/dashboard/dashboardData'
+
 
 const META_ICONS: Record<string, React.ElementType> = {
   Hash,
@@ -15,6 +16,7 @@ export function HeroCard({
   username?: string
   avatar: any
 }) {
+
   return (
     <div className="relative overflow-hidden rounded-2xl border border-border bg-card flex flex-col justify-between p-5 md:p-6">
       <div className="pointer-events-none absolute -top-16 -right-16 w-64 h-64 rounded-full bg-primary/15 blur-3xl" />

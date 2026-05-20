@@ -1,6 +1,8 @@
-import { navItems } from '#/data/dashboard/mockData'
 import * as LucideIcons from 'lucide-react'
 import { ScrollArea } from '#/components/ui/scroll-area'
+import FlameNodesLogo from '../blocks/FlameNodesLogo'
+import { useLocation, useNavigate } from '@tanstack/react-router'
+import { navItems } from '#/data/admin/navitems'
 
 const sections = [
   { key: 'main', label: 'Main' },
@@ -15,6 +17,13 @@ interface SidebarProps {
 }
 
 export function Sidebar({ open, onClose }: SidebarProps) {
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const isActive = (to: any) => {
+    return to === location.pathname;
+  }
+
   return (
     <>
       {open && (
@@ -34,14 +43,8 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           lg:translate-x-0 lg:static lg:z-auto
         `}
       >
-        {/* Flame Nodes Logo */}
         <div className="flex items-center gap-3 px-5 h-[74px] border-b border-sidebar-border shrink-0">
-          <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
-            <LucideIcons.Flame className="w-4 h-4 text-white" />
-          </div>
-          <span className="font-bold text-base tracking-tight">
-            Flame Nodes
-          </span>
+          <FlameNodesLogo />
         </div>
 
         <ScrollArea className="flex-1 px-3 py-4">
@@ -53,18 +56,18 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                 <p className="px-3 mb-1.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
                   {section.label}
                 </p>
-                {items.map((item: any) => {
+                {items.map((item) => {
                   const Icon =
                     (LucideIcons as any)[item.icon] || LucideIcons.Circle
                   return (
                     <button
                       key={item.label}
-                      onClick={item.to}
+                      onClick={() => navigate({ to: item.to })}
                       className={`
                         w-full flex items-center gap-3 px-3 h-11 rounded-xl text-sm font-medium
                         transition-all duration-200 mb-0.5
                         ${
-                          item.active
+                          isActive(item.to)
                             ? 'bg-gradient-to-r from-primary/20 to-primary/5 text-primary border border-primary/15'
                             : 'text-sidebar-foreground/70 hover:bg-white/5 hover:text-sidebar-foreground border border-transparent'
                         }
@@ -72,7 +75,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                     >
                       <Icon className="w-4 h-4 shrink-0" />
                       {item.label}
-                      {item.active && (
+                      {isActive(item.to) && (
                         <span className="ml-auto w-1.5 h-1.5 rounded-full bg-primary" />
                       )}
                     </button>

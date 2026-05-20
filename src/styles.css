@@ -27,7 +27,7 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.1450 0 0);
   /* Primary: pink/red palette */
-  --primary: oklch(0.2050 0 0);
+  --primary: oklch(64.85% 0.24013 16.717);
   --primary-foreground: oklch(0.9850 0 0);
   --primary-50: #FFF1F5;
   --primary-100: #FFE4EC;

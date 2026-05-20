@@ -1,0 +1,7 @@
+import * as z from 'zod';
+export const DiscountFindUniqueResultSchema = z.nullable(z.object({
+  id: z.string(),
+  label: z.string(),
+  percentage: z.number().int(),
+  product: z.array(z.any())
+}));

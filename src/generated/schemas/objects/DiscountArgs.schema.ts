@@ -1,0 +1,11 @@
+import * as z from 'zod';
+import type { Prisma } from '../../prisma/client';
+import { DiscountSelectObjectSchema as DiscountSelectObjectSchema } from './DiscountSelect.schema';
+import { DiscountIncludeObjectSchema as DiscountIncludeObjectSchema } from './DiscountInclude.schema'
+
+const makeSchema = () => z.object({
+  select: z.lazy(() => DiscountSelectObjectSchema).optional(),
+  include: z.lazy(() => DiscountIncludeObjectSchema).optional()
+}).strict();
+export const DiscountArgsObjectSchema = makeSchema();
+export const DiscountArgsObjectZodSchema = makeSchema();

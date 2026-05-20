@@ -1,0 +1,49 @@
+export const navItems = [
+  {
+    icon: 'LayoutDashboard',
+    label: 'Dashboard',
+		to: "/admin/dashboard",
+    section: 'main',
+  },
+  { icon: 'Server', label: 'Servers', active: false, section: 'main' },
+  { icon: 'Users', label: 'Customers', active: false, section: 'management' },
+  {
+    icon: 'ShoppingBasket',
+    label: 'Products',
+		to: '/admin/products',
+    section: 'management',
+  },
+  {
+    icon: 'ShoppingCart',
+    label: 'Orders',
+    section: 'management',
+  },
+  {
+    icon: 'CreditCard',
+    label: 'Billing',
+    active: false,
+    section: 'management',
+  },
+  {
+    icon: 'BarChart2',
+    label: 'Analytics',
+    active: false,
+    section: 'management',
+  },
+  { icon: 'Ticket', label: 'Tickets', active: false, section: 'support' },
+  {
+    icon: 'Megaphone',
+    label: 'Announcements',
+    active: false,
+    section: 'support',
+  },
+  {
+    icon: 'BookOpen',
+    label: 'Knowledgebase',
+    active: false,
+    section: 'support',
+  },
+  { icon: 'Activity', label: 'Status Page', active: false, section: 'support' },
+  { icon: 'UserRound', label: 'Roles', active: false, section: 'system' },
+  { icon: 'Settings', label: 'Settings', active: false, section: 'system' },
+]

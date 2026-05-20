@@ -1,5 +1,5 @@
 import { Button } from '#/components/ui/button'
-import { createPteroServer } from '#/integrations/pterodactyl/server'
+import { createPteroServer } from '#/serverActions/pterodactyl/server'
 import { createFileRoute } from '@tanstack/react-router'
 import { toast } from 'sonner'
 

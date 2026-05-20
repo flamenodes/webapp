@@ -23,6 +23,8 @@ export type ProductCategory = (typeof ProductCategory)[keyof typeof ProductCateg
 
 
 export const BillingPeriod = {
+  HOURLY: 'HOURLY',
+  DAILY: 'DAILY',
   MONTHLY: 'MONTHLY',
   QUARTERLY: 'QUARTERLY',
   SEMIANNUALLY: 'SEMIANNUALLY',

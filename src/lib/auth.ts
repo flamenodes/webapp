@@ -20,16 +20,23 @@ export const auth = betterAuth({
   user: {
     additionalFields: {
       firstname: {
+        input: true,
         type: 'string',
         required: true,
       },
       lastname: {
+        input: true,
         type: 'string',
         required: true,
       },
+      clientId: {
+        unique: true,
+        fieldName: 'clientId',
+        type: 'string',
+        required: false,
+      },
     },
   },
-
   plugins: [
     username({ maxUsernameLength: 10, minUsernameLength: 4 }),
     adminPlugin({
@@ -55,6 +62,28 @@ export const auth = betterAuth({
     discord: {
       clientId: process.env.DISCORD_CLIENT_ID!,
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
+      mapProfileToUser(profile: any) {
+        const fullName =
+          profile.global_name ?? profile.display_name ?? profile.username
+
+        const [firstname, ...rest] = fullName.split(' ')
+
+        return {
+          username: `${profile.username}_${profile.id.slice(-4)}`,
+
+          firstname,
+
+          lastname: rest.join(' ') || '',
+
+          name: fullName,
+
+          email: profile.email,
+
+          image: profile.avatar
+            ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
+            : null,
+        }
+      },
     },
   },
   databaseHooks: {
@@ -64,7 +93,10 @@ export const auth = betterAuth({
           return {
             data: {
               ...user,
-              clientId: `#FN-${crypto.randomUUID().split('-')[0].toUpperCase()}`,
+              clientId: `#FN-${crypto
+                .randomUUID()
+                .split('-')[0]
+                .toUpperCase()}`,
             },
           }
         },

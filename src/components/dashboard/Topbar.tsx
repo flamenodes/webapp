@@ -2,12 +2,19 @@ import { Input } from '#/components/ui/input'
 import { Button } from '#/components/ui/button'
 import { ThemeSwitch } from '#/components/theme/ThemeSwitch'
 import { Bell, Search, Menu } from 'lucide-react'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { getSession } from '#/handlers/auth.handler'
+import { Suspense } from 'react'
 
 interface TopbarProps {
   onMenuClick: () => void
 }
 
 export function Topbar({ onMenuClick }: TopbarProps) {
+  const { data } = useSuspenseQuery({
+    queryKey: ['session'],
+    queryFn: () => getSession(),
+  })
   return (
     <header className="h-[74px] flex items-center gap-4 px-5 border-b border-border bg-card/60 backdrop-blur-md shrink-0">
       <Button
@@ -34,7 +41,11 @@ export function Topbar({ onMenuClick }: TopbarProps) {
       <div className="flex items-center gap-1 ml-auto">
         {/* Notifications */}
         <div className="relative">
-          <Button variant="ghost" size="icon-sm" className="text-muted-foreground hover:text-foreground">
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            className="text-muted-foreground hover:text-foreground"
+          >
             <Bell className="w-5 h-5" />
           </Button>
           <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-primary" />
@@ -42,10 +53,11 @@ export function Topbar({ onMenuClick }: TopbarProps) {
 
         <ThemeSwitch />
 
-        {/* Avatar */}
-        <div className="ml-1 w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center cursor-pointer hover:bg-primary/30 transition-colors">
-          <span className="text-xs font-bold text-primary">AD</span>
-        </div>
+        <Suspense>
+          <div className="ml-1 w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center cursor-pointer hover:bg-primary/30 transition-colors">
+            <img src={data?.user.image!} alt="" />
+          </div>
+        </Suspense>
       </div>
     </header>
   )

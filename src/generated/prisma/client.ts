@@ -62,6 +62,11 @@ export type Account = Prisma.AccountModel
  */
 export type Verification = Prisma.VerificationModel
 /**
+ * Model Discount
+ * 
+ */
+export type Discount = Prisma.DiscountModel
+/**
  * Model Product
  * 
  */

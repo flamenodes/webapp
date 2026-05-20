@@ -1,6 +1,8 @@
 import { createAccessControl } from 'better-auth/plugins/access'
+import { defaultStatements, adminAc } from 'better-auth/plugins/admin/access'
 
 export const statement = {
+  ...defaultStatements,
   dashboard: ['user', 'admin'],
   servers: [
     'read',
@@ -91,10 +93,10 @@ export const admin = ac.newRole({
   tickets: [...userPermissions.tickets, 'read-all', 'close', 'delete'],
 
   billing: [...userPermissions.billing, 'read-all', 'refund'],
-
   announcements: ['read', 'create', 'update', 'delete'],
-
   roles: ['read'],
+
+  ...adminAc.statements
 })
 
 export const owner = ac.newRole({

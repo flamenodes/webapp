@@ -6,7 +6,7 @@ export async function hasPermissionClient(
 ): Promise<boolean> {
   try {
     const res = await authClient.admin.hasPermission({
-      permissions: permissions as never,
+      permissions: permissions,
     })
 
     return res.data?.success === true

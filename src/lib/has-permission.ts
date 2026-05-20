@@ -1,9 +1,12 @@
+import { getSession } from '#/handlers/auth.handler'
 import { auth } from '@/lib/auth'
 import type { Permissions } from '@/lib/permissions'
+import { createServerFn } from '@tanstack/react-start'
+import z from 'zod'
 
-export async function hasPermission(
+async function hasPermission(
   userId: string,
-  permissions: Permissions
+  permissions: Permissions,
 ): Promise<boolean> {
   try {
     const res = await auth.api.userHasPermission({
@@ -18,3 +21,23 @@ export async function hasPermission(
     return false
   }
 }
+
+const hasPermissionSchema = z.object({
+  permissions: z.custom<Permissions>(),
+})
+export const hasPermissionFn = createServerFn({ method: 'POST' })
+  .inputValidator(hasPermissionSchema)
+  .handler(async ({ data }) => {
+    const session = await getSession()
+
+    if (!session?.user.id) {
+      throw new Error("Unauthorized")
+    }
+
+    const permission = await hasPermission(
+      session.user.id,
+      data.permissions
+    )
+    return permission
+  })
+

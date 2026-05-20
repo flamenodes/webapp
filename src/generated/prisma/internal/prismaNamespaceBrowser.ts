@@ -55,6 +55,7 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
+  Discount: 'Discount',
   Product: 'Product',
   Coupon: 'Coupon',
   Cart: 'Cart',
@@ -82,6 +83,7 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const UserScalarFieldEnum = {
   id: 'id',
+  clientId: 'clientId',
   name: 'name',
   email: 'email',
   emailVerified: 'emailVerified',
@@ -147,19 +149,28 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
+export const DiscountScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  percentage: 'percentage'
+} as const
+
+export type DiscountScalarFieldEnum = (typeof DiscountScalarFieldEnum)[keyof typeof DiscountScalarFieldEnum]
+
+
 export const ProductScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  slug: 'slug',
-  title: 'title',
-  description: 'description',
+  planName: 'planName',
+  icon: 'icon',
   imageUrl: 'imageUrl',
   category: 'category',
-  deployMode: 'deployMode',
-  labels: 'labels',
-  monthlyPrice: 'monthlyPrice',
+  price: 'price',
+  features: 'features',
+  featureCategory: 'featureCategory',
+  inStock: 'inStock',
+  discountId: 'discountId',
   specs: 'specs',
-  active: 'active',
+  deployMode: 'deployMode',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

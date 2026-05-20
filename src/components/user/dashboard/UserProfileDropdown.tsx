@@ -10,6 +10,7 @@ import { getSession } from '#/handlers/auth.handler'
 import { authClient } from '#/lib/auth-client'
 import { hasPermissionClient } from '#/lib/has-permission-client'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
 import { FiUser, FiSettings, FiLogOut } from 'react-icons/fi'
 import { toast } from 'sonner'
 
@@ -22,11 +23,21 @@ const UserProfileDropdown = () => {
     queryKey: ['is-admin'],
     queryFn: async () => await hasPermissionClient({ dashboard: ['admin'] }),
   })
+  const navigate = useNavigate()
 
   const handleLogout = async () => {
-    const res = await authClient.signOut()
-    toast.success(res.data?.success)
+    const res = await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          navigate({ to: '/login' })
+        },
+      },
+    })
+    res.data?.success
+      ? toast.success('You successfully logout.')
+      : toast.error(res.error?.message)
   }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -47,7 +58,10 @@ const UserProfileDropdown = () => {
             <span>Account</span>
           </DropdownMenuItem>
           {isAdmin ? (
-            <DropdownMenuItem className="flex items-center gap-3 px-3 py-2.5 rounded-md hover:bg-accent/50 transition-colors cursor-pointer">
+            <DropdownMenuItem
+              onClick={() => navigate({ to: '/admin/dashboard' })}
+              className="flex items-center gap-3 px-3 py-2.5 rounded-md hover:bg-accent/50 transition-colors cursor-pointer"
+            >
               <FiSettings className="w-4 h-4 text-foreground/60" />
               <span>Admin Panel</span>
             </DropdownMenuItem>

@@ -1,41 +1,52 @@
+import { HostingTabs } from '#/components/pricing/HostingTabs'
+import { Spotlight } from '#/components/ui/spotlight-new'
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
+import { Boxes, Server, Cpu, Globe, Gamepad2 } from 'lucide-react'
 
 export const Route = createFileRoute('/pricing')({
+  head: () => ({}),
   component: pricingLayout,
 })
 
-const categories = [
-  { name: 'Minecraft', icon: '', to: '/' },
-  { name: 'Vps', icon: '', to: '/' },
-  { name: 'Dedicated', icon: '', to: '/' },
-  { name: 'Webhost', icon: '', to: '/' },
+const category = [
+  {
+    label: 'Minecraft',
+    to: '/pricing/minecraft',
+    icon: Boxes,
+  },
+  {
+    label: 'VPS',
+    to: '/pricing/vps',
+    icon: Server,
+  },
+  {
+    label: 'Dedicated',
+    to: '/pricing/dedicated',
+    icon: Cpu,
+  },
+  {
+    label: 'Web Hosting',
+    to: '/pricing/webhost',
+    icon: Globe,
+  },
+  {
+    label: 'Game Servers',
+    to: '/pricing/game-servers',
+    icon: Gamepad2,
+  },
 ]
 
 function pricingLayout() {
   return (
-    <section className="flex flex-col min-h-screen relative">
-      {/* <div className=" absolute h-full w-full">
-        <RippleGrid
-          enableRainbow={false}
-          gridColor="#ff007d"
-          rippleIntensity={0.05}
-          gridSize={10}
-          gridThickness={15}
-          mouseInteraction
-          mouseInteractionRadius={0.8}
-          opacity={1}
-          fadeDistance={1.5}
-          vignetteStrength={2}
-          glowIntensity={0.1}
-          gridRotation={0}
-        />
-      </div> */}
+    <section className="flex flex-col items-center min-h-screen relative">
+      <Spotlight />
+      <div className="absolute bottom-0 right-0 bg-background bg-[radial-gradient(el)]"></div>
       <div className="mt-30 flex flex-col justify-center items-center w-full h-full">
-          <ul className="flex w-full bg-card space-x-5">
-            {categories.map((category,key) => (
-             <button className='px-8 py-4 bg-linear-180 rounded-md from-transparent via-primary/6 to-primary/30'>Minecraft</button>
-            ))}
-          </ul>
+        <h1 className=" text-6xl font-bold my-6 text-center">
+          Transparent Pricing <br />
+          No Surprises
+        </h1>
+        <HostingTabs tabs={category} />
       </div>
       <Outlet />
     </section>

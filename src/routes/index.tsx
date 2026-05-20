@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import Features from '#/components/hero/Features'
 import HeroSection from '#/components/hero/HeroSection'
 import ScrollReveal from '#/components/ScrollReveal'
+import { PricingHeroCard } from '#/components/hero/PricingHeroCard'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -22,8 +23,9 @@ function Home() {
         'Free SSL Certificate',
         'Daily Backups',
       ],
-      cta: 'Get Started',
+      cta: 'View Pricing',
       featured: false,
+      to: '/pricing/webhost',
     },
     {
       icon: '',
@@ -38,8 +40,9 @@ function Home() {
         'One-Click Modpack Install',
         'DDoS Protection',
       ],
-      cta: 'Get Started',
+      cta: 'View Pricing',
       featured: true,
+      to: '/pricing/minecraft',
     },
     {
       icon: '',
@@ -54,8 +57,9 @@ function Home() {
         'Full Root Access',
         '99.9% Uptime',
       ],
-      cta: 'Get Started',
+      cta: 'View Pricing',
       featured: false,
+      to: '/pricing/vps',
     },
   ]
 
@@ -78,13 +82,13 @@ function Home() {
       <section className="flex flex-col items-center justify-center [perspective:1000px] space-y-8 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-background/10 to-primary/20 blur-3xl rounded-full scale-150 opacity-60"></div>
         <h1
-          className="text-6xl font-extrabold text-transparent bg-clip-text bg-linear-60 from-primary to-primary/50 shadow-2xl text-shadow-[
+          className="text-6xl font-extrabold text-transparent bg-clip-text bg-linear-60 from-primary to-primary/50 text-shadow-[
 0_0_20px_rgba(238,105,105,0.3)]
 ]"
         >
           Plans Starts At!
         </h1>
-        {/* <div id="pricing" className="grid grid-cols-3  space-x-6">
+        <div id="pricing" className="grid grid-cols-3  space-x-6">
           {pricing.map((map, key) => (
             <PricingHeroCard
               key={key}
@@ -93,9 +97,11 @@ function Home() {
               featured={map.featured}
               price={map.price}
               features={map.features}
+              cta={map.cta}
+              to={map.to}
             />
           ))}
-        </div> */}
+        </div>
       </section>
     </main>
   )

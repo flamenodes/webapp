@@ -22,12 +22,15 @@ import { Route as PricingMinecraftRouteImport } from './routes/pricing/minecraft
 import { Route as PricingDiscordBotRouteImport } from './routes/pricing/discord-bot'
 import { Route as PricingDedicatedRouteImport } from './routes/pricing/dedicated'
 import { Route as DevTestRouteImport } from './routes/dev/test'
+import { Route as BillingSuccessRouteImport } from './routes/billing/success'
 import { Route as BillingConfigureRouteImport } from './routes/billing/configure'
-import { Route as AuthSignUpRouteImport } from './routes/_auth/sign-up'
+import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as ProtectedUserRouteRouteImport } from './routes/_protected/user/route'
+import { Route as ProtectedAdminRouteRouteImport } from './routes/_protected/admin/route'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ProtectedUserDashboardRouteImport } from './routes/_protected/user/dashboard'
+import { Route as ProtectedAdminProductsRouteImport } from './routes/_protected/admin/products'
 import { Route as ProtectedAdminDashboardRouteImport } from './routes/_protected/admin/dashboard'
 
 const McpRoute = McpRouteImport.update({
@@ -93,14 +96,19 @@ const DevTestRoute = DevTestRouteImport.update({
   path: '/dev/test',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BillingSuccessRoute = BillingSuccessRouteImport.update({
+  id: '/billing/success',
+  path: '/billing/success',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BillingConfigureRoute = BillingConfigureRouteImport.update({
   id: '/billing/configure',
   path: '/billing/configure',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthSignUpRoute = AuthSignUpRouteImport.update({
-  id: '/sign-up',
-  path: '/sign-up',
+const AuthSignupRoute = AuthSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
@@ -113,6 +121,11 @@ const ProtectedUserRouteRoute = ProtectedUserRouteRouteImport.update({
   path: '/user',
   getParentRoute: () => ProtectedRoute,
 } as any)
+const ProtectedAdminRouteRoute = ProtectedAdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => ProtectedRoute,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -123,20 +136,27 @@ const ProtectedUserDashboardRoute = ProtectedUserDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ProtectedUserRouteRoute,
 } as any)
+const ProtectedAdminProductsRoute = ProtectedAdminProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
 const ProtectedAdminDashboardRoute = ProtectedAdminDashboardRouteImport.update({
-  id: '/admin/dashboard',
-  path: '/admin/dashboard',
-  getParentRoute: () => ProtectedRoute,
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => ProtectedAdminRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/pricing': typeof PricingRouteRouteWithChildren
   '/mcp': typeof McpRoute
+  '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/user': typeof ProtectedUserRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
-  '/sign-up': typeof AuthSignUpRoute
+  '/signup': typeof AuthSignupRoute
   '/billing/configure': typeof BillingConfigureRoute
+  '/billing/success': typeof BillingSuccessRoute
   '/dev/test': typeof DevTestRoute
   '/pricing/dedicated': typeof PricingDedicatedRoute
   '/pricing/discord-bot': typeof PricingDiscordBotRoute
@@ -146,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
   '/admin/dashboard': typeof ProtectedAdminDashboardRoute
+  '/admin/products': typeof ProtectedAdminProductsRoute
   '/user/dashboard': typeof ProtectedUserDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
@@ -153,10 +174,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/pricing': typeof PricingRouteRouteWithChildren
   '/mcp': typeof McpRoute
+  '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/user': typeof ProtectedUserRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
-  '/sign-up': typeof AuthSignUpRoute
+  '/signup': typeof AuthSignupRoute
   '/billing/configure': typeof BillingConfigureRoute
+  '/billing/success': typeof BillingSuccessRoute
   '/dev/test': typeof DevTestRoute
   '/pricing/dedicated': typeof PricingDedicatedRoute
   '/pricing/discord-bot': typeof PricingDiscordBotRoute
@@ -166,6 +189,7 @@ export interface FileRoutesByTo {
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
   '/admin/dashboard': typeof ProtectedAdminDashboardRoute
+  '/admin/products': typeof ProtectedAdminProductsRoute
   '/user/dashboard': typeof ProtectedUserDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
@@ -176,10 +200,12 @@ export interface FileRoutesById {
   '/_auth': typeof AuthRouteWithChildren
   '/_protected': typeof ProtectedRouteWithChildren
   '/mcp': typeof McpRoute
+  '/_protected/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/_protected/user': typeof ProtectedUserRouteRouteWithChildren
   '/_auth/login': typeof AuthLoginRoute
-  '/_auth/sign-up': typeof AuthSignUpRoute
+  '/_auth/signup': typeof AuthSignupRoute
   '/billing/configure': typeof BillingConfigureRoute
+  '/billing/success': typeof BillingSuccessRoute
   '/dev/test': typeof DevTestRoute
   '/pricing/dedicated': typeof PricingDedicatedRoute
   '/pricing/discord-bot': typeof PricingDiscordBotRoute
@@ -189,6 +215,7 @@ export interface FileRoutesById {
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
   '/_protected/admin/dashboard': typeof ProtectedAdminDashboardRoute
+  '/_protected/admin/products': typeof ProtectedAdminProductsRoute
   '/_protected/user/dashboard': typeof ProtectedUserDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
@@ -198,10 +225,12 @@ export interface FileRouteTypes {
     | '/'
     | '/pricing'
     | '/mcp'
+    | '/admin'
     | '/user'
     | '/login'
-    | '/sign-up'
+    | '/signup'
     | '/billing/configure'
+    | '/billing/success'
     | '/dev/test'
     | '/pricing/dedicated'
     | '/pricing/discord-bot'
@@ -211,6 +240,7 @@ export interface FileRouteTypes {
     | '/pricing/vps'
     | '/pricing/webhost'
     | '/admin/dashboard'
+    | '/admin/products'
     | '/user/dashboard'
     | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
@@ -218,10 +248,12 @@ export interface FileRouteTypes {
     | '/'
     | '/pricing'
     | '/mcp'
+    | '/admin'
     | '/user'
     | '/login'
-    | '/sign-up'
+    | '/signup'
     | '/billing/configure'
+    | '/billing/success'
     | '/dev/test'
     | '/pricing/dedicated'
     | '/pricing/discord-bot'
@@ -231,6 +263,7 @@ export interface FileRouteTypes {
     | '/pricing/vps'
     | '/pricing/webhost'
     | '/admin/dashboard'
+    | '/admin/products'
     | '/user/dashboard'
     | '/api/auth/$'
   id:
@@ -240,10 +273,12 @@ export interface FileRouteTypes {
     | '/_auth'
     | '/_protected'
     | '/mcp'
+    | '/_protected/admin'
     | '/_protected/user'
     | '/_auth/login'
-    | '/_auth/sign-up'
+    | '/_auth/signup'
     | '/billing/configure'
+    | '/billing/success'
     | '/dev/test'
     | '/pricing/dedicated'
     | '/pricing/discord-bot'
@@ -253,6 +288,7 @@ export interface FileRouteTypes {
     | '/pricing/vps'
     | '/pricing/webhost'
     | '/_protected/admin/dashboard'
+    | '/_protected/admin/products'
     | '/_protected/user/dashboard'
     | '/api/auth/$'
   fileRoutesById: FileRoutesById
@@ -264,6 +300,7 @@ export interface RootRouteChildren {
   ProtectedRoute: typeof ProtectedRouteWithChildren
   McpRoute: typeof McpRoute
   BillingConfigureRoute: typeof BillingConfigureRoute
+  BillingSuccessRoute: typeof BillingSuccessRoute
   DevTestRoute: typeof DevTestRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
@@ -361,6 +398,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevTestRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/billing/success': {
+      id: '/billing/success'
+      path: '/billing/success'
+      fullPath: '/billing/success'
+      preLoaderRoute: typeof BillingSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/billing/configure': {
       id: '/billing/configure'
       path: '/billing/configure'
@@ -368,11 +412,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BillingConfigureRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/sign-up': {
-      id: '/_auth/sign-up'
-      path: '/sign-up'
-      fullPath: '/sign-up'
-      preLoaderRoute: typeof AuthSignUpRouteImport
+    '/_auth/signup': {
+      id: '/_auth/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof AuthSignupRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/login': {
@@ -389,6 +433,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedUserRouteRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/admin': {
+      id: '/_protected/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof ProtectedAdminRouteRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -403,12 +454,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedUserDashboardRouteImport
       parentRoute: typeof ProtectedUserRouteRoute
     }
+    '/_protected/admin/products': {
+      id: '/_protected/admin/products'
+      path: '/products'
+      fullPath: '/admin/products'
+      preLoaderRoute: typeof ProtectedAdminProductsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
     '/_protected/admin/dashboard': {
       id: '/_protected/admin/dashboard'
-      path: '/admin/dashboard'
+      path: '/dashboard'
       fullPath: '/admin/dashboard'
       preLoaderRoute: typeof ProtectedAdminDashboardRouteImport
-      parentRoute: typeof ProtectedRoute
+      parentRoute: typeof ProtectedAdminRouteRoute
     }
   }
 }
@@ -439,15 +497,28 @@ const PricingRouteRouteWithChildren = PricingRouteRoute._addFileChildren(
 
 interface AuthRouteChildren {
   AuthLoginRoute: typeof AuthLoginRoute
-  AuthSignUpRoute: typeof AuthSignUpRoute
+  AuthSignupRoute: typeof AuthSignupRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthLoginRoute: AuthLoginRoute,
-  AuthSignUpRoute: AuthSignUpRoute,
+  AuthSignupRoute: AuthSignupRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
+interface ProtectedAdminRouteRouteChildren {
+  ProtectedAdminDashboardRoute: typeof ProtectedAdminDashboardRoute
+  ProtectedAdminProductsRoute: typeof ProtectedAdminProductsRoute
+}
+
+const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
+  ProtectedAdminDashboardRoute: ProtectedAdminDashboardRoute,
+  ProtectedAdminProductsRoute: ProtectedAdminProductsRoute,
+}
+
+const ProtectedAdminRouteRouteWithChildren =
+  ProtectedAdminRouteRoute._addFileChildren(ProtectedAdminRouteRouteChildren)
 
 interface ProtectedUserRouteRouteChildren {
   ProtectedUserDashboardRoute: typeof ProtectedUserDashboardRoute
@@ -461,13 +532,13 @@ const ProtectedUserRouteRouteWithChildren =
   ProtectedUserRouteRoute._addFileChildren(ProtectedUserRouteRouteChildren)
 
 interface ProtectedRouteChildren {
+  ProtectedAdminRouteRoute: typeof ProtectedAdminRouteRouteWithChildren
   ProtectedUserRouteRoute: typeof ProtectedUserRouteRouteWithChildren
-  ProtectedAdminDashboardRoute: typeof ProtectedAdminDashboardRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
+  ProtectedAdminRouteRoute: ProtectedAdminRouteRouteWithChildren,
   ProtectedUserRouteRoute: ProtectedUserRouteRouteWithChildren,
-  ProtectedAdminDashboardRoute: ProtectedAdminDashboardRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
@@ -481,6 +552,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProtectedRoute: ProtectedRouteWithChildren,
   McpRoute: McpRoute,
   BillingConfigureRoute: BillingConfigureRoute,
+  BillingSuccessRoute: BillingSuccessRoute,
   DevTestRoute: DevTestRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }

@@ -1,3 +1,4 @@
+import FlameNodesLogo from '#/components/blocks/FlameNodesLogo'
 import { Link, useRouterState } from '@tanstack/react-router'
 import {
   Flame, Plus, LayoutGrid, Server, ShoppingBag,
@@ -61,12 +62,8 @@ export function DashboardSidebar({ open, onClose }: Props) {
 
         {/* Branding */}
         <div className="flex items-center gap-3 h-[64px] px-4 shrink-0 overflow-hidden border-b border-border">
-          <div className="shrink-0 w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-[0_0_14px_var(--primary)/40]">
-            <Flame size={16} className="text-primary-foreground" strokeWidth={2} />
-          </div>
-          <span className="font-bold text-sm tracking-tight text-foreground whitespace-nowrap">
-            FlameNodes
-          </span>
+				<FlameNodesLogo textSize={20}/>
+        
         </div>
 
         {/* Navigation */}

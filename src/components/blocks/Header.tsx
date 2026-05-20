@@ -1,17 +1,14 @@
 import { Menu, X } from 'lucide-react'
 import React from 'react'
 import { cn } from '@/lib/utils'
-import {
-  Link,
-  useLocation,
-  useNavigate,
-} from '@tanstack/react-router'
+import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 import { ThemeSwitch } from '../theme/ThemeSwitch'
 import { NavMenu } from './NavMenu'
 import type { NavItemProps } from './NavMenu'
 import { Button } from '../ui/button'
 import { authClient } from '#/lib/auth-client'
 import { toast } from 'sonner'
+import FlameNodesLogo from './FlameNodesLogo'
 
 const menuItems: NavItemProps[] = [
   {
@@ -19,27 +16,27 @@ const menuItems: NavItemProps[] = [
     children: [
       {
         title: 'Game Hosting',
-        href: '/',
+        href: '/pricing/minecraft',
         description: 'High-performance servers for game hosting.',
       },
       {
         title: 'VPS Hosting',
-        href: '/',
+        href: '/pricing/vps',
         description: 'Scalable virtual private servers.',
       },
       {
         title: 'Dedicated Servers',
-        href: '/',
+        href: '/pricing/dedicated',
         description: 'Full dedicated hardware for your workloads.',
       },
       {
         title: 'DDoS Protection',
-        href: '/',
+        href: '/pricing/protection',
         description: 'Enterprise-grade protection for your infrastructure.',
       },
     ],
   },
-  { title: 'Pricing', href: '/' },
+  { title: 'Pricing', href: '/pricing' },
   { title: 'Company', href: '/' },
   { title: 'Status', href: '/' },
 ]
@@ -76,14 +73,7 @@ const Header = () => {
         >
           <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
             <div className="flex w-full justify-between lg:w-auto">
-              <Link
-                to="/"
-                aria-label="home"
-                className="flex items-center space-x-2"
-              >
-                <img className="w-10" src="/flamenodes.png" alt="" />
-                <span className="text-xl font-bungee ">FLAME NODES</span>
-              </Link>
+              <FlameNodesLogo />
 
               <button
                 onClick={() => setMenuState(!menuState)}
@@ -110,7 +100,7 @@ const Header = () => {
                     <li key={index}>
                       <Link
                         to={item.href ?? '/'}
-                        className="text-muted-foreground hover:text-accent-foreground block duration-150"
+                        className="text-foreground hover:text-accent-foreground block duration-150"
                       >
                         <span>{item.title}</span>
                       </Link>
@@ -120,55 +110,54 @@ const Header = () => {
               </div>
               <ThemeSwitch />
 
-                {isPending ? (
-                  <></>
-                ) : !session ? (
-                  <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                    <Link
-                      to="/login"
-                      className={cn(
-                        'inline-flex h-8 items-center justify-center rounded-md border bg-background px-3 text-sm font-medium shadow-xs transition-colors hover:bg-accent hover:text-accent-foreground',
-                        isScrolled && 'lg:hidden',
-                      )}
-                    >
-                      <span>Login</span>
-                    </Link>
-                    <Link
-                      to="/sign-up"
-                      className={cn(
-                        'inline-flex h-8 items-center justify-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90',
-                        isScrolled && 'lg:hidden',
-                      )}
-                    >
-                      <span>Sign Up</span>
-                    </Link>
-                    <div
-                      onClick={() => {
-                        const pricingElement =
-                          document.getElementById('pricing')
+              {isPending ? (
+                <></>
+              ) : !session ? (
+                <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
+                  <Link
+                    to="/login"
+                    className={cn(
+                      'inline-flex h-8 items-center justify-center rounded-md border bg-background px-3 text-sm font-medium shadow-xs transition-colors hover:bg-accent hover:text-accent-foreground',
+                      isScrolled && 'lg:hidden',
+                    )}
+                  >
+                    <span>Login</span>
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className={cn(
+                      'inline-flex h-8 items-center justify-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90',
+                      isScrolled && 'lg:hidden',
+                    )}
+                  >
+                    <span>Sign Up</span>
+                  </Link>
+                  <div
+                    onClick={() => {
+                      const pricingElement = document.getElementById('pricing')
 
-                        if (location.pathname !== '/') {
-                          navigate({ to: '/' })
-                        }
-                        if (pricingElement) {
-                          pricingElement.scrollIntoView({
-                            behavior: 'smooth',
-                          })
-                        }
-                      }}
-                      className={cn(
-                        'cursor-pointer inline-flex h-8 items-center justify-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90',
-                        isScrolled ? 'lg:inline-flex' : 'hidden',
-                      )}
-                    >
-                      <span>Get Started</span>
-                    </div>
+                      if (location.pathname !== '/') {
+                        navigate({ to: '/' })
+                      }
+                      if (pricingElement) {
+                        pricingElement.scrollIntoView({
+                          behavior: 'smooth',
+                        })
+                      }
+                    }}
+                    className={cn(
+                      'cursor-pointer inline-flex h-8 items-center justify-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90',
+                      isScrolled ? 'lg:inline-flex' : 'hidden',
+                    )}
+                  >
+                    <span>Get Started</span>
                   </div>
-                ) : (
-                  <Button onClick={() => navigate({ to: '/user/dashboard' })}>
-                    Dashboard
-                  </Button>
-                )}
+                </div>
+              ) : (
+                <Button onClick={() => navigate({ to: '/user/dashboard' })}>
+                  Dashboard
+                </Button>
+              )}
             </div>
           </div>
         </div>

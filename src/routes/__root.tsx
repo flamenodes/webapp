@@ -15,6 +15,8 @@ import { AuthProvider } from '#/components/auth/AuthProvider'
 import { seo } from '#/utils/seo'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
+export const withBrand = (title: string) => `${title} | BrandName`;
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -26,7 +28,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       ...seo({
-        title: 'Flame Nodes | Home',
+        title: `Flame Nodes | `,
         description:
           'Flame Nodes is a cloud hosting platform that provides scalable and reliable infrastructure for your applications.',
         keywords: 'cloud, hosting, infrastructure, scalable, reliable',
@@ -53,7 +55,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     select: (state) => state.location.pathname,
   })
   const queryClient = new QueryClient()
-  const dashes = ['/user', '/admin']
+  const dashes = ['/user', '/admin', '/signup']
   const hideNavbar = dashes.some((dash) => pathname.startsWith(dash))
   return (
     <html lang="en" suppressHydrationWarning>
@@ -65,6 +67,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <ThemeProvider>
             <QueryClientProvider client={queryClient}>
               {!hideNavbar && <Header />}
+
               {children}
               {!hideNavbar && <Footer />}
               <Toaster />
