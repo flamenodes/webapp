@@ -28,7 +28,7 @@ export default function DocumentEditorPage({
       showSlugInitially
       onClose={() =>
         navigate({
-          to: '/_protected/admin/documents',
+          to: '/admin/documents',
           search: { view: 'table' } as any,
         })
       }
