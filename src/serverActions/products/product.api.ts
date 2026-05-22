@@ -41,6 +41,10 @@ const getProductSchema = z.object({
   id: z.string(),
 })
 
+const getProductsByCategorySchema = z.object({
+  category: productCategorySchema,
+})
+
 const createProductSchema = z.object({
   planName: z.string().trim().min(1),
   icon: z.string().trim().nullable().optional(),
@@ -265,6 +269,26 @@ export const getProducts = createServerFn({
 
   return products.map(serializeProduct)
 })
+
+export const getProductsByCategory = createServerFn({
+  method: 'GET',
+})
+  .inputValidator(getProductsByCategorySchema)
+  .handler(async ({ data }) => {
+    const products =
+      await prisma.product.findMany({
+        include: productInclude,
+        where: {
+          category: data.category,
+        },
+        orderBy: [
+          { sortOrder: 'asc' },
+          { createdAt: 'desc' },
+        ],
+      })
+
+    return products.map(serializeProduct)
+  })
 
 export const getProduct = createServerFn({
   method: 'GET',
