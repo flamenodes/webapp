@@ -62,6 +62,7 @@ type DataTableProps<TData, TValue> = {
     orderedIds: string[]
   }) => Promise<void> | void
   enableRowSelection?: boolean
+  renderRowActions?: (row: TData) => React.ReactNode
   renderBulkActions?: (args: {
     table: ReactTable<TData>
     selectedRows: TData[]
@@ -82,6 +83,7 @@ export function DataTable<TData, TValue>({
   enableRowDragging = false,
   onRowReorder,
   enableRowSelection = false,
+  renderRowActions,
   renderBulkActions,
 }: DataTableProps<TData, TValue>) {
   const [tableData, setTableData] = React.useState(data)
@@ -132,9 +134,29 @@ export function DataTable<TData, TValue>({
     return [selectionColumn, ...columns]
   }, [columns, enableRowSelection])
 
+  const columnsWithActions = React.useMemo(() => {
+    if (typeof renderRowActions !== 'function') {
+      return resolvedColumns
+    }
+
+    const actionsColumn: ColumnDef<TData> = {
+      id: '__actions',
+      enableSorting: false,
+      enableHiding: false,
+      header: 'Actions',
+      cell: ({ row }) => (
+        <div className="flex items-center justify-center gap-2">
+          {renderRowActions(row.original)}
+        </div>
+      ),
+    }
+
+    return [...resolvedColumns, actionsColumn]
+  }, [renderRowActions, resolvedColumns])
+
   const table = useReactTable({
     data: tableData,
-    columns: resolvedColumns,
+    columns: columnsWithActions,
     state: {
       sorting,
       columnFilters,

@@ -19,9 +19,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '#/components/ui/sheet'
-import { createProduct } from '#/serverActions/products/product.api'
+import {
+  createProduct,
+  updateProduct,
+} from '#/serverActions/products/product.api'
+import { useQueryClient } from '@tanstack/react-query'
 import type React from 'react'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
 const PRODUCT_CATEGORIES = [
@@ -36,7 +40,26 @@ const PRODUCT_CATEGORIES = [
 
 type ProductCategory = (typeof PRODUCT_CATEGORIES)[number]['value']
 
-const CreateProductModal = ({ children }: { children: React.ReactNode }) => {
+type EditableProduct = {
+  id: string
+  planName: string
+  icon: string | null
+  badge: string | null
+  category: ProductCategory
+  price: number
+  inStock: boolean
+  deployMode: string
+  features: string[]
+  specEntries: Array<{ key: string; value: string }>
+}
+
+const CreateProductModal = ({
+  children,
+  product,
+}: {
+  children: React.ReactNode
+  product?: EditableProduct
+}) => {
   const [open, setOpen] = useState(false)
   const [productImage, setProductImage] = useState('/assets/gavtar.jpg')
 
@@ -51,6 +74,9 @@ const CreateProductModal = ({ children }: { children: React.ReactNode }) => {
   const [specs, setSpecs] = useState([{ key: '', value: '' }])
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const queryClient = useQueryClient()
+
+  const mode = useMemo(() => (product ? 'edit' : 'create'), [product])
 
   function resetForm() {
     setProductImage('/assets/gavtar.jpg')
@@ -63,6 +89,30 @@ const CreateProductModal = ({ children }: { children: React.ReactNode }) => {
     setFeatures([''])
     setSpecs([{ key: '', value: '' }])
   }
+
+  useEffect(() => {
+    if (!open) return
+
+    if (!product) {
+      resetForm()
+      return
+    }
+
+    setProductImage(product.icon || '/assets/gavtar.jpg')
+    setPlanName(product.planName ?? '')
+    setBadge(product.badge ?? '')
+    setCategory(product.category)
+    setDeployMode(product.deployMode ?? 'PTERODACTYL')
+    setInStock(Boolean(product.inStock))
+    setPrice(Number(product.price ?? 0))
+    setFeatures(product.features?.length ? [...product.features, ''] : [''])
+    setSpecs(
+      product.specEntries?.length
+        ? [...product.specEntries.map((s) => ({ key: s.key, value: s.value })), { key: '', value: '' }]
+        : [{ key: '', value: '' }],
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, product?.id])
 
   function updateFeature(index: number, value: string) {
     const updated = [...features]
@@ -130,21 +180,38 @@ const CreateProductModal = ({ children }: { children: React.ReactNode }) => {
 
     setIsSubmitting(true)
     try {
-      const res = await createProduct({
-        data: {
-          planName: trimmedPlanName,
-          badge: badge.trim() || null,
-          category,
-          price: normalizedPrice,
-          inStock,
-          deployMode: deployMode.trim() || 'PTERODACTYL',
-          features: cleanedFeatures,
-          specs: cleanedSpecs,
-          icon: productImage?.trim() || null,
-        },
-      })
+      const data = {
+        planName: trimmedPlanName,
+        badge: badge.trim() || null,
+        category,
+        price: normalizedPrice,
+        inStock,
+        deployMode: deployMode.trim() || 'PTERODACTYL',
+        features: cleanedFeatures,
+        specs: cleanedSpecs,
+        icon: productImage?.trim() || null,
+      }
 
-      toast.success(`Created ${res.data.planName}`)
+      const res =
+        mode === 'edit' && product
+          ? await updateProduct({
+              data: {
+                id: product.id,
+                ...data,
+              },
+            })
+          : await createProduct({
+              data,
+            })
+
+      toast.success(
+        mode === 'edit'
+          ? `Updated ${res.data.planName}`
+          : `Created ${res.data.planName}`,
+      )
+      await queryClient.invalidateQueries({
+        queryKey: ['products'],
+      })
       setOpen(false)
       resetForm()
     } catch (err) {
@@ -162,9 +229,13 @@ const CreateProductModal = ({ children }: { children: React.ReactNode }) => {
 
       <SheetContent className="overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>Product Creation</SheetTitle>
+          <SheetTitle>
+            {mode === 'edit' ? 'Edit Product' : 'Product Creation'}
+          </SheetTitle>
 
-          <SheetDescription>Create your product.</SheetDescription>
+          <SheetDescription>
+            {mode === 'edit' ? 'Update your product.' : 'Create your product.'}
+          </SheetDescription>
         </SheetHeader>
 
         <div className="space-y-6 px-4">
@@ -313,7 +384,7 @@ const CreateProductModal = ({ children }: { children: React.ReactNode }) => {
               Cancel
             </Button>
             <Button type="button" onClick={handleCreate} disabled={isSubmitting}>
-              Create Product
+              {mode === 'edit' ? 'Save Changes' : 'Create Product'}
             </Button>
           </div>
         </div>
