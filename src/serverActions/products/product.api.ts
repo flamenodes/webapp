@@ -66,6 +66,10 @@ const reorderProductsSchema = z.object({
   orderedIds: z.array(z.string()).min(1),
 })
 
+const recreateProductSchema = z.object({
+  id: z.string(),
+})
+
 const productInclude = {
   features: {
     orderBy: {
@@ -385,6 +389,100 @@ export const deleteProducts = createServerFn({
       data: {
         count: res.count,
       },
+    }
+  })
+
+export const recreateProduct = createServerFn({
+  method: 'POST',
+})
+  .inputValidator(recreateProductSchema)
+  .handler(async ({ data }) => {
+    await requireSessionUser()
+
+    const existingProduct =
+      await prisma.product.findUnique({
+        where: { id: data.id },
+        include: productInclude,
+      })
+
+    if (!existingProduct) {
+      throw new Error('Product not found')
+    }
+
+    const products =
+      await prisma.product.findMany({
+        select: { id: true },
+        orderBy: [
+          { sortOrder: 'asc' },
+          { createdAt: 'desc' },
+        ],
+      })
+
+    const currentIndex = products.findIndex(
+      (product) => product.id === data.id,
+    )
+
+    if (currentIndex === -1) {
+      throw new Error('Product not found')
+    }
+
+    const specEntries = coerceSpecEntries(
+      existingProduct.specs,
+    )
+
+    const recreated = await prisma.$transaction(
+      async (tx) => {
+        const created = await tx.product.create({
+          data: {
+            planName: existingProduct.planName,
+            icon: existingProduct.icon,
+            badge: existingProduct.badge,
+            sortOrder: existingProduct.sortOrder,
+            category: existingProduct.category,
+            price: existingProduct.price,
+            inStock: existingProduct.inStock,
+            deployMode: existingProduct.deployMode,
+            features: {
+              create: existingProduct.features.map(
+                (feature, index) => ({
+                  label: feature.label,
+                  sortOrder: index,
+                }),
+              ),
+            },
+            specs: specEntries.map((spec, index) => ({
+              key: spec.key,
+              value: spec.value,
+              sortOrder: index,
+            })),
+          },
+          include: productInclude,
+        })
+
+        await tx.product.delete({
+          where: { id: data.id },
+        })
+
+        const orderedIds = products.map((p) => p.id)
+        orderedIds[currentIndex] = created.id
+
+        await Promise.all(
+          orderedIds.map((id, index) =>
+            tx.product.update({
+              where: { id },
+              data: { sortOrder: index },
+            }),
+          ),
+        )
+
+        return created
+      },
+    )
+
+    return {
+      success: true,
+      message: 'Product recreated successfully.',
+      data: serializeProduct(recreated),
     }
   })
 

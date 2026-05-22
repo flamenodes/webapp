@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from 'react'
 import {
   DataTable,
   type DataTableFilterConfig,
@@ -12,11 +13,21 @@ import {
   DropdownMenuTrigger,
 } from '#/components/ui/dropdown-menu'
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '#/components/ui/alert-dialog'
+import {
   getProducts,
-  createProduct,
   deleteProduct,
   deleteProducts,
-  reorderProducts,
+  recreateProduct,
 } from '#/serverActions/products/product.api'
 import { useQueryClient } from '@tanstack/react-query'
 import { MoreHorizontal } from 'lucide-react'
@@ -57,244 +68,281 @@ function ProductsDataTable({
   data: ProductRecord[]
 }) {
   const queryClient = useQueryClient()
+  const [recreateTarget, setRecreateTarget] = React.useState<ProductRecord | null>(null)
+  const [deleteTarget, setDeleteTarget] = React.useState<ProductRecord | null>(null)
+  const [bulkDeleteOpen, setBulkDeleteOpen] = React.useState(false)
 
   return (
-    <DataTable
-      columns={[
-        {
-          accessorKey: 'planName',
-          header: 'Product',
-          cell: ({ row }) => {
-            const product = row.original
-            return (
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 overflow-hidden rounded-md bg-muted">
-                  {product.icon ? (
-                    <img
-                      src={product.icon}
-                      alt={product.planName}
-                      className="h-10 w-10 object-cover"
-                      loading="lazy"
-                    />
-                  ) : null}
-                </div>
-                <div className="min-w-0">
-                  <div className="truncate font-medium">{product.planName}</div>
-                  <div className="truncate text-xs text-muted-foreground">
-                    {product.badge ?? ''}
+    <>
+      <DataTable
+        columns={[
+          {
+            accessorKey: 'planName',
+            header: 'Product',
+            cell: ({ row }) => {
+              const product = row.original
+              return (
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 overflow-hidden rounded-md bg-muted">
+                    {product.icon ? (
+                      <img
+                        src={product.icon}
+                        alt={product.planName}
+                        className="h-10 w-10 object-cover"
+                        loading="lazy"
+                      />
+                    ) : null}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="truncate font-medium">{product.planName}</div>
+                    <div className="truncate text-xs text-muted-foreground">
+                      {product.badge ?? ''}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )
+              )
+            },
           },
-        },
-        { accessorKey: 'category', header: 'Category' },
-        {
-          accessorKey: 'price',
-          header: 'Price',
-          cell: ({ row }) => row.original.price.toLocaleString(),
-        },
-        {
-          accessorKey: 'inStock',
-          header: 'Stock',
-          cell: ({ row }) => (row.original.inStock ? 'In stock' : 'Out'),
-        },
-        {
-          id: 'features',
-          header: 'Features',
-          cell: ({ row }) => row.original.features.length,
-        },
-        {
-          id: 'specs',
-          header: 'Specs',
-          cell: ({ row }) => row.original.specEntries.length,
-        },
-        { accessorKey: 'sortOrder', header: 'Order' },
-        {
-          accessorKey: 'createdAt',
-          header: 'Created',
-          cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString(),
-        },
-      ]}
-      data={data}
-      searchColumnId="planName"
-      searchPlaceholder="Search by plan name..."
-      filters={productFilters}
-      emptyMessage="No products found."
-      getRowId={(row) => row.id}
-      enablePagination={false}
-      enableRowDragging
-      enableRowSelection
-      renderRowActions={(row) => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              className="text-muted-foreground hover:text-foreground"
-              aria-label={`Actions for ${row.planName}`}
-            >
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <CreateProductModal
-              product={{
-                id: row.id,
-                planName: row.planName,
-                icon: row.icon ?? null,
-                badge: row.badge ?? null,
-                category: row.category as any,
-                price: row.price,
-                inStock: row.inStock,
-                deployMode: row.deployMode,
-                features: row.features ?? [],
-                specEntries:
-                  row.specEntries?.map((s) => ({ key: s.key, value: s.value })) ??
-                  [],
-              }}
-            >
-              <DropdownMenuItem>Edit</DropdownMenuItem>
-            </CreateProductModal>
-            <DropdownMenuItem
-              onSelect={async () => {
-                if (!window.confirm(`Recreate ${row.planName}?`)) return
+          { accessorKey: 'category', header: 'Category' },
+          {
+            accessorKey: 'price',
+            header: 'Price',
+            cell: ({ row }) => row.original.price.toLocaleString(),
+          },
+          {
+            accessorKey: 'inStock',
+            header: 'Stock',
+            cell: ({ row }) => (row.original.inStock ? 'In stock' : 'Out'),
+          },
+          {
+            id: 'features',
+            header: 'Features',
+            cell: ({ row }) => row.original.features.length,
+          },
+          {
+            id: 'specs',
+            header: 'Specs',
+            cell: ({ row }) => row.original.specEntries.length,
+          },
+          { accessorKey: 'sortOrder', header: 'Order' },
+          {
+            accessorKey: 'createdAt',
+            header: 'Created',
+            cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString(),
+          },
+        ]}
+        data={data}
+        searchColumnId="planName"
+        searchPlaceholder="Search by plan name..."
+        filters={productFilters}
+        emptyMessage="No products found."
+        getRowId={(row) => row.id}
+        enablePagination
+        enableRowDragging={false}
+        showRowDraggingHint={false}
+        enableRowSelection
+        enableColumnVisibilityToggle
+        renderRowActions={(row) => (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                className="text-muted-foreground hover:text-foreground"
+                aria-label={`Actions for ${row.planName}`}
+              >
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <CreateProductModal
+                product={{
+                  id: row.id,
+                  planName: row.planName,
+                  icon: row.icon ?? null,
+                  badge: row.badge ?? null,
+                  category: row.category as any,
+                  price: row.price,
+                  inStock: row.inStock,
+                  deployMode: row.deployMode,
+                  features: row.features ?? [],
+                  specEntries:
+                    row.specEntries?.map((s) => ({
+                      key: s.key,
+                      value: s.value,
+                    })) ?? [],
+                }}
+              >
+                <DropdownMenuItem>Edit</DropdownMenuItem>
+              </CreateProductModal>
+              <DropdownMenuItem
+                onSelect={() => {
+                  setRecreateTarget(row)
+                }}
+              >
+                Recreate
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                variant="destructive"
+                onSelect={() => {
+                  setDeleteTarget(row)
+                }}
+              >
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+        renderBulkActions={({ selectedIds, clearSelection }) => (
+          <AlertDialog open={bulkDeleteOpen} onOpenChange={setBulkDeleteOpen}>
+            <AlertDialogTrigger asChild>
+              <Button
+                type="button"
+                variant="destructive"
+                size="sm"
+              >
+                Delete selected
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Delete selected products?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  This will permanently delete {selectedIds.length} product
+                  {selectedIds.length === 1 ? '' : 's'}.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  className="bg-destructive text-white hover:bg-destructive/90"
+                  onClick={async () => {
+                    try {
+                      await deleteProducts({
+                        data: { ids: selectedIds },
+                      })
+
+                      toast.success('Deleted selected products.')
+                      clearSelection()
+                      setBulkDeleteOpen(false)
+                      await queryClient.invalidateQueries({
+                        queryKey: ['products'],
+                      })
+                      await queryClient.refetchQueries({
+                        queryKey: ['products'],
+                      })
+                    } catch (error) {
+                      toast.error(
+                        error instanceof Error
+                          ? error.message
+                          : 'Failed to delete selected products.',
+                      )
+                    }
+                  }}
+                >
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
+      />
+
+      <AlertDialog
+        open={Boolean(recreateTarget)}
+        onOpenChange={(open) => {
+          if (!open) setRecreateTarget(null)
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Recreate product?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {recreateTarget
+                ? `This will recreate “${recreateTarget.planName}” while keeping its order position.`
+                : null}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                if (!recreateTarget) return
 
                 try {
-                  const currentOrder = data.map((p) => p.id)
-                  const targetIndex = currentOrder.indexOf(row.id)
-
-                  const created = await createProduct({
-                    data: {
-                      planName: row.planName,
-                      icon: row.icon ?? null,
-                      badge: row.badge ?? null,
-                      category: row.category as any,
-                      price: row.price,
-                      inStock: row.inStock,
-                      deployMode: row.deployMode,
-                      features: row.features ?? [],
-                      specs:
-                        row.specEntries?.map((s) => ({
-                          key: s.key,
-                          value: s.value,
-                        })) ?? [],
-                    },
-                  })
-
-                  await deleteProduct({ data: { id: row.id } })
-
-                  if (targetIndex >= 0) {
-                    const orderedIds = currentOrder
-                      .map((id) => (id === row.id ? created.data.id : id))
-                      .filter((id, index, array) => array.indexOf(id) === index)
-
-                    await reorderProducts({
-                      data: { orderedIds },
-                    })
-                  }
-
+                  await recreateProduct({ data: { id: recreateTarget.id } })
                   toast.success('Recreated product.')
+                  setRecreateTarget(null)
                   await queryClient.invalidateQueries({ queryKey: ['products'] })
+                  await queryClient.refetchQueries({ queryKey: ['products'] })
                 } catch (error) {
                   toast.error(
                     error instanceof Error
                       ? error.message
                       : 'Failed to recreate product.',
                   )
+                  setRecreateTarget(null)
                   await queryClient.invalidateQueries({ queryKey: ['products'] })
                 }
               }}
             >
               Recreate
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              variant="destructive"
-              onSelect={async () => {
-                if (!window.confirm(`Delete ${row.planName}?`)) return
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog
+        open={Boolean(deleteTarget)}
+        onOpenChange={(open) => {
+          if (!open) setDeleteTarget(null)
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Delete product?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {deleteTarget
+                ? `This will permanently delete “${deleteTarget.planName}”.`
+                : null}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-white hover:bg-destructive/90"
+              onClick={async () => {
+                if (!deleteTarget) return
+
                 try {
-                  await deleteProduct({ data: { id: row.id } })
+                  await deleteProduct({ data: { id: deleteTarget.id } })
                   toast.success('Deleted product.')
+                  setDeleteTarget(null)
                   await queryClient.invalidateQueries({ queryKey: ['products'] })
+                  await queryClient.refetchQueries({ queryKey: ['products'] })
                 } catch (error) {
                   toast.error(
                     error instanceof Error
                       ? error.message
                       : 'Failed to delete product.',
                   )
+                  setDeleteTarget(null)
                 }
               }}
             >
               Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )}
-      renderBulkActions={({ selectedIds, clearSelection }) => (
-        <Button
-          type="button"
-          variant="destructive"
-          size="sm"
-          onClick={async () => {
-            if (
-              !window.confirm(
-                `Delete ${selectedIds.length} product${selectedIds.length === 1 ? '' : 's'}?`,
-              )
-            ) {
-              return
-            }
-
-            try {
-              await deleteProducts({
-                data: { ids: selectedIds },
-              })
-
-              toast.success('Deleted selected products.')
-              clearSelection()
-              await queryClient.invalidateQueries({
-                queryKey: ['products'],
-              })
-            } catch (error) {
-              toast.error(
-                error instanceof Error
-                  ? error.message
-                  : 'Failed to delete selected products.',
-              )
-            }
-          }}
-        >
-          Delete selected
-        </Button>
-      )}
-      onRowReorder={async ({ orderedIds }) => {
-        try {
-          await reorderProducts({
-            data: { orderedIds },
-          })
-
-          toast.success(
-            'Product order updated.',
-          )
-
-          await queryClient.invalidateQueries({
-            queryKey: ['products'],
-          })
-        } catch (error) {
-          toast.error(
-            error instanceof Error
-              ? error.message
-              : 'Failed to reorder products.',
-          )
-
-          await queryClient.invalidateQueries({
-            queryKey: ['products'],
-          })
-
-          throw error
-        }
-      }}
-    />
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   )
 }
 

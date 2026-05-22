@@ -2,6 +2,12 @@
 
 import { Button } from '#/components/ui/button'
 import { Checkbox } from '#/components/ui/checkbox'
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '#/components/ui/dropdown-menu'
 import { Input } from '#/components/ui/input'
 import {
   Select,
@@ -56,6 +62,8 @@ type DataTableProps<TData, TValue> = {
   getRowId?: (row: TData) => string
   enablePagination?: boolean
   enableRowDragging?: boolean
+  showRowDraggingHint?: boolean
+  enableColumnVisibilityToggle?: boolean
   onRowReorder?: (args: {
     activeId: string
     overId: string
@@ -81,6 +89,8 @@ export function DataTable<TData, TValue>({
   getRowId,
   enablePagination = true,
   enableRowDragging = false,
+  showRowDraggingHint = true,
+  enableColumnVisibilityToggle = false,
   onRowReorder,
   enableRowSelection = false,
   renderRowActions,
@@ -277,7 +287,7 @@ export function DataTable<TData, TValue>({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pt-2">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center">
           {searchColumn ? (
@@ -338,6 +348,38 @@ export function DataTable<TData, TValue>({
               Reset
             </Button>
           ) : null}
+
+          {enableColumnVisibilityToggle ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="sm:ml-auto"
+                >
+                  Columns
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(Boolean(value))
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : null}
         </div>
 
         <div className="text-sm text-muted-foreground">
@@ -374,7 +416,7 @@ export function DataTable<TData, TValue>({
         </div>
       ) : null}
 
-      {enableRowDragging ? (
+      {enableRowDragging && showRowDraggingHint ? (
         <div className="text-xs text-muted-foreground">
           {canDragRows
             ? 'Drag rows to reorder.'

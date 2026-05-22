@@ -212,6 +212,9 @@ const CreateProductModal = ({
       await queryClient.invalidateQueries({
         queryKey: ['products'],
       })
+      await queryClient.refetchQueries({
+        queryKey: ['products'],
+      })
       setOpen(false)
       resetForm()
     } catch (err) {
