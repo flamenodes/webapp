@@ -399,6 +399,22 @@ export const recreateProduct = createServerFn({
   .handler(async ({ data }) => {
     await requireSessionUser()
 
+    function getNextCopyName(planName: string) {
+      const trimmed = planName.trim()
+      const match = trimmed.match(/^(.*) Copy(?: (\d+))?$/)
+
+      if (!match) {
+        return `${trimmed} Copy`
+      }
+
+      const root = (match[1] ?? '').trim()
+      const nextNumber = match[2]
+        ? Number(match[2]) + 1
+        : 2
+
+      return `${root} Copy ${nextNumber}`
+    }
+
     const existingProduct =
       await prisma.product.findUnique({
         where: { id: data.id },
@@ -434,7 +450,7 @@ export const recreateProduct = createServerFn({
       async (tx) => {
         const created = await tx.product.create({
           data: {
-            planName: existingProduct.planName,
+            planName: getNextCopyName(existingProduct.planName),
             icon: existingProduct.icon,
             badge: existingProduct.badge,
             sortOrder: existingProduct.sortOrder,
@@ -459,12 +475,8 @@ export const recreateProduct = createServerFn({
           include: productInclude,
         })
 
-        await tx.product.delete({
-          where: { id: data.id },
-        })
-
         const orderedIds = products.map((p) => p.id)
-        orderedIds[currentIndex] = created.id
+        orderedIds.splice(currentIndex + 1, 0, created.id)
 
         await Promise.all(
           orderedIds.map((id, index) =>
