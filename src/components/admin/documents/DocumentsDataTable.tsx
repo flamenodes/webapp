@@ -88,7 +88,7 @@ export default function DocumentsDataTable({
               <DropdownMenuItem
                 onSelect={() => {
                   void navigate({
-                    to: '/admin/documents/$id',
+                    to: '/_protected/admin/documents/$id',
                     params: { id: row.id },
                   })
                 }}

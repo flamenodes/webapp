@@ -16,7 +16,7 @@ export const navItems = [
   {
     icon: 'FileText',
     label: 'Documents',
-    to: '/admin/documents?view=table',
+    to: '/_protected/admin/documents?view=table',
     section: 'management',
   },
   {

@@ -108,7 +108,7 @@ export default function CreateDocumentSheet() {
                 setSlug('')
 
                 await navigate({
-                  to: '/admin/documents/$id',
+                  to: '/_protected/admin/documents/$id',
                   params: { id: created.data.id },
                 })
               } catch (error) {

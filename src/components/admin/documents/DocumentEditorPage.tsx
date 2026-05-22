@@ -26,7 +26,12 @@ export default function DocumentEditorPage({
     <DocumentEditor
       document={res.data}
       showSlugInitially
-      onClose={() => navigate({ to: '/admin/documents', search: { view: 'table' } as any })}
+      onClose={() =>
+        navigate({
+          to: '/_protected/admin/documents',
+          search: { view: 'table' } as any,
+        })
+      }
     />
   )
 }
