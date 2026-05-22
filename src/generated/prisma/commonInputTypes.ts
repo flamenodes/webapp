@@ -385,6 +385,23 @@ export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
   _max?: Prisma.NestedJsonNullableFilter<$PrismaModel>
 }
 
+export type EnumPageStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.PageStatus | Prisma.EnumPageStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PageStatus[] | Prisma.ListEnumPageStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PageStatus[] | Prisma.ListEnumPageStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPageStatusFilter<$PrismaModel> | $Enums.PageStatus
+}
+
+export type EnumPageStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PageStatus | Prisma.EnumPageStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PageStatus[] | Prisma.ListEnumPageStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PageStatus[] | Prisma.ListEnumPageStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPageStatusWithAggregatesFilter<$PrismaModel> | $Enums.PageStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPageStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPageStatusFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -713,6 +730,23 @@ export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
   gt?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel>
   gte?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel>
   not?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel> | Prisma.JsonNullValueFilter
+}
+
+export type NestedEnumPageStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.PageStatus | Prisma.EnumPageStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PageStatus[] | Prisma.ListEnumPageStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PageStatus[] | Prisma.ListEnumPageStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPageStatusFilter<$PrismaModel> | $Enums.PageStatus
+}
+
+export type NestedEnumPageStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PageStatus | Prisma.EnumPageStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PageStatus[] | Prisma.ListEnumPageStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PageStatus[] | Prisma.ListEnumPageStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPageStatusWithAggregatesFilter<$PrismaModel> | $Enums.PageStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPageStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPageStatusFilter<$PrismaModel>
 }
 
 

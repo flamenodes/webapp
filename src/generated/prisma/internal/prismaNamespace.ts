@@ -396,7 +396,8 @@ export const ModelName = {
   CartItem: 'CartItem',
   Order: 'Order',
   OrderItem: 'OrderItem',
-  Server: 'Server'
+  Server: 'Server',
+  PageDocument: 'PageDocument'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -412,7 +413,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "discount" | "product" | "productFeature" | "coupon" | "cart" | "cartItem" | "order" | "orderItem" | "server"
+    modelProps: "user" | "session" | "account" | "verification" | "discount" | "product" | "productFeature" | "coupon" | "cart" | "cartItem" | "order" | "orderItem" | "server" | "pageDocument"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1378,6 +1379,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PageDocument: {
+      payload: Prisma.$PageDocumentPayload<ExtArgs>
+      fields: Prisma.PageDocumentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PageDocumentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageDocumentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PageDocumentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageDocumentPayload>
+        }
+        findFirst: {
+          args: Prisma.PageDocumentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageDocumentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PageDocumentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageDocumentPayload>
+        }
+        findMany: {
+          args: Prisma.PageDocumentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageDocumentPayload>[]
+        }
+        create: {
+          args: Prisma.PageDocumentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageDocumentPayload>
+        }
+        createMany: {
+          args: Prisma.PageDocumentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PageDocumentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageDocumentPayload>[]
+        }
+        delete: {
+          args: Prisma.PageDocumentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageDocumentPayload>
+        }
+        update: {
+          args: Prisma.PageDocumentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageDocumentPayload>
+        }
+        deleteMany: {
+          args: Prisma.PageDocumentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PageDocumentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PageDocumentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageDocumentPayload>[]
+        }
+        upsert: {
+          args: Prisma.PageDocumentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageDocumentPayload>
+        }
+        aggregate: {
+          args: Prisma.PageDocumentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePageDocument>
+        }
+        groupBy: {
+          args: Prisma.PageDocumentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PageDocumentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PageDocumentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PageDocumentCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1619,6 +1694,20 @@ export const ServerScalarFieldEnum = {
 export type ServerScalarFieldEnum = (typeof ServerScalarFieldEnum)[keyof typeof ServerScalarFieldEnum]
 
 
+export const PageDocumentScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  description: 'description',
+  content: 'content',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PageDocumentScalarFieldEnum = (typeof PageDocumentScalarFieldEnum)[keyof typeof PageDocumentScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1793,6 +1882,20 @@ export type ListEnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
+ * Reference to a field of type 'PageStatus'
+ */
+export type EnumPageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PageStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'PageStatus[]'
+ */
+export type ListEnumPageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PageStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -1928,6 +2031,7 @@ export type GlobalOmitConfig = {
   order?: Prisma.OrderOmit
   orderItem?: Prisma.OrderItemOmit
   server?: Prisma.ServerOmit
+  pageDocument?: Prisma.PageDocumentOmit
 }
 
 /* Types for Logging */

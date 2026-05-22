@@ -21,6 +21,7 @@ const getPageDocumentBySlugSchema = z.object({
 const createPageDocumentSchema = z.object({
   title: z.string().trim().min(1).default('Untitled'),
   description: z.string().trim().default(''),
+  slug: z.string().trim().min(1).optional(),
   content: z.string().default(''),
 })
 
@@ -164,7 +165,7 @@ export const CreatePageDocument = createServerFn({
     await requireSessionUser()
 
     const title = data.title?.trim() || 'Untitled'
-    const slug = await ensureUniqueSlug(title)
+    const slug = await ensureUniqueSlug(data.slug ?? title)
 
     const created =
       await prisma.pageDocument.create({

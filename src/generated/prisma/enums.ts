@@ -53,3 +53,11 @@ export const CouponType = {
 } as const
 
 export type CouponType = (typeof CouponType)[keyof typeof CouponType]
+
+
+export const PageStatus = {
+  PUBLISHED: 'PUBLISHED',
+  DRAFT: 'DRAFT'
+} as const
+
+export type PageStatus = (typeof PageStatus)[keyof typeof PageStatus]

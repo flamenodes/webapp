@@ -14,6 +14,12 @@ export const navItems = [
     section: 'management',
   },
   {
+    icon: 'FileText',
+    label: 'Documents',
+    to: '/admin/documents?view=table',
+    section: 'management',
+  },
+  {
     icon: 'ShoppingCart',
     label: 'Orders',
     section: 'management',

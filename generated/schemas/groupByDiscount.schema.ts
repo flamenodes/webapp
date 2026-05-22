@@ -1,0 +1,15 @@
+import type { Prisma } from '../../src/generated/prisma/client';
+import * as z from 'zod';
+import { DiscountWhereInputObjectSchema as DiscountWhereInputObjectSchema } from './objects/DiscountWhereInput.schema';
+import { DiscountOrderByWithAggregationInputObjectSchema as DiscountOrderByWithAggregationInputObjectSchema } from './objects/DiscountOrderByWithAggregationInput.schema';
+import { DiscountScalarWhereWithAggregatesInputObjectSchema as DiscountScalarWhereWithAggregatesInputObjectSchema } from './objects/DiscountScalarWhereWithAggregatesInput.schema';
+import { DiscountScalarFieldEnumSchema } from './enums/DiscountScalarFieldEnum.schema';
+import { DiscountCountAggregateInputObjectSchema as DiscountCountAggregateInputObjectSchema } from './objects/DiscountCountAggregateInput.schema';
+import { DiscountMinAggregateInputObjectSchema as DiscountMinAggregateInputObjectSchema } from './objects/DiscountMinAggregateInput.schema';
+import { DiscountMaxAggregateInputObjectSchema as DiscountMaxAggregateInputObjectSchema } from './objects/DiscountMaxAggregateInput.schema';
+import { DiscountAvgAggregateInputObjectSchema as DiscountAvgAggregateInputObjectSchema } from './objects/DiscountAvgAggregateInput.schema';
+import { DiscountSumAggregateInputObjectSchema as DiscountSumAggregateInputObjectSchema } from './objects/DiscountSumAggregateInput.schema';
+
+export const DiscountGroupBySchema: z.ZodType<Prisma.DiscountGroupByArgs> = z.object({ where: DiscountWhereInputObjectSchema.optional(), orderBy: z.union([DiscountOrderByWithAggregationInputObjectSchema, DiscountOrderByWithAggregationInputObjectSchema.array()]).optional(), having: DiscountScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(DiscountScalarFieldEnumSchema), _count: z.union([ z.literal(true), DiscountCountAggregateInputObjectSchema ]).optional(), _min: DiscountMinAggregateInputObjectSchema.optional(), _max: DiscountMaxAggregateInputObjectSchema.optional(), _avg: DiscountAvgAggregateInputObjectSchema.optional(), _sum: DiscountSumAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.DiscountGroupByArgs>;
+
+export const DiscountGroupByZodSchema = z.object({ where: DiscountWhereInputObjectSchema.optional(), orderBy: z.union([DiscountOrderByWithAggregationInputObjectSchema, DiscountOrderByWithAggregationInputObjectSchema.array()]).optional(), having: DiscountScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(DiscountScalarFieldEnumSchema), _count: z.union([ z.literal(true), DiscountCountAggregateInputObjectSchema ]).optional(), _min: DiscountMinAggregateInputObjectSchema.optional(), _max: DiscountMaxAggregateInputObjectSchema.optional(), _avg: DiscountAvgAggregateInputObjectSchema.optional(), _sum: DiscountSumAggregateInputObjectSchema.optional() }).strict();

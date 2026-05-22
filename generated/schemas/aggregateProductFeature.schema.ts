@@ -1,0 +1,14 @@
+import type { Prisma } from '../../src/generated/prisma/client';
+import * as z from 'zod';
+import { ProductFeatureOrderByWithRelationInputObjectSchema as ProductFeatureOrderByWithRelationInputObjectSchema } from './objects/ProductFeatureOrderByWithRelationInput.schema';
+import { ProductFeatureWhereInputObjectSchema as ProductFeatureWhereInputObjectSchema } from './objects/ProductFeatureWhereInput.schema';
+import { ProductFeatureWhereUniqueInputObjectSchema as ProductFeatureWhereUniqueInputObjectSchema } from './objects/ProductFeatureWhereUniqueInput.schema';
+import { ProductFeatureCountAggregateInputObjectSchema as ProductFeatureCountAggregateInputObjectSchema } from './objects/ProductFeatureCountAggregateInput.schema';
+import { ProductFeatureMinAggregateInputObjectSchema as ProductFeatureMinAggregateInputObjectSchema } from './objects/ProductFeatureMinAggregateInput.schema';
+import { ProductFeatureMaxAggregateInputObjectSchema as ProductFeatureMaxAggregateInputObjectSchema } from './objects/ProductFeatureMaxAggregateInput.schema';
+import { ProductFeatureAvgAggregateInputObjectSchema as ProductFeatureAvgAggregateInputObjectSchema } from './objects/ProductFeatureAvgAggregateInput.schema';
+import { ProductFeatureSumAggregateInputObjectSchema as ProductFeatureSumAggregateInputObjectSchema } from './objects/ProductFeatureSumAggregateInput.schema';
+
+export const ProductFeatureAggregateSchema: z.ZodType<Prisma.ProductFeatureAggregateArgs> = z.object({ orderBy: z.union([ProductFeatureOrderByWithRelationInputObjectSchema, ProductFeatureOrderByWithRelationInputObjectSchema.array()]).optional(), where: ProductFeatureWhereInputObjectSchema.optional(), cursor: ProductFeatureWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), ProductFeatureCountAggregateInputObjectSchema ]).optional(), _min: ProductFeatureMinAggregateInputObjectSchema.optional(), _max: ProductFeatureMaxAggregateInputObjectSchema.optional(), _avg: ProductFeatureAvgAggregateInputObjectSchema.optional(), _sum: ProductFeatureSumAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.ProductFeatureAggregateArgs>;
+
+export const ProductFeatureAggregateZodSchema = z.object({ orderBy: z.union([ProductFeatureOrderByWithRelationInputObjectSchema, ProductFeatureOrderByWithRelationInputObjectSchema.array()]).optional(), where: ProductFeatureWhereInputObjectSchema.optional(), cursor: ProductFeatureWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), ProductFeatureCountAggregateInputObjectSchema ]).optional(), _min: ProductFeatureMinAggregateInputObjectSchema.optional(), _max: ProductFeatureMaxAggregateInputObjectSchema.optional(), _avg: ProductFeatureAvgAggregateInputObjectSchema.optional(), _sum: ProductFeatureSumAggregateInputObjectSchema.optional() }).strict();

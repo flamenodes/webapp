@@ -1,0 +1,13 @@
+import type { Prisma } from '../../src/generated/prisma/client';
+import * as z from 'zod';
+import { PageDocumentWhereInputObjectSchema as PageDocumentWhereInputObjectSchema } from './objects/PageDocumentWhereInput.schema';
+import { PageDocumentOrderByWithAggregationInputObjectSchema as PageDocumentOrderByWithAggregationInputObjectSchema } from './objects/PageDocumentOrderByWithAggregationInput.schema';
+import { PageDocumentScalarWhereWithAggregatesInputObjectSchema as PageDocumentScalarWhereWithAggregatesInputObjectSchema } from './objects/PageDocumentScalarWhereWithAggregatesInput.schema';
+import { PageDocumentScalarFieldEnumSchema } from './enums/PageDocumentScalarFieldEnum.schema';
+import { PageDocumentCountAggregateInputObjectSchema as PageDocumentCountAggregateInputObjectSchema } from './objects/PageDocumentCountAggregateInput.schema';
+import { PageDocumentMinAggregateInputObjectSchema as PageDocumentMinAggregateInputObjectSchema } from './objects/PageDocumentMinAggregateInput.schema';
+import { PageDocumentMaxAggregateInputObjectSchema as PageDocumentMaxAggregateInputObjectSchema } from './objects/PageDocumentMaxAggregateInput.schema';
+
+export const PageDocumentGroupBySchema: z.ZodType<Prisma.PageDocumentGroupByArgs> = z.object({ where: PageDocumentWhereInputObjectSchema.optional(), orderBy: z.union([PageDocumentOrderByWithAggregationInputObjectSchema, PageDocumentOrderByWithAggregationInputObjectSchema.array()]).optional(), having: PageDocumentScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(PageDocumentScalarFieldEnumSchema), _count: z.union([ z.literal(true), PageDocumentCountAggregateInputObjectSchema ]).optional(), _min: PageDocumentMinAggregateInputObjectSchema.optional(), _max: PageDocumentMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.PageDocumentGroupByArgs>;
+
+export const PageDocumentGroupByZodSchema = z.object({ where: PageDocumentWhereInputObjectSchema.optional(), orderBy: z.union([PageDocumentOrderByWithAggregationInputObjectSchema, PageDocumentOrderByWithAggregationInputObjectSchema.array()]).optional(), having: PageDocumentScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(PageDocumentScalarFieldEnumSchema), _count: z.union([ z.literal(true), PageDocumentCountAggregateInputObjectSchema ]).optional(), _min: PageDocumentMinAggregateInputObjectSchema.optional(), _max: PageDocumentMaxAggregateInputObjectSchema.optional() }).strict();

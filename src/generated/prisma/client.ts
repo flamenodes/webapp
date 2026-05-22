@@ -106,3 +106,8 @@ export type OrderItem = Prisma.OrderItemModel
  * 
  */
 export type Server = Prisma.ServerModel
+/**
+ * Model PageDocument
+ * 
+ */
+export type PageDocument = Prisma.PageDocumentModel

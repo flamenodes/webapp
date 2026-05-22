@@ -1,0 +1,38 @@
+/* ---------- TOOLBAR BG FIX ---------- */
+
+.mdxeditor-toolbar {
+  position: sticky !important;
+  top: 0;
+
+  background: hsl(var(--background)) !important;
+
+  border-bottom: 1px solid hsl(var(--border)) !important;
+
+  backdrop-filter: blur(8px);
+
+  z-index: 60;
+}
+
+/* inner toolbar groups */
+
+.mdxeditor-toolbar > * {
+  background: transparent !important;
+}
+
+/* buttons */
+
+.mdxeditor-toolbar button {
+  color: hsl(var(--foreground)) !important;
+  background: transparent !important;
+}
+
+.mdxeditor-toolbar button:hover {
+  background: hsl(var(--accent)) !important;
+}
+
+/* dropdown trigger */
+
+.mdxeditor-toolbar button[aria-expanded],
+.mdxeditor-toolbar button[aria-haspopup] {
+  background: hsl(var(--background)) !important;
+}

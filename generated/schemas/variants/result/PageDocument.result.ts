@@ -1,0 +1,15 @@
+import * as z from 'zod';
+import { PageStatusSchema } from '../../enums/PageStatus.schema';
+// prettier-ignore
+export const PageDocumentResultSchema = z.object({
+    id: z.string(),
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    content: z.string(),
+    status: PageStatusSchema,
+    createdAt: z.date(),
+    updatedAt: z.date()
+}).strict();
+
+export type PageDocumentResultType = z.infer<typeof PageDocumentResultSchema>;

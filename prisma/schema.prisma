@@ -283,3 +283,19 @@ model Server {
   @@index([userId])
   @@index([expiresAt])
 }
+
+enum PageStatus {
+  PUBLISHED
+  DRAFT
+}
+
+model PageDocument {
+  id          String     @id @default(uuid())
+  slug        String     @unique
+  title       String
+  description String     @default("")
+  content     String     @default("")
+  status      PageStatus @default(DRAFT)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}

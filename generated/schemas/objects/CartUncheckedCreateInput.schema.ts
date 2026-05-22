@@ -1,0 +1,13 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+import { CartItemUncheckedCreateNestedManyWithoutCartInputObjectSchema as CartItemUncheckedCreateNestedManyWithoutCartInputObjectSchema } from './CartItemUncheckedCreateNestedManyWithoutCartInput.schema'
+
+const makeSchema = () => z.object({
+  id: z.string().optional(),
+  userId: z.string(),
+  couponCode: z.string().optional().nullable(),
+  createdAt: z.coerce.date().optional(),
+  items: z.lazy(() => CartItemUncheckedCreateNestedManyWithoutCartInputObjectSchema).optional()
+}).strict();
+export const CartUncheckedCreateInputObjectSchema: z.ZodType<Prisma.CartUncheckedCreateInput> = makeSchema() as unknown as z.ZodType<Prisma.CartUncheckedCreateInput>;
+export const CartUncheckedCreateInputObjectZodSchema = makeSchema();
