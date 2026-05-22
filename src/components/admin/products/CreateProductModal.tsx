@@ -1,7 +1,16 @@
 import { FileUpload } from '#/components/imagekit/upload'
+import { Button } from '#/components/ui/button'
+import { Checkbox } from '#/components/ui/checkbox'
 import { Field } from '#/components/ui/field'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '#/components/ui/select'
 import {
   Sheet,
   SheetContent,
@@ -15,83 +24,155 @@ import type React from 'react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-const CreateProductModal = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
-  const [productImage, setProductImage] =
-    useState('/assets/gavtar.jpg')
+const PRODUCT_CATEGORIES = [
+  { value: 'VPS', label: 'VPS' },
+  { value: 'VDS', label: 'VDS' },
+  { value: 'WEBHOST', label: 'Web Hosting' },
+  { value: 'DISCORD', label: 'Discord' },
+  { value: 'DDOS_PROT', label: 'DDoS Protection' },
+  { value: 'DEDICATED', label: 'Dedicated' },
+  { value: 'MINECRAFT', label: 'Minecraft' },
+] as const
+
+type ProductCategory = (typeof PRODUCT_CATEGORIES)[number]['value']
+
+const CreateProductModal = ({ children }: { children: React.ReactNode }) => {
+  const [open, setOpen] = useState(false)
+  const [productImage, setProductImage] = useState('/assets/gavtar.jpg')
 
   const [planName, setPlanName] = useState('')
-  const [price, setPrice] = useState(0)
-  const [icon, setIcon] = useState('')
-  const [featureCategory, setFeatureCategory] =
-    useState('')
+  const [badge, setBadge] = useState('')
+  const [category, setCategory] = useState<ProductCategory | undefined>()
+  const [deployMode, setDeployMode] = useState('PTERODACTYL')
+  const [inStock, setInStock] = useState(true)
+  const [price, setPrice] = useState<number>(0)
 
   const [features, setFeatures] = useState([''])
+  const [specs, setSpecs] = useState([{ key: '', value: '' }])
 
-  function updateFeature(
-    index: number,
-    value: string,
-  ) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  function resetForm() {
+    setProductImage('/assets/gavtar.jpg')
+    setPlanName('')
+    setBadge('')
+    setCategory(undefined)
+    setDeployMode('PTERODACTYL')
+    setInStock(true)
+    setPrice(0)
+    setFeatures([''])
+    setSpecs([{ key: '', value: '' }])
+  }
+
+  function updateFeature(index: number, value: string) {
     const updated = [...features]
 
     updated[index] = value
 
-    if (
-      index === features.length - 1 &&
-      value.trim()
-    ) {
+    if (index === features.length - 1 && value.trim()) {
       updated.push('')
     }
 
     setFeatures(updated)
   }
 
+  function updateSpec(
+    index: number,
+    patch: Partial<{
+      key: string
+      value: string
+    }>,
+  ) {
+    const updated = [...specs]
+    updated[index] = {
+      ...updated[index],
+      ...patch,
+    }
+
+    const isLast = index === specs.length - 1
+    const hasAny =
+      (updated[index].key ?? '').trim() || (updated[index].value ?? '').trim()
+
+    if (isLast && hasAny) {
+      updated.push({ key: '', value: '' })
+    }
+
+    setSpecs(updated)
+  }
+
   const handleCreate = async () => {
-    const cleanedFeatures =
-      features.filter(Boolean)
+    if (isSubmitting) return
 
-    const res = await createProduct({
-      data: {
-        planName,
-        price,
-        features: cleanedFeatures,
-        featureCategory,
-        icon: productImage,
-      },
-    })
+    const trimmedPlanName = planName.trim()
+    if (!trimmedPlanName) {
+      toast.error('Plan name is required.')
+      return
+    }
 
-    toast.success(
-      `Created ${res.data.planName}`,
-    )
+    if (!category) {
+      toast.error('Category is required.')
+      return
+    }
+
+    const normalizedPrice = Number.isFinite(price) ? Math.trunc(price) : 0
+    if (normalizedPrice < 0) {
+      toast.error('Price must be 0 or more.')
+      return
+    }
+
+    const cleanedFeatures = features.map((f) => f.trim()).filter(Boolean)
+    const cleanedSpecs = specs
+      .map((s) => ({
+        key: s.key.trim(),
+        value: s.value.trim(),
+      }))
+      .filter((s) => s.key.length > 0)
+
+    setIsSubmitting(true)
+    try {
+      const res = await createProduct({
+        data: {
+          planName: trimmedPlanName,
+          badge: badge.trim() || null,
+          category,
+          price: normalizedPrice,
+          inStock,
+          deployMode: deployMode.trim() || 'PTERODACTYL',
+          features: cleanedFeatures,
+          specs: cleanedSpecs,
+          icon: productImage?.trim() || null,
+        },
+      })
+
+      toast.success(`Created ${res.data.planName}`)
+      setOpen(false)
+      resetForm()
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : 'Failed to create product.'
+      toast.error(message)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
-    <Sheet>
-      <SheetTrigger>
-        {children}
-      </SheetTrigger>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>{children}</SheetTrigger>
 
       <SheetContent className="overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>
-            Product Creation
-          </SheetTitle>
+          <SheetTitle>Product Creation</SheetTitle>
 
-          <SheetDescription>
-            Create your product.
-          </SheetDescription>
+          <SheetDescription>Create your product.</SheetDescription>
         </SheetHeader>
 
         <div className="space-y-6 px-4">
-
           <div className="flex gap-6">
             <img
               src={productImage}
               alt=""
-              className="w-20 rounded-md"
+              className="h-20 w-20 rounded-md object-cover"
             />
 
             <FileUpload
@@ -108,13 +189,39 @@ const CreateProductModal = ({
 
             <Input
               value={planName}
-              onChange={(e) =>
-                setPlanName(
-                  e.target.value,
-                )
-              }
+              onChange={(e) => setPlanName(e.target.value)}
               placeholder="Starter Plan"
             />
+          </Field>
+
+          <Field>
+            <Label>Badge (optional)</Label>
+
+            <Input
+              value={badge}
+              onChange={(e) => setBadge(e.target.value)}
+              placeholder="Most popular"
+            />
+          </Field>
+
+          <Field>
+            <Label>Category</Label>
+
+            <Select
+              value={category}
+              onValueChange={(value) => setCategory(value as ProductCategory)}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent>
+                {PRODUCT_CATEGORIES.map((c) => (
+                  <SelectItem key={c.value} value={c.value}>
+                    {c.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </Field>
 
           <Field>
@@ -123,65 +230,92 @@ const CreateProductModal = ({
             <Input
               type="number"
               value={price}
-              onChange={(e) =>
-                setPrice(
-                  Number(
-                    e.target.value,
-                  ),
-                )
-              }
+              onChange={(e) => setPrice(Number(e.target.value))}
+              min={0}
+              step={1}
             />
           </Field>
 
           <Field>
-            <Label>
-              Feature Category
-            </Label>
+            <Label>Deploy Mode</Label>
 
             <Input
-              value={featureCategory}
-              onChange={(e) =>
-                setFeatureCategory(
-                  e.target.value,
-                )
-              }
+              value={deployMode}
+              onChange={(e) => setDeployMode(e.target.value)}
+              placeholder="PTERODACTYL"
             />
+          </Field>
+
+          <Field>
+            <div className="flex items-center gap-2">
+              <Checkbox
+                checked={inStock}
+                onCheckedChange={(checked) => setInStock(checked === true)}
+              />
+              <Label>In stock</Label>
+            </div>
           </Field>
 
           <Field>
             <Label>Features</Label>
 
             <div className="space-y-2">
-              {features.map(
-                (
-                  feature,
-                  index,
-                ) => (
-                  <Input
-                    key={index}
-                    value={feature}
-                    placeholder={`Feature ${
-                      index + 1
-                    }`}
-                    onChange={(e) =>
-                      updateFeature(
-                        index,
-                        e.target.value,
-                      )
-                    }
-                  />
-                ),
-              )}
+              {features.map((feature, index) => (
+                <Input
+                  key={index}
+                  value={feature}
+                  placeholder={`Feature ${index + 1}`}
+                  onChange={(e) => updateFeature(index, e.target.value)}
+                />
+              ))}
             </div>
           </Field>
 
-          <button
-            onClick={handleCreate}
-            className="rounded-md bg-black px-4 py-2 text-white"
-          >
-            Create Product
-          </button>
+          <Field>
+            <Label>Specs</Label>
 
+            <div className="space-y-2">
+              {specs.map((spec, index) => (
+                <div key={index} className="flex gap-2">
+                  <Input
+                    value={spec.key}
+                    placeholder={`Key ${index + 1}`}
+                    onChange={(e) =>
+                      updateSpec(index, {
+                        key: e.target.value,
+                      })
+                    }
+                  />
+                  <Input
+                    value={spec.value}
+                    placeholder="Value"
+                    onChange={(e) =>
+                      updateSpec(index, {
+                        value: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+          </Field>
+
+          <div className="flex justify-end gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setOpen(false)
+                resetForm()
+              }}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
+            <Button type="button" onClick={handleCreate} disabled={isSubmitting}>
+              Create Product
+            </Button>
+          </div>
         </div>
       </SheetContent>
     </Sheet>

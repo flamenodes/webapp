@@ -3,14 +3,15 @@ export const ProductAggregateResultSchema = z.object({  _count: z.object({
     id: z.number(),
     planName: z.number(),
     icon: z.number(),
-    imageUrl: z.number(),
+    badge: z.number(),
     category: z.number(),
     price: z.number(),
+    sortOrder: z.number(),
     features: z.number(),
     featureCategory: z.number(),
     inStock: z.number(),
-    discount: z.number(),
     discountId: z.number(),
+    discount: z.number(),
     specs: z.number(),
     deployMode: z.number(),
     cartItems: z.number(),
@@ -19,18 +20,20 @@ export const ProductAggregateResultSchema = z.object({  _count: z.object({
     updatedAt: z.number()
   }).optional(),
   _sum: z.object({
-    price: z.number().nullable()
+    price: z.number().nullable(),
+    sortOrder: z.number().nullable()
   }).nullable().optional(),
   _avg: z.object({
-    price: z.number().nullable()
+    price: z.number().nullable(),
+    sortOrder: z.number().nullable()
   }).nullable().optional(),
   _min: z.object({
     id: z.string().nullable(),
     planName: z.string().nullable(),
     icon: z.string().nullable(),
-    imageUrl: z.string().nullable(),
+    badge: z.string().nullable(),
     price: z.number().int().nullable(),
-    features: z.array(z.string()).nullable(),
+    sortOrder: z.number().int().nullable(),
     featureCategory: z.string().nullable(),
     discountId: z.string().nullable(),
     deployMode: z.string().nullable(),
@@ -41,9 +44,9 @@ export const ProductAggregateResultSchema = z.object({  _count: z.object({
     id: z.string().nullable(),
     planName: z.string().nullable(),
     icon: z.string().nullable(),
-    imageUrl: z.string().nullable(),
+    badge: z.string().nullable(),
     price: z.number().int().nullable(),
-    features: z.array(z.string()).nullable(),
+    sortOrder: z.number().int().nullable(),
     featureCategory: z.string().nullable(),
     discountId: z.string().nullable(),
     deployMode: z.string().nullable(),

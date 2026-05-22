@@ -5,7 +5,6 @@ import { StringNullableFilterObjectSchema as StringNullableFilterObjectSchema } 
 import { EnumProductCategoryFilterObjectSchema as EnumProductCategoryFilterObjectSchema } from './EnumProductCategoryFilter.schema';
 import { ProductCategorySchema } from '../enums/ProductCategory.schema';
 import { IntFilterObjectSchema as IntFilterObjectSchema } from './IntFilter.schema';
-import { StringNullableListFilterObjectSchema as StringNullableListFilterObjectSchema } from './StringNullableListFilter.schema';
 import { BoolFilterObjectSchema as BoolFilterObjectSchema } from './BoolFilter.schema';
 import { JsonFilterObjectSchema as JsonFilterObjectSchema } from './JsonFilter.schema';
 import { DateTimeFilterObjectSchema as DateTimeFilterObjectSchema } from './DateTimeFilter.schema'
@@ -17,10 +16,10 @@ const productscalarwhereinputSchema = z.object({
   id: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
   planName: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
   icon: z.union([z.lazy(() => StringNullableFilterObjectSchema), z.string()]).optional().nullable(),
-  imageUrl: z.union([z.lazy(() => StringNullableFilterObjectSchema), z.string()]).optional().nullable(),
+  badge: z.union([z.lazy(() => StringNullableFilterObjectSchema), z.string()]).optional().nullable(),
   category: z.union([z.lazy(() => EnumProductCategoryFilterObjectSchema), ProductCategorySchema]).optional(),
   price: z.union([z.lazy(() => IntFilterObjectSchema), z.number().int()]).optional(),
-  features: z.lazy(() => StringNullableListFilterObjectSchema).optional(),
+  sortOrder: z.union([z.lazy(() => IntFilterObjectSchema), z.number().int()]).optional(),
   featureCategory: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
   inStock: z.union([z.lazy(() => BoolFilterObjectSchema), z.boolean()]).optional(),
   discountId: z.union([z.lazy(() => StringNullableFilterObjectSchema), z.string()]).optional().nullable(),

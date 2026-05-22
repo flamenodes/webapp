@@ -9,6 +9,7 @@ export { AccountCreateSchema } from './Account.create';
 export { VerificationCreateSchema } from './Verification.create';
 export { DiscountCreateSchema } from './Discount.create';
 export { ProductCreateSchema } from './Product.create';
+export { ProductFeatureCreateSchema } from './ProductFeature.create';
 export { CouponCreateSchema } from './Coupon.create';
 export { CartCreateSchema } from './Cart.create';
 export { CartItemCreateSchema } from './CartItem.create';

@@ -47,7 +47,6 @@ const createProductSchema = z.object({
   badge: z.string().trim().nullable().optional(),
   category: productCategorySchema,
   price: z.number().int().nonnegative(),
-  billingPeriod: billingPeriodSchema.default('MONTHLY'),
   features: z.array(z.string()).default([]),
   inStock: z.boolean().default(true),
   specs: z.array(productSpecInputSchema).default([]),
@@ -73,16 +72,18 @@ const productInclude = {
       sortOrder: 'asc',
     },
   },
-  specEntries: {
-    orderBy: {
-      sortOrder: 'asc',
-    },
-  },
 } satisfies Prisma.ProductInclude
 
 type ProductWithRelations = Prisma.ProductGetPayload<{
   include: typeof productInclude
 }>
+
+type ProductSpecEntryJson = {
+  key: string
+  value: string
+  sortOrder?: number
+  id?: string
+}
 
 function normalizeSpecs(
   specs: Array<{ key: string; value: string }>,
@@ -101,7 +102,44 @@ function normalizeFeatures(features: string[]) {
     .filter(Boolean)
 }
 
+function coerceSpecEntries(
+  specs: unknown,
+): Array<{ key: string; value: string; sortOrder: number }> {
+  if (Array.isArray(specs)) {
+    return specs
+      .filter(
+        (s): s is ProductSpecEntryJson =>
+          !!s &&
+          typeof s === 'object' &&
+          typeof (s as any).key === 'string' &&
+          typeof (s as any).value === 'string',
+      )
+      .map((s, index) => ({
+        key: s.key,
+        value: s.value,
+        sortOrder:
+          typeof s.sortOrder === 'number'
+            ? s.sortOrder
+            : index,
+      }))
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+  }
+
+  if (specs && typeof specs === 'object') {
+    return Object.entries(specs as Record<string, unknown>)
+      .filter((entry) => typeof entry[1] === 'string')
+      .map(([key, value], index) => ({
+        key,
+        value: value as string,
+        sortOrder: index,
+      }))
+  }
+
+  return []
+}
+
 function serializeProduct(product: ProductWithRelations) {
+  const specEntries = coerceSpecEntries(product.specs)
   return {
     id: product.id,
     planName: product.planName,
@@ -110,7 +148,6 @@ function serializeProduct(product: ProductWithRelations) {
     sortOrder: product.sortOrder,
     category: product.category,
     price: product.price,
-    billingPeriod: product.billingPeriod,
     inStock: product.inStock,
     discountId: product.discountId,
     deployMode: product.deployMode,
@@ -118,19 +155,14 @@ function serializeProduct(product: ProductWithRelations) {
       (feature) => feature.label,
     ),
     specs: Object.fromEntries(
-      product.specEntries.map((spec) => [
-        spec.key,
-        spec.value,
-      ]),
+      specEntries.map((spec) => [spec.key, spec.value]),
     ),
-    specEntries: product.specEntries.map(
-      (spec) => ({
-        id: spec.id,
-        key: spec.key,
-        value: spec.value,
-        sortOrder: spec.sortOrder,
-      }),
-    ),
+    specEntries: specEntries.map((spec, index) => ({
+      id: `${product.id}:${index}`,
+      key: spec.key,
+      value: spec.value,
+      sortOrder: spec.sortOrder,
+    })),
     createdAt:
       product.createdAt.toISOString(),
     updatedAt:
@@ -183,7 +215,6 @@ export const createProduct = createServerFn({
             (lastProduct?.sortOrder ?? -1) + 1,
           category: data.category,
           price: data.price,
-          billingPeriod: data.billingPeriod,
           inStock: data.inStock,
           deployMode:
             data.deployMode.trim() ||
@@ -200,15 +231,11 @@ export const createProduct = createServerFn({
                 }),
               ),
           },
-          specEntries: {
-            create: normalizedSpecs.map(
-              (spec, index) => ({
-                key: spec.key,
-                value: spec.value,
-                sortOrder: index,
-              }),
-            ),
-          },
+          specs: normalizedSpecs.map((spec, index) => ({
+            key: spec.key,
+            value: spec.value,
+            sortOrder: index,
+          })),
         },
         include: productInclude,
       })
@@ -285,7 +312,6 @@ export const updateProduct = createServerFn({
           badge: data.badge?.trim() || null,
           category: data.category,
           price: data.price,
-          billingPeriod: data.billingPeriod,
           inStock: data.inStock,
           deployMode:
             data.deployMode.trim() ||
@@ -303,16 +329,11 @@ export const updateProduct = createServerFn({
                 }),
               ),
           },
-          specEntries: {
-            deleteMany: {},
-            create: normalizedSpecs.map(
-              (spec, index) => ({
-                key: spec.key,
-                value: spec.value,
-                sortOrder: index,
-              }),
-            ),
-          },
+          specs: normalizedSpecs.map((spec, index) => ({
+            key: spec.key,
+            value: spec.value,
+            sortOrder: index,
+          })),
         },
         include: productInclude,
       })

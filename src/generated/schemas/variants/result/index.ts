@@ -9,6 +9,7 @@ export { AccountResultSchema } from './Account.result';
 export { VerificationResultSchema } from './Verification.result';
 export { DiscountResultSchema } from './Discount.result';
 export { ProductResultSchema } from './Product.result';
+export { ProductFeatureResultSchema } from './ProductFeature.result';
 export { CouponResultSchema } from './Coupon.result';
 export { CartResultSchema } from './Cart.result';
 export { CartItemResultSchema } from './CartItem.result';

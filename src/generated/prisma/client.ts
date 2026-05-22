@@ -72,6 +72,11 @@ export type Discount = Prisma.DiscountModel
  */
 export type Product = Prisma.ProductModel
 /**
+ * Model ProductFeature
+ * 
+ */
+export type ProductFeature = Prisma.ProductFeatureModel
+/**
  * Model Coupon
  * 
  */

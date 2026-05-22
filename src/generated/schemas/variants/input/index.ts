@@ -9,6 +9,7 @@ export { AccountInputSchema } from './Account.input';
 export { VerificationInputSchema } from './Verification.input';
 export { DiscountInputSchema } from './Discount.input';
 export { ProductInputSchema } from './Product.input';
+export { ProductFeatureInputSchema } from './ProductFeature.input';
 export { CouponInputSchema } from './Coupon.input';
 export { CartInputSchema } from './Cart.input';
 export { CartItemInputSchema } from './CartItem.input';

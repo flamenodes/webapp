@@ -57,6 +57,7 @@ export const ModelName = {
   Verification: 'Verification',
   Discount: 'Discount',
   Product: 'Product',
+  ProductFeature: 'ProductFeature',
   Coupon: 'Coupon',
   Cart: 'Cart',
   CartItem: 'CartItem',
@@ -162,10 +163,10 @@ export const ProductScalarFieldEnum = {
   id: 'id',
   planName: 'planName',
   icon: 'icon',
-  imageUrl: 'imageUrl',
+  badge: 'badge',
   category: 'category',
   price: 'price',
-  features: 'features',
+  sortOrder: 'sortOrder',
   featureCategory: 'featureCategory',
   inStock: 'inStock',
   discountId: 'discountId',
@@ -176,6 +177,16 @@ export const ProductScalarFieldEnum = {
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
+export const ProductFeatureScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  label: 'label',
+  sortOrder: 'sortOrder'
+} as const
+
+export type ProductFeatureScalarFieldEnum = (typeof ProductFeatureScalarFieldEnum)[keyof typeof ProductFeatureScalarFieldEnum]
 
 
 export const CouponScalarFieldEnum = {
