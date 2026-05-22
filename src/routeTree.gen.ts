@@ -34,7 +34,7 @@ import { Route as ProtectedUserDashboardRouteImport } from './routes/_protected/
 import { Route as ProtectedAdminProductsRouteImport } from './routes/_protected/admin/products'
 import { Route as ProtectedAdminDocumentsRouteImport } from './routes/_protected/admin/documents'
 import { Route as ProtectedAdminDashboardRouteImport } from './routes/_protected/admin/dashboard'
-import { Route as ProtectedAdminDocumentsIdRouteImport } from './routes/_protected/admin/documents/$id'
+import { Route as ProtectedAdminDocumentsEditorIdRouteImport } from './routes/_protected/admin/documents.editor.$id'
 
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
@@ -159,10 +159,10 @@ const ProtectedAdminDashboardRoute = ProtectedAdminDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ProtectedAdminRouteRoute,
 } as any)
-const ProtectedAdminDocumentsIdRoute =
-  ProtectedAdminDocumentsIdRouteImport.update({
-    id: '/$id',
-    path: '/$id',
+const ProtectedAdminDocumentsEditorIdRoute =
+  ProtectedAdminDocumentsEditorIdRouteImport.update({
+    id: '/editor/$id',
+    path: '/editor/$id',
     getParentRoute: () => ProtectedAdminDocumentsRoute,
   } as any)
 
@@ -190,7 +190,7 @@ export interface FileRoutesByFullPath {
   '/admin/products': typeof ProtectedAdminProductsRoute
   '/user/dashboard': typeof ProtectedUserDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/admin/documents/$id': typeof ProtectedAdminDocumentsIdRoute
+  '/admin/documents/editor/$id': typeof ProtectedAdminDocumentsEditorIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -216,7 +216,7 @@ export interface FileRoutesByTo {
   '/admin/products': typeof ProtectedAdminProductsRoute
   '/user/dashboard': typeof ProtectedUserDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/admin/documents/$id': typeof ProtectedAdminDocumentsIdRoute
+  '/admin/documents/editor/$id': typeof ProtectedAdminDocumentsEditorIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -245,7 +245,7 @@ export interface FileRoutesById {
   '/_protected/admin/products': typeof ProtectedAdminProductsRoute
   '/_protected/user/dashboard': typeof ProtectedUserDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/_protected/admin/documents/$id': typeof ProtectedAdminDocumentsIdRoute
+  '/_protected/admin/documents/editor/$id': typeof ProtectedAdminDocumentsEditorIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -273,7 +273,7 @@ export interface FileRouteTypes {
     | '/admin/products'
     | '/user/dashboard'
     | '/api/auth/$'
-    | '/admin/documents/$id'
+    | '/admin/documents/editor/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -299,7 +299,7 @@ export interface FileRouteTypes {
     | '/admin/products'
     | '/user/dashboard'
     | '/api/auth/$'
-    | '/admin/documents/$id'
+    | '/admin/documents/editor/$id'
   id:
     | '__root__'
     | '/'
@@ -327,7 +327,7 @@ export interface FileRouteTypes {
     | '/_protected/admin/products'
     | '/_protected/user/dashboard'
     | '/api/auth/$'
-    | '/_protected/admin/documents/$id'
+    | '/_protected/admin/documents/editor/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -520,11 +520,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAdminDashboardRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
-    '/_protected/admin/documents/$id': {
-      id: '/_protected/admin/documents/$id'
-      path: '/$id'
-      fullPath: '/admin/documents/$id'
-      preLoaderRoute: typeof ProtectedAdminDocumentsIdRouteImport
+    '/_protected/admin/documents/editor/$id': {
+      id: '/_protected/admin/documents/editor/$id'
+      path: '/editor/$id'
+      fullPath: '/admin/documents/editor/$id'
+      preLoaderRoute: typeof ProtectedAdminDocumentsEditorIdRouteImport
       parentRoute: typeof ProtectedAdminDocumentsRoute
     }
   }
@@ -567,12 +567,12 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface ProtectedAdminDocumentsRouteChildren {
-  ProtectedAdminDocumentsIdRoute: typeof ProtectedAdminDocumentsIdRoute
+  ProtectedAdminDocumentsEditorIdRoute: typeof ProtectedAdminDocumentsEditorIdRoute
 }
 
 const ProtectedAdminDocumentsRouteChildren: ProtectedAdminDocumentsRouteChildren =
   {
-    ProtectedAdminDocumentsIdRoute: ProtectedAdminDocumentsIdRoute,
+    ProtectedAdminDocumentsEditorIdRoute: ProtectedAdminDocumentsEditorIdRoute,
   }
 
 const ProtectedAdminDocumentsRouteWithChildren =

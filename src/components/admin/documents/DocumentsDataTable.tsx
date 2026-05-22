@@ -19,17 +19,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '#/components/ui/alert-dialog'
-import {
-  DeletePageDocument,
-  GetPageDocuments,
-} from '#/serverActions/admin/pagedocument.api'
 import { useNavigate } from '@tanstack/react-router'
 import { useQueryClient } from '@tanstack/react-query'
 import { MoreHorizontal } from 'lucide-react'
 import { toast } from 'sonner'
+import { deletePageDocumentbyId, type getPageDocuments } from '#/serverActions/admin/pagedocument.api'
+
 
 type DocumentRecord = NonNullable<
-  Awaited<ReturnType<typeof GetPageDocuments>>['data']
+  Awaited<ReturnType<typeof getPageDocuments>>['data']
 >[number]
 
 export default function DocumentsDataTable({
@@ -88,7 +86,7 @@ export default function DocumentsDataTable({
               <DropdownMenuItem
                 onSelect={() => {
                   void navigate({
-                    to: '/_protected/admin/documents/$id',
+                    to: '/admin/documents/editor/$id',
                     params: { id: row.id },
                   })
                 }}
@@ -130,7 +128,7 @@ export default function DocumentsDataTable({
               onClick={async () => {
                 if (!deleteTarget) return
                 try {
-                  await DeletePageDocument({
+                  await deletePageDocumentbyId({
                     data: { id: deleteTarget.id },
                   })
                   toast.success('Document deleted.')
