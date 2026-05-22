@@ -62,7 +62,7 @@ function ProductsDataTable({
     <DataTable
       columns={[
         {
-          id: 'product',
+          accessorKey: 'planName',
           header: 'Product',
           cell: ({ row }) => {
             const product = row.original
