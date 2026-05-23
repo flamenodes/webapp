@@ -17,3 +17,6 @@ export { OrderResultSchema } from './Order.result';
 export { OrderItemResultSchema } from './OrderItem.result';
 export { ServerResultSchema } from './Server.result';
 export { PageDocumentResultSchema } from './PageDocument.result';
+export { TicketCounterResultSchema } from './TicketCounter.result';
+export { TicketResultSchema } from './Ticket.result';
+export { TicketMessageResultSchema } from './TicketMessage.result';

@@ -17,3 +17,6 @@ export { OrderModelSchema } from './Order.pure';
 export { OrderItemModelSchema } from './OrderItem.pure';
 export { ServerModelSchema } from './Server.pure';
 export { PageDocumentModelSchema } from './PageDocument.pure';
+export { TicketCounterModelSchema } from './TicketCounter.pure';
+export { TicketModelSchema } from './Ticket.pure';
+export { TicketMessageModelSchema } from './TicketMessage.pure';

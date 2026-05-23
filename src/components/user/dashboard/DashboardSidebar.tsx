@@ -49,11 +49,9 @@ export function DashboardSidebar({ open, onClose }: Props) {
         className={`
           h-screen fixed top-0 left-0 z-30 flex flex-col
           bg-background/95 backdrop-blur-xl border-r border-border
-          transition-all duration-200 ease-out
+          transition-transform duration-300 ease-out will-change-transform
           w-full max-w-[240px]
           ${open ? 'translate-x-0' : '-translate-x-full'}
-          md:translate-x-0 md:static md:z-auto
-          md:w-[240px]
         `}
       >
         {/* Top glow strip */}

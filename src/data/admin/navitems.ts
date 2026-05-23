@@ -36,7 +36,7 @@ export const navItems = [
     active: false,
     section: 'management',
   },
-  { icon: 'Ticket', label: 'Tickets', active: false, section: 'support' },
+  { icon: 'Ticket', label: 'Tickets', to: '/admin/tickets', section: 'support' },
   {
     icon: 'Megaphone',
     label: 'Announcements',

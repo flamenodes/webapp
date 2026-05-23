@@ -1,0 +1,12 @@
+import type { Prisma } from '../../src/generated/prisma/client';
+import * as z from 'zod';
+import { TicketMessageOrderByWithRelationInputObjectSchema as TicketMessageOrderByWithRelationInputObjectSchema } from './objects/TicketMessageOrderByWithRelationInput.schema';
+import { TicketMessageWhereInputObjectSchema as TicketMessageWhereInputObjectSchema } from './objects/TicketMessageWhereInput.schema';
+import { TicketMessageWhereUniqueInputObjectSchema as TicketMessageWhereUniqueInputObjectSchema } from './objects/TicketMessageWhereUniqueInput.schema';
+import { TicketMessageCountAggregateInputObjectSchema as TicketMessageCountAggregateInputObjectSchema } from './objects/TicketMessageCountAggregateInput.schema';
+import { TicketMessageMinAggregateInputObjectSchema as TicketMessageMinAggregateInputObjectSchema } from './objects/TicketMessageMinAggregateInput.schema';
+import { TicketMessageMaxAggregateInputObjectSchema as TicketMessageMaxAggregateInputObjectSchema } from './objects/TicketMessageMaxAggregateInput.schema';
+
+export const TicketMessageAggregateSchema: z.ZodType<Prisma.TicketMessageAggregateArgs> = z.object({ orderBy: z.union([TicketMessageOrderByWithRelationInputObjectSchema, TicketMessageOrderByWithRelationInputObjectSchema.array()]).optional(), where: TicketMessageWhereInputObjectSchema.optional(), cursor: TicketMessageWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), TicketMessageCountAggregateInputObjectSchema ]).optional(), _min: TicketMessageMinAggregateInputObjectSchema.optional(), _max: TicketMessageMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.TicketMessageAggregateArgs>;
+
+export const TicketMessageAggregateZodSchema = z.object({ orderBy: z.union([TicketMessageOrderByWithRelationInputObjectSchema, TicketMessageOrderByWithRelationInputObjectSchema.array()]).optional(), where: TicketMessageWhereInputObjectSchema.optional(), cursor: TicketMessageWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), TicketMessageCountAggregateInputObjectSchema ]).optional(), _min: TicketMessageMinAggregateInputObjectSchema.optional(), _max: TicketMessageMaxAggregateInputObjectSchema.optional() }).strict();

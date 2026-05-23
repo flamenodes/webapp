@@ -20,5 +20,8 @@ export const UserUpsertResultSchema = z.object({
   servers: z.array(z.unknown()),
   cart: z.unknown().optional(),
   orders: z.array(z.unknown()),
-  displayUsername: z.string().optional()
+  displayUsername: z.string().optional(),
+  tickets: z.array(z.unknown()),
+  assignedTickets: z.array(z.unknown()),
+  ticketMessages: z.array(z.unknown())
 });

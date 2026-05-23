@@ -1,0 +1,14 @@
+import type { Prisma } from '../../src/generated/prisma/client';
+import * as z from 'zod';
+import { TicketCounterOrderByWithRelationInputObjectSchema as TicketCounterOrderByWithRelationInputObjectSchema } from './objects/TicketCounterOrderByWithRelationInput.schema';
+import { TicketCounterWhereInputObjectSchema as TicketCounterWhereInputObjectSchema } from './objects/TicketCounterWhereInput.schema';
+import { TicketCounterWhereUniqueInputObjectSchema as TicketCounterWhereUniqueInputObjectSchema } from './objects/TicketCounterWhereUniqueInput.schema';
+import { TicketCounterCountAggregateInputObjectSchema as TicketCounterCountAggregateInputObjectSchema } from './objects/TicketCounterCountAggregateInput.schema';
+import { TicketCounterMinAggregateInputObjectSchema as TicketCounterMinAggregateInputObjectSchema } from './objects/TicketCounterMinAggregateInput.schema';
+import { TicketCounterMaxAggregateInputObjectSchema as TicketCounterMaxAggregateInputObjectSchema } from './objects/TicketCounterMaxAggregateInput.schema';
+import { TicketCounterAvgAggregateInputObjectSchema as TicketCounterAvgAggregateInputObjectSchema } from './objects/TicketCounterAvgAggregateInput.schema';
+import { TicketCounterSumAggregateInputObjectSchema as TicketCounterSumAggregateInputObjectSchema } from './objects/TicketCounterSumAggregateInput.schema';
+
+export const TicketCounterAggregateSchema: z.ZodType<Prisma.TicketCounterAggregateArgs> = z.object({ orderBy: z.union([TicketCounterOrderByWithRelationInputObjectSchema, TicketCounterOrderByWithRelationInputObjectSchema.array()]).optional(), where: TicketCounterWhereInputObjectSchema.optional(), cursor: TicketCounterWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), TicketCounterCountAggregateInputObjectSchema ]).optional(), _min: TicketCounterMinAggregateInputObjectSchema.optional(), _max: TicketCounterMaxAggregateInputObjectSchema.optional(), _avg: TicketCounterAvgAggregateInputObjectSchema.optional(), _sum: TicketCounterSumAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.TicketCounterAggregateArgs>;
+
+export const TicketCounterAggregateZodSchema = z.object({ orderBy: z.union([TicketCounterOrderByWithRelationInputObjectSchema, TicketCounterOrderByWithRelationInputObjectSchema.array()]).optional(), where: TicketCounterWhereInputObjectSchema.optional(), cursor: TicketCounterWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), TicketCounterCountAggregateInputObjectSchema ]).optional(), _min: TicketCounterMinAggregateInputObjectSchema.optional(), _max: TicketCounterMaxAggregateInputObjectSchema.optional(), _avg: TicketCounterAvgAggregateInputObjectSchema.optional(), _sum: TicketCounterSumAggregateInputObjectSchema.optional() }).strict();

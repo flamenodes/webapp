@@ -2,6 +2,7 @@ import { createServerFn } from '@tanstack/react-start'
 import { ptero } from './client'
 import { z } from 'zod'
 import { pteroServerData, pteroServerSchema } from './configData'
+import { emitDevBroadcast } from '#/lib/server/socket-context'
 
 export const getAllPteroServers = createServerFn({
   method: 'GET',
@@ -45,6 +46,11 @@ export const createPteroServer = createServerFn({ method: 'POST' })
           },
         }),
       )
+      emitDevBroadcast({
+        id: `${Date.now()}`,
+        text: `Ptero server created: ${data.name}`,
+        timestamp: new Date().toISOString(),
+      })
       return {
         success: true,
         message: 'Server created successfully.',

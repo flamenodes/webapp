@@ -87,3 +87,18 @@ export type Server = Prisma.ServerModel
  * 
  */
 export type PageDocument = Prisma.PageDocumentModel
+/**
+ * Model TicketCounter
+ * 
+ */
+export type TicketCounter = Prisma.TicketCounterModel
+/**
+ * Model Ticket
+ * 
+ */
+export type Ticket = Prisma.TicketModel
+/**
+ * Model TicketMessage
+ * 
+ */
+export type TicketMessage = Prisma.TicketMessageModel

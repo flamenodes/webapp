@@ -17,3 +17,6 @@ export { OrderInputSchema } from './Order.input';
 export { OrderItemInputSchema } from './OrderItem.input';
 export { ServerInputSchema } from './Server.input';
 export { PageDocumentInputSchema } from './PageDocument.input';
+export { TicketCounterInputSchema } from './TicketCounter.input';
+export { TicketInputSchema } from './Ticket.input';
+export { TicketMessageInputSchema } from './TicketMessage.input';

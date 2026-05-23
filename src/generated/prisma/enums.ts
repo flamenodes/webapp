@@ -61,3 +61,33 @@ export const PageStatus = {
 } as const
 
 export type PageStatus = (typeof PageStatus)[keyof typeof PageStatus]
+
+
+export const TicketStatus = {
+  OPEN: 'OPEN',
+  PENDING: 'PENDING',
+  IN_PROGRESS: 'IN_PROGRESS',
+  RESOLVED: 'RESOLVED',
+  CLOSED: 'CLOSED'
+} as const
+
+export type TicketStatus = (typeof TicketStatus)[keyof typeof TicketStatus]
+
+
+export const TicketPriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT'
+} as const
+
+export type TicketPriority = (typeof TicketPriority)[keyof typeof TicketPriority]
+
+
+export const SenderRole = {
+  USER: 'USER',
+  SUPPORT: 'SUPPORT',
+  ADMIN: 'ADMIN'
+} as const
+
+export type SenderRole = (typeof SenderRole)[keyof typeof SenderRole]

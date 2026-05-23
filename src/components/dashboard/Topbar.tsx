@@ -20,7 +20,7 @@ export function Topbar({ onMenuClick }: TopbarProps) {
       <Button
         variant="ghost"
         size="icon-sm"
-        className="lg:hidden text-muted-foreground"
+        className="text-muted-foreground"
         onClick={onMenuClick}
       >
         <Menu className="w-5 h-5" />

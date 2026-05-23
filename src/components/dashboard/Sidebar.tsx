@@ -38,9 +38,8 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           h-screen overflow-scroll
           fixed top-0 left-0 z-30 w-64 flex flex-col
           bg-sidebar border-r border-sidebar-border
-          transition-transform duration-300
+          transition-transform duration-300 ease-out will-change-transform
           ${open ? 'translate-x-0' : '-translate-x-full'}
-          lg:translate-x-0 lg:static lg:z-auto
         `}
       >
         <div className="flex items-center gap-3 px-5 h-[74px] border-b border-sidebar-border shrink-0">

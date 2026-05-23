@@ -10,7 +10,10 @@ import { SessionUncheckedUpdateManyWithoutUserNestedInputObjectSchema as Session
 import { AccountUncheckedUpdateManyWithoutUserNestedInputObjectSchema as AccountUncheckedUpdateManyWithoutUserNestedInputObjectSchema } from './AccountUncheckedUpdateManyWithoutUserNestedInput.schema';
 import { ServerUncheckedUpdateManyWithoutUserNestedInputObjectSchema as ServerUncheckedUpdateManyWithoutUserNestedInputObjectSchema } from './ServerUncheckedUpdateManyWithoutUserNestedInput.schema';
 import { CartUncheckedUpdateOneWithoutUserNestedInputObjectSchema as CartUncheckedUpdateOneWithoutUserNestedInputObjectSchema } from './CartUncheckedUpdateOneWithoutUserNestedInput.schema';
-import { OrderUncheckedUpdateManyWithoutUserNestedInputObjectSchema as OrderUncheckedUpdateManyWithoutUserNestedInputObjectSchema } from './OrderUncheckedUpdateManyWithoutUserNestedInput.schema'
+import { OrderUncheckedUpdateManyWithoutUserNestedInputObjectSchema as OrderUncheckedUpdateManyWithoutUserNestedInputObjectSchema } from './OrderUncheckedUpdateManyWithoutUserNestedInput.schema';
+import { TicketUncheckedUpdateManyWithoutUserNestedInputObjectSchema as TicketUncheckedUpdateManyWithoutUserNestedInputObjectSchema } from './TicketUncheckedUpdateManyWithoutUserNestedInput.schema';
+import { TicketUncheckedUpdateManyWithoutAssignedToNestedInputObjectSchema as TicketUncheckedUpdateManyWithoutAssignedToNestedInputObjectSchema } from './TicketUncheckedUpdateManyWithoutAssignedToNestedInput.schema';
+import { TicketMessageUncheckedUpdateManyWithoutSenderNestedInputObjectSchema as TicketMessageUncheckedUpdateManyWithoutSenderNestedInputObjectSchema } from './TicketMessageUncheckedUpdateManyWithoutSenderNestedInput.schema'
 
 const makeSchema = () => z.object({
   id: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
@@ -33,7 +36,10 @@ const makeSchema = () => z.object({
   accounts: z.lazy(() => AccountUncheckedUpdateManyWithoutUserNestedInputObjectSchema).optional(),
   servers: z.lazy(() => ServerUncheckedUpdateManyWithoutUserNestedInputObjectSchema).optional(),
   cart: z.lazy(() => CartUncheckedUpdateOneWithoutUserNestedInputObjectSchema).optional(),
-  orders: z.lazy(() => OrderUncheckedUpdateManyWithoutUserNestedInputObjectSchema).optional()
+  orders: z.lazy(() => OrderUncheckedUpdateManyWithoutUserNestedInputObjectSchema).optional(),
+  tickets: z.lazy(() => TicketUncheckedUpdateManyWithoutUserNestedInputObjectSchema).optional(),
+  assignedTickets: z.lazy(() => TicketUncheckedUpdateManyWithoutAssignedToNestedInputObjectSchema).optional(),
+  ticketMessages: z.lazy(() => TicketMessageUncheckedUpdateManyWithoutSenderNestedInputObjectSchema).optional()
 }).strict();
 export const UserUncheckedUpdateInputObjectSchema: z.ZodType<Prisma.UserUncheckedUpdateInput> = makeSchema() as unknown as z.ZodType<Prisma.UserUncheckedUpdateInput>;
 export const UserUncheckedUpdateInputObjectZodSchema = makeSchema();

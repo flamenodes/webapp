@@ -11,7 +11,9 @@ import { AccountListRelationFilterObjectSchema as AccountListRelationFilterObjec
 import { ServerListRelationFilterObjectSchema as ServerListRelationFilterObjectSchema } from './ServerListRelationFilter.schema';
 import { CartNullableScalarRelationFilterObjectSchema as CartNullableScalarRelationFilterObjectSchema } from './CartNullableScalarRelationFilter.schema';
 import { CartWhereInputObjectSchema as CartWhereInputObjectSchema } from './CartWhereInput.schema';
-import { OrderListRelationFilterObjectSchema as OrderListRelationFilterObjectSchema } from './OrderListRelationFilter.schema'
+import { OrderListRelationFilterObjectSchema as OrderListRelationFilterObjectSchema } from './OrderListRelationFilter.schema';
+import { TicketListRelationFilterObjectSchema as TicketListRelationFilterObjectSchema } from './TicketListRelationFilter.schema';
+import { TicketMessageListRelationFilterObjectSchema as TicketMessageListRelationFilterObjectSchema } from './TicketMessageListRelationFilter.schema'
 
 const userwhereinputSchema = z.object({
   AND: z.union([z.lazy(() => UserWhereInputObjectSchema), z.lazy(() => UserWhereInputObjectSchema).array()]).optional(),
@@ -37,7 +39,10 @@ const userwhereinputSchema = z.object({
   accounts: z.lazy(() => AccountListRelationFilterObjectSchema).optional(),
   servers: z.lazy(() => ServerListRelationFilterObjectSchema).optional(),
   cart: z.union([z.lazy(() => CartNullableScalarRelationFilterObjectSchema), z.lazy(() => CartWhereInputObjectSchema)]).optional(),
-  orders: z.lazy(() => OrderListRelationFilterObjectSchema).optional()
+  orders: z.lazy(() => OrderListRelationFilterObjectSchema).optional(),
+  tickets: z.lazy(() => TicketListRelationFilterObjectSchema).optional(),
+  assignedTickets: z.lazy(() => TicketListRelationFilterObjectSchema).optional(),
+  ticketMessages: z.lazy(() => TicketMessageListRelationFilterObjectSchema).optional()
 }).strict();
 export const UserWhereInputObjectSchema: z.ZodType<Prisma.UserWhereInput> = userwhereinputSchema as unknown as z.ZodType<Prisma.UserWhereInput>;
 export const UserWhereInputObjectZodSchema = userwhereinputSchema;

@@ -64,7 +64,10 @@ export const ModelName = {
   Order: 'Order',
   OrderItem: 'OrderItem',
   Server: 'Server',
-  PageDocument: 'PageDocument'
+  PageDocument: 'PageDocument',
+  TicketCounter: 'TicketCounter',
+  Ticket: 'Ticket',
+  TicketMessage: 'TicketMessage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -297,6 +300,46 @@ export const PageDocumentScalarFieldEnum = {
 } as const
 
 export type PageDocumentScalarFieldEnum = (typeof PageDocumentScalarFieldEnum)[keyof typeof PageDocumentScalarFieldEnum]
+
+
+export const TicketCounterScalarFieldEnum = {
+  id: 'id',
+  seq: 'seq'
+} as const
+
+export type TicketCounterScalarFieldEnum = (typeof TicketCounterScalarFieldEnum)[keyof typeof TicketCounterScalarFieldEnum]
+
+
+export const TicketScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  title: 'title',
+  description: 'description',
+  status: 'status',
+  priority: 'priority',
+  userId: 'userId',
+  assignedToId: 'assignedToId',
+  channelName: 'channelName',
+  tags: 'tags',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  closedAt: 'closedAt'
+} as const
+
+export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]
+
+
+export const TicketMessageScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  senderId: 'senderId',
+  senderRole: 'senderRole',
+  content: 'content',
+  attachments: 'attachments',
+  createdAt: 'createdAt'
+} as const
+
+export type TicketMessageScalarFieldEnum = (typeof TicketMessageScalarFieldEnum)[keyof typeof TicketMessageScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -11,8 +11,8 @@ export function DashboardTopbar({ onMenuClick }: Props) {
     <header className="h-[60px] shrink-0 flex items-center justify-end gap-2 px-4 border-b border-border bg-background/80 backdrop-blur-xl">
       <button
         onClick={onMenuClick}
-        className="md:hidden mr-auto flex items-center justify-center w-8 h-8 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        aria-label="Open menu"
+        className="mr-auto flex items-center justify-center w-8 h-8 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        aria-label="Toggle sidebar"
       >
         <Menu size={17} />
       </button>

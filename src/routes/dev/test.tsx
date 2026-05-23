@@ -1,15 +1,40 @@
 import { Button } from '#/components/ui/button'
+import { broadcastDev } from '#/serverActions/dev/socket.api'
 import { createPteroServer } from '#/serverActions/pterodactyl/server'
 import { createFileRoute } from '@tanstack/react-router'
+import { io, type Socket } from 'socket.io-client'
+import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
 export const Route = createFileRoute('/dev/test')({
   component: TestPage,
 })
 
+type DevMsg = {
+  id: string
+  text: string
+  from?: string
+  timestamp: string
+}
+
 function TestPage() {
+  const [messages, setMessages] = useState<DevMsg[]>([])
+  const [text, setText] = useState('')
+
+  const socket = useMemo<Socket>(() => io(), [])
+
+  useEffect(() => {
+    const onDevBroadcast = (payload: DevMsg) => {
+      setMessages((prev) => [payload, ...prev].slice(0, 50))
+    }
+    socket.on('dev:broadcast', onDevBroadcast)
+    return () => {
+      socket.off('dev:broadcast', onDevBroadcast)
+      socket.disconnect()
+    }
+  }, [socket])
+
   const handleCreate = async () => {
-    console.log("Clicked")
     const res = await createPteroServer({
       data: {
         name: 'FlmNodes # Id 001',
@@ -29,11 +54,60 @@ function TestPage() {
     })
     toast.success(res.message)
   }
+
+  const handleClientBroadcast = () => {
+    const trimmed = text.trim()
+    if (!trimmed) return
+    socket.emit('dev:broadcast', { text: trimmed })
+    setText('')
+  }
+
+  const handleServerBroadcast = async () => {
+    const trimmed = text.trim()
+    if (!trimmed) return
+    const res = await broadcastDev({ data: { text: trimmed } })
+    if (!res.ok) toast.error('Socket.io not initialized yet')
+    setText('')
+  }
+
   return (
-    <main className="h-screen flex justify-center items-center">
-      <Button onClick={handleCreate} variant={'great'} size={'great'}>
-        Create Server
-      </Button>
+    <main className="h-screen flex flex-col gap-6 justify-center items-center">
+      <div className="flex flex-col gap-3 w-full max-w-xl px-4">
+        <div className="flex gap-2">
+          <input
+            className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm outline-none"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Type a dev broadcast message…"
+          />
+          <Button onClick={handleClientBroadcast} variant={'great'} size={'great'}>
+            Broadcast (Client)
+          </Button>
+          <Button onClick={handleServerBroadcast} variant={'great'} size={'great'}>
+            Broadcast (Server)
+          </Button>
+        </div>
+        <Button onClick={handleCreate} variant={'great'} size={'great'}>
+          Create Server (and broadcast)
+        </Button>
+        <div className="rounded-lg border border-border p-3 max-h-72 overflow-auto">
+          {messages.length === 0 ? (
+            <div className="text-sm text-muted-foreground">No messages yet.</div>
+          ) : (
+            <ul className="space-y-2">
+              {messages.map((m) => (
+                <li key={m.id} className="text-sm">
+                  <div className="text-xs text-muted-foreground">
+                    {m.timestamp}
+                    {m.from ? ` • ${m.from}` : null}
+                  </div>
+                  <div>{m.text}</div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
     </main>
   )
 }

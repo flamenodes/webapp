@@ -21,7 +21,10 @@ export const UserModelSchema = z.object({
     servers: z.array(z.unknown()),
     cart: z.unknown().nullable(),
     orders: z.array(z.unknown()),
-    displayUsername: z.string().nullable()
+    displayUsername: z.string().nullable(),
+    tickets: z.array(z.unknown()),
+    assignedTickets: z.array(z.unknown()),
+    ticketMessages: z.array(z.unknown())
 }).strict();
 
 export type UserPureType = z.infer<typeof UserModelSchema>;

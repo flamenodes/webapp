@@ -21,6 +21,7 @@ import { Route as PricingProtectionRouteImport } from './routes/pricing/protecti
 import { Route as PricingMinecraftRouteImport } from './routes/pricing/minecraft'
 import { Route as PricingDiscordBotRouteImport } from './routes/pricing/discord-bot'
 import { Route as PricingDedicatedRouteImport } from './routes/pricing/dedicated'
+import { Route as DocsSlugRouteImport } from './routes/docs/$slug'
 import { Route as DocsIdRouteImport } from './routes/docs/$id'
 import { Route as DevTestRouteImport } from './routes/dev/test'
 import { Route as BillingSuccessRouteImport } from './routes/billing/success'
@@ -30,10 +31,13 @@ import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as ProtectedUserRouteRouteImport } from './routes/_protected/user/route'
 import { Route as ProtectedAdminRouteRouteImport } from './routes/_protected/admin/route'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ProtectedUserTicketsRouteImport } from './routes/_protected/user/tickets'
 import { Route as ProtectedUserDashboardRouteImport } from './routes/_protected/user/dashboard'
+import { Route as ProtectedAdminTicketsRouteImport } from './routes/_protected/admin/tickets'
 import { Route as ProtectedAdminProductsRouteImport } from './routes/_protected/admin/products'
 import { Route as ProtectedAdminDocumentsRouteImport } from './routes/_protected/admin/documents'
 import { Route as ProtectedAdminDashboardRouteImport } from './routes/_protected/admin/dashboard'
+import { Route as ProtectedAdminDocEditorSlugRouteImport } from './routes/_protected/admin/doc-editor.$slug'
 import { Route as ProtectedAdminDocumentsEditorIdRouteImport } from './routes/_protected/admin/documents.editor.$id'
 
 const McpRoute = McpRouteImport.update({
@@ -94,6 +98,11 @@ const PricingDedicatedRoute = PricingDedicatedRouteImport.update({
   path: '/dedicated',
   getParentRoute: () => PricingRouteRoute,
 } as any)
+const DocsSlugRoute = DocsSlugRouteImport.update({
+  id: '/docs/$slug',
+  path: '/docs/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DocsIdRoute = DocsIdRouteImport.update({
   id: '/docs/$id',
   path: '/docs/$id',
@@ -139,10 +148,20 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProtectedUserTicketsRoute = ProtectedUserTicketsRouteImport.update({
+  id: '/tickets',
+  path: '/tickets',
+  getParentRoute: () => ProtectedUserRouteRoute,
+} as any)
 const ProtectedUserDashboardRoute = ProtectedUserDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => ProtectedUserRouteRoute,
+} as any)
+const ProtectedAdminTicketsRoute = ProtectedAdminTicketsRouteImport.update({
+  id: '/tickets',
+  path: '/tickets',
+  getParentRoute: () => ProtectedAdminRouteRoute,
 } as any)
 const ProtectedAdminProductsRoute = ProtectedAdminProductsRouteImport.update({
   id: '/products',
@@ -159,6 +178,12 @@ const ProtectedAdminDashboardRoute = ProtectedAdminDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ProtectedAdminRouteRoute,
 } as any)
+const ProtectedAdminDocEditorSlugRoute =
+  ProtectedAdminDocEditorSlugRouteImport.update({
+    id: '/doc-editor/$slug',
+    path: '/doc-editor/$slug',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
 const ProtectedAdminDocumentsEditorIdRoute =
   ProtectedAdminDocumentsEditorIdRouteImport.update({
     id: '/editor/$id',
@@ -178,6 +203,7 @@ export interface FileRoutesByFullPath {
   '/billing/success': typeof BillingSuccessRoute
   '/dev/test': typeof DevTestRoute
   '/docs/$id': typeof DocsIdRoute
+  '/docs/$slug': typeof DocsSlugRoute
   '/pricing/dedicated': typeof PricingDedicatedRoute
   '/pricing/discord-bot': typeof PricingDiscordBotRoute
   '/pricing/minecraft': typeof PricingMinecraftRoute
@@ -188,8 +214,11 @@ export interface FileRoutesByFullPath {
   '/admin/dashboard': typeof ProtectedAdminDashboardRoute
   '/admin/documents': typeof ProtectedAdminDocumentsRouteWithChildren
   '/admin/products': typeof ProtectedAdminProductsRoute
+  '/admin/tickets': typeof ProtectedAdminTicketsRoute
   '/user/dashboard': typeof ProtectedUserDashboardRoute
+  '/user/tickets': typeof ProtectedUserTicketsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/admin/doc-editor/$slug': typeof ProtectedAdminDocEditorSlugRoute
   '/admin/documents/editor/$id': typeof ProtectedAdminDocumentsEditorIdRoute
 }
 export interface FileRoutesByTo {
@@ -204,6 +233,7 @@ export interface FileRoutesByTo {
   '/billing/success': typeof BillingSuccessRoute
   '/dev/test': typeof DevTestRoute
   '/docs/$id': typeof DocsIdRoute
+  '/docs/$slug': typeof DocsSlugRoute
   '/pricing/dedicated': typeof PricingDedicatedRoute
   '/pricing/discord-bot': typeof PricingDiscordBotRoute
   '/pricing/minecraft': typeof PricingMinecraftRoute
@@ -214,8 +244,11 @@ export interface FileRoutesByTo {
   '/admin/dashboard': typeof ProtectedAdminDashboardRoute
   '/admin/documents': typeof ProtectedAdminDocumentsRouteWithChildren
   '/admin/products': typeof ProtectedAdminProductsRoute
+  '/admin/tickets': typeof ProtectedAdminTicketsRoute
   '/user/dashboard': typeof ProtectedUserDashboardRoute
+  '/user/tickets': typeof ProtectedUserTicketsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/admin/doc-editor/$slug': typeof ProtectedAdminDocEditorSlugRoute
   '/admin/documents/editor/$id': typeof ProtectedAdminDocumentsEditorIdRoute
 }
 export interface FileRoutesById {
@@ -233,6 +266,7 @@ export interface FileRoutesById {
   '/billing/success': typeof BillingSuccessRoute
   '/dev/test': typeof DevTestRoute
   '/docs/$id': typeof DocsIdRoute
+  '/docs/$slug': typeof DocsSlugRoute
   '/pricing/dedicated': typeof PricingDedicatedRoute
   '/pricing/discord-bot': typeof PricingDiscordBotRoute
   '/pricing/minecraft': typeof PricingMinecraftRoute
@@ -243,8 +277,11 @@ export interface FileRoutesById {
   '/_protected/admin/dashboard': typeof ProtectedAdminDashboardRoute
   '/_protected/admin/documents': typeof ProtectedAdminDocumentsRouteWithChildren
   '/_protected/admin/products': typeof ProtectedAdminProductsRoute
+  '/_protected/admin/tickets': typeof ProtectedAdminTicketsRoute
   '/_protected/user/dashboard': typeof ProtectedUserDashboardRoute
+  '/_protected/user/tickets': typeof ProtectedUserTicketsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/_protected/admin/doc-editor/$slug': typeof ProtectedAdminDocEditorSlugRoute
   '/_protected/admin/documents/editor/$id': typeof ProtectedAdminDocumentsEditorIdRoute
 }
 export interface FileRouteTypes {
@@ -261,6 +298,7 @@ export interface FileRouteTypes {
     | '/billing/success'
     | '/dev/test'
     | '/docs/$id'
+    | '/docs/$slug'
     | '/pricing/dedicated'
     | '/pricing/discord-bot'
     | '/pricing/minecraft'
@@ -271,8 +309,11 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/documents'
     | '/admin/products'
+    | '/admin/tickets'
     | '/user/dashboard'
+    | '/user/tickets'
     | '/api/auth/$'
+    | '/admin/doc-editor/$slug'
     | '/admin/documents/editor/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -287,6 +328,7 @@ export interface FileRouteTypes {
     | '/billing/success'
     | '/dev/test'
     | '/docs/$id'
+    | '/docs/$slug'
     | '/pricing/dedicated'
     | '/pricing/discord-bot'
     | '/pricing/minecraft'
@@ -297,8 +339,11 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/documents'
     | '/admin/products'
+    | '/admin/tickets'
     | '/user/dashboard'
+    | '/user/tickets'
     | '/api/auth/$'
+    | '/admin/doc-editor/$slug'
     | '/admin/documents/editor/$id'
   id:
     | '__root__'
@@ -315,6 +360,7 @@ export interface FileRouteTypes {
     | '/billing/success'
     | '/dev/test'
     | '/docs/$id'
+    | '/docs/$slug'
     | '/pricing/dedicated'
     | '/pricing/discord-bot'
     | '/pricing/minecraft'
@@ -325,8 +371,11 @@ export interface FileRouteTypes {
     | '/_protected/admin/dashboard'
     | '/_protected/admin/documents'
     | '/_protected/admin/products'
+    | '/_protected/admin/tickets'
     | '/_protected/user/dashboard'
+    | '/_protected/user/tickets'
     | '/api/auth/$'
+    | '/_protected/admin/doc-editor/$slug'
     | '/_protected/admin/documents/editor/$id'
   fileRoutesById: FileRoutesById
 }
@@ -340,6 +389,7 @@ export interface RootRouteChildren {
   BillingSuccessRoute: typeof BillingSuccessRoute
   DevTestRoute: typeof DevTestRoute
   DocsIdRoute: typeof DocsIdRoute
+  DocsSlugRoute: typeof DocsSlugRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -429,6 +479,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PricingDedicatedRouteImport
       parentRoute: typeof PricingRouteRoute
     }
+    '/docs/$slug': {
+      id: '/docs/$slug'
+      path: '/docs/$slug'
+      fullPath: '/docs/$slug'
+      preLoaderRoute: typeof DocsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/docs/$id': {
       id: '/docs/$id'
       path: '/docs/$id'
@@ -492,12 +549,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_protected/user/tickets': {
+      id: '/_protected/user/tickets'
+      path: '/tickets'
+      fullPath: '/user/tickets'
+      preLoaderRoute: typeof ProtectedUserTicketsRouteImport
+      parentRoute: typeof ProtectedUserRouteRoute
+    }
     '/_protected/user/dashboard': {
       id: '/_protected/user/dashboard'
       path: '/dashboard'
       fullPath: '/user/dashboard'
       preLoaderRoute: typeof ProtectedUserDashboardRouteImport
       parentRoute: typeof ProtectedUserRouteRoute
+    }
+    '/_protected/admin/tickets': {
+      id: '/_protected/admin/tickets'
+      path: '/tickets'
+      fullPath: '/admin/tickets'
+      preLoaderRoute: typeof ProtectedAdminTicketsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
     }
     '/_protected/admin/products': {
       id: '/_protected/admin/products'
@@ -518,6 +589,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/admin/dashboard'
       preLoaderRoute: typeof ProtectedAdminDashboardRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/doc-editor/$slug': {
+      id: '/_protected/admin/doc-editor/$slug'
+      path: '/doc-editor/$slug'
+      fullPath: '/admin/doc-editor/$slug'
+      preLoaderRoute: typeof ProtectedAdminDocEditorSlugRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
     '/_protected/admin/documents/editor/$id': {
@@ -584,12 +662,16 @@ interface ProtectedAdminRouteRouteChildren {
   ProtectedAdminDashboardRoute: typeof ProtectedAdminDashboardRoute
   ProtectedAdminDocumentsRoute: typeof ProtectedAdminDocumentsRouteWithChildren
   ProtectedAdminProductsRoute: typeof ProtectedAdminProductsRoute
+  ProtectedAdminTicketsRoute: typeof ProtectedAdminTicketsRoute
+  ProtectedAdminDocEditorSlugRoute: typeof ProtectedAdminDocEditorSlugRoute
 }
 
 const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
   ProtectedAdminDashboardRoute: ProtectedAdminDashboardRoute,
   ProtectedAdminDocumentsRoute: ProtectedAdminDocumentsRouteWithChildren,
   ProtectedAdminProductsRoute: ProtectedAdminProductsRoute,
+  ProtectedAdminTicketsRoute: ProtectedAdminTicketsRoute,
+  ProtectedAdminDocEditorSlugRoute: ProtectedAdminDocEditorSlugRoute,
 }
 
 const ProtectedAdminRouteRouteWithChildren =
@@ -597,10 +679,12 @@ const ProtectedAdminRouteRouteWithChildren =
 
 interface ProtectedUserRouteRouteChildren {
   ProtectedUserDashboardRoute: typeof ProtectedUserDashboardRoute
+  ProtectedUserTicketsRoute: typeof ProtectedUserTicketsRoute
 }
 
 const ProtectedUserRouteRouteChildren: ProtectedUserRouteRouteChildren = {
   ProtectedUserDashboardRoute: ProtectedUserDashboardRoute,
+  ProtectedUserTicketsRoute: ProtectedUserTicketsRoute,
 }
 
 const ProtectedUserRouteRouteWithChildren =
@@ -630,6 +714,7 @@ const rootRouteChildren: RootRouteChildren = {
   BillingSuccessRoute: BillingSuccessRoute,
   DevTestRoute: DevTestRoute,
   DocsIdRoute: DocsIdRoute,
+  DocsSlugRoute: DocsSlugRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport

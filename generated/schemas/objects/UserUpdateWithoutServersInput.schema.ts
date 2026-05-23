@@ -9,7 +9,10 @@ import { NullableDateTimeFieldUpdateOperationsInputObjectSchema as NullableDateT
 import { SessionUpdateManyWithoutUserNestedInputObjectSchema as SessionUpdateManyWithoutUserNestedInputObjectSchema } from './SessionUpdateManyWithoutUserNestedInput.schema';
 import { AccountUpdateManyWithoutUserNestedInputObjectSchema as AccountUpdateManyWithoutUserNestedInputObjectSchema } from './AccountUpdateManyWithoutUserNestedInput.schema';
 import { CartUpdateOneWithoutUserNestedInputObjectSchema as CartUpdateOneWithoutUserNestedInputObjectSchema } from './CartUpdateOneWithoutUserNestedInput.schema';
-import { OrderUpdateManyWithoutUserNestedInputObjectSchema as OrderUpdateManyWithoutUserNestedInputObjectSchema } from './OrderUpdateManyWithoutUserNestedInput.schema'
+import { OrderUpdateManyWithoutUserNestedInputObjectSchema as OrderUpdateManyWithoutUserNestedInputObjectSchema } from './OrderUpdateManyWithoutUserNestedInput.schema';
+import { TicketUpdateManyWithoutUserNestedInputObjectSchema as TicketUpdateManyWithoutUserNestedInputObjectSchema } from './TicketUpdateManyWithoutUserNestedInput.schema';
+import { TicketUpdateManyWithoutAssignedToNestedInputObjectSchema as TicketUpdateManyWithoutAssignedToNestedInputObjectSchema } from './TicketUpdateManyWithoutAssignedToNestedInput.schema';
+import { TicketMessageUpdateManyWithoutSenderNestedInputObjectSchema as TicketMessageUpdateManyWithoutSenderNestedInputObjectSchema } from './TicketMessageUpdateManyWithoutSenderNestedInput.schema'
 
 const makeSchema = () => z.object({
   id: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
@@ -31,7 +34,10 @@ const makeSchema = () => z.object({
   sessions: z.lazy(() => SessionUpdateManyWithoutUserNestedInputObjectSchema).optional(),
   accounts: z.lazy(() => AccountUpdateManyWithoutUserNestedInputObjectSchema).optional(),
   cart: z.lazy(() => CartUpdateOneWithoutUserNestedInputObjectSchema).optional(),
-  orders: z.lazy(() => OrderUpdateManyWithoutUserNestedInputObjectSchema).optional()
+  orders: z.lazy(() => OrderUpdateManyWithoutUserNestedInputObjectSchema).optional(),
+  tickets: z.lazy(() => TicketUpdateManyWithoutUserNestedInputObjectSchema).optional(),
+  assignedTickets: z.lazy(() => TicketUpdateManyWithoutAssignedToNestedInputObjectSchema).optional(),
+  ticketMessages: z.lazy(() => TicketMessageUpdateManyWithoutSenderNestedInputObjectSchema).optional()
 }).strict();
 export const UserUpdateWithoutServersInputObjectSchema: z.ZodType<Prisma.UserUpdateWithoutServersInput> = makeSchema() as unknown as z.ZodType<Prisma.UserUpdateWithoutServersInput>;
 export const UserUpdateWithoutServersInputObjectZodSchema = makeSchema();

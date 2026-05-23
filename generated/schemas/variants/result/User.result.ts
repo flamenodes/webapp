@@ -21,7 +21,10 @@ export const UserResultSchema = z.object({
     servers: z.array(z.unknown()),
     cart: z.unknown().nullable(),
     orders: z.array(z.unknown()),
-    displayUsername: z.string().nullable()
+    displayUsername: z.string().nullable(),
+    tickets: z.array(z.unknown()),
+    assignedTickets: z.array(z.unknown()),
+    ticketMessages: z.array(z.unknown())
 }).strict();
 
 export type UserResultType = z.infer<typeof UserResultSchema>;

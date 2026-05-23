@@ -39,6 +39,10 @@ model User {
 
   displayUsername String?
 
+  tickets         Ticket[]        @relation("TicketsByUser")
+  assignedTickets Ticket[]        @relation("TicketsAssignedTo")
+  ticketMessages  TicketMessage[]
+
   @@unique([email])
   @@unique([username])
   @@map("user")
@@ -298,4 +302,83 @@ model PageDocument {
   status      PageStatus @default(DRAFT)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+}
+
+enum TicketStatus {
+  OPEN
+  PENDING
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum SenderRole {
+  USER
+  SUPPORT
+  ADMIN
+}
+
+model TicketCounter {
+  id  String @id
+  seq Int    @default(0)
+}
+
+model Ticket {
+  id       String @id @default(uuid())
+  ticketId String @unique
+
+  title       String
+  description String
+  status      TicketStatus   @default(OPEN)
+  priority    TicketPriority @default(MEDIUM)
+
+  userId String
+  user   User   @relation("TicketsByUser", fields: [userId], references: [id], onDelete: Cascade)
+
+  assignedToId String?
+  assignedTo   User?   @relation("TicketsAssignedTo", fields: [assignedToId], references: [id], onDelete: SetNull)
+
+  channelName String
+  tags        String[] @default([])
+
+  messages TicketMessage[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  closedAt  DateTime?
+
+  @@index([ticketId])
+  @@index([userId])
+  @@index([assignedToId])
+  @@index([status])
+  @@index([priority])
+  @@index([channelName])
+  @@index([createdAt])
+}
+
+model TicketMessage {
+  id String @id @default(uuid())
+
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  senderId   String
+  sender     User       @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  senderRole SenderRole
+
+  content     String
+  attachments Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([ticketId])
+  @@index([senderId])
+  @@index([createdAt])
 }
