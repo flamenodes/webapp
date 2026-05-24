@@ -1,6 +1,5 @@
 import { getSession } from '#/handlers/auth.handler'
 import { hasPermissionFn } from '#/lib/has-permission'
-import { hasPermissionClient } from '#/lib/has-permission-client'
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_protected')({

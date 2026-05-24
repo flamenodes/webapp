@@ -289,3 +289,74 @@ export const listSupportAgents = createServerFn({ method: 'GET' }).handler(
     return { success: true, users }
   },
 )
+
+const listTagPresetsSchema = z.object({
+  search: z.string().trim().min(1).max(32).optional(),
+  take: z.number().int().min(1).max(100).default(50),
+})
+
+export const listTicketTagPresets = createServerFn({ method: 'POST' })
+  .inputValidator((data) => listTagPresetsSchema.parse(data))
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    requireSession(await auth.api.getSession({ headers }))
+
+    const where = data.search
+      ? { name: { contains: data.search, mode: 'insensitive' as const } }
+      : {}
+
+    try {
+      const tags = await (prisma as any).ticketTagPreset.findMany({
+        where,
+        orderBy: { name: 'asc' },
+        take: data.take,
+        select: { id: true, name: true },
+      })
+      return { success: true, tags }
+    } catch (err) {
+      rethrowHelpful(err)
+    }
+  })
+
+const upsertTagPresetSchema = z.object({
+  name: z.string().trim().min(1).max(32),
+})
+
+export const upsertTicketTagPreset = createServerFn({ method: 'POST' })
+  .inputValidator((data) => upsertTagPresetSchema.parse(data))
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const session = requireSession(await auth.api.getSession({ headers }))
+    if (!isStaff(session)) throw new Error('Forbidden')
+
+    try {
+      const tag = await (prisma as any).ticketTagPreset.upsert({
+        where: { name: data.name },
+        create: { name: data.name },
+        update: {},
+        select: { id: true, name: true },
+      })
+      return { success: true, tag }
+    } catch (err) {
+      rethrowHelpful(err)
+    }
+  })
+
+const deleteTagPresetSchema = z.object({
+  id: z.string().trim().min(1).max(64),
+})
+
+export const deleteTicketTagPreset = createServerFn({ method: 'POST' })
+  .inputValidator((data) => deleteTagPresetSchema.parse(data))
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const session = requireSession(await auth.api.getSession({ headers }))
+    if (!isStaff(session)) throw new Error('Forbidden')
+
+    try {
+      await (prisma as any).ticketTagPreset.delete({ where: { id: data.id } })
+      return { success: true }
+    } catch (err) {
+      rethrowHelpful(err)
+    }
+  })
