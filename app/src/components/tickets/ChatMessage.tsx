@@ -19,31 +19,46 @@ export function ChatMessage({ message }: ChatMessageProps) {
   const isIncoming = message.type === 'incoming'
 
   return (
-    <div className={`flex gap-3 ${isIncoming ? 'justify-end' : 'justify-start'}`}>
-      {!isIncoming && (
-        <Avatar size="sm">
-          <AvatarFallback className="text-xs font-medium">
+    <div
+      className={`flex gap-3 ${
+        isIncoming ? 'justify-start' : 'justify-end'
+      }`}
+    >
+      {/* Incoming Avatar — LEFT */}
+      {isIncoming && (
+        <Avatar className="h-10 w-10 shrink-0">
+          <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
             {message.sender?.avatar}
           </AvatarFallback>
         </Avatar>
       )}
-      
-      <div className={`flex flex-col gap-1 ${isIncoming ? 'items-end' : 'items-start'} max-w-[85%] sm:max-w-[80%] md:max-w-[70%] lg:max-w-[65%]`}>
+
+      <div
+        className={`flex flex-col gap-1 ${
+          isIncoming ? 'items-start' : 'items-end'
+        } max-w-[85%] sm:max-w-[80%] md:max-w-[70%] lg:max-w-[65%]`}
+      >
         <div
-          className={`rounded-2xl px-4 py-3 ${
+          className={`rounded-2xl px-4 py-3 shadow-sm ${
             isIncoming
               ? 'bg-gradient-to-br from-primary to-primary/80 text-primary-foreground'
               : 'bg-secondary text-secondary-foreground'
           }`}
         >
-          <p className="text-sm leading-relaxed">{message.content}</p>
+          <p className="text-sm leading-relaxed break-words">
+            {message.content}
+          </p>
         </div>
-        <span className="text-[10px] text-muted-foreground px-1">{message.timestamp}</span>
+
+        <span className="px-1 text-[10px] text-muted-foreground">
+          {message.timestamp}
+        </span>
       </div>
 
-      {isIncoming && (
-        <Avatar size="sm">
-          <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
+      {/* Outgoing Avatar — RIGHT */}
+      {!isIncoming && (
+        <Avatar className="h-10 w-10 shrink-0">
+          <AvatarFallback className="text-sm font-semibold">
             {message.sender?.avatar}
           </AvatarFallback>
         </Avatar>

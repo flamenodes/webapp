@@ -1,18 +1,40 @@
-import { Copy, Star, Clock, Check } from 'lucide-react'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Copy, Star, Clock, Check, UserPlus } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 
 interface ChatTopBarProps {
   ticketId: string
+  ticketTitle: string
   userName: string
   userAvatar: string
+  userImage?: string | null
+  assignedToAvatar?: string
+  assignedToImage?: string | null
   status: 'open' | 'closed' | 'pending'
+  isAssigned: boolean
+  onJoin?: () => void
   onStatusChange?: (status: 'open' | 'closed' | 'pending') => void
   onResolve?: () => void
+  showResolveButton?: boolean
+  showJoinButton?: boolean
 }
 
-export function ChatTopBar({ ticketId, userName, userAvatar, status, onResolve }: ChatTopBarProps) {
+export function ChatTopBar({ 
+  ticketId, 
+  ticketTitle,
+  userName, 
+  userAvatar, 
+  userImage,
+  assignedToAvatar,
+  assignedToImage,
+  status, 
+  isAssigned,
+  onJoin,
+  onResolve, 
+  showResolveButton = true,
+  showJoinButton = false
+}: ChatTopBarProps) {
   const handleCopyId = () => {
     navigator.clipboard.writeText(ticketId)
   }
@@ -31,20 +53,35 @@ export function ChatTopBar({ ticketId, userName, userAvatar, status, onResolve }
   return (
     <div className="flex items-center justify-between border-b bg-card px-4 py-3 md:px-6">
       <div className="flex items-center gap-3">
-        <Avatar>
-          <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-            {userAvatar}
-          </AvatarFallback>
-        </Avatar>
+        <div className="flex -space-x-2">
+          <Avatar className="border-2 border-background">
+            {userImage && <AvatarImage src={userImage} alt={userName} />}
+            <AvatarFallback className="bg-primary/10 text-primary font-semibold text-xs">
+              {userAvatar}
+            </AvatarFallback>
+          </Avatar>
+          {assignedToAvatar && (
+            <Avatar className="border-2 border-background">
+              {assignedToImage && <AvatarImage src={assignedToImage} alt="Assigned" />}
+              <AvatarFallback className="bg-muted text-foreground font-semibold text-xs">
+                {assignedToAvatar}
+              </AvatarFallback>
+            </Avatar>
+          )}
+        </div>
         <div>
-          <h2 className="text-sm font-semibold">{userName}</h2>
-          <button
-            onClick={handleCopyId}
-            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-          >
-            {ticketId}
-            <Copy className="h-3 w-3" />
-          </button>
+          <h2 className="text-sm font-semibold">{ticketTitle}</h2>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">{userName}</span>
+            <span className="text-xs text-muted-foreground">•</span>
+            <button
+              onClick={handleCopyId}
+              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {ticketId}
+              <Copy className="h-3 w-3" />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -58,10 +95,18 @@ export function ChatTopBar({ ticketId, userName, userAvatar, status, onResolve }
         <Button variant="ghost" size="icon-sm">
           <Clock className="h-4 w-4" />
         </Button>
-        <Button onClick={onResolve} size="sm" className="gap-1">
-          <Check className="h-4 w-4" />
-          Resolve
-        </Button>
+        {showJoinButton && !isAssigned && (
+          <Button onClick={onJoin} size="sm" className="gap-1" variant="outline">
+            <UserPlus className="h-4 w-4" />
+            Join
+          </Button>
+        )}
+        {showResolveButton && isAssigned && (
+          <Button onClick={onResolve} size="sm" className="gap-1">
+            <Check className="h-4 w-4" />
+            Resolve
+          </Button>
+        )}
       </div>
     </div>
   )

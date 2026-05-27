@@ -38,6 +38,7 @@ import { Route as ProtectedAdminTicketsRouteImport } from './routes/_protected/a
 import { Route as ProtectedAdminProductsRouteImport } from './routes/_protected/admin/products'
 import { Route as ProtectedAdminDocumentsRouteImport } from './routes/_protected/admin/documents'
 import { Route as ProtectedAdminDashboardRouteImport } from './routes/_protected/admin/dashboard'
+import { Route as ProtectedAdminCustomersRouteImport } from './routes/_protected/admin/customers'
 import { Route as ProtectedAdminDocEditorSlugRouteImport } from './routes/_protected/admin/doc-editor.$slug'
 import { Route as ProtectedAdminDocumentsEditorIdRouteImport } from './routes/_protected/admin/documents.editor.$id'
 
@@ -184,6 +185,11 @@ const ProtectedAdminDashboardRoute = ProtectedAdminDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ProtectedAdminRouteRoute,
 } as any)
+const ProtectedAdminCustomersRoute = ProtectedAdminCustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
 const ProtectedAdminDocEditorSlugRoute =
   ProtectedAdminDocEditorSlugRouteImport.update({
     id: '/doc-editor/$slug',
@@ -218,6 +224,7 @@ export interface FileRoutesByFullPath {
   '/pricing/vds': typeof PricingVdsRoute
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
+  '/admin/customers': typeof ProtectedAdminCustomersRoute
   '/admin/dashboard': typeof ProtectedAdminDashboardRoute
   '/admin/documents': typeof ProtectedAdminDocumentsRouteWithChildren
   '/admin/products': typeof ProtectedAdminProductsRoute
@@ -249,6 +256,7 @@ export interface FileRoutesByTo {
   '/pricing/vds': typeof PricingVdsRoute
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
+  '/admin/customers': typeof ProtectedAdminCustomersRoute
   '/admin/dashboard': typeof ProtectedAdminDashboardRoute
   '/admin/documents': typeof ProtectedAdminDocumentsRouteWithChildren
   '/admin/products': typeof ProtectedAdminProductsRoute
@@ -283,6 +291,7 @@ export interface FileRoutesById {
   '/pricing/vds': typeof PricingVdsRoute
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
+  '/_protected/admin/customers': typeof ProtectedAdminCustomersRoute
   '/_protected/admin/dashboard': typeof ProtectedAdminDashboardRoute
   '/_protected/admin/documents': typeof ProtectedAdminDocumentsRouteWithChildren
   '/_protected/admin/products': typeof ProtectedAdminProductsRoute
@@ -316,6 +325,7 @@ export interface FileRouteTypes {
     | '/pricing/vds'
     | '/pricing/vps'
     | '/pricing/webhost'
+    | '/admin/customers'
     | '/admin/dashboard'
     | '/admin/documents'
     | '/admin/products'
@@ -347,6 +357,7 @@ export interface FileRouteTypes {
     | '/pricing/vds'
     | '/pricing/vps'
     | '/pricing/webhost'
+    | '/admin/customers'
     | '/admin/dashboard'
     | '/admin/documents'
     | '/admin/products'
@@ -380,6 +391,7 @@ export interface FileRouteTypes {
     | '/pricing/vds'
     | '/pricing/vps'
     | '/pricing/webhost'
+    | '/_protected/admin/customers'
     | '/_protected/admin/dashboard'
     | '/_protected/admin/documents'
     | '/_protected/admin/products'
@@ -611,6 +623,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAdminDashboardRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
+    '/_protected/admin/customers': {
+      id: '/_protected/admin/customers'
+      path: '/customers'
+      fullPath: '/admin/customers'
+      preLoaderRoute: typeof ProtectedAdminCustomersRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
     '/_protected/admin/doc-editor/$slug': {
       id: '/_protected/admin/doc-editor/$slug'
       path: '/doc-editor/$slug'
@@ -679,6 +698,7 @@ const ProtectedAdminDocumentsRouteWithChildren =
   )
 
 interface ProtectedAdminRouteRouteChildren {
+  ProtectedAdminCustomersRoute: typeof ProtectedAdminCustomersRoute
   ProtectedAdminDashboardRoute: typeof ProtectedAdminDashboardRoute
   ProtectedAdminDocumentsRoute: typeof ProtectedAdminDocumentsRouteWithChildren
   ProtectedAdminProductsRoute: typeof ProtectedAdminProductsRoute
@@ -687,6 +707,7 @@ interface ProtectedAdminRouteRouteChildren {
 }
 
 const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
+  ProtectedAdminCustomersRoute: ProtectedAdminCustomersRoute,
   ProtectedAdminDashboardRoute: ProtectedAdminDashboardRoute,
   ProtectedAdminDocumentsRoute: ProtectedAdminDocumentsRouteWithChildren,
   ProtectedAdminProductsRoute: ProtectedAdminProductsRoute,

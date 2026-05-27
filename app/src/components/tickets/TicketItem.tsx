@@ -1,8 +1,8 @@
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import type { Ticket } from '@/data/tickets/ticketData'
 
 interface TicketItemProps {
-  ticket: Ticket
+  ticket: Ticket & { avatarImage?: string | null }
   isSelected: boolean
   onSelect: () => void
 }
@@ -32,6 +32,9 @@ export function TicketItem({ ticket, isSelected, onSelect }: TicketItemProps) {
     >
       <div className="relative shrink-0">
         <Avatar size="sm">
+          {ticket.avatarImage && (
+            <AvatarImage src={ticket.avatarImage} alt={ticket.title} />
+          )}
           <AvatarFallback className="bg-muted text-xs font-medium">
             {ticket.avatar}
           </AvatarFallback>

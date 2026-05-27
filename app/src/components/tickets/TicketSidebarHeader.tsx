@@ -1,5 +1,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
 
 interface TicketSidebarHeaderProps {
   activeTab: string
@@ -10,16 +12,25 @@ interface TicketSidebarHeaderProps {
     pending: number
     closed: number
   }
+  onCreateTicket?: () => void
+  showCreateButton?: boolean
 }
 
-export function TicketSidebarHeader({ activeTab, onTabChange, counts }: TicketSidebarHeaderProps) {
+export function TicketSidebarHeader({ activeTab, onTabChange, counts, onCreateTicket, showCreateButton = false }: TicketSidebarHeaderProps) {
   return (
     <div className="border-b bg-card px-4 py-4">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-semibold">Tickets</h2>
-        <Badge variant="secondary" className="rounded-full">
-          {counts.all}
-        </Badge>
+        <div className="flex items-center gap-2">
+          <Badge variant="secondary" className="rounded-full">
+            {counts.all}
+          </Badge>
+          {showCreateButton && (
+            <Button size="sm" onClick={onCreateTicket}>
+              <Plus className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
       </div>
       
       <Tabs value={activeTab} onValueChange={onTabChange}>

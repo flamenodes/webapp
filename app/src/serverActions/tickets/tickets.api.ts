@@ -82,8 +82,8 @@ export const createTicket = createServerFn({ method: 'POST' })
             userId: session.user.id,
           },
           include: {
-            user: { select: { id: true, name: true, email: true, role: true } },
-            assignedTo: { select: { id: true, name: true, email: true, role: true } },
+            user: { select: { id: true, name: true, email: true, role: true, image: true } },
+            assignedTo: { select: { id: true, name: true, email: true, role: true, image: true } },
           },
         })
       })
@@ -139,8 +139,8 @@ export const listTickets = createServerFn({ method: 'POST' })
         take: data.take,
         skip: data.skip,
         include: {
-          user: { select: { id: true, name: true, email: true, role: true } },
-          assignedTo: { select: { id: true, name: true, email: true, role: true } },
+          user: { select: { id: true, name: true, email: true, role: true, image: true } },
+          assignedTo: { select: { id: true, name: true, email: true, role: true, image: true } },
           messages: { orderBy: { createdAt: 'desc' }, take: 1 },
         },
       })
@@ -165,8 +165,8 @@ export const getTicket = createServerFn({ method: 'POST' })
       const ticket = await prisma.ticket.findUnique({
         where: { ticketId: data.ticketId },
         include: {
-          user: { select: { id: true, name: true, email: true, role: true } },
-          assignedTo: { select: { id: true, name: true, email: true, role: true } },
+          user: { select: { id: true, name: true, email: true, role: true, image: true } },
+          assignedTo: { select: { id: true, name: true, email: true, role: true, image: true } },
           messages: { orderBy: { createdAt: 'asc' }, take: 200 },
         },
       })
@@ -258,8 +258,8 @@ export const updateTicket = createServerFn({ method: 'POST' })
         where: { ticketId: data.ticketId },
         data: patch,
         include: {
-          user: { select: { id: true, name: true, email: true, role: true } },
-          assignedTo: { select: { id: true, name: true, email: true, role: true } },
+          user: { select: { id: true, name: true, email: true, role: true, image: true } },
+          assignedTo: { select: { id: true, name: true, email: true, role: true, image: true } },
         },
       })
 

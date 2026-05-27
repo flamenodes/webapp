@@ -107,15 +107,19 @@ export function TicketContextPanel({ ticket }: TicketContextPanelProps) {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            {ticket.notes.map((note) => (
-              <div key={note.id} className="space-y-1 rounded-lg bg-muted p-3">
-                <p className="text-sm leading-relaxed">{note.content}</p>
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <span>{note.author}</span>
-                  <span>{note.timestamp}</span>
+            {ticket.notes && ticket.notes.length > 0 ? (
+              ticket.notes.map((note) => (
+                <div key={note.id} className="space-y-1 rounded-lg bg-muted p-3">
+                  <p className="text-sm leading-relaxed">{note.content}</p>
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <span>{note.author}</span>
+                    <span>{note.timestamp}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground">No notes yet</p>
+            )}
           </CardContent>
         </Card>
       </div>
