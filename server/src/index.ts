@@ -1,9 +1,10 @@
 import express from 'express'
 import http from 'node:http'
+import crypto from 'node:crypto'
 import { Server as SocketIOServer } from 'socket.io'
-import { PrismaClient } from '../../src/generated/prisma/client.js'
+import { PrismaClient } from '../../app/src/generated/prisma/client.js'
 import { PrismaPg } from '@prisma/adapter-pg'
-import { auth } from '../../src/lib/auth'
+import { auth } from '../../app/src/lib/auth'
 
 const PORT = Number(process.env.SOCKET_SERVER_PORT ?? 4000)
 const STAFF_ROLES = new Set(['support', 'manager', 'admin', 'owner'])
@@ -44,7 +45,11 @@ app.post('/internal/emit', (req, res) => {
 const server = http.createServer(app)
 const io = new SocketIOServer(server, {
   cors: {
-    origin: process.env.WEB_ORIGIN ? process.env.WEB_ORIGIN.split(',') : true,
+    origin: process.env.WEB_ORIGIN
+      ? process.env.WEB_ORIGIN.split(',')
+          .map((v) => v.trim())
+          .filter(Boolean)
+      : true,
     credentials: true,
   },
 })
@@ -65,6 +70,18 @@ io.use(async (socket, next) => {
 })
 
 io.on('connection', (socket) => {
+  socket.on('dev:broadcast', (payload: { text?: unknown }) => {
+    if (process.env.NODE_ENV === 'production') return
+    const text = String(payload?.text ?? '').trim()
+    if (!text) return
+    io.emit('dev:broadcast', {
+      id: crypto.randomUUID(),
+      text,
+      from: socket.data.userId,
+      timestamp: new Date().toISOString(),
+    })
+  })
+
   socket.on('join-ticket', async ({ ticketId }: { ticketId: string }) => {
     const ticket = await prisma.ticket.findUnique({
       where: { ticketId },
