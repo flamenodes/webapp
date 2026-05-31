@@ -1,0 +1,6 @@
+import * as z from 'zod';
+import { ProductCategoryConfigSelectObjectSchema as ProductCategoryConfigSelectObjectSchema } from './objects/ProductCategoryConfigSelect.schema';
+import { ProductCategoryConfigCreateManyInputObjectSchema as ProductCategoryConfigCreateManyInputObjectSchema } from './objects/ProductCategoryConfigCreateManyInput.schema';
+export const ProductCategoryConfigCreateManyAndReturnSchema = z.object({ select: ProductCategoryConfigSelectObjectSchema.optional(), data: z.union([ProductCategoryConfigCreateManyInputObjectSchema, z.array(ProductCategoryConfigCreateManyInputObjectSchema)]), skipDuplicates: z.boolean().optional() }).strict();
+export const ProductCategoryConfigCreateManyAndReturnZodSchema = z.object({ select: ProductCategoryConfigSelectObjectSchema.optional(), data: z.union([ProductCategoryConfigCreateManyInputObjectSchema, z.array(ProductCategoryConfigCreateManyInputObjectSchema)]), skipDuplicates: z.boolean().optional() }).strict();
+//# sourceMappingURL=createManyAndReturnProductCategoryConfig.schema.js.map

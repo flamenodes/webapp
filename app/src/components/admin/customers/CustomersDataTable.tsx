@@ -26,9 +26,10 @@ import {
   deleteCustomers,
 } from '#/serverActions/customers/customers.api'
 import { useQueryClient } from '@tanstack/react-query'
-import { MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal, FileSpreadsheet, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import CreateCustomerModal from './CreateCustomerModal'
+import { exportToCSV } from '#/lib/export-utils'
 
 type CustomerRecord = Awaited<ReturnType<typeof getCustomers>>[number]
 
@@ -38,6 +39,23 @@ function CustomersDataTable({ data }: { data: CustomerRecord[] }) {
   const [bulkDeleteOpen, setBulkDeleteOpen] = React.useState(false)
 
   const customers = Array.isArray(data) ? data : []
+
+  const handleExportToExcel = (customers: CustomerRecord[]) => {
+    const exportData = customers.map((customer) => ({
+      'Name': customer.name,
+      'Username': customer.username,
+      'Email': customer.email,
+      'Client ID': customer.clientId,
+      'Email Verified': customer.emailVerified ? 'Yes' : 'No',
+      'Status': customer.banned ? 'Banned' : 'Active',
+      'Orders': customer._count.orders,
+      'Servers': customer._count.servers,
+      'Tickets': customer._count.tickets,
+      'Joined': new Date(customer.createdAt).toLocaleDateString(),
+    }))
+
+    exportToCSV(exportData, 'customers')
+  }
 
   return (
     <>
@@ -178,50 +196,62 @@ function CustomersDataTable({ data }: { data: CustomerRecord[] }) {
             </DropdownMenuContent>
           </DropdownMenu>
         )}
-        renderBulkActions={({ selectedIds, clearSelection }) => (
-          <AlertDialog open={bulkDeleteOpen} onOpenChange={setBulkDeleteOpen}>
+        renderBulkActions={({ selectedIds, selectedRows, clearSelection }) => (
+          <>
             <Button
               type="button"
-              variant="destructive"
+              variant="outline"
               size="sm"
-              onClick={() => setBulkDeleteOpen(true)}
+              onClick={() => handleExportToExcel(selectedRows)}
             >
-              Delete selected
+              <FileSpreadsheet className="w-4 h-4 mr-2" />
+              Export to Excel
             </Button>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Delete selected customers?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This will permanently delete {selectedIds.length} customer
-                  {selectedIds.length === 1 ? '' : 's'} and all their associated data.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  className="bg-destructive text-white hover:bg-destructive/90"
-                  onClick={async () => {
-                    try {
-                      await deleteCustomers({ data: { ids: selectedIds } })
-                      toast.success('Deleted selected customers.')
-                      clearSelection()
-                      setBulkDeleteOpen(false)
-                      await queryClient.invalidateQueries({ queryKey: ['customers'] })
-                      await queryClient.refetchQueries({ queryKey: ['customers'] })
-                    } catch (error) {
-                      toast.error(
-                        error instanceof Error
-                          ? error.message
-                          : 'Failed to delete selected customers.',
-                      )
-                    }
-                  }}
-                >
-                  Delete
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+            <AlertDialog open={bulkDeleteOpen} onOpenChange={setBulkDeleteOpen}>
+              <Button
+                type="button"
+                variant="destructive"
+                size="sm"
+                onClick={() => setBulkDeleteOpen(true)}
+              >
+                <Trash2 className="w-4 h-4 mr-2" />
+                Delete ({selectedIds.length})
+              </Button>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete selected customers?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will permanently delete {selectedIds.length} customer
+                    {selectedIds.length === 1 ? '' : 's'} and all their associated data.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-destructive text-white hover:bg-destructive/90"
+                    onClick={async () => {
+                      try {
+                        await deleteCustomers({ data: { ids: selectedIds } })
+                        toast.success('Deleted selected customers.')
+                        clearSelection()
+                        setBulkDeleteOpen(false)
+                        await queryClient.invalidateQueries({ queryKey: ['customers'] })
+                        await queryClient.refetchQueries({ queryKey: ['customers'] })
+                      } catch (error) {
+                        toast.error(
+                          error instanceof Error
+                            ? error.message
+                            : 'Failed to delete selected customers.',
+                        )
+                      }
+                    }}
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </>
         )}
       />
 

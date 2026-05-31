@@ -1,0 +1,1 @@
+{"version":3,"file":"OrderItemUpdateInput.schema.d.ts","sourceRoot":"","sources":["OrderItemUpdateInput.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AACzB,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,qBAAqB,CAAC;AA4BlD,eAAO,MAAM,gCAAgC,EAAE,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,oBAAoB,CAAqE,CAAC;AAC1J,eAAO,MAAM,mCAAmC;;;;;;;;;;;;;;;;;;;;;;;kBAAe,CAAC"}

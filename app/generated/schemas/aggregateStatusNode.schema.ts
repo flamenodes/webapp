@@ -1,0 +1,14 @@
+import type { Prisma } from '../../src/generated/prisma/client';
+import * as z from 'zod';
+import { StatusNodeOrderByWithRelationInputObjectSchema as StatusNodeOrderByWithRelationInputObjectSchema } from './objects/StatusNodeOrderByWithRelationInput.schema';
+import { StatusNodeWhereInputObjectSchema as StatusNodeWhereInputObjectSchema } from './objects/StatusNodeWhereInput.schema';
+import { StatusNodeWhereUniqueInputObjectSchema as StatusNodeWhereUniqueInputObjectSchema } from './objects/StatusNodeWhereUniqueInput.schema';
+import { StatusNodeCountAggregateInputObjectSchema as StatusNodeCountAggregateInputObjectSchema } from './objects/StatusNodeCountAggregateInput.schema';
+import { StatusNodeMinAggregateInputObjectSchema as StatusNodeMinAggregateInputObjectSchema } from './objects/StatusNodeMinAggregateInput.schema';
+import { StatusNodeMaxAggregateInputObjectSchema as StatusNodeMaxAggregateInputObjectSchema } from './objects/StatusNodeMaxAggregateInput.schema';
+import { StatusNodeAvgAggregateInputObjectSchema as StatusNodeAvgAggregateInputObjectSchema } from './objects/StatusNodeAvgAggregateInput.schema';
+import { StatusNodeSumAggregateInputObjectSchema as StatusNodeSumAggregateInputObjectSchema } from './objects/StatusNodeSumAggregateInput.schema';
+
+export const StatusNodeAggregateSchema: z.ZodType<Prisma.StatusNodeAggregateArgs> = z.object({ orderBy: z.union([StatusNodeOrderByWithRelationInputObjectSchema, StatusNodeOrderByWithRelationInputObjectSchema.array()]).optional(), where: StatusNodeWhereInputObjectSchema.optional(), cursor: StatusNodeWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), StatusNodeCountAggregateInputObjectSchema ]).optional(), _min: StatusNodeMinAggregateInputObjectSchema.optional(), _max: StatusNodeMaxAggregateInputObjectSchema.optional(), _avg: StatusNodeAvgAggregateInputObjectSchema.optional(), _sum: StatusNodeSumAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.StatusNodeAggregateArgs>;
+
+export const StatusNodeAggregateZodSchema = z.object({ orderBy: z.union([StatusNodeOrderByWithRelationInputObjectSchema, StatusNodeOrderByWithRelationInputObjectSchema.array()]).optional(), where: StatusNodeWhereInputObjectSchema.optional(), cursor: StatusNodeWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), StatusNodeCountAggregateInputObjectSchema ]).optional(), _min: StatusNodeMinAggregateInputObjectSchema.optional(), _max: StatusNodeMaxAggregateInputObjectSchema.optional(), _avg: StatusNodeAvgAggregateInputObjectSchema.optional(), _sum: StatusNodeSumAggregateInputObjectSchema.optional() }).strict();

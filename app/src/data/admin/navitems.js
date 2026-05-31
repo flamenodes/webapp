@@ -1,0 +1,79 @@
+export const navItems = [
+    {
+        icon: 'LayoutDashboard',
+        label: 'Dashboard',
+        to: '/admin/dashboard',
+        section: 'main',
+    },
+    { icon: 'Server', label: 'Servers', to: '/admin/servers', section: 'main' },
+    {
+        icon: 'Users',
+        label: 'Customers',
+        to: '/admin/customers',
+        section: 'management',
+    },
+    {
+        icon: 'ShoppingCart',
+        label: 'Orders',
+        to: '/admin/orders',
+        section: 'management',
+    },
+    {
+        icon: 'ShoppingBasket',
+        label: 'Products',
+        to: '/admin/products',
+        section: 'management',
+    },
+    {
+        icon: 'FileText',
+        label: 'Documents',
+        to: '/admin/documents',
+        section: 'management',
+    },
+    {
+        icon: 'FileText',
+        label: 'Invoices',
+        to: '/admin/invoices',
+        section: 'management',
+    },
+    {
+        icon: 'Settings2',
+        label: 'Configurations',
+        to: '/admin/configurations',
+        section: 'management',
+    },
+    {
+        icon: 'Wrench',
+        label: 'Product Config',
+        to: '/admin/product-config',
+        section: 'management',
+    },
+    // {
+    //   icon: 'CreditCard',
+    //   label: 'Billing',
+    //   active: false,
+    //   section: 'management',
+    // },
+    // {
+    //   icon: 'BarChart2',
+    //   label: 'Analytics',
+    //   active: false,
+    //   section: 'management',
+    // },
+    {
+        icon: 'Ticket',
+        label: 'Tickets',
+        to: '/admin/tickets',
+        section: 'support',
+    },
+    {
+        icon: 'Megaphone',
+        label: 'Announcements',
+        active: false,
+        section: 'support',
+    },
+    { icon: 'Activity', label: 'Status Page', to: '/admin/status', section: 'support' },
+    { icon: 'UserRound', label: 'Roles', to: '/admin/roles', section: 'system' },
+    { icon: 'Settings', label: 'Settings', to: '/admin/settings', section: 'system' },
+];
+//# sourceMappingURL=navitems.js.map

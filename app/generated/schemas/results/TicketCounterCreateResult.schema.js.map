@@ -1,0 +1,1 @@
+{"version":3,"file":"TicketCounterCreateResult.schema.js","sourceRoot":"","sources":["TicketCounterCreateResult.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AACzB,MAAM,CAAC,MAAM,+BAA+B,GAAG,CAAC,CAAC,MAAM,CAAC;IACtD,EAAE,EAAE,CAAC,CAAC,MAAM,EAAE;IACd,GAAG,EAAE,CAAC,CAAC,MAAM,EAAE,CAAC,GAAG,EAAE;CACtB,CAAC,CAAC"}

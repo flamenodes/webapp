@@ -81,7 +81,7 @@ export const auth = betterAuth({
 
           image: profile.avatar
             ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
-            : null,
+            : undefined,
         }
       },
     },

@@ -1,20 +1,37 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Paperclip, Smile, Send } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 
 interface ChatComposerProps {
   onSend?: (message: string) => void
+  onTyping?: () => void
+  onStopTyping?: () => void
   disabled?: boolean
 }
 
-export function ChatComposer({ onSend, disabled = false }: ChatComposerProps) {
+export function ChatComposer({ onSend, onTyping, onStopTyping, disabled = false }: ChatComposerProps) {
   const [message, setMessage] = useState('')
+  const stopTypingTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const handleSend = () => {
     if (message.trim() && !disabled) {
+      if (stopTypingTimer.current) clearTimeout(stopTypingTimer.current)
+      onStopTyping?.()
       onSend?.(message.trim())
       setMessage('')
+    }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(e.target.value)
+    if (e.target.value) {
+      onTyping?.()
+      if (stopTypingTimer.current) clearTimeout(stopTypingTimer.current)
+      stopTypingTimer.current = setTimeout(() => onStopTyping?.(), 2000)
+    } else {
+      if (stopTypingTimer.current) clearTimeout(stopTypingTimer.current)
+      onStopTyping?.()
     }
   }
 
@@ -34,7 +51,7 @@ export function ChatComposer({ onSend, disabled = false }: ChatComposerProps) {
         <div className="relative flex-1">
           <Textarea
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={handleChange}
             onKeyDown={handleKeyDown}
             placeholder={disabled ? "Join the ticket to send messages..." : "Type your message..."}
             className="min-h-[48px] max-h-32 resize-none rounded-full px-4 py-3 pr-12"

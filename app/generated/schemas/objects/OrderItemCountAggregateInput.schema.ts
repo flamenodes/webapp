@@ -12,6 +12,7 @@ const makeSchema = () => z.object({
   unitPrice: z.literal(true).optional(),
   totalPrice: z.literal(true).optional(),
   specsSnapshot: z.literal(true).optional(),
+  configuration: z.literal(true).optional(),
   expiresAt: z.literal(true).optional(),
   createdAt: z.literal(true).optional(),
   _all: z.literal(true).optional()

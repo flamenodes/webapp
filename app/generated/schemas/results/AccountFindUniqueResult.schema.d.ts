@@ -1,0 +1,18 @@
+import * as z from 'zod';
+export declare const AccountFindUniqueResultSchema: z.ZodNullable<z.ZodObject<{
+    id: z.ZodString;
+    accountId: z.ZodString;
+    providerId: z.ZodString;
+    userId: z.ZodString;
+    user: z.ZodUnknown;
+    accessToken: z.ZodOptional<z.ZodString>;
+    refreshToken: z.ZodOptional<z.ZodString>;
+    idToken: z.ZodOptional<z.ZodString>;
+    accessTokenExpiresAt: z.ZodOptional<z.ZodDate>;
+    refreshTokenExpiresAt: z.ZodOptional<z.ZodDate>;
+    scope: z.ZodOptional<z.ZodString>;
+    password: z.ZodOptional<z.ZodString>;
+    createdAt: z.ZodDate;
+    updatedAt: z.ZodDate;
+}, z.core.$strip>>;
+//# sourceMappingURL=AccountFindUniqueResult.schema.d.ts.map

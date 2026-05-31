@@ -1,0 +1,24 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+export declare const StatusNodeScalarWhereWithAggregatesInputObjectSchema: z.ZodType<Prisma.StatusNodeScalarWhereWithAggregatesInput>;
+export declare const StatusNodeScalarWhereWithAggregatesInputObjectZodSchema: z.ZodObject<{
+    AND: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.StatusNodeScalarWhereWithAggregatesInput, unknown, z.core.$ZodTypeInternals<Prisma.StatusNodeScalarWhereWithAggregatesInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.StatusNodeScalarWhereWithAggregatesInput, unknown, z.core.$ZodTypeInternals<Prisma.StatusNodeScalarWhereWithAggregatesInput, unknown>>>>]>>;
+    OR: z.ZodOptional<z.ZodArray<z.ZodLazy<z.ZodType<Prisma.StatusNodeScalarWhereWithAggregatesInput, unknown, z.core.$ZodTypeInternals<Prisma.StatusNodeScalarWhereWithAggregatesInput, unknown>>>>>;
+    NOT: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.StatusNodeScalarWhereWithAggregatesInput, unknown, z.core.$ZodTypeInternals<Prisma.StatusNodeScalarWhereWithAggregatesInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.StatusNodeScalarWhereWithAggregatesInput, unknown, z.core.$ZodTypeInternals<Prisma.StatusNodeScalarWhereWithAggregatesInput, unknown>>>>]>>;
+    id: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.StringWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.StringWithAggregatesFilter<never>, unknown>>>, z.ZodString]>>;
+    name: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.StringWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.StringWithAggregatesFilter<never>, unknown>>>, z.ZodString]>>;
+    ip: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.StringWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.StringWithAggregatesFilter<never>, unknown>>>, z.ZodString]>>;
+    location: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.StringWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.StringWithAggregatesFilter<never>, unknown>>>, z.ZodString]>>;
+    type: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.StringWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.StringWithAggregatesFilter<never>, unknown>>>, z.ZodString]>>;
+    port: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.IntWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.IntWithAggregatesFilter<never>, unknown>>>, z.ZodNumber]>>;
+    protocol: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.StringWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.StringWithAggregatesFilter<never>, unknown>>>, z.ZodString]>>;
+    status: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.StringWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.StringWithAggregatesFilter<never>, unknown>>>, z.ZodString]>>;
+    latency: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.IntNullableWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.IntNullableWithAggregatesFilter<never>, unknown>>>, z.ZodNumber]>>>;
+    lastChecked: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.DateTimeNullableWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.DateTimeNullableWithAggregatesFilter<never>, unknown>>>, z.ZodCoercedDate<unknown>]>>>;
+    cpu: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.FloatNullableWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.FloatNullableWithAggregatesFilter<never>, unknown>>>, z.ZodNumber]>>>;
+    memory: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.IntNullableWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.IntNullableWithAggregatesFilter<never>, unknown>>>, z.ZodNumber]>>>;
+    disk: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.IntNullableWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.IntNullableWithAggregatesFilter<never>, unknown>>>, z.ZodNumber]>>>;
+    createdAt: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.DateTimeWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.DateTimeWithAggregatesFilter<never>, unknown>>>, z.ZodCoercedDate<unknown>]>>;
+    updatedAt: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.DateTimeWithAggregatesFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.DateTimeWithAggregatesFilter<never>, unknown>>>, z.ZodCoercedDate<unknown>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=StatusNodeScalarWhereWithAggregatesInput.schema.d.ts.map

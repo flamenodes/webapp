@@ -1,0 +1,8 @@
+import * as z from 'zod';
+import { PageDocumentOrderByWithRelationInputObjectSchema as PageDocumentOrderByWithRelationInputObjectSchema } from './objects/PageDocumentOrderByWithRelationInput.schema';
+import { PageDocumentWhereInputObjectSchema as PageDocumentWhereInputObjectSchema } from './objects/PageDocumentWhereInput.schema';
+import { PageDocumentWhereUniqueInputObjectSchema as PageDocumentWhereUniqueInputObjectSchema } from './objects/PageDocumentWhereUniqueInput.schema';
+import { PageDocumentCountAggregateInputObjectSchema as PageDocumentCountAggregateInputObjectSchema } from './objects/PageDocumentCountAggregateInput.schema';
+export const PageDocumentCountSchema = z.object({ orderBy: z.union([PageDocumentOrderByWithRelationInputObjectSchema, PageDocumentOrderByWithRelationInputObjectSchema.array()]).optional(), where: PageDocumentWhereInputObjectSchema.optional(), cursor: PageDocumentWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), select: z.union([z.literal(true), PageDocumentCountAggregateInputObjectSchema]).optional() }).strict();
+export const PageDocumentCountZodSchema = z.object({ orderBy: z.union([PageDocumentOrderByWithRelationInputObjectSchema, PageDocumentOrderByWithRelationInputObjectSchema.array()]).optional(), where: PageDocumentWhereInputObjectSchema.optional(), cursor: PageDocumentWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), select: z.union([z.literal(true), PageDocumentCountAggregateInputObjectSchema]).optional() }).strict();
+//# sourceMappingURL=countPageDocument.schema.js.map

@@ -8,6 +8,7 @@ export const OrderItemGroupByResultSchema = z.array(z.object({
   unitPrice: z.number().int(),
   totalPrice: z.number().int(),
   specsSnapshot: z.unknown(),
+  configuration: z.unknown(),
   expiresAt: z.date(),
   createdAt: z.date(),
   _count: z.object({
@@ -20,6 +21,7 @@ export const OrderItemGroupByResultSchema = z.array(z.object({
     unitPrice: z.number(),
     totalPrice: z.number(),
     specsSnapshot: z.number(),
+    configuration: z.number(),
     expiresAt: z.number(),
     order: z.number(),
     product: z.number(),

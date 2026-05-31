@@ -13,6 +13,7 @@ export const OrderModelSchema = z.object({
     deliveryMessage: z.string().nullable(),
     deliveryData: z.unknown().nullable(),
     items: z.array(z.unknown()),
+    invoice: z.unknown().nullable(),
     createdAt: z.date(),
     updatedAt: z.date()
 }).strict();

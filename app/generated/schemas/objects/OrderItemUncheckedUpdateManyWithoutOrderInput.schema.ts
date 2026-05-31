@@ -19,6 +19,7 @@ const makeSchema = () => z.object({
   unitPrice: z.union([z.number().int(), z.lazy(() => IntFieldUpdateOperationsInputObjectSchema)]).optional(),
   totalPrice: z.union([z.number().int(), z.lazy(() => IntFieldUpdateOperationsInputObjectSchema)]).optional(),
   specsSnapshot: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
+  configuration: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   expiresAt: z.union([z.coerce.date(), z.lazy(() => NullableDateTimeFieldUpdateOperationsInputObjectSchema)]).optional().nullable(),
   createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional()
 }).strict();

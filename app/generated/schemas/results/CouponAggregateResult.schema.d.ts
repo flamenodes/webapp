@@ -1,0 +1,49 @@
+import * as z from 'zod';
+export declare const CouponAggregateResultSchema: z.ZodObject<{
+    _count: z.ZodOptional<z.ZodObject<{
+        id: z.ZodNumber;
+        code: z.ZodNumber;
+        type: z.ZodNumber;
+        amount: z.ZodNumber;
+        description: z.ZodNumber;
+        active: z.ZodNumber;
+        expiresAt: z.ZodNumber;
+        maxUses: z.ZodNumber;
+        usedCount: z.ZodNumber;
+        createdAt: z.ZodNumber;
+        updatedAt: z.ZodNumber;
+    }, z.core.$strip>>;
+    _sum: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        amount: z.ZodNullable<z.ZodNumber>;
+        maxUses: z.ZodNullable<z.ZodNumber>;
+        usedCount: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _avg: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        amount: z.ZodNullable<z.ZodNumber>;
+        maxUses: z.ZodNullable<z.ZodNumber>;
+        usedCount: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _min: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        code: z.ZodNullable<z.ZodString>;
+        amount: z.ZodNullable<z.ZodNumber>;
+        description: z.ZodNullable<z.ZodString>;
+        expiresAt: z.ZodNullable<z.ZodDate>;
+        maxUses: z.ZodNullable<z.ZodNumber>;
+        usedCount: z.ZodNullable<z.ZodNumber>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+        updatedAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+    _max: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        code: z.ZodNullable<z.ZodString>;
+        amount: z.ZodNullable<z.ZodNumber>;
+        description: z.ZodNullable<z.ZodString>;
+        expiresAt: z.ZodNullable<z.ZodDate>;
+        maxUses: z.ZodNullable<z.ZodNumber>;
+        usedCount: z.ZodNullable<z.ZodNumber>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+        updatedAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+}, z.core.$strip>;
+//# sourceMappingURL=CouponAggregateResult.schema.d.ts.map

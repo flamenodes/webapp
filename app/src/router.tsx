@@ -1,5 +1,6 @@
 import { createRouter as createTanStackRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
+import nprogress from 'nprogress'
 
 export function getRouter() {
   const router = createTanStackRouter({
@@ -8,7 +9,15 @@ export function getRouter() {
     defaultPreload: 'intent',
     defaultPreloadStaleTime: 0,
   })
+  router.subscribe('onBeforeLoad', ({ pathChanged }) => {
+    if (pathChanged) {
+      nprogress.start()
+    }
+  })
 
+  router.subscribe('onLoad', () => {
+    nprogress.done()
+  })
   return router
 }
 

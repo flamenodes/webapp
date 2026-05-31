@@ -1,0 +1,30 @@
+import * as z from 'zod';
+export declare const TicketFindManyResultSchema: z.ZodObject<{
+    data: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        ticketId: z.ZodString;
+        title: z.ZodString;
+        description: z.ZodString;
+        status: z.ZodUnknown;
+        priority: z.ZodUnknown;
+        userId: z.ZodString;
+        user: z.ZodUnknown;
+        assignedToId: z.ZodOptional<z.ZodString>;
+        assignedTo: z.ZodOptional<z.ZodUnknown>;
+        channelName: z.ZodString;
+        tags: z.ZodArray<z.ZodString>;
+        messages: z.ZodArray<z.ZodUnknown>;
+        createdAt: z.ZodDate;
+        updatedAt: z.ZodDate;
+        closedAt: z.ZodOptional<z.ZodDate>;
+    }, z.core.$strip>>;
+    pagination: z.ZodObject<{
+        page: z.ZodNumber;
+        pageSize: z.ZodNumber;
+        total: z.ZodNumber;
+        totalPages: z.ZodNumber;
+        hasNext: z.ZodBoolean;
+        hasPrev: z.ZodBoolean;
+    }, z.core.$strip>;
+}, z.core.$strip>;
+//# sourceMappingURL=TicketFindManyResult.schema.d.ts.map

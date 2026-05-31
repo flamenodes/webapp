@@ -1,0 +1,71 @@
+import { prisma } from '#/db'
+import { pteroServerData } from '../pterodactyl/configData'
+import { ptero } from '../pterodactyl/client'
+
+export interface PteroDeploymentJob {
+  orderId: string
+  orderItemId: string
+  serverId: string
+  name: string
+  user: number
+  nest: number
+  egg: number
+  extraEnv?: Record<string, string>
+  specs: {
+    cpu: number
+    memory: number
+    swap: number
+    disk: number
+    database: number
+    allocation: number
+    backups: number
+  }
+  type: string
+}
+
+export async function enqueuePteroDeployment(job: PteroDeploymentJob) {
+  setImmediate(async () => {
+    try {
+      await processPteroDeploymentJob(job)
+    } catch (error) {
+      console.error('Ptero deployment failed:', error)
+      await prisma.server.update({ where: { id: job.serverId }, data: { status: 'FAILED' } }).catch(() => {})
+    }
+  })
+}
+
+async function processPteroDeploymentJob(job: PteroDeploymentJob) {
+  const serverPayload = await pteroServerData({
+    name: job.name,
+    user: job.user,
+    egg: job.egg,
+    nest: job.nest,
+    specs: job.specs,
+  })
+
+  // Merge extra env vars from ConfigurationValue metadata
+  if (job.extraEnv && Object.keys(job.extraEnv).length > 0) {
+    serverPayload.environment = { ...serverPayload.environment, ...job.extraEnv }
+  }
+
+  const res = await ptero.post('/application/servers', serverPayload)
+  // Pterodactyl returns { object: 'server', attributes: {...} }
+  const attributes = res.data?.attributes ?? res.data?.data?.attributes
+
+  if (!attributes) {
+    console.error('Unexpected Pterodactyl response:', JSON.stringify(res.data))
+    throw new Error('No server attributes returned from Pterodactyl')
+  }
+
+  await prisma.server.update({
+    where: { id: job.serverId },
+    data: {
+      status: 'ACTIVE',
+      pterodactylData: attributes,
+      ip: attributes.relationships?.allocations?.data?.[0]?.attributes?.ip
+        ?? serverPayload.allocation?.default
+        ?? null,
+      port: attributes.relationships?.allocations?.data?.[0]?.attributes?.port ?? null,
+    },
+  })
+}

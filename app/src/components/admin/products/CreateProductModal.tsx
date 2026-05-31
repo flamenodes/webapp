@@ -1,4 +1,4 @@
-import { FileUpload } from '#/components/imagekit/upload'
+import { MediaPicker } from '#/components/imagekit/MediaPicker'
 import { Button } from '#/components/ui/button'
 import { Checkbox } from '#/components/ui/checkbox'
 import { Field } from '#/components/ui/field'
@@ -242,20 +242,19 @@ const CreateProductModal = ({
         </SheetHeader>
 
         <div className="space-y-6 px-4">
-          <div className="flex gap-6">
+          <div className="flex items-center gap-4">
             <img
               src={productImage}
               alt=""
-              className="h-20 w-20 rounded-md object-cover"
+              className="h-16 w-16 rounded-md object-cover border border-border shrink-0"
             />
-
-            <FileUpload
-              label="Product Image"
-              description=""
-              onUpload={(url) => {
-                setProductImage(url)
-              }}
-            />
+            <div className="space-y-1">
+              <p className="text-sm font-medium">Product Image</p>
+              <MediaPicker
+                value={productImage}
+                onChange={(url) => setProductImage(url)}
+              />
+            </div>
           </div>
 
           <Field>

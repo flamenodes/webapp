@@ -1,0 +1,60 @@
+import type { Prisma } from '../../src/generated/prisma/client';
+import * as z from 'zod';
+export declare const RazorpayConfigFindFirstSelectSchema: z.ZodType<Prisma.RazorpayConfigSelect>;
+export declare const RazorpayConfigFindFirstSelectZodSchema: z.ZodObject<{
+    id: z.ZodOptional<z.ZodBoolean>;
+    mode: z.ZodOptional<z.ZodBoolean>;
+    testKeyId: z.ZodOptional<z.ZodBoolean>;
+    testKeySecret: z.ZodOptional<z.ZodBoolean>;
+    prodKeyId: z.ZodOptional<z.ZodBoolean>;
+    prodKeySecret: z.ZodOptional<z.ZodBoolean>;
+    gstin: z.ZodOptional<z.ZodBoolean>;
+    companyName: z.ZodOptional<z.ZodBoolean>;
+    companyAddress: z.ZodOptional<z.ZodBoolean>;
+    companyCity: z.ZodOptional<z.ZodBoolean>;
+    companyZip: z.ZodOptional<z.ZodBoolean>;
+    companyCountry: z.ZodOptional<z.ZodBoolean>;
+    updatedAt: z.ZodOptional<z.ZodBoolean>;
+    createdAt: z.ZodOptional<z.ZodBoolean>;
+}, z.core.$strict>;
+export declare const RazorpayConfigFindFirstSchema: z.ZodType<Prisma.RazorpayConfigFindFirstArgs>;
+export declare const RazorpayConfigFindFirstZodSchema: z.ZodObject<{
+    select: z.ZodOptional<z.ZodType<Prisma.RazorpayConfigSelect<import("@prisma/client/runtime/client").DefaultArgs>, unknown, z.core.$ZodTypeInternals<Prisma.RazorpayConfigSelect<import("@prisma/client/runtime/client").DefaultArgs>, unknown>>>;
+    orderBy: z.ZodOptional<z.ZodUnion<readonly [z.ZodType<Prisma.RazorpayConfigOrderByWithRelationInput, unknown, z.core.$ZodTypeInternals<Prisma.RazorpayConfigOrderByWithRelationInput, unknown>>, z.ZodArray<z.ZodType<Prisma.RazorpayConfigOrderByWithRelationInput, unknown, z.core.$ZodTypeInternals<Prisma.RazorpayConfigOrderByWithRelationInput, unknown>>>]>>;
+    where: z.ZodOptional<z.ZodType<Prisma.RazorpayConfigWhereInput, unknown, z.core.$ZodTypeInternals<Prisma.RazorpayConfigWhereInput, unknown>>>;
+    cursor: z.ZodOptional<z.ZodType<Prisma.RazorpayConfigWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.RazorpayConfigWhereUniqueInput, unknown>>>;
+    take: z.ZodOptional<z.ZodNumber>;
+    skip: z.ZodOptional<z.ZodNumber>;
+    distinct: z.ZodOptional<z.ZodUnion<readonly [z.ZodEnum<{
+        id: "id";
+        createdAt: "createdAt";
+        mode: "mode";
+        updatedAt: "updatedAt";
+        testKeyId: "testKeyId";
+        testKeySecret: "testKeySecret";
+        prodKeyId: "prodKeyId";
+        prodKeySecret: "prodKeySecret";
+        gstin: "gstin";
+        companyName: "companyName";
+        companyAddress: "companyAddress";
+        companyCity: "companyCity";
+        companyZip: "companyZip";
+        companyCountry: "companyCountry";
+    }>, z.ZodArray<z.ZodEnum<{
+        id: "id";
+        createdAt: "createdAt";
+        mode: "mode";
+        updatedAt: "updatedAt";
+        testKeyId: "testKeyId";
+        testKeySecret: "testKeySecret";
+        prodKeyId: "prodKeyId";
+        prodKeySecret: "prodKeySecret";
+        gstin: "gstin";
+        companyName: "companyName";
+        companyAddress: "companyAddress";
+        companyCity: "companyCity";
+        companyZip: "companyZip";
+        companyCountry: "companyCountry";
+    }>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=findFirstRazorpayConfig.schema.d.ts.map

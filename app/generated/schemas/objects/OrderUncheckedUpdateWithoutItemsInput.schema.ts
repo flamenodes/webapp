@@ -6,7 +6,8 @@ import { EnumOrderStatusFieldUpdateOperationsInputObjectSchema as EnumOrderStatu
 import { IntFieldUpdateOperationsInputObjectSchema as IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
 import { NullableStringFieldUpdateOperationsInputObjectSchema as NullableStringFieldUpdateOperationsInputObjectSchema } from './NullableStringFieldUpdateOperationsInput.schema';
 import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
-import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema'
+import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
+import { InvoiceUncheckedUpdateOneWithoutOrderNestedInputObjectSchema as InvoiceUncheckedUpdateOneWithoutOrderNestedInputObjectSchema } from './InvoiceUncheckedUpdateOneWithoutOrderNestedInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
@@ -21,7 +22,8 @@ const makeSchema = () => z.object({
   deliveryMessage: z.union([z.string(), z.lazy(() => NullableStringFieldUpdateOperationsInputObjectSchema)]).optional().nullable(),
   deliveryData: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
-  updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional()
+  updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
+  invoice: z.lazy(() => InvoiceUncheckedUpdateOneWithoutOrderNestedInputObjectSchema).optional()
 }).strict();
 export const OrderUncheckedUpdateWithoutItemsInputObjectSchema: z.ZodType<Prisma.OrderUncheckedUpdateWithoutItemsInput> = makeSchema() as unknown as z.ZodType<Prisma.OrderUncheckedUpdateWithoutItemsInput>;
 export const OrderUncheckedUpdateWithoutItemsInputObjectZodSchema = makeSchema();

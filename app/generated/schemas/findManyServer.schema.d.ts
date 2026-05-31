@@ -1,0 +1,63 @@
+import type { Prisma } from '../../src/generated/prisma/client';
+import * as z from 'zod';
+export declare const ServerFindManySelectSchema: z.ZodType<Prisma.ServerSelect>;
+export declare const ServerFindManySelectZodSchema: z.ZodObject<{
+    id: z.ZodOptional<z.ZodBoolean>;
+    userId: z.ZodOptional<z.ZodBoolean>;
+    user: z.ZodOptional<z.ZodBoolean>;
+    orderItemId: z.ZodOptional<z.ZodBoolean>;
+    orderItem: z.ZodOptional<z.ZodBoolean>;
+    name: z.ZodOptional<z.ZodBoolean>;
+    type: z.ZodOptional<z.ZodBoolean>;
+    status: z.ZodOptional<z.ZodBoolean>;
+    ip: z.ZodOptional<z.ZodBoolean>;
+    port: z.ZodOptional<z.ZodBoolean>;
+    expiresAt: z.ZodOptional<z.ZodBoolean>;
+    resources: z.ZodOptional<z.ZodBoolean>;
+    pterodactylData: z.ZodOptional<z.ZodBoolean>;
+    suspended: z.ZodOptional<z.ZodBoolean>;
+    createdAt: z.ZodOptional<z.ZodBoolean>;
+    updatedAt: z.ZodOptional<z.ZodBoolean>;
+}, z.core.$strict>;
+export declare const ServerFindManySchema: z.ZodType<Prisma.ServerFindManyArgs>;
+export declare const ServerFindManyZodSchema: z.ZodObject<{
+    select: z.ZodOptional<z.ZodType<Prisma.ServerSelect<import("@prisma/client/runtime/client").DefaultArgs>, unknown, z.core.$ZodTypeInternals<Prisma.ServerSelect<import("@prisma/client/runtime/client").DefaultArgs>, unknown>>>;
+    include: z.ZodLazy<z.ZodOptional<z.ZodType<Prisma.ServerInclude<import("@prisma/client/runtime/client").DefaultArgs>, unknown, z.core.$ZodTypeInternals<Prisma.ServerInclude<import("@prisma/client/runtime/client").DefaultArgs>, unknown>>>>;
+    orderBy: z.ZodOptional<z.ZodUnion<readonly [z.ZodType<Prisma.ServerOrderByWithRelationInput, unknown, z.core.$ZodTypeInternals<Prisma.ServerOrderByWithRelationInput, unknown>>, z.ZodArray<z.ZodType<Prisma.ServerOrderByWithRelationInput, unknown, z.core.$ZodTypeInternals<Prisma.ServerOrderByWithRelationInput, unknown>>>]>>;
+    where: z.ZodOptional<z.ZodType<Prisma.ServerWhereInput, unknown, z.core.$ZodTypeInternals<Prisma.ServerWhereInput, unknown>>>;
+    cursor: z.ZodOptional<z.ZodType<Prisma.ServerWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.ServerWhereUniqueInput, unknown>>>;
+    take: z.ZodOptional<z.ZodNumber>;
+    skip: z.ZodOptional<z.ZodNumber>;
+    distinct: z.ZodOptional<z.ZodUnion<readonly [z.ZodEnum<{
+        type: "type";
+        id: "id";
+        name: "name";
+        createdAt: "createdAt";
+        userId: "userId";
+        status: "status";
+        updatedAt: "updatedAt";
+        expiresAt: "expiresAt";
+        orderItemId: "orderItemId";
+        ip: "ip";
+        port: "port";
+        resources: "resources";
+        pterodactylData: "pterodactylData";
+        suspended: "suspended";
+    }>, z.ZodArray<z.ZodEnum<{
+        type: "type";
+        id: "id";
+        name: "name";
+        createdAt: "createdAt";
+        userId: "userId";
+        status: "status";
+        updatedAt: "updatedAt";
+        expiresAt: "expiresAt";
+        orderItemId: "orderItemId";
+        ip: "ip";
+        port: "port";
+        resources: "resources";
+        pterodactylData: "pterodactylData";
+        suspended: "suspended";
+    }>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=findManyServer.schema.d.ts.map

@@ -21,6 +21,7 @@ const orderitemscalarwhereinputSchema = z.object({
   unitPrice: z.union([z.lazy(() => IntFilterObjectSchema), z.number().int()]).optional(),
   totalPrice: z.union([z.lazy(() => IntFilterObjectSchema), z.number().int()]).optional(),
   specsSnapshot: z.lazy(() => JsonNullableFilterObjectSchema).optional(),
+  configuration: z.lazy(() => JsonNullableFilterObjectSchema).optional(),
   expiresAt: z.union([z.lazy(() => DateTimeNullableFilterObjectSchema), z.coerce.date()]).optional().nullable(),
   createdAt: z.union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()]).optional()
 }).strict();

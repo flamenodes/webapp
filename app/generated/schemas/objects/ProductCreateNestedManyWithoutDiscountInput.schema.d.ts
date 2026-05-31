@@ -1,0 +1,10 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+export declare const ProductCreateNestedManyWithoutDiscountInputObjectSchema: z.ZodType<Prisma.ProductCreateNestedManyWithoutDiscountInput>;
+export declare const ProductCreateNestedManyWithoutDiscountInputObjectZodSchema: z.ZodObject<{
+    create: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.ProductCreateWithoutDiscountInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductCreateWithoutDiscountInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.ProductCreateWithoutDiscountInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductCreateWithoutDiscountInput, unknown>>>>, z.ZodLazy<z.ZodType<Prisma.ProductUncheckedCreateWithoutDiscountInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductUncheckedCreateWithoutDiscountInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.ProductUncheckedCreateWithoutDiscountInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductUncheckedCreateWithoutDiscountInput, unknown>>>>]>>;
+    connectOrCreate: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.ProductCreateOrConnectWithoutDiscountInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductCreateOrConnectWithoutDiscountInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.ProductCreateOrConnectWithoutDiscountInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductCreateOrConnectWithoutDiscountInput, unknown>>>>]>>;
+    createMany: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.ProductCreateManyDiscountInputEnvelope, unknown, z.core.$ZodTypeInternals<Prisma.ProductCreateManyDiscountInputEnvelope, unknown>>>>;
+    connect: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.ProductWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductWhereUniqueInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.ProductWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductWhereUniqueInput, unknown>>>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=ProductCreateNestedManyWithoutDiscountInput.schema.d.ts.map

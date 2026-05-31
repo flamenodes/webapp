@@ -1,0 +1,35 @@
+import * as z from 'zod';
+export declare const UserResultSchema: z.ZodObject<{
+    id: z.ZodString;
+    clientId: z.ZodString;
+    name: z.ZodString;
+    email: z.ZodString;
+    emailVerified: z.ZodBoolean;
+    image: z.ZodNullable<z.ZodString>;
+    createdAt: z.ZodDate;
+    updatedAt: z.ZodDate;
+    sessions: z.ZodArray<z.ZodUnknown>;
+    accounts: z.ZodArray<z.ZodUnknown>;
+    role: z.ZodNullable<z.ZodString>;
+    banned: z.ZodNullable<z.ZodBoolean>;
+    banReason: z.ZodNullable<z.ZodString>;
+    banExpires: z.ZodNullable<z.ZodDate>;
+    username: z.ZodString;
+    firstname: z.ZodString;
+    lastname: z.ZodString;
+    pteroUserId: z.ZodNullable<z.ZodNumber>;
+    address: z.ZodNullable<z.ZodString>;
+    city: z.ZodNullable<z.ZodString>;
+    zip: z.ZodNullable<z.ZodString>;
+    country: z.ZodNullable<z.ZodString>;
+    servers: z.ZodArray<z.ZodUnknown>;
+    cart: z.ZodNullable<z.ZodUnknown>;
+    orders: z.ZodArray<z.ZodUnknown>;
+    displayUsername: z.ZodNullable<z.ZodString>;
+    tickets: z.ZodArray<z.ZodUnknown>;
+    assignedTickets: z.ZodArray<z.ZodUnknown>;
+    ticketMessages: z.ZodArray<z.ZodUnknown>;
+    notifications: z.ZodArray<z.ZodUnknown>;
+}, z.core.$strict>;
+export type UserResultType = z.infer<typeof UserResultSchema>;
+//# sourceMappingURL=User.result.d.ts.map

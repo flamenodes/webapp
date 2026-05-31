@@ -1,0 +1,29 @@
+import * as z from 'zod';
+export declare const TicketMessageAggregateResultSchema: z.ZodObject<{
+    _count: z.ZodOptional<z.ZodObject<{
+        id: z.ZodNumber;
+        ticketId: z.ZodNumber;
+        ticket: z.ZodNumber;
+        senderId: z.ZodNumber;
+        sender: z.ZodNumber;
+        senderRole: z.ZodNumber;
+        content: z.ZodNumber;
+        attachments: z.ZodNumber;
+        createdAt: z.ZodNumber;
+    }, z.core.$strip>>;
+    _min: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        ticketId: z.ZodNullable<z.ZodString>;
+        senderId: z.ZodNullable<z.ZodString>;
+        content: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+    _max: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        ticketId: z.ZodNullable<z.ZodString>;
+        senderId: z.ZodNullable<z.ZodString>;
+        content: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+}, z.core.$strip>;
+//# sourceMappingURL=TicketMessageAggregateResult.schema.d.ts.map

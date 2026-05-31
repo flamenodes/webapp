@@ -12,6 +12,7 @@ const makeSchema = () => z.object({
   unitPrice: SortOrderSchema.optional(),
   totalPrice: SortOrderSchema.optional(),
   specsSnapshot: SortOrderSchema.optional(),
+  configuration: SortOrderSchema.optional(),
   expiresAt: SortOrderSchema.optional(),
   createdAt: SortOrderSchema.optional()
 }).strict();

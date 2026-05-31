@@ -17,6 +17,7 @@ export const ProductFindManyResultSchema = z.object({
   deployMode: z.string(),
   cartItems: z.array(z.unknown()),
   orderItems: z.array(z.unknown()),
+  billingOptions: z.array(z.unknown()),
   createdAt: z.date(),
   updatedAt: z.date()
 })),

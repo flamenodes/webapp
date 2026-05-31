@@ -6,6 +6,7 @@ export const CartItemFindManyResultSchema = z.object({
   productId: z.string(),
   quantity: z.number().int(),
   billingPeriod: z.unknown(),
+  configuration: z.unknown().optional(),
   cart: z.unknown(),
   product: z.unknown(),
   createdAt: z.date(),

@@ -28,7 +28,7 @@ export const createPageDocument = createServerFn({ method: 'POST' })
     } catch (err) {}
   })
 
-export const updatePageDoucment = createServerFn({ method: 'POST' })
+export const updatePageDocument = createServerFn({ method: 'POST' })
   .inputValidator(updatePageSchema)
   .handler(async ({ data }) => {
     try {
@@ -46,7 +46,7 @@ export const getPageDocument = createServerFn({ method: 'POST' })
   .inputValidator(getPageSchema)
   .handler(async ({ data }) => {
     try {
-      const resData = prisma.pageDocument.findFirst({ where: { id: data.id } })
+      const resData = await prisma.pageDocument.findFirst({ where: { id: data.id } })
       return { resData }
     } catch (err) {}
   })
@@ -55,7 +55,7 @@ export const getPageDocumentBySlug = createServerFn({ method: 'POST' })
   .inputValidator(z.object({ slug: z.string() }))
   .handler(async ({ data }) => {
     try {
-      const resData = prisma.pageDocument.findFirst({
+      const resData = await prisma.pageDocument.findFirst({
         where: { slug: data.slug },
       })
       return { resData }
@@ -67,7 +67,7 @@ export const getPageDocuments = createServerFn({ method: 'POST' }).inputValidato
 	pageCount: z.number().optional(),
 })).handler(async ({ data }) => {
   try {
-    const resData = prisma.pageDocument.findMany({
+    const resData = await prisma.pageDocument.findMany({
       take: data.pageCount,
     })
     return { resData }
@@ -80,7 +80,7 @@ export const deletePageDocumentbySlug = createServerFn({ method: 'POST' })
   .inputValidator(z.object({ slug: z.string() }))
   .handler(async ({ data }) => {
     try {
-      const resData = prisma.pageDocument.delete({
+      const resData = await prisma.pageDocument.delete({
         where: { slug: data.slug },
       })
       return { resData }
@@ -93,7 +93,7 @@ export const deletePageDocumentbyId = createServerFn({ method: 'POST' })
   .inputValidator(z.object({ id: z.string() }))
   .handler(async ({ data }) => {
     try {
-      const resData = prisma.pageDocument.delete({
+      const resData = await prisma.pageDocument.delete({
         where: { id: data.id },
       })
       return { resData }
@@ -101,3 +101,22 @@ export const deletePageDocumentbyId = createServerFn({ method: 'POST' })
       console.error(err)
     }
   })
+
+export const deletePageDocuments = createServerFn({ method: 'POST' })
+  .inputValidator(z.object({ ids: z.array(z.string()) }))
+  .handler(async ({ data }) => {
+    try {
+      const resData = await prisma.pageDocument.deleteMany({
+        where: { id: { in: data.ids } },
+      })
+      return { success: true, deleted: resData.count }
+    } catch (err) {
+      console.error(err)
+      throw new Error('Failed to delete documents')
+    }
+  })
+
+// PascalCase exports for consistency with imports
+export const GetPageDocumentBySlug = getPageDocumentBySlug
+export const UpdatePageDocument = updatePageDocument
+export const GetPageDocuments = getPageDocuments

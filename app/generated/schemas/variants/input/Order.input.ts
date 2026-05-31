@@ -13,6 +13,7 @@ export const OrderInputSchema = z.object({
     deliveryMessage: z.string().optional().nullable(),
     deliveryData: z.unknown().optional().nullable(),
     items: z.array(z.unknown()),
+    invoice: z.unknown().optional().nullable(),
     createdAt: z.date(),
     updatedAt: z.date()
 }).strict();

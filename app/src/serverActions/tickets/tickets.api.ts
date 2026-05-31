@@ -167,7 +167,18 @@ export const getTicket = createServerFn({ method: 'POST' })
         include: {
           user: { select: { id: true, name: true, email: true, role: true, image: true } },
           assignedTo: { select: { id: true, name: true, email: true, role: true, image: true } },
-          messages: { orderBy: { createdAt: 'asc' }, take: 200 },
+          messages: {
+            orderBy: { createdAt: 'asc' },
+            take: 200,
+            select: {
+              id: true,
+              content: true,
+              senderRole: true,
+              senderId: true,
+              createdAt: true,
+              attachments: true,
+            },
+          },
         },
       })
 
@@ -263,7 +274,7 @@ export const updateTicket = createServerFn({ method: 'POST' })
         },
       })
 
-      await emitTicketUpdated(ticket.ticketId, { type: 'ticket-updated', ticket })
+      await emitTicketUpdated(ticket.ticketId, { type: 'ticket-created', ticket })
 
       return { success: true, ticket }
     } catch (err) {
@@ -356,6 +367,92 @@ export const deleteTicketTagPreset = createServerFn({ method: 'POST' })
     try {
       await (prisma as any).ticketTagPreset.delete({ where: { id: data.id } })
       return { success: true }
+    } catch (err) {
+      rethrowHelpful(err)
+    }
+  })
+
+const deleteTicketSchema = z.object({
+  ticketId: z.string().trim().min(1).max(32),
+})
+
+/** Owner can delete a CLOSED ticket directly. Admin can request deletion (adds a system message). */
+export const deleteTicket = createServerFn({ method: 'POST' })
+  .inputValidator((data) => deleteTicketSchema.parse(data))
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const session = requireSession(await auth.api.getSession({ headers }))
+
+    const role = session.user?.role ?? ''
+    const isOwner = role === 'owner'
+    const isAdmin = role === 'admin'
+
+    if (!isOwner && !isAdmin) throw new Error('Forbidden')
+
+    try {
+      const ticket = await prisma.ticket.findUnique({
+        where: { ticketId: data.ticketId },
+        select: { id: true, ticketId: true, status: true },
+      })
+      if (!ticket) throw new Error('Ticket not found')
+      if (ticket.status !== 'CLOSED') throw new Error('Only CLOSED tickets can be deleted')
+
+      if (isOwner) {
+        await prisma.ticket.delete({ where: { ticketId: data.ticketId } })
+        return { success: true, deleted: true }
+      }
+
+      // Admin: send a system message requesting deletion; owner must approve
+      await prisma.ticketMessage.create({
+        data: {
+          ticketId: ticket.id,
+          senderId: session.user.id,
+          senderRole: 'ADMIN',
+          content: `⚠️ **Deletion Requested** — This ticket has been flagged for deletion by an admin. An owner must approve to permanently delete it.`,
+          attachments: undefined,
+        },
+      })
+      await emitTicketMessage(ticket.ticketId, { type: 'deletion-requested', ticketId: ticket.ticketId })
+
+      return { success: true, deleted: false, requested: true }
+    } catch (err) {
+      rethrowHelpful(err)
+    }
+  })
+
+const getUserProfileSchema = z.object({
+  userId: z.string().min(1),
+})
+
+export const getUserProfile = createServerFn({ method: 'POST' })
+  .inputValidator((data) => getUserProfileSchema.parse(data))
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const session = requireSession(await auth.api.getSession({ headers }))
+    if (!isStaff(session)) throw new Error('Forbidden')
+
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: data.userId },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          username: true,
+          firstname: true,
+          lastname: true,
+          role: true,
+          banned: true,
+          banReason: true,
+          banExpires: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      })
+
+      if (!user) throw new Error('User not found')
+      return { success: true, user }
     } catch (err) {
       rethrowHelpful(err)
     }

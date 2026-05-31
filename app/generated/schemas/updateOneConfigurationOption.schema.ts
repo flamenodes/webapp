@@ -1,0 +1,11 @@
+import type { Prisma } from '../../src/generated/prisma/client';
+import * as z from 'zod';
+import { ConfigurationOptionSelectObjectSchema as ConfigurationOptionSelectObjectSchema } from './objects/ConfigurationOptionSelect.schema';
+import { ConfigurationOptionIncludeObjectSchema as ConfigurationOptionIncludeObjectSchema } from './objects/ConfigurationOptionInclude.schema';
+import { ConfigurationOptionUpdateInputObjectSchema as ConfigurationOptionUpdateInputObjectSchema } from './objects/ConfigurationOptionUpdateInput.schema';
+import { ConfigurationOptionUncheckedUpdateInputObjectSchema as ConfigurationOptionUncheckedUpdateInputObjectSchema } from './objects/ConfigurationOptionUncheckedUpdateInput.schema';
+import { ConfigurationOptionWhereUniqueInputObjectSchema as ConfigurationOptionWhereUniqueInputObjectSchema } from './objects/ConfigurationOptionWhereUniqueInput.schema';
+
+export const ConfigurationOptionUpdateOneSchema: z.ZodType<Prisma.ConfigurationOptionUpdateArgs> = z.object({ select: ConfigurationOptionSelectObjectSchema.optional(), include: ConfigurationOptionIncludeObjectSchema.optional(), data: z.union([ConfigurationOptionUpdateInputObjectSchema, ConfigurationOptionUncheckedUpdateInputObjectSchema]), where: ConfigurationOptionWhereUniqueInputObjectSchema }).strict() as unknown as z.ZodType<Prisma.ConfigurationOptionUpdateArgs>;
+
+export const ConfigurationOptionUpdateOneZodSchema = z.object({ select: ConfigurationOptionSelectObjectSchema.optional(), include: ConfigurationOptionIncludeObjectSchema.optional(), data: z.union([ConfigurationOptionUpdateInputObjectSchema, ConfigurationOptionUncheckedUpdateInputObjectSchema]), where: ConfigurationOptionWhereUniqueInputObjectSchema }).strict();

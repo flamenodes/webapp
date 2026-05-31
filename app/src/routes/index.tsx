@@ -3,8 +3,25 @@ import Features from '#/components/hero/Features'
 import HeroSection from '#/components/hero/HeroSection'
 import ScrollReveal from '#/components/ScrollReveal'
 import { PricingHeroCard } from '#/components/hero/PricingHeroCard'
+import { GlobalPresence } from '#/components/hero/GlobalPresence'
+import { seo } from '#/utils/seo'
+import ScrollStack, { ScrollStackItem } from '@/components/ScrollStack'
+import BorderGlow from '@/components/BorderGlow'
+import { Card, CardContent, CardTitle } from '@/components/ui/card'
+import { PlugZap } from 'lucide-react'
+import { ContactUS } from '@/components/hero/ContactUS'
 
 export const Route = createFileRoute('/')({
+  head: () => ({
+    meta: seo({
+      title: 'Home | Flame Nodes',
+      description:
+        'High-performance cloud hosting with instant setup. VPS, dedicated servers, Minecraft hosting, web hosting, and enterprise DDoS protection.',
+      keywords:
+        'cloud hosting, VPS, dedicated servers, Minecraft hosting, game server, DDoS protection',
+      image: '/flamenodes.png',
+    }),
+  }),
   component: Home,
 })
 
@@ -82,7 +99,7 @@ function Home() {
       <section className="flex flex-col items-center justify-center [perspective:1000px] space-y-8 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-background/10 to-primary/20 blur-3xl rounded-full scale-150 opacity-60"></div>
         <h1
-          className="text-6xl font-extrabold text-transparent bg-clip-text bg-linear-60 from-primary to-primary/50 text-shadow-[
+          className="text-6xl font-angkor font-extrabold text-transparent bg-clip-text bg-linear-60 from-primary to-primary/50 text-shadow-[
 0_0_20px_rgba(238,105,105,0.3)]
 ]"
         >
@@ -103,6 +120,7 @@ function Home() {
           ))}
         </div>
       </section>
+      <ContactUS/>
     </main>
   )
 }

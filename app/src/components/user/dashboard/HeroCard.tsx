@@ -1,6 +1,7 @@
 import { Hash, ShieldCheck, MapPin, Clock } from 'lucide-react'
-import { heroMeta } from '#/data/dashboard/dashboardData'
-
+import { useQuery } from '@tanstack/react-query'
+import { getUserStats } from '@/serverActions/user/dashboard.api'
+import { formatDistanceToNow } from '@/lib/date-utils'
 
 const META_ICONS: Record<string, React.ElementType> = {
   Hash,
@@ -16,6 +17,33 @@ export function HeroCard({
   username?: string
   avatar: any
 }) {
+  const { data: stats } = useQuery({
+    queryKey: ['user-stats'],
+    queryFn: () => getUserStats(),
+  })
+
+  const heroMeta = [
+    {
+      icon: 'Hash',
+      label: 'User ID',
+      value: username?.slice(0, 8).toUpperCase() || 'N/A',
+    },
+    {
+      icon: 'ShieldCheck',
+      label: 'Status',
+      value: 'Active',
+    },
+    {
+      icon: 'MapPin',
+      label: 'Servers',
+      value: stats ? `${stats.activeServers}/${stats.totalServers}` : '0/0',
+    },
+    {
+      icon: 'Clock',
+      label: 'Last Login',
+      value: formatDistanceToNow(new Date(), { addSuffix: true }),
+    },
+  ]
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-border bg-card flex flex-col justify-between p-5 md:p-6">
@@ -27,8 +55,14 @@ export function HeroCard({
         <div className="flex items-center gap-4">
           {/* Avatar */}
           <div className="relative shrink-0">
-            <div className="w-14 h-14 rounded-full bg-primary/15 border border-primary/25 flex items-center justify-center shadow-[0_0_20px_var(--primary)/20]">
-              <img src={avatar} sizes="24" />
+            <div className="w-14 h-14 rounded-full bg-primary/15 border border-primary/25 flex items-center justify-center shadow-[0_0_20px_var(--primary)/20] overflow-hidden">
+              {avatar ? (
+                <img src={avatar} alt={username} className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-xl font-bold text-primary">
+                  {username?.slice(0, 2).toUpperCase()}
+                </span>
+              )}
             </div>
             <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-success border-2 border-card" />
           </div>
@@ -39,7 +73,9 @@ export function HeroCard({
               {username}
             </h1>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Infrastructure running smoothly across all regions.
+              {stats && stats.activeServers > 0
+                ? `${stats.activeServers} server${stats.activeServers !== 1 ? 's' : ''} running smoothly`
+                : 'Ready to deploy your first server'}
             </p>
           </div>
         </div>

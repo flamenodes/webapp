@@ -7,6 +7,7 @@ export const CartItemInputSchema = z.object({
     productId: z.string(),
     quantity: z.number().int(),
     billingPeriod: BillingPeriodSchema,
+    configuration: z.unknown().optional().nullable(),
     cart: z.unknown(),
     product: z.unknown(),
     createdAt: z.date(),

@@ -9,7 +9,9 @@ import { JsonNullableFilterObjectSchema as JsonNullableFilterObjectSchema } from
 import { DateTimeFilterObjectSchema as DateTimeFilterObjectSchema } from './DateTimeFilter.schema';
 import { UserScalarRelationFilterObjectSchema as UserScalarRelationFilterObjectSchema } from './UserScalarRelationFilter.schema';
 import { UserWhereInputObjectSchema as UserWhereInputObjectSchema } from './UserWhereInput.schema';
-import { OrderItemListRelationFilterObjectSchema as OrderItemListRelationFilterObjectSchema } from './OrderItemListRelationFilter.schema'
+import { OrderItemListRelationFilterObjectSchema as OrderItemListRelationFilterObjectSchema } from './OrderItemListRelationFilter.schema';
+import { InvoiceNullableScalarRelationFilterObjectSchema as InvoiceNullableScalarRelationFilterObjectSchema } from './InvoiceNullableScalarRelationFilter.schema';
+import { InvoiceWhereInputObjectSchema as InvoiceWhereInputObjectSchema } from './InvoiceWhereInput.schema'
 
 const orderwhereinputSchema = z.object({
   AND: z.union([z.lazy(() => OrderWhereInputObjectSchema), z.lazy(() => OrderWhereInputObjectSchema).array()]).optional(),
@@ -27,7 +29,8 @@ const orderwhereinputSchema = z.object({
   createdAt: z.union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()]).optional(),
   updatedAt: z.union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()]).optional(),
   user: z.union([z.lazy(() => UserScalarRelationFilterObjectSchema), z.lazy(() => UserWhereInputObjectSchema)]).optional(),
-  items: z.lazy(() => OrderItemListRelationFilterObjectSchema).optional()
+  items: z.lazy(() => OrderItemListRelationFilterObjectSchema).optional(),
+  invoice: z.union([z.lazy(() => InvoiceNullableScalarRelationFilterObjectSchema), z.lazy(() => InvoiceWhereInputObjectSchema)]).optional()
 }).strict();
 export const OrderWhereInputObjectSchema: z.ZodType<Prisma.OrderWhereInput> = orderwhereinputSchema as unknown as z.ZodType<Prisma.OrderWhereInput>;
 export const OrderWhereInputObjectZodSchema = orderwhereinputSchema;

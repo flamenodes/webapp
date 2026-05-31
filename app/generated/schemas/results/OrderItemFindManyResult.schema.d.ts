@@ -1,0 +1,29 @@
+import * as z from 'zod';
+export declare const OrderItemFindManyResultSchema: z.ZodObject<{
+    data: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        orderId: z.ZodString;
+        productId: z.ZodString;
+        productName: z.ZodString;
+        quantity: z.ZodNumber;
+        billingPeriod: z.ZodUnknown;
+        unitPrice: z.ZodNumber;
+        totalPrice: z.ZodNumber;
+        specsSnapshot: z.ZodOptional<z.ZodUnknown>;
+        configuration: z.ZodOptional<z.ZodUnknown>;
+        expiresAt: z.ZodOptional<z.ZodDate>;
+        order: z.ZodUnknown;
+        product: z.ZodUnknown;
+        server: z.ZodOptional<z.ZodUnknown>;
+        createdAt: z.ZodDate;
+    }, z.core.$strip>>;
+    pagination: z.ZodObject<{
+        page: z.ZodNumber;
+        pageSize: z.ZodNumber;
+        total: z.ZodNumber;
+        totalPages: z.ZodNumber;
+        hasNext: z.ZodBoolean;
+        hasPrev: z.ZodBoolean;
+    }, z.core.$strip>;
+}, z.core.$strip>;
+//# sourceMappingURL=OrderItemFindManyResult.schema.d.ts.map

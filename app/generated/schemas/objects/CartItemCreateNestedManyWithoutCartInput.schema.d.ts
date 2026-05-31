@@ -1,0 +1,10 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+export declare const CartItemCreateNestedManyWithoutCartInputObjectSchema: z.ZodType<Prisma.CartItemCreateNestedManyWithoutCartInput>;
+export declare const CartItemCreateNestedManyWithoutCartInputObjectZodSchema: z.ZodObject<{
+    create: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.CartItemCreateWithoutCartInput, unknown, z.core.$ZodTypeInternals<Prisma.CartItemCreateWithoutCartInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.CartItemCreateWithoutCartInput, unknown, z.core.$ZodTypeInternals<Prisma.CartItemCreateWithoutCartInput, unknown>>>>, z.ZodLazy<z.ZodType<Prisma.CartItemUncheckedCreateWithoutCartInput, unknown, z.core.$ZodTypeInternals<Prisma.CartItemUncheckedCreateWithoutCartInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.CartItemUncheckedCreateWithoutCartInput, unknown, z.core.$ZodTypeInternals<Prisma.CartItemUncheckedCreateWithoutCartInput, unknown>>>>]>>;
+    connectOrCreate: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.CartItemCreateOrConnectWithoutCartInput, unknown, z.core.$ZodTypeInternals<Prisma.CartItemCreateOrConnectWithoutCartInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.CartItemCreateOrConnectWithoutCartInput, unknown, z.core.$ZodTypeInternals<Prisma.CartItemCreateOrConnectWithoutCartInput, unknown>>>>]>>;
+    createMany: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.CartItemCreateManyCartInputEnvelope, unknown, z.core.$ZodTypeInternals<Prisma.CartItemCreateManyCartInputEnvelope, unknown>>>>;
+    connect: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.CartItemWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.CartItemWhereUniqueInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.CartItemWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.CartItemWhereUniqueInput, unknown>>>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=CartItemCreateNestedManyWithoutCartInput.schema.d.ts.map

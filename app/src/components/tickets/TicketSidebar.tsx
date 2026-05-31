@@ -67,6 +67,8 @@ export function TicketSidebar({ selectedTicketId, onSelectTicket, onCreateTicket
                   priority: ticket.priority.toLowerCase() as any,
                   avatar: ticket.user.image || ticket.user.name.substring(0, 2).toUpperCase(),
                   avatarImage: ticket.user.image,
+                  assignedToName: ticket.assignedTo?.name,
+                  assignedToImage: ticket.assignedTo?.image,
                 }}
                 isSelected={selectedTicketId === ticket.ticketId}
                 onSelect={() => onSelectTicket?.(ticket.ticketId)}

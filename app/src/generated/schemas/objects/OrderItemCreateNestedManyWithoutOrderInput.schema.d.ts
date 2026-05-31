@@ -1,0 +1,10 @@
+import * as z from 'zod';
+import type { Prisma } from '../../prisma/client';
+export declare const OrderItemCreateNestedManyWithoutOrderInputObjectSchema: z.ZodType<Prisma.OrderItemCreateNestedManyWithoutOrderInput>;
+export declare const OrderItemCreateNestedManyWithoutOrderInputObjectZodSchema: z.ZodObject<{
+    create: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.OrderItemCreateWithoutOrderInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemCreateWithoutOrderInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.OrderItemCreateWithoutOrderInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemCreateWithoutOrderInput, unknown>>>>, z.ZodLazy<z.ZodType<Prisma.OrderItemUncheckedCreateWithoutOrderInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemUncheckedCreateWithoutOrderInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.OrderItemUncheckedCreateWithoutOrderInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemUncheckedCreateWithoutOrderInput, unknown>>>>]>>;
+    connectOrCreate: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.OrderItemCreateOrConnectWithoutOrderInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemCreateOrConnectWithoutOrderInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.OrderItemCreateOrConnectWithoutOrderInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemCreateOrConnectWithoutOrderInput, unknown>>>>]>>;
+    createMany: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.OrderItemCreateManyOrderInputEnvelope, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemCreateManyOrderInputEnvelope, unknown>>>>;
+    connect: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.OrderItemWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemWhereUniqueInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.OrderItemWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemWhereUniqueInput, unknown>>>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=OrderItemCreateNestedManyWithoutOrderInput.schema.d.ts.map

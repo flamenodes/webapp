@@ -1,0 +1,12 @@
+import * as z from 'zod';
+import { DiscountOrderByWithRelationInputObjectSchema as DiscountOrderByWithRelationInputObjectSchema } from './objects/DiscountOrderByWithRelationInput.schema';
+import { DiscountWhereInputObjectSchema as DiscountWhereInputObjectSchema } from './objects/DiscountWhereInput.schema';
+import { DiscountWhereUniqueInputObjectSchema as DiscountWhereUniqueInputObjectSchema } from './objects/DiscountWhereUniqueInput.schema';
+import { DiscountCountAggregateInputObjectSchema as DiscountCountAggregateInputObjectSchema } from './objects/DiscountCountAggregateInput.schema';
+import { DiscountMinAggregateInputObjectSchema as DiscountMinAggregateInputObjectSchema } from './objects/DiscountMinAggregateInput.schema';
+import { DiscountMaxAggregateInputObjectSchema as DiscountMaxAggregateInputObjectSchema } from './objects/DiscountMaxAggregateInput.schema';
+import { DiscountAvgAggregateInputObjectSchema as DiscountAvgAggregateInputObjectSchema } from './objects/DiscountAvgAggregateInput.schema';
+import { DiscountSumAggregateInputObjectSchema as DiscountSumAggregateInputObjectSchema } from './objects/DiscountSumAggregateInput.schema';
+export const DiscountAggregateSchema = z.object({ orderBy: z.union([DiscountOrderByWithRelationInputObjectSchema, DiscountOrderByWithRelationInputObjectSchema.array()]).optional(), where: DiscountWhereInputObjectSchema.optional(), cursor: DiscountWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([z.literal(true), DiscountCountAggregateInputObjectSchema]).optional(), _min: DiscountMinAggregateInputObjectSchema.optional(), _max: DiscountMaxAggregateInputObjectSchema.optional(), _avg: DiscountAvgAggregateInputObjectSchema.optional(), _sum: DiscountSumAggregateInputObjectSchema.optional() }).strict();
+export const DiscountAggregateZodSchema = z.object({ orderBy: z.union([DiscountOrderByWithRelationInputObjectSchema, DiscountOrderByWithRelationInputObjectSchema.array()]).optional(), where: DiscountWhereInputObjectSchema.optional(), cursor: DiscountWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([z.literal(true), DiscountCountAggregateInputObjectSchema]).optional(), _min: DiscountMinAggregateInputObjectSchema.optional(), _max: DiscountMaxAggregateInputObjectSchema.optional(), _avg: DiscountAvgAggregateInputObjectSchema.optional(), _sum: DiscountSumAggregateInputObjectSchema.optional() }).strict();
+//# sourceMappingURL=aggregateDiscount.schema.js.map

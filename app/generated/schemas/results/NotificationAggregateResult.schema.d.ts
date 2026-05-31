@@ -1,0 +1,30 @@
+import * as z from 'zod';
+export declare const NotificationAggregateResultSchema: z.ZodObject<{
+    _count: z.ZodOptional<z.ZodObject<{
+        id: z.ZodNumber;
+        userId: z.ZodNumber;
+        user: z.ZodNumber;
+        type: z.ZodNumber;
+        title: z.ZodNumber;
+        message: z.ZodNumber;
+        read: z.ZodNumber;
+        createdAt: z.ZodNumber;
+    }, z.core.$strip>>;
+    _min: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        userId: z.ZodNullable<z.ZodString>;
+        type: z.ZodNullable<z.ZodString>;
+        title: z.ZodNullable<z.ZodString>;
+        message: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+    _max: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        userId: z.ZodNullable<z.ZodString>;
+        type: z.ZodNullable<z.ZodString>;
+        title: z.ZodNullable<z.ZodString>;
+        message: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+}, z.core.$strip>;
+//# sourceMappingURL=NotificationAggregateResult.schema.d.ts.map

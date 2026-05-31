@@ -14,6 +14,7 @@ const makeSchema = () => z.object({
   unitPrice: z.boolean().optional(),
   totalPrice: z.boolean().optional(),
   specsSnapshot: z.boolean().optional(),
+  configuration: z.boolean().optional(),
   expiresAt: z.boolean().optional(),
   order: z.union([z.boolean(), z.lazy(() => OrderArgsObjectSchema)]).optional(),
   product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),

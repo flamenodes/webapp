@@ -1,0 +1,1 @@
+{"version":3,"file":"InvoiceInclude.schema.d.ts","sourceRoot":"","sources":["InvoiceInclude.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AACzB,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,sCAAsC,CAAC;AAMnE,eAAO,MAAM,0BAA0B,EAAE,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,cAAc,CAA+D,CAAC;AACxI,eAAO,MAAM,6BAA6B;;;;;kBAAe,CAAC"}

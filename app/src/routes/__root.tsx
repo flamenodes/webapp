@@ -14,8 +14,9 @@ import { ThemeProvider } from '#/components/theme/theme-provider'
 import { AuthProvider } from '#/components/auth/AuthProvider'
 import { seo } from '#/utils/seo'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { useState } from 'react'
 
-export const withBrand = (title: string) => `${title} | BrandName`;
+export const withBrand = (title: string) => `${title} | Flame Nodes`;
 
 export const Route = createRootRoute({
   head: () => ({
@@ -28,10 +29,10 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       ...seo({
-        title: `Flame Nodes | `,
+        title: 'Home | Flame Nodes',
         description:
-          'Flame Nodes is a cloud hosting platform that provides scalable and reliable infrastructure for your applications.',
-        keywords: 'cloud, hosting, infrastructure, scalable, reliable',
+          'Flame Nodes is a cloud hosting platform providing scalable VPS, dedicated servers, Minecraft hosting, and DDoS protection for gamers and developers.',
+        keywords: 'cloud hosting, VPS, dedicated servers, Minecraft hosting, DDoS protection, game server hosting',
         image: '/flamenodes.png',
       }),
     ],
@@ -54,7 +55,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   })
-  const queryClient = new QueryClient()
+  const [queryClient] = useState(() => new QueryClient())
   const dashes = ['/user', '/admin', '/signup']
   const hideNavbar = dashes.some((dash) => pathname.startsWith(dash))
   return (

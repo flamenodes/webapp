@@ -1,0 +1,35 @@
+import * as z from 'zod';
+export declare const TicketMessageGroupByResultSchema: z.ZodArray<z.ZodObject<{
+    id: z.ZodString;
+    ticketId: z.ZodString;
+    senderId: z.ZodString;
+    content: z.ZodString;
+    attachments: z.ZodUnknown;
+    createdAt: z.ZodDate;
+    _count: z.ZodOptional<z.ZodObject<{
+        id: z.ZodNumber;
+        ticketId: z.ZodNumber;
+        ticket: z.ZodNumber;
+        senderId: z.ZodNumber;
+        sender: z.ZodNumber;
+        senderRole: z.ZodNumber;
+        content: z.ZodNumber;
+        attachments: z.ZodNumber;
+        createdAt: z.ZodNumber;
+    }, z.core.$strip>>;
+    _min: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        ticketId: z.ZodNullable<z.ZodString>;
+        senderId: z.ZodNullable<z.ZodString>;
+        content: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+    _max: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        ticketId: z.ZodNullable<z.ZodString>;
+        senderId: z.ZodNullable<z.ZodString>;
+        content: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+}, z.core.$strip>>;
+//# sourceMappingURL=TicketMessageGroupByResult.schema.d.ts.map

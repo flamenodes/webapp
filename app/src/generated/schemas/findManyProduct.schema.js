@@ -1,0 +1,53 @@
+import * as z from 'zod';
+import { ProductIncludeObjectSchema as ProductIncludeObjectSchema } from './objects/ProductInclude.schema';
+import { ProductOrderByWithRelationInputObjectSchema as ProductOrderByWithRelationInputObjectSchema } from './objects/ProductOrderByWithRelationInput.schema';
+import { ProductWhereInputObjectSchema as ProductWhereInputObjectSchema } from './objects/ProductWhereInput.schema';
+import { ProductWhereUniqueInputObjectSchema as ProductWhereUniqueInputObjectSchema } from './objects/ProductWhereUniqueInput.schema';
+import { ProductScalarFieldEnumSchema } from './enums/ProductScalarFieldEnum.schema';
+// Select schema needs to be in file to prevent circular imports
+//------------------------------------------------------
+export const ProductFindManySelectSchema = z.object({
+    id: z.boolean().optional(),
+    planName: z.boolean().optional(),
+    icon: z.boolean().optional(),
+    badge: z.boolean().optional(),
+    category: z.boolean().optional(),
+    price: z.boolean().optional(),
+    sortOrder: z.boolean().optional(),
+    features: z.boolean().optional(),
+    featureCategory: z.boolean().optional(),
+    inStock: z.boolean().optional(),
+    discountId: z.boolean().optional(),
+    discount: z.boolean().optional(),
+    specs: z.boolean().optional(),
+    deployMode: z.boolean().optional(),
+    cartItems: z.boolean().optional(),
+    orderItems: z.boolean().optional(),
+    createdAt: z.boolean().optional(),
+    updatedAt: z.boolean().optional(),
+    _count: z.boolean().optional()
+}).strict();
+export const ProductFindManySelectZodSchema = z.object({
+    id: z.boolean().optional(),
+    planName: z.boolean().optional(),
+    icon: z.boolean().optional(),
+    badge: z.boolean().optional(),
+    category: z.boolean().optional(),
+    price: z.boolean().optional(),
+    sortOrder: z.boolean().optional(),
+    features: z.boolean().optional(),
+    featureCategory: z.boolean().optional(),
+    inStock: z.boolean().optional(),
+    discountId: z.boolean().optional(),
+    discount: z.boolean().optional(),
+    specs: z.boolean().optional(),
+    deployMode: z.boolean().optional(),
+    cartItems: z.boolean().optional(),
+    orderItems: z.boolean().optional(),
+    createdAt: z.boolean().optional(),
+    updatedAt: z.boolean().optional(),
+    _count: z.boolean().optional()
+}).strict();
+export const ProductFindManySchema = z.object({ select: ProductFindManySelectSchema.optional(), include: z.lazy(() => ProductIncludeObjectSchema.optional()), orderBy: z.union([ProductOrderByWithRelationInputObjectSchema, ProductOrderByWithRelationInputObjectSchema.array()]).optional(), where: ProductWhereInputObjectSchema.optional(), cursor: ProductWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([ProductScalarFieldEnumSchema, ProductScalarFieldEnumSchema.array()]).optional() }).strict();
+export const ProductFindManyZodSchema = z.object({ select: ProductFindManySelectSchema.optional(), include: z.lazy(() => ProductIncludeObjectSchema.optional()), orderBy: z.union([ProductOrderByWithRelationInputObjectSchema, ProductOrderByWithRelationInputObjectSchema.array()]).optional(), where: ProductWhereInputObjectSchema.optional(), cursor: ProductWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([ProductScalarFieldEnumSchema, ProductScalarFieldEnumSchema.array()]).optional() }).strict();
+//# sourceMappingURL=findManyProduct.schema.js.map

@@ -1,0 +1,20 @@
+import * as z from 'zod';
+import { ConfigurationValueFindManySchema as ConfigurationValueFindManySchema } from '../findManyConfigurationValue.schema';
+import { ConfigurationOptionCountOutputTypeArgsObjectSchema as ConfigurationOptionCountOutputTypeArgsObjectSchema } from './ConfigurationOptionCountOutputTypeArgs.schema';
+const makeSchema = () => z.object({
+    id: z.boolean().optional(),
+    name: z.boolean().optional(),
+    label: z.boolean().optional(),
+    description: z.boolean().optional(),
+    type: z.boolean().optional(),
+    required: z.boolean().optional(),
+    category: z.boolean().optional(),
+    sortOrder: z.boolean().optional(),
+    values: z.union([z.boolean(), z.lazy(() => ConfigurationValueFindManySchema)]).optional(),
+    createdAt: z.boolean().optional(),
+    updatedAt: z.boolean().optional(),
+    _count: z.union([z.boolean(), z.lazy(() => ConfigurationOptionCountOutputTypeArgsObjectSchema)]).optional()
+}).strict();
+export const ConfigurationOptionSelectObjectSchema = makeSchema();
+export const ConfigurationOptionSelectObjectZodSchema = makeSchema();
+//# sourceMappingURL=ConfigurationOptionSelect.schema.js.map

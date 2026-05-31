@@ -1,0 +1,52 @@
+import * as z from 'zod';
+export declare const RazorpayConfigAggregateResultSchema: z.ZodObject<{
+    _count: z.ZodOptional<z.ZodObject<{
+        id: z.ZodNumber;
+        mode: z.ZodNumber;
+        testKeyId: z.ZodNumber;
+        testKeySecret: z.ZodNumber;
+        prodKeyId: z.ZodNumber;
+        prodKeySecret: z.ZodNumber;
+        gstin: z.ZodNumber;
+        companyName: z.ZodNumber;
+        companyAddress: z.ZodNumber;
+        companyCity: z.ZodNumber;
+        companyZip: z.ZodNumber;
+        companyCountry: z.ZodNumber;
+        updatedAt: z.ZodNumber;
+        createdAt: z.ZodNumber;
+    }, z.core.$strip>>;
+    _min: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        mode: z.ZodNullable<z.ZodString>;
+        testKeyId: z.ZodNullable<z.ZodString>;
+        testKeySecret: z.ZodNullable<z.ZodString>;
+        prodKeyId: z.ZodNullable<z.ZodString>;
+        prodKeySecret: z.ZodNullable<z.ZodString>;
+        gstin: z.ZodNullable<z.ZodString>;
+        companyName: z.ZodNullable<z.ZodString>;
+        companyAddress: z.ZodNullable<z.ZodString>;
+        companyCity: z.ZodNullable<z.ZodString>;
+        companyZip: z.ZodNullable<z.ZodString>;
+        companyCountry: z.ZodNullable<z.ZodString>;
+        updatedAt: z.ZodNullable<z.ZodDate>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+    _max: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        mode: z.ZodNullable<z.ZodString>;
+        testKeyId: z.ZodNullable<z.ZodString>;
+        testKeySecret: z.ZodNullable<z.ZodString>;
+        prodKeyId: z.ZodNullable<z.ZodString>;
+        prodKeySecret: z.ZodNullable<z.ZodString>;
+        gstin: z.ZodNullable<z.ZodString>;
+        companyName: z.ZodNullable<z.ZodString>;
+        companyAddress: z.ZodNullable<z.ZodString>;
+        companyCity: z.ZodNullable<z.ZodString>;
+        companyZip: z.ZodNullable<z.ZodString>;
+        companyCountry: z.ZodNullable<z.ZodString>;
+        updatedAt: z.ZodNullable<z.ZodDate>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+}, z.core.$strip>;
+//# sourceMappingURL=RazorpayConfigAggregateResult.schema.d.ts.map

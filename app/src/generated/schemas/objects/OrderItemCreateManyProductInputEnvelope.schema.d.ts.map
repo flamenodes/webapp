@@ -1,0 +1,1 @@
+{"version":3,"file":"OrderItemCreateManyProductInputEnvelope.schema.d.ts","sourceRoot":"","sources":["OrderItemCreateManyProductInputEnvelope.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AACzB,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,qBAAqB,CAAC;AAOlD,eAAO,MAAM,mDAAmD,EAAE,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,uCAAuC,CAAwF,CAAC;AACnN,eAAO,MAAM,sDAAsD;;;kBAAe,CAAC"}

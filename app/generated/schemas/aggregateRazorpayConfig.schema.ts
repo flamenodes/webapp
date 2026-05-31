@@ -1,0 +1,12 @@
+import type { Prisma } from '../../src/generated/prisma/client';
+import * as z from 'zod';
+import { RazorpayConfigOrderByWithRelationInputObjectSchema as RazorpayConfigOrderByWithRelationInputObjectSchema } from './objects/RazorpayConfigOrderByWithRelationInput.schema';
+import { RazorpayConfigWhereInputObjectSchema as RazorpayConfigWhereInputObjectSchema } from './objects/RazorpayConfigWhereInput.schema';
+import { RazorpayConfigWhereUniqueInputObjectSchema as RazorpayConfigWhereUniqueInputObjectSchema } from './objects/RazorpayConfigWhereUniqueInput.schema';
+import { RazorpayConfigCountAggregateInputObjectSchema as RazorpayConfigCountAggregateInputObjectSchema } from './objects/RazorpayConfigCountAggregateInput.schema';
+import { RazorpayConfigMinAggregateInputObjectSchema as RazorpayConfigMinAggregateInputObjectSchema } from './objects/RazorpayConfigMinAggregateInput.schema';
+import { RazorpayConfigMaxAggregateInputObjectSchema as RazorpayConfigMaxAggregateInputObjectSchema } from './objects/RazorpayConfigMaxAggregateInput.schema';
+
+export const RazorpayConfigAggregateSchema: z.ZodType<Prisma.RazorpayConfigAggregateArgs> = z.object({ orderBy: z.union([RazorpayConfigOrderByWithRelationInputObjectSchema, RazorpayConfigOrderByWithRelationInputObjectSchema.array()]).optional(), where: RazorpayConfigWhereInputObjectSchema.optional(), cursor: RazorpayConfigWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), RazorpayConfigCountAggregateInputObjectSchema ]).optional(), _min: RazorpayConfigMinAggregateInputObjectSchema.optional(), _max: RazorpayConfigMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.RazorpayConfigAggregateArgs>;
+
+export const RazorpayConfigAggregateZodSchema = z.object({ orderBy: z.union([RazorpayConfigOrderByWithRelationInputObjectSchema, RazorpayConfigOrderByWithRelationInputObjectSchema.array()]).optional(), where: RazorpayConfigWhereInputObjectSchema.optional(), cursor: RazorpayConfigWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), RazorpayConfigCountAggregateInputObjectSchema ]).optional(), _min: RazorpayConfigMinAggregateInputObjectSchema.optional(), _max: RazorpayConfigMaxAggregateInputObjectSchema.optional() }).strict();

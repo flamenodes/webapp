@@ -91,3 +91,13 @@ export const SenderRole = {
 } as const
 
 export type SenderRole = (typeof SenderRole)[keyof typeof SenderRole]
+
+
+export const ConfigurationOptionType = {
+  SELECT: 'SELECT',
+  RADIO: 'RADIO',
+  TEXT: 'TEXT',
+  NUMBER: 'NUMBER'
+} as const
+
+export type ConfigurationOptionType = (typeof ConfigurationOptionType)[keyof typeof ConfigurationOptionType]

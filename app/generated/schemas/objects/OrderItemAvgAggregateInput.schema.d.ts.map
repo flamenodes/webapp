@@ -1,0 +1,1 @@
+{"version":3,"file":"OrderItemAvgAggregateInput.schema.d.ts","sourceRoot":"","sources":["OrderItemAvgAggregateInput.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AACzB,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,sCAAsC,CAAC;AAQnE,eAAO,MAAM,sCAAsC,EAAE,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,8BAA8B,CAA+E,CAAC;AACpL,eAAO,MAAM,yCAAyC;;;;kBAAe,CAAC"}

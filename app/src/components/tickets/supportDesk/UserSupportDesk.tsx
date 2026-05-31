@@ -12,8 +12,7 @@ import {
   sendTicketMessage,
 } from '#/serverActions/tickets/tickets.api'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { io, type Socket } from 'socket.io-client'
-import { getSocketServerUrl } from '#/lib/socket/socket-url'
+import { useTicketSocket } from '#/lib/socket/useTicketSocket'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '#/components/ui/alert-dialog'
@@ -34,6 +33,7 @@ export function UserSupportDesk() {
 
   const [search, setSearch] = useState('')
   const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null)
+  const [typingUsers, setTypingUsers] = useState<Set<string>>(() => new Set())
 
   const listInput = useMemo(
     () => ({
@@ -71,101 +71,37 @@ export function UserSupportDesk() {
     },
   })
 
-  const socketRef = useRef<Socket | null>(null)
-  const typingStopTimerRef = useRef<number | null>(null)
-  const isTypingRef = useRef(false)
-  const [typingUsers, setTypingUsers] = useState<Set<string>>(() => new Set())
+  // Use the WebSocket hook for live updates
+  useTicketSocket(selectedTicketId || undefined)
 
+  // Listen for typing events
   useEffect(() => {
-    if (!selectedTicketId) return
-
-    if (!socketRef.current) {
-      const url = getSocketServerUrl()
-      socketRef.current = io(url, { withCredentials: true })
+    const handleTyping = (event: CustomEvent) => {
+      const { userId } = event.detail
+      if (userId) {
+        setTypingUsers((prev) => new Set(prev).add(userId))
+      }
     }
 
-    const socket = socketRef.current
-    socket.emit('join-ticket', { ticketId: selectedTicketId })
-
-    const onNewMessage = () => {
-      queryClient.invalidateQueries({ queryKey: ['ticket', selectedTicketId] })
-      queryClient.invalidateQueries({ queryKey: ['tickets'] })
+    const handleStopTyping = (event: CustomEvent) => {
+      const { userId } = event.detail
+      if (userId) {
+        setTypingUsers((prev) => {
+          const next = new Set(prev)
+          next.delete(userId)
+          return next
+        })
+      }
     }
 
-    const onTicketUpdated = () => {
-      queryClient.invalidateQueries({ queryKey: ['ticket', selectedTicketId] })
-      queryClient.invalidateQueries({ queryKey: ['tickets'] })
-    }
-
-    const onTyping = (payload: { ticketId?: string; userId?: string }) => {
-      if (!payload?.userId) return
-      setTypingUsers((prev) => new Set(prev).add(payload.userId!))
-    }
-    const onStopTyping = (payload: { ticketId?: string; userId?: string }) => {
-      if (!payload?.userId) return
-      setTypingUsers((prev) => {
-        const next = new Set(prev)
-        next.delete(payload.userId!)
-        return next
-      })
-    }
-
-    socket.on('new-message', onNewMessage)
-    socket.on('ticket-updated', onTicketUpdated)
-    socket.on('typing', onTyping)
-    socket.on('stop-typing', onStopTyping)
+    window.addEventListener('ticket:typing', handleTyping as EventListener)
+    window.addEventListener('ticket:stop-typing', handleStopTyping as EventListener)
 
     return () => {
-      socket.off('new-message', onNewMessage)
-      socket.off('ticket-updated', onTicketUpdated)
-      socket.off('typing', onTyping)
-      socket.off('stop-typing', onStopTyping)
-      socket.emit('leave-ticket', { ticketId: selectedTicketId })
-      setTypingUsers(new Set())
+      window.removeEventListener('ticket:typing', handleTyping as EventListener)
+      window.removeEventListener('ticket:stop-typing', handleStopTyping as EventListener)
     }
-  }, [queryClient, selectedTicketId])
-
-  const [draft, setDraft] = useState('')
-  const [sending, setSending] = useState(false)
-
-  function emitTyping() {
-    if (!selectedTicketId || !socketRef.current) return
-    if (!isTypingRef.current) {
-      isTypingRef.current = true
-      socketRef.current.emit('typing', { ticketId: selectedTicketId })
-    }
-    if (typingStopTimerRef.current) window.clearTimeout(typingStopTimerRef.current)
-    typingStopTimerRef.current = window.setTimeout(() => emitStopTyping(), 900)
-  }
-
-  function emitStopTyping() {
-    if (!selectedTicketId || !socketRef.current) return
-    if (typingStopTimerRef.current) {
-      window.clearTimeout(typingStopTimerRef.current)
-      typingStopTimerRef.current = null
-    }
-    if (isTypingRef.current) {
-      isTypingRef.current = false
-      socketRef.current.emit('stop-typing', { ticketId: selectedTicketId })
-    }
-  }
-
-  async function handleSendMessage() {
-    const content = draft.trim()
-    if (!selectedTicketId || !content || sending) return
-    setSending(true)
-    try {
-      await sendTicketMessage({ data: { ticketId: selectedTicketId, content } })
-      setDraft('')
-      emitStopTyping()
-      queryClient.invalidateQueries({ queryKey: ['ticket', selectedTicketId] })
-      queryClient.invalidateQueries({ queryKey: ['tickets'] })
-    } catch (err: any) {
-      toast.error(err?.message ? String(err.message) : 'Failed to send message')
-    } finally {
-      setSending(false)
-    }
-  }
+  }, [])
 
   const ticket = ticketQuery.data as TicketDetail | undefined
   const tickets = (ticketsQuery.data ?? []) as TicketListItem[]
@@ -176,6 +112,45 @@ export function UserSupportDesk() {
   const [newDescription, setNewDescription] = useState('')
   const [newPriority, setNewPriority] = useState<'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT'>('MEDIUM')
   const [newTags, setNewTags] = useState<string[]>([])
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [draft, setDraft] = useState('')
+  const [sending, setSending] = useState(false)
+  const { send: sendViaWS, typing: typingViaWS, stopTyping: stopTypingViaWS } = useTicketSocket(selectedTicketId || undefined)
+
+  function handleTyping() {
+    typingViaWS()
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current)
+    }
+    typingTimeoutRef.current = setTimeout(() => {
+      stopTypingViaWS()
+    }, 900)
+  }
+
+  function handleStopTyping() {
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current)
+      typingTimeoutRef.current = null
+    }
+    stopTypingViaWS()
+  }
+
+  async function handleSendMessage() {
+    const content = draft.trim()
+    if (!selectedTicketId || !content || sending) return
+    setSending(true)
+    try {
+      await sendTicketMessage({ data: { ticketId: selectedTicketId, content } })
+      setDraft('')
+      handleStopTyping()
+      queryClient.invalidateQueries({ queryKey: ['ticket', selectedTicketId] })
+      queryClient.invalidateQueries({ queryKey: ['tickets'] })
+    } catch (err: any) {
+      toast.error(err?.message ? String(err.message) : 'Failed to send message')
+    } finally {
+      setSending(false)
+    }
+  }
 
   async function handleCreateTicket() {
     if (creating) return
@@ -458,12 +433,12 @@ export function UserSupportDesk() {
               value={draft}
               onChange={(e) => {
                 setDraft(e.target.value)
-                emitTyping()
+                handleTyping()
               }}
               placeholder={ticket ? 'Write a message…' : 'Select a ticket to chat…'}
               className="min-h-[44px] max-h-[160px]"
               disabled={!ticket || sending}
-              onBlur={() => emitStopTyping()}
+              onBlur={() => handleStopTyping()}
             />
             <Button size="sm" onClick={handleSendMessage} disabled={!ticket || sending}>
               Send

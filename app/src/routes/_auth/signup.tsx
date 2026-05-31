@@ -5,6 +5,9 @@ import { createFileRoute } from '@tanstack/react-router'
 import { GalleryVerticalEnd } from 'lucide-react'
 
 export const Route = createFileRoute('/_auth/signup')({
+  head: () => ({
+    meta: [{ title: 'Create Account | Flame Nodes' }],
+  }),
   component: SignupPage,
 })
 

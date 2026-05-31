@@ -8,7 +8,8 @@ import { ServerOrderByRelationAggregateInputObjectSchema as ServerOrderByRelatio
 import { CartOrderByWithRelationInputObjectSchema as CartOrderByWithRelationInputObjectSchema } from './CartOrderByWithRelationInput.schema';
 import { OrderOrderByRelationAggregateInputObjectSchema as OrderOrderByRelationAggregateInputObjectSchema } from './OrderOrderByRelationAggregateInput.schema';
 import { TicketOrderByRelationAggregateInputObjectSchema as TicketOrderByRelationAggregateInputObjectSchema } from './TicketOrderByRelationAggregateInput.schema';
-import { TicketMessageOrderByRelationAggregateInputObjectSchema as TicketMessageOrderByRelationAggregateInputObjectSchema } from './TicketMessageOrderByRelationAggregateInput.schema'
+import { TicketMessageOrderByRelationAggregateInputObjectSchema as TicketMessageOrderByRelationAggregateInputObjectSchema } from './TicketMessageOrderByRelationAggregateInput.schema';
+import { NotificationOrderByRelationAggregateInputObjectSchema as NotificationOrderByRelationAggregateInputObjectSchema } from './NotificationOrderByRelationAggregateInput.schema'
 
 const makeSchema = () => z.object({
   id: SortOrderSchema.optional(),
@@ -26,6 +27,11 @@ const makeSchema = () => z.object({
   username: SortOrderSchema.optional(),
   firstname: SortOrderSchema.optional(),
   lastname: SortOrderSchema.optional(),
+  pteroUserId: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
+  address: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
+  city: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
+  zip: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
+  country: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   displayUsername: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   sessions: z.lazy(() => SessionOrderByRelationAggregateInputObjectSchema).optional(),
   accounts: z.lazy(() => AccountOrderByRelationAggregateInputObjectSchema).optional(),
@@ -34,7 +40,8 @@ const makeSchema = () => z.object({
   orders: z.lazy(() => OrderOrderByRelationAggregateInputObjectSchema).optional(),
   tickets: z.lazy(() => TicketOrderByRelationAggregateInputObjectSchema).optional(),
   assignedTickets: z.lazy(() => TicketOrderByRelationAggregateInputObjectSchema).optional(),
-  ticketMessages: z.lazy(() => TicketMessageOrderByRelationAggregateInputObjectSchema).optional()
+  ticketMessages: z.lazy(() => TicketMessageOrderByRelationAggregateInputObjectSchema).optional(),
+  notifications: z.lazy(() => NotificationOrderByRelationAggregateInputObjectSchema).optional()
 }).strict();
 export const UserOrderByWithRelationInputObjectSchema: z.ZodType<Prisma.UserOrderByWithRelationInput> = makeSchema() as unknown as z.ZodType<Prisma.UserOrderByWithRelationInput>;
 export const UserOrderByWithRelationInputObjectZodSchema = makeSchema();

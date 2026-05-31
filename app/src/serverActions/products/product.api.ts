@@ -29,6 +29,11 @@ const productSpecInputSchema = z.object({
   value: z.string().trim(),
 })
 
+const billingOptionInputSchema = z.object({
+  billingPeriod: billingPeriodSchema,
+  price: z.number().int().nonnegative(),
+})
+
 const deleteProductSchema = z.object({
   id: z.string(),
 })
@@ -55,6 +60,7 @@ const createProductSchema = z.object({
   inStock: z.boolean().default(true),
   specs: z.array(productSpecInputSchema).default([]),
   deployMode: z.string().trim().default('PTERODACTYL'),
+  billingOptions: z.array(billingOptionInputSchema).default([]),
 })
 
 const updateProductSchema = createProductSchema.extend({
@@ -74,12 +80,31 @@ const recreateProductSchema = z.object({
   id: z.string(),
 })
 
+const upsertBillingOptionsSchema = z.object({
+  productId: z.string(),
+  billingOptions: z.array(billingOptionInputSchema),
+})
+
+const deleteBillingOptionSchema = z.object({
+  id: z.string(),
+})
+
+const upsertCategoryBillingConfigSchema = z.object({
+  category: productCategorySchema,
+  billingPeriods: z.array(billingPeriodSchema),
+})
+
+const getCategoryBillingConfigsSchema = z.object({
+  category: productCategorySchema.optional(),
+})
+
 const productInclude = {
   features: {
     orderBy: {
       sortOrder: 'asc',
     },
   },
+  billingOptions: true,
 } satisfies Prisma.ProductInclude
 
 type ProductWithRelations = Prisma.ProductGetPayload<{
@@ -171,6 +196,11 @@ function serializeProduct(product: ProductWithRelations) {
       value: spec.value,
       sortOrder: spec.sortOrder,
     })),
+    billingOptions: (product.billingOptions || []).map((option) => ({
+      id: option.id,
+      billingPeriod: option.billingPeriod,
+      price: option.price,
+    })),
     createdAt:
       product.createdAt.toISOString(),
     updatedAt:
@@ -244,6 +274,12 @@ export const createProduct = createServerFn({
             value: spec.value,
             sortOrder: index,
           })),
+          billingOptions: {
+            create: data.billingOptions.map((option) => ({
+              billingPeriod: option.billingPeriod,
+              price: option.price,
+            })),
+          },
         },
         include: productInclude,
       })
@@ -362,6 +398,13 @@ export const updateProduct = createServerFn({
             value: spec.value,
             sortOrder: index,
           })),
+          billingOptions: {
+            deleteMany: {},
+            create: data.billingOptions.map((option) => ({
+              billingPeriod: option.billingPeriod,
+              price: option.price,
+            })),
+          },
         },
         include: productInclude,
       })
@@ -495,6 +538,12 @@ export const recreateProduct = createServerFn({
               value: spec.value,
               sortOrder: index,
             })),
+            billingOptions: {
+              create: existingProduct.billingOptions.map((option) => ({
+                billingPeriod: option.billingPeriod,
+                price: option.price,
+              })),
+            },
           },
           include: productInclude,
         })

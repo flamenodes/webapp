@@ -7,6 +7,9 @@ import { createFileRoute } from '@tanstack/react-router'
 import { PlusIcon } from 'lucide-react'
 
 export const Route = createFileRoute('/_protected/admin/products')({
+  head: () => ({
+    meta: [{ title: 'Products | Flame Nodes Admin' }],
+  }),
   component: RouteComponent,
 })
 

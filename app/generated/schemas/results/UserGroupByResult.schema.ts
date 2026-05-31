@@ -15,6 +15,11 @@ export const UserGroupByResultSchema = z.array(z.object({
   username: z.string(),
   firstname: z.string(),
   lastname: z.string(),
+  pteroUserId: z.number().int(),
+  address: z.string(),
+  city: z.string(),
+  zip: z.string(),
+  country: z.string(),
   displayUsername: z.string(),
   _count: z.object({
     id: z.number(),
@@ -34,14 +39,26 @@ export const UserGroupByResultSchema = z.array(z.object({
     username: z.number(),
     firstname: z.number(),
     lastname: z.number(),
+    pteroUserId: z.number(),
+    address: z.number(),
+    city: z.number(),
+    zip: z.number(),
+    country: z.number(),
     servers: z.number(),
     cart: z.number(),
     orders: z.number(),
     displayUsername: z.number(),
     tickets: z.number(),
     assignedTickets: z.number(),
-    ticketMessages: z.number()
+    ticketMessages: z.number(),
+    notifications: z.number()
   }).optional(),
+  _sum: z.object({
+    pteroUserId: z.number().nullable()
+  }).nullable().optional(),
+  _avg: z.object({
+    pteroUserId: z.number().nullable()
+  }).nullable().optional(),
   _min: z.object({
     id: z.string().nullable(),
     clientId: z.string().nullable(),
@@ -56,6 +73,11 @@ export const UserGroupByResultSchema = z.array(z.object({
     username: z.string().nullable(),
     firstname: z.string().nullable(),
     lastname: z.string().nullable(),
+    pteroUserId: z.number().int().nullable(),
+    address: z.string().nullable(),
+    city: z.string().nullable(),
+    zip: z.string().nullable(),
+    country: z.string().nullable(),
     displayUsername: z.string().nullable()
   }).nullable().optional(),
   _max: z.object({
@@ -72,6 +94,11 @@ export const UserGroupByResultSchema = z.array(z.object({
     username: z.string().nullable(),
     firstname: z.string().nullable(),
     lastname: z.string().nullable(),
+    pteroUserId: z.number().int().nullable(),
+    address: z.string().nullable(),
+    city: z.string().nullable(),
+    zip: z.string().nullable(),
+    country: z.string().nullable(),
     displayUsername: z.string().nullable()
   }).nullable().optional()
 }));

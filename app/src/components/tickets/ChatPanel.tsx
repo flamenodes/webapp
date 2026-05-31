@@ -6,6 +6,7 @@ import {
   getTicket,
   sendTicketMessage,
   updateTicket,
+  deleteTicket,
 } from '@/serverActions/tickets/tickets.api'
 import {
   useSuspenseQuery,
@@ -15,7 +16,19 @@ import {
 import { toast } from 'sonner'
 import { useTicketSocket } from '@/lib/socket/useTicketSocket'
 import { getSession } from '@/handlers/auth.handler'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Trash2 } from 'lucide-react'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 
 interface ChatPanelProps {
   ticketId: string
@@ -24,26 +37,52 @@ interface ChatPanelProps {
 
 export function ChatPanel({ ticketId, isStaffView = false }: ChatPanelProps) {
   const queryClient = useQueryClient()
-  useTicketSocket(ticketId)
+  const { data: sessionData } = useSuspenseQuery({
+    queryKey: ['session'],
+    queryFn: getSession,
+  })
+
+  const { typing, stopTyping } = useTicketSocket(ticketId, sessionData?.user?.id)
 
   const { data } = useSuspenseQuery({
     queryKey: ['ticket', ticketId],
     queryFn: () => getTicket({ data: { ticketId } }),
   })
 
-  const { data: sessionData } = useSuspenseQuery({
-    queryKey: ['session'],
-    queryFn: getSession,
-  })
+  const [someoneTyping, setSomeoneTyping] = useState(false)
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    const onTyping = (e: Event) => {
+      const detail = (e as CustomEvent).detail
+      if (detail.ticketId !== ticketId) return
+      if (detail.userId === sessionData?.user?.id) return
+      setSomeoneTyping(true)
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
+      typingTimeoutRef.current = setTimeout(() => setSomeoneTyping(false), 3000)
+    }
+    const onStopTyping = (e: Event) => {
+      const detail = (e as CustomEvent).detail
+      if (detail.ticketId !== ticketId) return
+      if (detail.userId === sessionData?.user?.id) return
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
+      setSomeoneTyping(false)
+    }
+    window.addEventListener('ticket:typing', onTyping)
+    window.addEventListener('ticket:stop-typing', onStopTyping)
+    return () => {
+      window.removeEventListener('ticket:typing', onTyping)
+      window.removeEventListener('ticket:stop-typing', onStopTyping)
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
+    }
+  }, [ticketId, sessionData?.user?.id])
 
   const sendMessage = useMutation({
     mutationFn: (content: string) =>
       sendTicketMessage({ data: { ticketId, content } }),
 
     async onMutate(content) {
-      await queryClient.cancelQueries({
-        queryKey: ['ticket', ticketId],
-      })
+      await queryClient.cancelQueries({ queryKey: ['ticket', ticketId] })
 
       const previousTicket = queryClient.getQueryData(['ticket', ticketId])
 
@@ -51,13 +90,13 @@ export function ChatPanel({ ticketId, isStaffView = false }: ChatPanelProps) {
         id: `temp-${Date.now()}`,
         content,
         senderRole: isStaffView ? 'STAFF' : 'USER',
+        senderId: sessionData?.user?.id,
         createdAt: new Date().toISOString(),
         optimistic: true,
       }
 
       queryClient.setQueryData(['ticket', ticketId], (old: any) => {
         if (!old?.ticket) return old
-
         return {
           ...old,
           ticket: {
@@ -74,18 +113,12 @@ export function ChatPanel({ ticketId, isStaffView = false }: ChatPanelProps) {
       if (context?.previousTicket) {
         queryClient.setQueryData(['ticket', ticketId], context.previousTicket)
       }
-
       toast.error('Failed to send message')
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['ticket', ticketId],
-      })
-
-      queryClient.invalidateQueries({
-        queryKey: ['tickets'],
-      })
+      queryClient.invalidateQueries({ queryKey: ['ticket', ticketId] })
+      queryClient.invalidateQueries({ queryKey: ['tickets'] })
     },
   })
 
@@ -99,6 +132,16 @@ export function ChatPanel({ ticketId, isStaffView = false }: ChatPanelProps) {
     onError: () => toast.error('Failed to resolve ticket'),
   })
 
+  const closeTicket = useMutation({
+    mutationFn: () => updateTicket({ data: { ticketId, status: 'CLOSED' } }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['ticket', ticketId] })
+      queryClient.invalidateQueries({ queryKey: ['tickets'] })
+      toast.success('Ticket closed')
+    },
+    onError: () => toast.error('Failed to close ticket'),
+  })
+
   const joinTicket = useMutation({
     mutationFn: () =>
       updateTicket({ data: { ticketId, assignedToId: sessionData?.user.id } }),
@@ -108,6 +151,22 @@ export function ChatPanel({ ticketId, isStaffView = false }: ChatPanelProps) {
       toast.success('Joined ticket')
     },
     onError: () => toast.error('Failed to join ticket'),
+  })
+
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+
+  const deleteTicketMutation = useMutation({
+    mutationFn: () => deleteTicket({ data: { ticketId } }),
+    onSuccess: (result) => {
+      if (result?.deleted) {
+        queryClient.invalidateQueries({ queryKey: ['tickets'] })
+        toast.success('Ticket deleted')
+      } else if (result?.requested) {
+        queryClient.invalidateQueries({ queryKey: ['ticket', ticketId] })
+        toast.info('Deletion requested — an owner must approve')
+      }
+    },
+    onError: () => toast.error('Failed to process deletion request'),
   })
 
   const bottomRef = useRef<HTMLDivElement>(null)
@@ -123,14 +182,15 @@ export function ChatPanel({ ticketId, isStaffView = false }: ChatPanelProps) {
   const ticket = data.ticket
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({
-      behavior: 'smooth',
-    })
-  }, [ticket.messages])
+    console.log('[ChatPanel] messages:', ticket.messages)
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [ticket.messages, someoneTyping])
 
 
   const currentUserId = sessionData?.user.id
   const isAssigned = ticket.assignedToId === currentUserId
+  const userRole = (sessionData?.user as any)?.role ?? ''
+  const canDelete = isStaffView && ticket.status === 'CLOSED' && (userRole === 'owner' || userRole === 'admin')
 
   return (
     <div className="flex h-full flex-col bg-background">
@@ -146,9 +206,56 @@ export function ChatPanel({ ticketId, isStaffView = false }: ChatPanelProps) {
         isAssigned={isAssigned}
         onJoin={() => joinTicket.mutate()}
         onResolve={() => resolveTicket.mutate()}
+        onClose={() => closeTicket.mutate()}
         showResolveButton={isStaffView}
         showJoinButton={isStaffView}
+        showCloseButton={isStaffView ? isAssigned : ticket.status !== 'CLOSED'}
       />
+
+      {canDelete && (
+        <div className="px-4 py-2 border-b flex items-center justify-between bg-destructive/5">
+          <span className="text-xs text-muted-foreground">
+            {userRole === 'owner' ? 'This closed ticket can be permanently deleted.' : 'You can request deletion of this closed ticket (requires owner approval).'}
+          </span>
+          <Button
+            size="sm"
+            variant="destructive"
+            className="h-7 text-xs"
+            onClick={() => setShowDeleteConfirm(true)}
+            disabled={deleteTicketMutation.isPending}
+          >
+            <Trash2 className="w-3 h-3 mr-1.5" />
+            {userRole === 'owner' ? 'Delete Ticket' : 'Request Deletion'}
+          </Button>
+        </div>
+      )}
+
+      <AlertDialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {userRole === 'owner' ? 'Delete Ticket?' : 'Request Ticket Deletion?'}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {userRole === 'owner'
+                ? 'This will permanently delete the ticket and all its messages. This cannot be undone.'
+                : 'A deletion request will be sent. An owner must approve before the ticket is deleted.'}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={() => {
+                setShowDeleteConfirm(false)
+                deleteTicketMutation.mutate()
+              }}
+            >
+              {userRole === 'owner' ? 'Delete' : 'Request Deletion'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <ScrollArea className="flex-1 px-4 py-6 md:px-6 overflow-scroll">
         <div className="flex flex-col gap-6">
@@ -159,29 +266,44 @@ export function ChatPanel({ ticketId, isStaffView = false }: ChatPanelProps) {
           </div>
 
           {ticket.messages.map((message) => {
-            const senderInfo = message.senderRole === 'USER' ? ticket.user : ticket.assignedTo
+            const isOwn = message.senderId === currentUserId
+            const senderInfo = isOwn
+              ? (currentUserId === ticket.user.id ? ticket.user : ticket.assignedTo)
+              : (message.senderRole === 'USER' ? ticket.user : ticket.assignedTo)
             return (
               <ChatMessage
                 key={message.id}
                 message={{
                   id: message.id,
-                  type: message.senderRole === 'USER' ? 'incoming' : 'outgoing',
+                  type: isOwn ? 'outgoing' : 'incoming',
                   content: message.content,
                   timestamp: new Date(message.createdAt).toLocaleTimeString(),
                   sender: {
                     name: senderInfo?.name || 'Unknown',
-                    avatar: senderInfo?.image || senderInfo?.name?.substring(0, 2).toUpperCase() || 'UN',
+                    avatar: senderInfo?.image || senderInfo?.name.substring(0, 2).toUpperCase() || 'UN',
                   },
                 }}
               />
             )
           })}
+
+          {someoneTyping && (
+            <div className="flex gap-3 items-end">
+              <div className="flex gap-1 items-center rounded-2xl bg-muted px-4 py-3">
+                <span className="h-2 w-2 rounded-full bg-muted-foreground/60" style={{ animation: 'typing-bounce 1.2s ease-in-out infinite', animationDelay: '0ms' }} />
+                <span className="h-2 w-2 rounded-full bg-muted-foreground/60" style={{ animation: 'typing-bounce 1.2s ease-in-out infinite', animationDelay: '200ms' }} />
+                <span className="h-2 w-2 rounded-full bg-muted-foreground/60" style={{ animation: 'typing-bounce 1.2s ease-in-out infinite', animationDelay: '400ms' }} />
+              </div>
+            </div>
+          )}
         </div>
         <div ref={bottomRef}/>
       </ScrollArea>
 
       <ChatComposer
         onSend={(content) => sendMessage.mutate(content)}
+        onTyping={typing}
+        onStopTyping={stopTyping}
         disabled={isStaffView && !isAssigned}
       />
     </div>

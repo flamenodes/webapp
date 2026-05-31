@@ -15,6 +15,7 @@ const makeSchema = () => z.object({
   unitPrice: z.number().int(),
   totalPrice: z.number().int(),
   specsSnapshot: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
+  configuration: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   expiresAt: z.coerce.date().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   product: z.lazy(() => ProductCreateNestedOneWithoutOrderItemsInputObjectSchema),

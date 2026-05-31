@@ -1,0 +1,10 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+export declare const OrderItemUncheckedCreateNestedManyWithoutProductInputObjectSchema: z.ZodType<Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput>;
+export declare const OrderItemUncheckedCreateNestedManyWithoutProductInputObjectZodSchema: z.ZodObject<{
+    create: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.OrderItemCreateWithoutProductInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemCreateWithoutProductInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.OrderItemCreateWithoutProductInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemCreateWithoutProductInput, unknown>>>>, z.ZodLazy<z.ZodType<Prisma.OrderItemUncheckedCreateWithoutProductInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemUncheckedCreateWithoutProductInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.OrderItemUncheckedCreateWithoutProductInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemUncheckedCreateWithoutProductInput, unknown>>>>]>>;
+    connectOrCreate: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.OrderItemCreateOrConnectWithoutProductInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemCreateOrConnectWithoutProductInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.OrderItemCreateOrConnectWithoutProductInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemCreateOrConnectWithoutProductInput, unknown>>>>]>>;
+    createMany: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.OrderItemCreateManyProductInputEnvelope, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemCreateManyProductInputEnvelope, unknown>>>>;
+    connect: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.OrderItemWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemWhereUniqueInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.OrderItemWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderItemWhereUniqueInput, unknown>>>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=OrderItemUncheckedCreateNestedManyWithoutProductInput.schema.d.ts.map

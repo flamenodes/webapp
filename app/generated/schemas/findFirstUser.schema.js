@@ -1,0 +1,77 @@
+import * as z from 'zod';
+import { UserIncludeObjectSchema as UserIncludeObjectSchema } from './objects/UserInclude.schema';
+import { UserOrderByWithRelationInputObjectSchema as UserOrderByWithRelationInputObjectSchema } from './objects/UserOrderByWithRelationInput.schema';
+import { UserWhereInputObjectSchema as UserWhereInputObjectSchema } from './objects/UserWhereInput.schema';
+import { UserWhereUniqueInputObjectSchema as UserWhereUniqueInputObjectSchema } from './objects/UserWhereUniqueInput.schema';
+import { UserScalarFieldEnumSchema } from './enums/UserScalarFieldEnum.schema';
+// Select schema needs to be in file to prevent circular imports
+//------------------------------------------------------
+export const UserFindFirstSelectSchema = z.object({
+    id: z.boolean().optional(),
+    clientId: z.boolean().optional(),
+    name: z.boolean().optional(),
+    email: z.boolean().optional(),
+    emailVerified: z.boolean().optional(),
+    image: z.boolean().optional(),
+    createdAt: z.boolean().optional(),
+    updatedAt: z.boolean().optional(),
+    sessions: z.boolean().optional(),
+    accounts: z.boolean().optional(),
+    role: z.boolean().optional(),
+    banned: z.boolean().optional(),
+    banReason: z.boolean().optional(),
+    banExpires: z.boolean().optional(),
+    username: z.boolean().optional(),
+    firstname: z.boolean().optional(),
+    lastname: z.boolean().optional(),
+    pteroUserId: z.boolean().optional(),
+    address: z.boolean().optional(),
+    city: z.boolean().optional(),
+    zip: z.boolean().optional(),
+    country: z.boolean().optional(),
+    servers: z.boolean().optional(),
+    cart: z.boolean().optional(),
+    orders: z.boolean().optional(),
+    displayUsername: z.boolean().optional(),
+    tickets: z.boolean().optional(),
+    assignedTickets: z.boolean().optional(),
+    ticketMessages: z.boolean().optional(),
+    notifications: z.boolean().optional(),
+    _count: z.boolean().optional()
+}).strict();
+export const UserFindFirstSelectZodSchema = z.object({
+    id: z.boolean().optional(),
+    clientId: z.boolean().optional(),
+    name: z.boolean().optional(),
+    email: z.boolean().optional(),
+    emailVerified: z.boolean().optional(),
+    image: z.boolean().optional(),
+    createdAt: z.boolean().optional(),
+    updatedAt: z.boolean().optional(),
+    sessions: z.boolean().optional(),
+    accounts: z.boolean().optional(),
+    role: z.boolean().optional(),
+    banned: z.boolean().optional(),
+    banReason: z.boolean().optional(),
+    banExpires: z.boolean().optional(),
+    username: z.boolean().optional(),
+    firstname: z.boolean().optional(),
+    lastname: z.boolean().optional(),
+    pteroUserId: z.boolean().optional(),
+    address: z.boolean().optional(),
+    city: z.boolean().optional(),
+    zip: z.boolean().optional(),
+    country: z.boolean().optional(),
+    servers: z.boolean().optional(),
+    cart: z.boolean().optional(),
+    orders: z.boolean().optional(),
+    displayUsername: z.boolean().optional(),
+    tickets: z.boolean().optional(),
+    assignedTickets: z.boolean().optional(),
+    ticketMessages: z.boolean().optional(),
+    notifications: z.boolean().optional(),
+    _count: z.boolean().optional()
+}).strict();
+export const UserFindFirstSchema = z.object({ select: UserFindFirstSelectSchema.optional(), include: z.lazy(() => UserIncludeObjectSchema.optional()), orderBy: z.union([UserOrderByWithRelationInputObjectSchema, UserOrderByWithRelationInputObjectSchema.array()]).optional(), where: UserWhereInputObjectSchema.optional(), cursor: UserWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([UserScalarFieldEnumSchema, UserScalarFieldEnumSchema.array()]).optional() }).strict();
+export const UserFindFirstZodSchema = z.object({ select: UserFindFirstSelectSchema.optional(), include: z.lazy(() => UserIncludeObjectSchema.optional()), orderBy: z.union([UserOrderByWithRelationInputObjectSchema, UserOrderByWithRelationInputObjectSchema.array()]).optional(), where: UserWhereInputObjectSchema.optional(), cursor: UserWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([UserScalarFieldEnumSchema, UserScalarFieldEnumSchema.array()]).optional() }).strict();
+//# sourceMappingURL=findFirstUser.schema.js.map

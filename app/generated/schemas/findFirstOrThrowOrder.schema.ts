@@ -21,6 +21,7 @@ export const OrderFindFirstOrThrowSelectSchema: z.ZodType<Prisma.OrderSelect> = 
     deliveryMessage: z.boolean().optional(),
     deliveryData: z.boolean().optional(),
     items: z.boolean().optional(),
+    invoice: z.boolean().optional(),
     createdAt: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
     _count: z.boolean().optional()
@@ -38,6 +39,7 @@ export const OrderFindFirstOrThrowSelectZodSchema = z.object({
     deliveryMessage: z.boolean().optional(),
     deliveryData: z.boolean().optional(),
     items: z.boolean().optional(),
+    invoice: z.boolean().optional(),
     createdAt: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
     _count: z.boolean().optional()

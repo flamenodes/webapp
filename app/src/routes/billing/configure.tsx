@@ -10,6 +10,9 @@ import { cartData } from '#/data/billing/cartData'
 
 
 export const Route = createFileRoute('/billing/configure')({
+  head: () => ({
+    meta: [{ title: 'Configure Plan | Flame Nodes' }],
+  }),
   component: CartPage,
 })
 

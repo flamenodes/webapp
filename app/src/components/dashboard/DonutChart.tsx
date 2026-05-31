@@ -1,11 +1,19 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
-import { serverStatus } from '#/data/dashboard/mockData'
+import { serverStatus as mockData } from '#/data/dashboard/mockData'
 
-const COLORS = ['var(--chart-1)', 'var(--chart-2)', '#fb7185']
+type StatusEntry = { status: string; count: number; color: string }
 
-export function DonutChart() {
-  const total = serverStatus.reduce((sum, s) => sum + s.count, 0)
+const FALLBACK_COLORS = ['var(--chart-1)', 'var(--chart-2)', '#fb7185', 'var(--muted-foreground)']
+
+interface DonutChartProps {
+  data?: StatusEntry[]
+}
+
+export function DonutChart({ data }: DonutChartProps) {
+  // Only fall back to mock when data is not provided at all (undefined)
+  const entries = data !== undefined ? data : mockData
+  const total = entries.reduce((sum, s) => sum + s.count, 0)
 
   return (
     <Card className="border-border bg-card gap-0 py-0">
@@ -18,7 +26,7 @@ export function DonutChart() {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={serverStatus}
+                  data={entries}
                   cx="50%"
                   cy="50%"
                   innerRadius={42}
@@ -26,8 +34,8 @@ export function DonutChart() {
                   dataKey="count"
                   strokeWidth={0}
                 >
-                  {serverStatus.map((_, i) => (
-                    <Cell key={i} fill={COLORS[i]} />
+                  {entries.map((entry, i) => (
+                    <Cell key={i} fill={entry.color ?? FALLBACK_COLORS[i % FALLBACK_COLORS.length]} />
                   ))}
                 </Pie>
                 <Tooltip
@@ -43,19 +51,22 @@ export function DonutChart() {
             </ResponsiveContainer>
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
               <span className="text-2xl font-bold">{total}</span>
-              <span className="text-xs text-muted-foreground">Total</span>
+              <span className="text-xs text-muted-foreground">Nodes</span>
             </div>
           </div>
           <div className="flex flex-col gap-3 flex-1">
-            {serverStatus.map((s, i) => (
+            {entries.map((s, i) => (
               <div key={s.status} className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: COLORS[i] }} />
+                  <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: s.color ?? FALLBACK_COLORS[i % FALLBACK_COLORS.length] }} />
                   <span className="text-sm text-muted-foreground">{s.status}</span>
                 </div>
                 <span className="text-sm font-semibold">{s.count}</span>
               </div>
             ))}
+            {total === 0 && (
+              <p className="text-xs text-muted-foreground">No nodes configured</p>
+            )}
           </div>
         </div>
       </CardContent>

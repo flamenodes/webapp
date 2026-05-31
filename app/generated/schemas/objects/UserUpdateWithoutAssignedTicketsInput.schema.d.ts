@@ -1,0 +1,35 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+export declare const UserUpdateWithoutAssignedTicketsInputObjectSchema: z.ZodType<Prisma.UserUpdateWithoutAssignedTicketsInput>;
+export declare const UserUpdateWithoutAssignedTicketsInputObjectZodSchema: z.ZodObject<{
+    id: z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.StringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.StringFieldUpdateOperationsInput, unknown>>>]>>;
+    clientId: z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.StringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.StringFieldUpdateOperationsInput, unknown>>>]>>;
+    name: z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.StringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.StringFieldUpdateOperationsInput, unknown>>>]>>;
+    email: z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.StringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.StringFieldUpdateOperationsInput, unknown>>>]>>;
+    emailVerified: z.ZodOptional<z.ZodUnion<readonly [z.ZodBoolean, z.ZodLazy<z.ZodType<Prisma.BoolFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.BoolFieldUpdateOperationsInput, unknown>>>]>>;
+    image: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.NullableStringFieldUpdateOperationsInput, unknown>>>]>>>;
+    createdAt: z.ZodOptional<z.ZodUnion<readonly [z.ZodCoercedDate<unknown>, z.ZodLazy<z.ZodType<Prisma.DateTimeFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.DateTimeFieldUpdateOperationsInput, unknown>>>]>>;
+    updatedAt: z.ZodOptional<z.ZodUnion<readonly [z.ZodCoercedDate<unknown>, z.ZodLazy<z.ZodType<Prisma.DateTimeFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.DateTimeFieldUpdateOperationsInput, unknown>>>]>>;
+    role: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.NullableStringFieldUpdateOperationsInput, unknown>>>]>>>;
+    banned: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodBoolean, z.ZodLazy<z.ZodType<Prisma.NullableBoolFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.NullableBoolFieldUpdateOperationsInput, unknown>>>]>>>;
+    banReason: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.NullableStringFieldUpdateOperationsInput, unknown>>>]>>>;
+    banExpires: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodCoercedDate<unknown>, z.ZodLazy<z.ZodType<Prisma.NullableDateTimeFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.NullableDateTimeFieldUpdateOperationsInput, unknown>>>]>>>;
+    username: z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.StringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.StringFieldUpdateOperationsInput, unknown>>>]>>;
+    firstname: z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.StringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.StringFieldUpdateOperationsInput, unknown>>>]>>;
+    lastname: z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.StringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.StringFieldUpdateOperationsInput, unknown>>>]>>;
+    pteroUserId: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodNumber, z.ZodLazy<z.ZodType<Prisma.NullableIntFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.NullableIntFieldUpdateOperationsInput, unknown>>>]>>>;
+    address: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.NullableStringFieldUpdateOperationsInput, unknown>>>]>>>;
+    city: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.NullableStringFieldUpdateOperationsInput, unknown>>>]>>>;
+    zip: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.NullableStringFieldUpdateOperationsInput, unknown>>>]>>>;
+    country: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.NullableStringFieldUpdateOperationsInput, unknown>>>]>>>;
+    displayUsername: z.ZodNullable<z.ZodOptional<z.ZodUnion<readonly [z.ZodString, z.ZodLazy<z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput, unknown, z.core.$ZodTypeInternals<Prisma.NullableStringFieldUpdateOperationsInput, unknown>>>]>>>;
+    sessions: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.SessionUpdateManyWithoutUserNestedInput, unknown, z.core.$ZodTypeInternals<Prisma.SessionUpdateManyWithoutUserNestedInput, unknown>>>>;
+    accounts: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.AccountUpdateManyWithoutUserNestedInput, unknown, z.core.$ZodTypeInternals<Prisma.AccountUpdateManyWithoutUserNestedInput, unknown>>>>;
+    servers: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.ServerUpdateManyWithoutUserNestedInput, unknown, z.core.$ZodTypeInternals<Prisma.ServerUpdateManyWithoutUserNestedInput, unknown>>>>;
+    cart: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.CartUpdateOneWithoutUserNestedInput, unknown, z.core.$ZodTypeInternals<Prisma.CartUpdateOneWithoutUserNestedInput, unknown>>>>;
+    orders: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.OrderUpdateManyWithoutUserNestedInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderUpdateManyWithoutUserNestedInput, unknown>>>>;
+    tickets: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.TicketUpdateManyWithoutUserNestedInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketUpdateManyWithoutUserNestedInput, unknown>>>>;
+    ticketMessages: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.TicketMessageUpdateManyWithoutSenderNestedInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketMessageUpdateManyWithoutSenderNestedInput, unknown>>>>;
+    notifications: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.NotificationUpdateManyWithoutUserNestedInput, unknown, z.core.$ZodTypeInternals<Prisma.NotificationUpdateManyWithoutUserNestedInput, unknown>>>>;
+}, z.core.$strict>;
+//# sourceMappingURL=UserUpdateWithoutAssignedTicketsInput.schema.d.ts.map

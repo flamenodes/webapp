@@ -1,0 +1,47 @@
+import * as z from 'zod';
+export declare const ConfigurationValueAggregateResultSchema: z.ZodObject<{
+    _count: z.ZodOptional<z.ZodObject<{
+        id: z.ZodNumber;
+        optionId: z.ZodNumber;
+        option: z.ZodNumber;
+        label: z.ZodNumber;
+        value: z.ZodNumber;
+        description: z.ZodNumber;
+        priceModifier: z.ZodNumber;
+        metadata: z.ZodNumber;
+        sortOrder: z.ZodNumber;
+        createdAt: z.ZodNumber;
+        updatedAt: z.ZodNumber;
+    }, z.core.$strip>>;
+    _sum: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        priceModifier: z.ZodNullable<z.ZodNumber>;
+        sortOrder: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _avg: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        priceModifier: z.ZodNullable<z.ZodNumber>;
+        sortOrder: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _min: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        optionId: z.ZodNullable<z.ZodString>;
+        label: z.ZodNullable<z.ZodString>;
+        value: z.ZodNullable<z.ZodString>;
+        description: z.ZodNullable<z.ZodString>;
+        priceModifier: z.ZodNullable<z.ZodNumber>;
+        sortOrder: z.ZodNullable<z.ZodNumber>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+        updatedAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+    _max: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        optionId: z.ZodNullable<z.ZodString>;
+        label: z.ZodNullable<z.ZodString>;
+        value: z.ZodNullable<z.ZodString>;
+        description: z.ZodNullable<z.ZodString>;
+        priceModifier: z.ZodNullable<z.ZodNumber>;
+        sortOrder: z.ZodNullable<z.ZodNumber>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+        updatedAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+}, z.core.$strip>;
+//# sourceMappingURL=ConfigurationValueAggregateResult.schema.d.ts.map

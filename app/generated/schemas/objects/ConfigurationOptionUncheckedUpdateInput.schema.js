@@ -1,0 +1,27 @@
+import * as z from 'zod';
+import { StringFieldUpdateOperationsInputObjectSchema as StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
+import { NullableStringFieldUpdateOperationsInputObjectSchema as NullableStringFieldUpdateOperationsInputObjectSchema } from './NullableStringFieldUpdateOperationsInput.schema';
+import { ConfigurationOptionTypeSchema } from '../enums/ConfigurationOptionType.schema';
+import { EnumConfigurationOptionTypeFieldUpdateOperationsInputObjectSchema as EnumConfigurationOptionTypeFieldUpdateOperationsInputObjectSchema } from './EnumConfigurationOptionTypeFieldUpdateOperationsInput.schema';
+import { BoolFieldUpdateOperationsInputObjectSchema as BoolFieldUpdateOperationsInputObjectSchema } from './BoolFieldUpdateOperationsInput.schema';
+import { ProductCategorySchema } from '../enums/ProductCategory.schema';
+import { EnumProductCategoryFieldUpdateOperationsInputObjectSchema as EnumProductCategoryFieldUpdateOperationsInputObjectSchema } from './EnumProductCategoryFieldUpdateOperationsInput.schema';
+import { IntFieldUpdateOperationsInputObjectSchema as IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
+import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
+import { ConfigurationValueUncheckedUpdateManyWithoutOptionNestedInputObjectSchema as ConfigurationValueUncheckedUpdateManyWithoutOptionNestedInputObjectSchema } from './ConfigurationValueUncheckedUpdateManyWithoutOptionNestedInput.schema';
+const makeSchema = () => z.object({
+    id: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
+    name: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
+    label: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
+    description: z.union([z.string(), z.lazy(() => NullableStringFieldUpdateOperationsInputObjectSchema)]).optional().nullable(),
+    type: z.union([ConfigurationOptionTypeSchema, z.lazy(() => EnumConfigurationOptionTypeFieldUpdateOperationsInputObjectSchema)]).optional(),
+    required: z.union([z.boolean(), z.lazy(() => BoolFieldUpdateOperationsInputObjectSchema)]).optional(),
+    category: z.union([ProductCategorySchema, z.lazy(() => EnumProductCategoryFieldUpdateOperationsInputObjectSchema)]).optional(),
+    sortOrder: z.union([z.number().int(), z.lazy(() => IntFieldUpdateOperationsInputObjectSchema)]).optional(),
+    createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
+    updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
+    values: z.lazy(() => ConfigurationValueUncheckedUpdateManyWithoutOptionNestedInputObjectSchema).optional()
+}).strict();
+export const ConfigurationOptionUncheckedUpdateInputObjectSchema = makeSchema();
+export const ConfigurationOptionUncheckedUpdateInputObjectZodSchema = makeSchema();
+//# sourceMappingURL=ConfigurationOptionUncheckedUpdateInput.schema.js.map

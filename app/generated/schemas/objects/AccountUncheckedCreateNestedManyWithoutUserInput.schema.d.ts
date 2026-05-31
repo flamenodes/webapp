@@ -1,0 +1,10 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+export declare const AccountUncheckedCreateNestedManyWithoutUserInputObjectSchema: z.ZodType<Prisma.AccountUncheckedCreateNestedManyWithoutUserInput>;
+export declare const AccountUncheckedCreateNestedManyWithoutUserInputObjectZodSchema: z.ZodObject<{
+    create: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.AccountCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.AccountCreateWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.AccountCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.AccountCreateWithoutUserInput, unknown>>>>, z.ZodLazy<z.ZodType<Prisma.AccountUncheckedCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.AccountUncheckedCreateWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.AccountUncheckedCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.AccountUncheckedCreateWithoutUserInput, unknown>>>>]>>;
+    connectOrCreate: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.AccountCreateOrConnectWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.AccountCreateOrConnectWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.AccountCreateOrConnectWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.AccountCreateOrConnectWithoutUserInput, unknown>>>>]>>;
+    createMany: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.AccountCreateManyUserInputEnvelope, unknown, z.core.$ZodTypeInternals<Prisma.AccountCreateManyUserInputEnvelope, unknown>>>>;
+    connect: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.AccountWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.AccountWhereUniqueInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.AccountWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.AccountWhereUniqueInput, unknown>>>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=AccountUncheckedCreateNestedManyWithoutUserInput.schema.d.ts.map

@@ -1,0 +1,10 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+export declare const ServerCreateNestedManyWithoutUserInputObjectSchema: z.ZodType<Prisma.ServerCreateNestedManyWithoutUserInput>;
+export declare const ServerCreateNestedManyWithoutUserInputObjectZodSchema: z.ZodObject<{
+    create: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.ServerCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.ServerCreateWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.ServerCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.ServerCreateWithoutUserInput, unknown>>>>, z.ZodLazy<z.ZodType<Prisma.ServerUncheckedCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.ServerUncheckedCreateWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.ServerUncheckedCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.ServerUncheckedCreateWithoutUserInput, unknown>>>>]>>;
+    connectOrCreate: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.ServerCreateOrConnectWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.ServerCreateOrConnectWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.ServerCreateOrConnectWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.ServerCreateOrConnectWithoutUserInput, unknown>>>>]>>;
+    createMany: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.ServerCreateManyUserInputEnvelope, unknown, z.core.$ZodTypeInternals<Prisma.ServerCreateManyUserInputEnvelope, unknown>>>>;
+    connect: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.ServerWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.ServerWhereUniqueInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.ServerWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.ServerWhereUniqueInput, unknown>>>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=ServerCreateNestedManyWithoutUserInput.schema.d.ts.map

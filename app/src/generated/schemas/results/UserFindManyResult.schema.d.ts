@@ -1,0 +1,35 @@
+import * as z from 'zod';
+export declare const UserFindManyResultSchema: z.ZodObject<{
+    data: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        clientId: z.ZodString;
+        name: z.ZodString;
+        email: z.ZodString;
+        emailVerified: z.ZodBoolean;
+        image: z.ZodOptional<z.ZodString>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodString;
+        sessions: z.ZodArray<z.ZodAny>;
+        accounts: z.ZodArray<z.ZodAny>;
+        role: z.ZodOptional<z.ZodString>;
+        banned: z.ZodOptional<z.ZodBoolean>;
+        banReason: z.ZodOptional<z.ZodString>;
+        banExpires: z.ZodOptional<z.ZodString>;
+        username: z.ZodString;
+        firstname: z.ZodString;
+        lastname: z.ZodString;
+        servers: z.ZodArray<z.ZodAny>;
+        cart: z.ZodOptional<z.ZodAny>;
+        orders: z.ZodArray<z.ZodAny>;
+        displayUsername: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
+    pagination: z.ZodObject<{
+        page: z.ZodNumber;
+        pageSize: z.ZodNumber;
+        total: z.ZodNumber;
+        totalPages: z.ZodNumber;
+        hasNext: z.ZodBoolean;
+        hasPrev: z.ZodBoolean;
+    }, z.core.$strip>;
+}, z.core.$strip>;
+//# sourceMappingURL=UserFindManyResult.schema.d.ts.map

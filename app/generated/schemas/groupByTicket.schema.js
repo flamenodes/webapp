@@ -1,0 +1,11 @@
+import * as z from 'zod';
+import { TicketWhereInputObjectSchema as TicketWhereInputObjectSchema } from './objects/TicketWhereInput.schema';
+import { TicketOrderByWithAggregationInputObjectSchema as TicketOrderByWithAggregationInputObjectSchema } from './objects/TicketOrderByWithAggregationInput.schema';
+import { TicketScalarWhereWithAggregatesInputObjectSchema as TicketScalarWhereWithAggregatesInputObjectSchema } from './objects/TicketScalarWhereWithAggregatesInput.schema';
+import { TicketScalarFieldEnumSchema } from './enums/TicketScalarFieldEnum.schema';
+import { TicketCountAggregateInputObjectSchema as TicketCountAggregateInputObjectSchema } from './objects/TicketCountAggregateInput.schema';
+import { TicketMinAggregateInputObjectSchema as TicketMinAggregateInputObjectSchema } from './objects/TicketMinAggregateInput.schema';
+import { TicketMaxAggregateInputObjectSchema as TicketMaxAggregateInputObjectSchema } from './objects/TicketMaxAggregateInput.schema';
+export const TicketGroupBySchema = z.object({ where: TicketWhereInputObjectSchema.optional(), orderBy: z.union([TicketOrderByWithAggregationInputObjectSchema, TicketOrderByWithAggregationInputObjectSchema.array()]).optional(), having: TicketScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(TicketScalarFieldEnumSchema), _count: z.union([z.literal(true), TicketCountAggregateInputObjectSchema]).optional(), _min: TicketMinAggregateInputObjectSchema.optional(), _max: TicketMaxAggregateInputObjectSchema.optional() }).strict();
+export const TicketGroupByZodSchema = z.object({ where: TicketWhereInputObjectSchema.optional(), orderBy: z.union([TicketOrderByWithAggregationInputObjectSchema, TicketOrderByWithAggregationInputObjectSchema.array()]).optional(), having: TicketScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(TicketScalarFieldEnumSchema), _count: z.union([z.literal(true), TicketCountAggregateInputObjectSchema]).optional(), _min: TicketMinAggregateInputObjectSchema.optional(), _max: TicketMaxAggregateInputObjectSchema.optional() }).strict();
+//# sourceMappingURL=groupByTicket.schema.js.map

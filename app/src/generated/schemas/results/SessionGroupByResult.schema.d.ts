@@ -1,0 +1,47 @@
+import * as z from 'zod';
+export declare const SessionGroupByResultSchema: z.ZodArray<z.ZodObject<{
+    id: z.ZodString;
+    expiresAt: z.ZodString;
+    token: z.ZodString;
+    createdAt: z.ZodString;
+    updatedAt: z.ZodString;
+    ipAddress: z.ZodString;
+    userAgent: z.ZodString;
+    userId: z.ZodString;
+    impersonatedBy: z.ZodString;
+    _count: z.ZodOptional<z.ZodObject<{
+        id: z.ZodNumber;
+        expiresAt: z.ZodNumber;
+        token: z.ZodNumber;
+        createdAt: z.ZodNumber;
+        updatedAt: z.ZodNumber;
+        ipAddress: z.ZodNumber;
+        userAgent: z.ZodNumber;
+        userId: z.ZodNumber;
+        user: z.ZodNumber;
+        impersonatedBy: z.ZodNumber;
+    }, z.core.$strip>>;
+    _min: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        expiresAt: z.ZodNullable<z.ZodString>;
+        token: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodString>;
+        updatedAt: z.ZodNullable<z.ZodString>;
+        ipAddress: z.ZodNullable<z.ZodString>;
+        userAgent: z.ZodNullable<z.ZodString>;
+        userId: z.ZodNullable<z.ZodString>;
+        impersonatedBy: z.ZodNullable<z.ZodString>;
+    }, z.core.$strip>>>;
+    _max: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        expiresAt: z.ZodNullable<z.ZodString>;
+        token: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodString>;
+        updatedAt: z.ZodNullable<z.ZodString>;
+        ipAddress: z.ZodNullable<z.ZodString>;
+        userAgent: z.ZodNullable<z.ZodString>;
+        userId: z.ZodNullable<z.ZodString>;
+        impersonatedBy: z.ZodNullable<z.ZodString>;
+    }, z.core.$strip>>>;
+}, z.core.$strip>>;
+//# sourceMappingURL=SessionGroupByResult.schema.d.ts.map

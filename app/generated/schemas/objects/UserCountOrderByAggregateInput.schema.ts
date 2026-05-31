@@ -18,6 +18,11 @@ const makeSchema = () => z.object({
   username: SortOrderSchema.optional(),
   firstname: SortOrderSchema.optional(),
   lastname: SortOrderSchema.optional(),
+  pteroUserId: SortOrderSchema.optional(),
+  address: SortOrderSchema.optional(),
+  city: SortOrderSchema.optional(),
+  zip: SortOrderSchema.optional(),
+  country: SortOrderSchema.optional(),
   displayUsername: SortOrderSchema.optional()
 }).strict();
 export const UserCountOrderByAggregateInputObjectSchema: z.ZodType<Prisma.UserCountOrderByAggregateInput> = makeSchema() as unknown as z.ZodType<Prisma.UserCountOrderByAggregateInput>;

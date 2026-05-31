@@ -4,6 +4,9 @@ import { getOrder } from '#/serverActions/billing/order.api'
 import { useServerFn } from '@tanstack/react-start'
 
 export const Route = createFileRoute('/billing/success')({
+  head: () => ({
+    meta: [{ title: 'Order Confirmed | Flame Nodes' }],
+  }),
   component: SuccessPage,
 })
 

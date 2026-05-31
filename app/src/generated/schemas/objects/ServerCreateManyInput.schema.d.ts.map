@@ -1,0 +1,1 @@
+{"version":3,"file":"ServerCreateManyInput.schema.d.ts","sourceRoot":"","sources":["ServerCreateManyInput.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AACzB,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,qBAAqB,CAAC;AAqBlD,eAAO,MAAM,iCAAiC,EAAE,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,qBAAqB,CAAsE,CAAC;AAC7J,eAAO,MAAM,oCAAoC;;;;;;;;;;;;;;;;;;;;;kBAAe,CAAC"}

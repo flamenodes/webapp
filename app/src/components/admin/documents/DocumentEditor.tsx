@@ -15,7 +15,9 @@ import {
   ListsToggle,
   UndoRedo,
   codeBlockPlugin,
+  codeMirrorPlugin,
   headingsPlugin,
+  linkDialogPlugin,
   linkPlugin,
   listsPlugin,
   markdownShortcutPlugin,
@@ -33,8 +35,8 @@ import {
 } from '#/serverActions/admin/pagedocument.api'
 
 type PageDocumentRecord = NonNullable<
-  Awaited<ReturnType<typeof GetPageDocuments>>['data']
->[number]
+  Awaited<ReturnType<typeof GetPageDocuments>>
+>['resData'][number]
 
 export default function DocumentEditor({
   document,
@@ -48,37 +50,27 @@ export default function DocumentEditor({
   const queryClient = useQueryClient()
   const editorRef = useRef<MDXEditorMethods>(null)
 
-  // FIX: Unescape markdown loaded from DB
+  // Unescape markdown that may have been over-escaped on previous saves
   const initialMarkdown = (document.content || '')
     .replace(/\\#/g, '#')
     .replace(/\\>/g, '>')
     .replace(/\\-/g, '-')
     .replace(/\\\*/g, '*')
 
-  const [markdown, setMarkdown] =
-    useState(initialMarkdown)
-
   const [title, setTitle] = useState(document.title ?? '')
   const [description, setDescription] = useState(document.description ?? '')
   const [slug, setSlug] = useState(document.slug ?? '')
   const [showSlug, setShowSlug] = useState(showSlugInitially)
-
-  const status =
-    (document.status as 'DRAFT' | 'PUBLISHED') ??
-    'DRAFT'
+  const [currentStatus, setCurrentStatus] = useState<'DRAFT' | 'PUBLISHED'>(
+    (document.status as 'DRAFT' | 'PUBLISHED') ?? 'DRAFT',
+  )
   const [isSaving, setIsSaving] = useState(false)
 
-  async function persist(
-    nextStatus: 'DRAFT' | 'PUBLISHED',
-  ) {
+  async function persist(nextStatus: 'DRAFT' | 'PUBLISHED') {
     setIsSaving(true)
-
     try {
-      // FIX: Clean markdown before saving
-      const content = (
-        editorRef.current?.getMarkdown() ??
-        markdown
-      )
+      // Clean any over-escaped characters before saving
+      const content = (editorRef.current?.getMarkdown() ?? '')
         .replace(/\\#/g, '#')
         .replace(/\\>/g, '>')
         .replace(/\\-/g, '-')
@@ -95,29 +87,22 @@ export default function DocumentEditor({
         },
       })
 
-      toast.success(
-        nextStatus === 'PUBLISHED'
-          ? 'Document published.'
-          : 'Draft saved.',
-      )
+      setCurrentStatus(nextStatus)
 
-      await queryClient.invalidateQueries({
-        queryKey: ['page-documents'],
-      })
-      await queryClient.invalidateQueries({
-        queryKey: ['page-document', document.id],
-      })
-
-      if (!showSlug && nextStatus === 'DRAFT') {
+      if (!showSlug) {
         setShowSlug(true)
       }
 
-      onClose?.()
+      toast.success(
+        nextStatus === 'PUBLISHED' ? 'Document published.' : 'Draft saved.',
+      )
+
+      // Only invalidate the list so the table stays fresh; do NOT invalidate
+      // the per-document query or the editor will re-mount and lose state.
+      await queryClient.invalidateQueries({ queryKey: ['page-documents'] })
     } catch (error) {
       toast.error(
-        error instanceof Error
-          ? error.message
-          : 'Failed to save document.',
+        error instanceof Error ? error.message : 'Failed to save document.',
       )
     } finally {
       setIsSaving(false)
@@ -127,25 +112,30 @@ export default function DocumentEditor({
   return (
     <main className="h-full overflow-hidden">
       <div className="flex h-full flex-col bg-background">
+        {/* ── Header ── */}
         <div className="shrink-0 border-b px-6 py-4">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <h1 className="truncate font-semibold text-xl">
                 {title || 'Untitled document'}
               </h1>
-
               <p className="truncate text-muted-foreground text-sm">
-                /docs/{slug || document.slug} • {status}
+                /docs/{slug || document.slug} •{' '}
+                <span
+                  className={
+                    currentStatus === 'PUBLISHED'
+                      ? 'text-green-500'
+                      : 'text-yellow-500'
+                  }
+                >
+                  {currentStatus}
+                </span>
               </p>
             </div>
 
             <div className="flex items-center gap-2">
               {onClose ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={onClose}
-                >
+                <Button type="button" variant="outline" onClick={onClose}>
                   Back
                 </Button>
               ) : null}
@@ -162,9 +152,7 @@ export default function DocumentEditor({
               <Button
                 type="button"
                 disabled={isSaving}
-                onClick={() =>
-                  persist('PUBLISHED')
-                }
+                onClick={() => persist('PUBLISHED')}
               >
                 Publish
               </Button>
@@ -185,9 +173,7 @@ export default function DocumentEditor({
               <Label>Description</Label>
               <Input
                 value={description}
-                onChange={(e) =>
-                  setDescription(e.target.value)
-                }
+                onChange={(e) => setDescription(e.target.value)}
                 placeholder="Short description"
               />
             </div>
@@ -209,19 +195,12 @@ export default function DocumentEditor({
           </div>
         </div>
 
+        {/* ── Editor ── */}
         <div className="flex-1 overflow-y-auto">
           <MDXEditor
             ref={editorRef}
-            markdown={markdown}
-            onChange={setMarkdown}
-            contentEditableClassName="
-              prose
-              dark:prose-invert
-              max-w-none
-              min-h-[1200px]
-              p-8
-              focus:outline-none
-            "
+            markdown={initialMarkdown}
+            contentEditableClassName="prose dark:prose-invert max-w-none min-h-[1200px] p-8 focus:outline-none"
             plugins={[
               headingsPlugin(),
               listsPlugin(),
@@ -229,7 +208,26 @@ export default function DocumentEditor({
               thematicBreakPlugin(),
               markdownShortcutPlugin(),
               linkPlugin(),
-              codeBlockPlugin(),
+              linkDialogPlugin(),
+              codeBlockPlugin({ defaultCodeBlockLanguage: 'txt' }),
+              codeMirrorPlugin({
+                codeBlockLanguages: {
+                  '': 'Plain text',
+                  txt: 'Plain text',
+                  js: 'JavaScript',
+                  jsx: 'JavaScript (JSX)',
+                  ts: 'TypeScript',
+                  tsx: 'TypeScript (TSX)',
+                  css: 'CSS',
+                  html: 'HTML',
+                  json: 'JSON',
+                  bash: 'Bash',
+                  sh: 'Shell',
+                  sql: 'SQL',
+                  py: 'Python',
+                  md: 'Markdown',
+                },
+              }),
               toolbarPlugin({
                 toolbarClassName:
                   'sticky top-0 z-50 border-b bg-background',

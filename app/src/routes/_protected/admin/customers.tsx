@@ -7,6 +7,9 @@ import { Button } from '#/components/ui/button'
 import { UserPlus } from 'lucide-react'
 
 export const Route = createFileRoute('/_protected/admin/customers')({
+  head: () => ({
+    meta: [{ title: 'Customers | Flame Nodes Admin' }],
+  }),
   component: CustomersPage,
 })
 

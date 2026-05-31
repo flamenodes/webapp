@@ -2,11 +2,13 @@ import * as z from 'zod';
 import type { Prisma } from '../../../src/generated/prisma/client';
 import { UserArgsObjectSchema as UserArgsObjectSchema } from './UserArgs.schema';
 import { OrderItemFindManySchema as OrderItemFindManySchema } from '../findManyOrderItem.schema';
+import { InvoiceArgsObjectSchema as InvoiceArgsObjectSchema } from './InvoiceArgs.schema';
 import { OrderCountOutputTypeArgsObjectSchema as OrderCountOutputTypeArgsObjectSchema } from './OrderCountOutputTypeArgs.schema'
 
 const makeSchema = () => z.object({
   user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
   items: z.union([z.boolean(), z.lazy(() => OrderItemFindManySchema)]).optional(),
+  invoice: z.union([z.boolean(), z.lazy(() => InvoiceArgsObjectSchema)]).optional(),
   _count: z.union([z.boolean(), z.lazy(() => OrderCountOutputTypeArgsObjectSchema)]).optional()
 }).strict();
 export const OrderIncludeObjectSchema: z.ZodType<Prisma.OrderInclude> = makeSchema() as unknown as z.ZodType<Prisma.OrderInclude>;

@@ -1,8 +1,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { DualAvatar } from '@/components/tickets/DualAvatar'
 import type { Ticket } from '@/data/tickets/ticketData'
 
 interface TicketItemProps {
-  ticket: Ticket & { avatarImage?: string | null }
+  ticket: Ticket & { 
+    avatarImage?: string | null
+    assignedToImage?: string | null
+    assignedToName?: string
+  }
   isSelected: boolean
   onSelect: () => void
 }
@@ -31,14 +36,27 @@ export function TicketItem({ ticket, isSelected, onSelect }: TicketItemProps) {
       }`}
     >
       <div className="relative shrink-0">
-        <Avatar size="sm">
-          {ticket.avatarImage && (
-            <AvatarImage src={ticket.avatarImage} alt={ticket.title} />
-          )}
-          <AvatarFallback className="bg-muted text-xs font-medium">
-            {ticket.avatar}
-          </AvatarFallback>
-        </Avatar>
+        {ticket.assignedToImage || ticket.assignedToName ? (
+          <DualAvatar
+            primary={{
+              name: ticket.avatar || ticket.title,
+              image: ticket.avatarImage,
+            }}
+            secondary={{
+              name: ticket.assignedToName || 'A',
+              image: ticket.assignedToImage,
+            }}
+          />
+        ) : (
+          <Avatar size="sm">
+            {ticket.avatarImage && (
+              <AvatarImage src={ticket.avatarImage} alt={ticket.title} />
+            )}
+            <AvatarFallback className="bg-muted text-xs font-medium">
+              {ticket.avatar}
+            </AvatarFallback>
+          </Avatar>
+        )}
         {ticket.unread && (
           <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-primary ring-2 ring-card" />
         )}

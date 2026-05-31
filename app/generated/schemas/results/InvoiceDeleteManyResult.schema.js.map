@@ -1,0 +1,1 @@
+{"version":3,"file":"InvoiceDeleteManyResult.schema.js","sourceRoot":"","sources":["InvoiceDeleteManyResult.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AACzB,MAAM,CAAC,MAAM,6BAA6B,GAAG,CAAC,CAAC,MAAM,CAAC;IACpD,KAAK,EAAE,CAAC,CAAC,MAAM,EAAE;CAClB,CAAC,CAAC"}

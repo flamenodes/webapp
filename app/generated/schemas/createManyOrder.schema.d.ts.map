@@ -1,0 +1,1 @@
+{"version":3,"file":"createManyOrder.schema.d.ts","sourceRoot":"","sources":["createManyOrder.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,mCAAmC,CAAC;AAChE,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AAGzB,eAAO,MAAM,qBAAqB,EAAE,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,mBAAmB,CAAqN,CAAC;AAE9R,eAAO,MAAM,wBAAwB;;;kBAAgK,CAAC"}

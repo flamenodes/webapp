@@ -18,6 +18,7 @@ const makeSchema = () => z.object({
   unitPrice: SortOrderSchema.optional(),
   totalPrice: SortOrderSchema.optional(),
   specsSnapshot: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
+  configuration: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   expiresAt: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   createdAt: SortOrderSchema.optional(),
   _count: z.lazy(() => OrderItemCountOrderByAggregateInputObjectSchema).optional(),

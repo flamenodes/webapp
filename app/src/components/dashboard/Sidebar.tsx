@@ -3,6 +3,9 @@ import { ScrollArea } from '#/components/ui/scroll-area'
 import FlameNodesLogo from '../blocks/FlameNodesLogo'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { navItems } from '#/data/admin/navitems'
+import { useQuery } from '@tanstack/react-query'
+import { getSession } from '#/handlers/auth.handler'
+import { getPteroUrl } from '#/serverActions/pterodactyl/reset-password'
 
 const sections = [
   { key: 'main', label: 'Main' },
@@ -19,6 +22,18 @@ interface SidebarProps {
 export function Sidebar({ open, onClose }: SidebarProps) {
   const navigate = useNavigate()
   const location = useLocation()
+
+  const { data: session } = useQuery({
+    queryKey: ['session'],
+    queryFn: () => getSession(),
+  })
+  const isOwner = (session?.user as any)?.role === 'owner'
+
+  const { data: pteroUrl } = useQuery({
+    queryKey: ['ptero-url'],
+    queryFn: () => getPteroUrl(),
+    enabled: isOwner,
+  })
 
   const isActive = (to: any) => {
     return to === location.pathname;
@@ -46,7 +61,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           <FlameNodesLogo />
         </div>
 
-        <ScrollArea className="flex-1 px-4 py-6">
+        <ScrollArea className="flex-1 px-4 py-6 overflow-auto">
           {sections.map((section) => {
             const items = navItems.filter((n) => n.section === section.key)
             if (!items.length) return null
@@ -67,7 +82,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                         transition-all duration-200 mb-1
                         ${
                           isActive(item.to)
-                            ? 'bg-gradient-to-r from-primary/20 to-primary/5 text-primary border border-primary/15'
+                            ? 'bg-sidebar-accent text-sidebar-foreground border border-sidebar-border/60'
                             : 'text-sidebar-foreground/70 hover:bg-white/5 hover:text-sidebar-foreground border border-transparent'
                         }
                       `}
@@ -83,6 +98,27 @@ export function Sidebar({ open, onClose }: SidebarProps) {
               </div>
             )
           })}
+
+          {/* Owner-only: Pterodactyl Admin Panel link */}
+          {isOwner && pteroUrl && (
+            <div className="mb-6">
+              <p className="px-3 mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
+                Pterodactyl
+              </p>
+              <a
+                href={pteroUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center gap-3 px-3 h-10 rounded-lg text-sm font-medium transition-all duration-200 mb-1 text-sidebar-foreground/70 hover:bg-white/5 hover:text-sidebar-foreground border border-transparent"
+              >
+                <LucideIcons.ExternalLink className="w-4 h-4 shrink-0" />
+                Admin Panel
+                <span className="ml-auto text-[10px] font-semibold px-1.5 py-0.5 rounded bg-primary/15 text-primary">
+                  Owner
+                </span>
+              </a>
+            </div>
+          )}
         </ScrollArea>
 
         {/* User footer */}

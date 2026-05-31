@@ -72,6 +72,16 @@ export type Discount = Prisma.DiscountModel
  */
 export type Product = Prisma.ProductModel
 /**
+ * Model ProductBillingOption
+ * 
+ */
+export type ProductBillingOption = Prisma.ProductBillingOptionModel
+/**
+ * Model ProductCategoryConfig
+ * 
+ */
+export type ProductCategoryConfig = Prisma.ProductCategoryConfigModel
+/**
  * Model ProductFeature
  * 
  */
@@ -96,6 +106,11 @@ export type CartItem = Prisma.CartItemModel
  * 
  */
 export type Order = Prisma.OrderModel
+/**
+ * Model Invoice
+ * 
+ */
+export type Invoice = Prisma.InvoiceModel
 /**
  * Model OrderItem
  * 
@@ -131,3 +146,28 @@ export type TicketMessage = Prisma.TicketMessageModel
  * 
  */
 export type TicketTagPreset = Prisma.TicketTagPresetModel
+/**
+ * Model StatusNode
+ * 
+ */
+export type StatusNode = Prisma.StatusNodeModel
+/**
+ * Model ConfigurationOption
+ * 
+ */
+export type ConfigurationOption = Prisma.ConfigurationOptionModel
+/**
+ * Model ConfigurationValue
+ * 
+ */
+export type ConfigurationValue = Prisma.ConfigurationValueModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
+ * Model RazorpayConfig
+ * 
+ */
+export type RazorpayConfig = Prisma.RazorpayConfigModel

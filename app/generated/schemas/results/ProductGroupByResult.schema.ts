@@ -30,6 +30,7 @@ export const ProductGroupByResultSchema = z.array(z.object({
     deployMode: z.number(),
     cartItems: z.number(),
     orderItems: z.number(),
+    billingOptions: z.number(),
     createdAt: z.number(),
     updatedAt: z.number()
   }).optional(),

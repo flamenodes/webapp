@@ -7,6 +7,7 @@ export const CartItemModelSchema = z.object({
     productId: z.string(),
     quantity: z.number().int(),
     billingPeriod: BillingPeriodSchema,
+    configuration: z.unknown().nullable(),
     cart: z.unknown(),
     product: z.unknown(),
     createdAt: z.date(),

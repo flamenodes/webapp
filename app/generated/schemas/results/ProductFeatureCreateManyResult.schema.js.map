@@ -1,0 +1,1 @@
+{"version":3,"file":"ProductFeatureCreateManyResult.schema.js","sourceRoot":"","sources":["ProductFeatureCreateManyResult.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AACzB,MAAM,CAAC,MAAM,oCAAoC,GAAG,CAAC,CAAC,MAAM,CAAC;IAC3D,KAAK,EAAE,CAAC,CAAC,MAAM,EAAE;CAClB,CAAC,CAAC"}

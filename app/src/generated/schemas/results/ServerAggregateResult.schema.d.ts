@@ -1,0 +1,54 @@
+import * as z from 'zod';
+export declare const ServerAggregateResultSchema: z.ZodObject<{
+    _count: z.ZodOptional<z.ZodObject<{
+        id: z.ZodNumber;
+        userId: z.ZodNumber;
+        user: z.ZodNumber;
+        orderItemId: z.ZodNumber;
+        orderItem: z.ZodNumber;
+        name: z.ZodNumber;
+        type: z.ZodNumber;
+        status: z.ZodNumber;
+        ip: z.ZodNumber;
+        port: z.ZodNumber;
+        expiresAt: z.ZodNumber;
+        resources: z.ZodNumber;
+        pterodactylData: z.ZodNumber;
+        suspended: z.ZodNumber;
+        createdAt: z.ZodNumber;
+        updatedAt: z.ZodNumber;
+    }, z.core.$strip>>;
+    _sum: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        port: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _avg: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        port: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _min: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        userId: z.ZodNullable<z.ZodString>;
+        orderItemId: z.ZodNullable<z.ZodString>;
+        name: z.ZodNullable<z.ZodString>;
+        type: z.ZodNullable<z.ZodString>;
+        status: z.ZodNullable<z.ZodString>;
+        ip: z.ZodNullable<z.ZodString>;
+        port: z.ZodNullable<z.ZodNumber>;
+        expiresAt: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodString>;
+        updatedAt: z.ZodNullable<z.ZodString>;
+    }, z.core.$strip>>>;
+    _max: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        userId: z.ZodNullable<z.ZodString>;
+        orderItemId: z.ZodNullable<z.ZodString>;
+        name: z.ZodNullable<z.ZodString>;
+        type: z.ZodNullable<z.ZodString>;
+        status: z.ZodNullable<z.ZodString>;
+        ip: z.ZodNullable<z.ZodString>;
+        port: z.ZodNullable<z.ZodNumber>;
+        expiresAt: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodString>;
+        updatedAt: z.ZodNullable<z.ZodString>;
+    }, z.core.$strip>>>;
+}, z.core.$strip>;
+//# sourceMappingURL=ServerAggregateResult.schema.d.ts.map

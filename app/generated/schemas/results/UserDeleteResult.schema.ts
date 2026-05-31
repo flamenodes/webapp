@@ -17,11 +17,17 @@ export const UserDeleteResultSchema = z.nullable(z.object({
   username: z.string(),
   firstname: z.string(),
   lastname: z.string(),
+  pteroUserId: z.number().int().optional(),
+  address: z.string().optional(),
+  city: z.string().optional(),
+  zip: z.string().optional(),
+  country: z.string().optional(),
   servers: z.array(z.unknown()),
   cart: z.unknown().optional(),
   orders: z.array(z.unknown()),
   displayUsername: z.string().optional(),
   tickets: z.array(z.unknown()),
   assignedTickets: z.array(z.unknown()),
-  ticketMessages: z.array(z.unknown())
+  ticketMessages: z.array(z.unknown()),
+  notifications: z.array(z.unknown())
 }));

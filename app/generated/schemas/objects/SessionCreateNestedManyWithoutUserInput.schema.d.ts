@@ -1,0 +1,10 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+export declare const SessionCreateNestedManyWithoutUserInputObjectSchema: z.ZodType<Prisma.SessionCreateNestedManyWithoutUserInput>;
+export declare const SessionCreateNestedManyWithoutUserInputObjectZodSchema: z.ZodObject<{
+    create: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.SessionCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.SessionCreateWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.SessionCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.SessionCreateWithoutUserInput, unknown>>>>, z.ZodLazy<z.ZodType<Prisma.SessionUncheckedCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.SessionUncheckedCreateWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.SessionUncheckedCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.SessionUncheckedCreateWithoutUserInput, unknown>>>>]>>;
+    connectOrCreate: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.SessionCreateOrConnectWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.SessionCreateOrConnectWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.SessionCreateOrConnectWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.SessionCreateOrConnectWithoutUserInput, unknown>>>>]>>;
+    createMany: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.SessionCreateManyUserInputEnvelope, unknown, z.core.$ZodTypeInternals<Prisma.SessionCreateManyUserInputEnvelope, unknown>>>>;
+    connect: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.SessionWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.SessionWhereUniqueInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.SessionWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.SessionWhereUniqueInput, unknown>>>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=SessionCreateNestedManyWithoutUserInput.schema.d.ts.map

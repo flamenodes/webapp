@@ -1,0 +1,1 @@
+{"version":3,"file":"StatusNodeAvgOrderByAggregateInput.schema.d.ts","sourceRoot":"","sources":["StatusNodeAvgOrderByAggregateInput.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AACzB,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,sCAAsC,CAAC;AAUnE,eAAO,MAAM,8CAA8C,EAAE,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,kCAAkC,CAAmF,CAAC;AACpM,eAAO,MAAM,iDAAiD;;;;;;;;;;;;;;;;;;;;;kBAAe,CAAC"}

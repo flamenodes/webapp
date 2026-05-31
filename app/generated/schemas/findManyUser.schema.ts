@@ -27,6 +27,11 @@ export const UserFindManySelectSchema: z.ZodType<Prisma.UserSelect> = z.object({
     username: z.boolean().optional(),
     firstname: z.boolean().optional(),
     lastname: z.boolean().optional(),
+    pteroUserId: z.boolean().optional(),
+    address: z.boolean().optional(),
+    city: z.boolean().optional(),
+    zip: z.boolean().optional(),
+    country: z.boolean().optional(),
     servers: z.boolean().optional(),
     cart: z.boolean().optional(),
     orders: z.boolean().optional(),
@@ -34,6 +39,7 @@ export const UserFindManySelectSchema: z.ZodType<Prisma.UserSelect> = z.object({
     tickets: z.boolean().optional(),
     assignedTickets: z.boolean().optional(),
     ticketMessages: z.boolean().optional(),
+    notifications: z.boolean().optional(),
     _count: z.boolean().optional()
   }).strict() as unknown as z.ZodType<Prisma.UserSelect>;
 
@@ -55,6 +61,11 @@ export const UserFindManySelectZodSchema = z.object({
     username: z.boolean().optional(),
     firstname: z.boolean().optional(),
     lastname: z.boolean().optional(),
+    pteroUserId: z.boolean().optional(),
+    address: z.boolean().optional(),
+    city: z.boolean().optional(),
+    zip: z.boolean().optional(),
+    country: z.boolean().optional(),
     servers: z.boolean().optional(),
     cart: z.boolean().optional(),
     orders: z.boolean().optional(),
@@ -62,6 +73,7 @@ export const UserFindManySelectZodSchema = z.object({
     tickets: z.boolean().optional(),
     assignedTickets: z.boolean().optional(),
     ticketMessages: z.boolean().optional(),
+    notifications: z.boolean().optional(),
     _count: z.boolean().optional()
   }).strict();
 

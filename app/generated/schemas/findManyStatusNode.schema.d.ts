@@ -1,0 +1,63 @@
+import type { Prisma } from '../../src/generated/prisma/client';
+import * as z from 'zod';
+export declare const StatusNodeFindManySelectSchema: z.ZodType<Prisma.StatusNodeSelect>;
+export declare const StatusNodeFindManySelectZodSchema: z.ZodObject<{
+    id: z.ZodOptional<z.ZodBoolean>;
+    name: z.ZodOptional<z.ZodBoolean>;
+    ip: z.ZodOptional<z.ZodBoolean>;
+    location: z.ZodOptional<z.ZodBoolean>;
+    type: z.ZodOptional<z.ZodBoolean>;
+    port: z.ZodOptional<z.ZodBoolean>;
+    protocol: z.ZodOptional<z.ZodBoolean>;
+    status: z.ZodOptional<z.ZodBoolean>;
+    latency: z.ZodOptional<z.ZodBoolean>;
+    lastChecked: z.ZodOptional<z.ZodBoolean>;
+    cpu: z.ZodOptional<z.ZodBoolean>;
+    memory: z.ZodOptional<z.ZodBoolean>;
+    disk: z.ZodOptional<z.ZodBoolean>;
+    createdAt: z.ZodOptional<z.ZodBoolean>;
+    updatedAt: z.ZodOptional<z.ZodBoolean>;
+}, z.core.$strict>;
+export declare const StatusNodeFindManySchema: z.ZodType<Prisma.StatusNodeFindManyArgs>;
+export declare const StatusNodeFindManyZodSchema: z.ZodObject<{
+    select: z.ZodOptional<z.ZodType<Prisma.StatusNodeSelect<import("@prisma/client/runtime/client").DefaultArgs>, unknown, z.core.$ZodTypeInternals<Prisma.StatusNodeSelect<import("@prisma/client/runtime/client").DefaultArgs>, unknown>>>;
+    orderBy: z.ZodOptional<z.ZodUnion<readonly [z.ZodType<Prisma.StatusNodeOrderByWithRelationInput, unknown, z.core.$ZodTypeInternals<Prisma.StatusNodeOrderByWithRelationInput, unknown>>, z.ZodArray<z.ZodType<Prisma.StatusNodeOrderByWithRelationInput, unknown, z.core.$ZodTypeInternals<Prisma.StatusNodeOrderByWithRelationInput, unknown>>>]>>;
+    where: z.ZodOptional<z.ZodType<Prisma.StatusNodeWhereInput, unknown, z.core.$ZodTypeInternals<Prisma.StatusNodeWhereInput, unknown>>>;
+    cursor: z.ZodOptional<z.ZodType<Prisma.StatusNodeWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.StatusNodeWhereUniqueInput, unknown>>>;
+    take: z.ZodOptional<z.ZodNumber>;
+    skip: z.ZodOptional<z.ZodNumber>;
+    distinct: z.ZodOptional<z.ZodUnion<readonly [z.ZodEnum<{
+        type: "type";
+        id: "id";
+        name: "name";
+        createdAt: "createdAt";
+        status: "status";
+        updatedAt: "updatedAt";
+        ip: "ip";
+        port: "port";
+        location: "location";
+        protocol: "protocol";
+        latency: "latency";
+        lastChecked: "lastChecked";
+        cpu: "cpu";
+        memory: "memory";
+        disk: "disk";
+    }>, z.ZodArray<z.ZodEnum<{
+        type: "type";
+        id: "id";
+        name: "name";
+        createdAt: "createdAt";
+        status: "status";
+        updatedAt: "updatedAt";
+        ip: "ip";
+        port: "port";
+        location: "location";
+        protocol: "protocol";
+        latency: "latency";
+        lastChecked: "lastChecked";
+        cpu: "cpu";
+        memory: "memory";
+        disk: "disk";
+    }>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=findManyStatusNode.schema.d.ts.map

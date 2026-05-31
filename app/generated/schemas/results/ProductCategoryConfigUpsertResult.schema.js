@@ -1,0 +1,9 @@
+import * as z from 'zod';
+export const ProductCategoryConfigUpsertResultSchema = z.object({
+    id: z.string(),
+    category: z.unknown(),
+    billingPeriods: z.array(z.unknown()),
+    createdAt: z.date(),
+    updatedAt: z.date()
+});
+//# sourceMappingURL=ProductCategoryConfigUpsertResult.schema.js.map

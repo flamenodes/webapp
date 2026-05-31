@@ -1,0 +1,1 @@
+{"version":3,"file":"payment.d.ts","sourceRoot":"","sources":["payment.tsx"],"names":[],"mappings":"AAWA,eAAO,MAAM,KAAK,4aAES,MAAM,CAAC,MAAM,EAAE,OAAO,CAAC;aACnB,MAAM;qBACU,MAAM;wQAEnD,CAAA;AAEF,OAAO,CAAC,MAAM,CAAC;IACb,UAAU,MAAM;QACd,QAAQ,EAAE,GAAG,CAAA;KACd;CACF"}

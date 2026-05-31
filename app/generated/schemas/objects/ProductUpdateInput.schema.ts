@@ -11,7 +11,8 @@ import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOp
 import { ProductFeatureUpdateManyWithoutProductNestedInputObjectSchema as ProductFeatureUpdateManyWithoutProductNestedInputObjectSchema } from './ProductFeatureUpdateManyWithoutProductNestedInput.schema';
 import { DiscountUpdateOneWithoutProductNestedInputObjectSchema as DiscountUpdateOneWithoutProductNestedInputObjectSchema } from './DiscountUpdateOneWithoutProductNestedInput.schema';
 import { CartItemUpdateManyWithoutProductNestedInputObjectSchema as CartItemUpdateManyWithoutProductNestedInputObjectSchema } from './CartItemUpdateManyWithoutProductNestedInput.schema';
-import { OrderItemUpdateManyWithoutProductNestedInputObjectSchema as OrderItemUpdateManyWithoutProductNestedInputObjectSchema } from './OrderItemUpdateManyWithoutProductNestedInput.schema'
+import { OrderItemUpdateManyWithoutProductNestedInputObjectSchema as OrderItemUpdateManyWithoutProductNestedInputObjectSchema } from './OrderItemUpdateManyWithoutProductNestedInput.schema';
+import { ProductBillingOptionUpdateManyWithoutProductNestedInputObjectSchema as ProductBillingOptionUpdateManyWithoutProductNestedInputObjectSchema } from './ProductBillingOptionUpdateManyWithoutProductNestedInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
@@ -32,7 +33,8 @@ const makeSchema = () => z.object({
   features: z.lazy(() => ProductFeatureUpdateManyWithoutProductNestedInputObjectSchema).optional(),
   discount: z.lazy(() => DiscountUpdateOneWithoutProductNestedInputObjectSchema).optional(),
   cartItems: z.lazy(() => CartItemUpdateManyWithoutProductNestedInputObjectSchema).optional(),
-  orderItems: z.lazy(() => OrderItemUpdateManyWithoutProductNestedInputObjectSchema).optional()
+  orderItems: z.lazy(() => OrderItemUpdateManyWithoutProductNestedInputObjectSchema).optional(),
+  billingOptions: z.lazy(() => ProductBillingOptionUpdateManyWithoutProductNestedInputObjectSchema).optional()
 }).strict();
 export const ProductUpdateInputObjectSchema: z.ZodType<Prisma.ProductUpdateInput> = makeSchema() as unknown as z.ZodType<Prisma.ProductUpdateInput>;
 export const ProductUpdateInputObjectZodSchema = makeSchema();

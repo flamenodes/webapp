@@ -22,6 +22,7 @@ export const OrderGroupByResultSchema = z.array(z.object({
     deliveryMessage: z.number(),
     deliveryData: z.number(),
     items: z.number(),
+    invoice: z.number(),
     createdAt: z.number(),
     updatedAt: z.number()
   }).optional(),

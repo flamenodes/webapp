@@ -10,6 +10,7 @@ export const OrderItemFindManyResultSchema = z.object({
   unitPrice: z.number().int(),
   totalPrice: z.number().int(),
   specsSnapshot: z.unknown().optional(),
+  configuration: z.unknown().optional(),
   expiresAt: z.date().optional(),
   order: z.unknown(),
   product: z.unknown(),

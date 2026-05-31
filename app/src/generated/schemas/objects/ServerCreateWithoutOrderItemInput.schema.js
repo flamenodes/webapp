@@ -1,0 +1,22 @@
+import * as z from 'zod';
+import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
+import { UserCreateNestedOneWithoutServersInputObjectSchema as UserCreateNestedOneWithoutServersInputObjectSchema } from './UserCreateNestedOneWithoutServersInput.schema';
+import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
+const makeSchema = () => z.object({
+    id: z.string().optional(),
+    name: z.string(),
+    type: z.string(),
+    status: z.string(),
+    ip: z.string().optional().nullable(),
+    port: z.number().int().optional().nullable(),
+    expiresAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time").optional().nullable(),
+    resources: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
+    pterodactylData: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
+    suspended: z.boolean().optional(),
+    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time").optional(),
+    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time").optional(),
+    user: z.lazy(() => UserCreateNestedOneWithoutServersInputObjectSchema)
+}).strict();
+export const ServerCreateWithoutOrderItemInputObjectSchema = makeSchema();
+export const ServerCreateWithoutOrderItemInputObjectZodSchema = makeSchema();
+//# sourceMappingURL=ServerCreateWithoutOrderItemInput.schema.js.map

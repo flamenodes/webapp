@@ -1,0 +1,42 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+export declare const NestedEnumOrderStatusFilterObjectSchema: z.ZodType<Prisma.NestedEnumOrderStatusFilter>;
+export declare const NestedEnumOrderStatusFilterObjectZodSchema: z.ZodObject<{
+    equals: z.ZodOptional<z.ZodEnum<{
+        PENDING: "PENDING";
+        PAYMENT_FAILED: "PAYMENT_FAILED";
+        PAID: "PAID";
+        PROCESSING: "PROCESSING";
+        DELIVERED: "DELIVERED";
+        CANCELLED: "CANCELLED";
+        REFUNDED: "REFUNDED";
+    }>>;
+    in: z.ZodOptional<z.ZodArray<z.ZodEnum<{
+        PENDING: "PENDING";
+        PAYMENT_FAILED: "PAYMENT_FAILED";
+        PAID: "PAID";
+        PROCESSING: "PROCESSING";
+        DELIVERED: "DELIVERED";
+        CANCELLED: "CANCELLED";
+        REFUNDED: "REFUNDED";
+    }>>>;
+    notIn: z.ZodOptional<z.ZodArray<z.ZodEnum<{
+        PENDING: "PENDING";
+        PAYMENT_FAILED: "PAYMENT_FAILED";
+        PAID: "PAID";
+        PROCESSING: "PROCESSING";
+        DELIVERED: "DELIVERED";
+        CANCELLED: "CANCELLED";
+        REFUNDED: "REFUNDED";
+    }>>>;
+    not: z.ZodOptional<z.ZodUnion<readonly [z.ZodEnum<{
+        PENDING: "PENDING";
+        PAYMENT_FAILED: "PAYMENT_FAILED";
+        PAID: "PAID";
+        PROCESSING: "PROCESSING";
+        DELIVERED: "DELIVERED";
+        CANCELLED: "CANCELLED";
+        REFUNDED: "REFUNDED";
+    }>, z.ZodLazy<z.ZodType<Prisma.NestedEnumOrderStatusFilter<never>, unknown, z.core.$ZodTypeInternals<Prisma.NestedEnumOrderStatusFilter<never>, unknown>>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=NestedEnumOrderStatusFilter.schema.d.ts.map

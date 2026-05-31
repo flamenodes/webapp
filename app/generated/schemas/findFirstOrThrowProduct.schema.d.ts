@@ -1,0 +1,67 @@
+import type { Prisma } from '../../src/generated/prisma/client';
+import * as z from 'zod';
+export declare const ProductFindFirstOrThrowSelectSchema: z.ZodType<Prisma.ProductSelect>;
+export declare const ProductFindFirstOrThrowSelectZodSchema: z.ZodObject<{
+    id: z.ZodOptional<z.ZodBoolean>;
+    planName: z.ZodOptional<z.ZodBoolean>;
+    icon: z.ZodOptional<z.ZodBoolean>;
+    badge: z.ZodOptional<z.ZodBoolean>;
+    category: z.ZodOptional<z.ZodBoolean>;
+    price: z.ZodOptional<z.ZodBoolean>;
+    sortOrder: z.ZodOptional<z.ZodBoolean>;
+    features: z.ZodOptional<z.ZodBoolean>;
+    featureCategory: z.ZodOptional<z.ZodBoolean>;
+    inStock: z.ZodOptional<z.ZodBoolean>;
+    discountId: z.ZodOptional<z.ZodBoolean>;
+    discount: z.ZodOptional<z.ZodBoolean>;
+    specs: z.ZodOptional<z.ZodBoolean>;
+    deployMode: z.ZodOptional<z.ZodBoolean>;
+    cartItems: z.ZodOptional<z.ZodBoolean>;
+    orderItems: z.ZodOptional<z.ZodBoolean>;
+    billingOptions: z.ZodOptional<z.ZodBoolean>;
+    createdAt: z.ZodOptional<z.ZodBoolean>;
+    updatedAt: z.ZodOptional<z.ZodBoolean>;
+    _count: z.ZodOptional<z.ZodBoolean>;
+}, z.core.$strict>;
+export declare const ProductFindFirstOrThrowSchema: z.ZodType<Prisma.ProductFindFirstOrThrowArgs>;
+export declare const ProductFindFirstOrThrowZodSchema: z.ZodObject<{
+    select: z.ZodOptional<z.ZodType<Prisma.ProductSelect<import("@prisma/client/runtime/client").DefaultArgs>, unknown, z.core.$ZodTypeInternals<Prisma.ProductSelect<import("@prisma/client/runtime/client").DefaultArgs>, unknown>>>;
+    include: z.ZodLazy<z.ZodOptional<z.ZodType<Prisma.ProductInclude<import("@prisma/client/runtime/client").DefaultArgs>, unknown, z.core.$ZodTypeInternals<Prisma.ProductInclude<import("@prisma/client/runtime/client").DefaultArgs>, unknown>>>>;
+    orderBy: z.ZodOptional<z.ZodUnion<readonly [z.ZodType<Prisma.ProductOrderByWithRelationInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductOrderByWithRelationInput, unknown>>, z.ZodArray<z.ZodType<Prisma.ProductOrderByWithRelationInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductOrderByWithRelationInput, unknown>>>]>>;
+    where: z.ZodOptional<z.ZodType<Prisma.ProductWhereInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductWhereInput, unknown>>>;
+    cursor: z.ZodOptional<z.ZodType<Prisma.ProductWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductWhereUniqueInput, unknown>>>;
+    take: z.ZodOptional<z.ZodNumber>;
+    skip: z.ZodOptional<z.ZodNumber>;
+    distinct: z.ZodOptional<z.ZodUnion<readonly [z.ZodEnum<{
+        id: "id";
+        createdAt: "createdAt";
+        updatedAt: "updatedAt";
+        sortOrder: "sortOrder";
+        price: "price";
+        planName: "planName";
+        icon: "icon";
+        badge: "badge";
+        category: "category";
+        featureCategory: "featureCategory";
+        inStock: "inStock";
+        discountId: "discountId";
+        specs: "specs";
+        deployMode: "deployMode";
+    }>, z.ZodArray<z.ZodEnum<{
+        id: "id";
+        createdAt: "createdAt";
+        updatedAt: "updatedAt";
+        sortOrder: "sortOrder";
+        price: "price";
+        planName: "planName";
+        icon: "icon";
+        badge: "badge";
+        category: "category";
+        featureCategory: "featureCategory";
+        inStock: "inStock";
+        discountId: "discountId";
+        specs: "specs";
+        deployMode: "deployMode";
+    }>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=findFirstOrThrowProduct.schema.d.ts.map

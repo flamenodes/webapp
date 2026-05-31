@@ -11,6 +11,7 @@ export const OrderItemInputSchema = z.object({
     unitPrice: z.number().int(),
     totalPrice: z.number().int(),
     specsSnapshot: z.unknown().optional().nullable(),
+    configuration: z.unknown().optional().nullable(),
     expiresAt: z.date().optional().nullable(),
     order: z.unknown(),
     product: z.unknown(),

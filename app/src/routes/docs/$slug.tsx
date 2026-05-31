@@ -12,8 +12,16 @@ import remarkAlert from 'remark-github-blockquote-alert'
 import rehypeRaw from 'rehype-raw'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import { seo } from '#/utils/seo'
 
 export const Route = createFileRoute('/docs/$slug')({
+  head: () => ({
+    meta: seo({
+      title: 'Docs | Flame Nodes',
+      description: 'Flame Nodes documentation — guides, tutorials, and reference material for all our hosting services.',
+      image: '/flamenodes.png',
+    }),
+  }),
   component: RouteComponent,
 })
 

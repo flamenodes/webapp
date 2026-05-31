@@ -21,14 +21,15 @@ import {
 } from '#/components/ui/alert-dialog'
 import { useNavigate } from '@tanstack/react-router'
 import { useQueryClient } from '@tanstack/react-query'
-import { MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal, FileSpreadsheet, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
-import { deletePageDocumentbyId, type getPageDocuments } from '#/serverActions/admin/pagedocument.api'
+import { deletePageDocumentbyId, deletePageDocuments, type getPageDocuments } from '#/serverActions/admin/pagedocument.api'
+import { exportToCSV } from '#/lib/export-utils'
 
 
 type DocumentRecord = NonNullable<
-  Awaited<ReturnType<typeof getPageDocuments>>['data']
->[number]
+  Awaited<ReturnType<typeof getPageDocuments>>
+>['resData'][number]
 
 export default function DocumentsDataTable({
   data,
@@ -39,6 +40,20 @@ export default function DocumentsDataTable({
   const queryClient = useQueryClient()
   const [deleteTarget, setDeleteTarget] =
     React.useState<DocumentRecord | null>(null)
+  const [bulkDeleteOpen, setBulkDeleteOpen] = React.useState(false)
+
+  const handleExportToExcel = (documents: DocumentRecord[]) => {
+    const exportData = documents.map((doc) => ({
+      'Title': doc.title,
+      'Slug': doc.slug,
+      'Status': doc.status,
+      'Description': doc.description,
+      'Created': new Date(doc.createdAt).toLocaleDateString(),
+      'Updated': new Date(doc.updatedAt).toLocaleDateString(),
+    }))
+
+    exportToCSV(exportData, 'documents')
+  }
 
   return (
     <>
@@ -68,7 +83,7 @@ export default function DocumentsDataTable({
         emptyMessage="No documents found."
         getRowId={(row) => row.id}
         enablePagination
-        enableRowSelection={false}
+        enableRowSelection
         renderRowActions={(row) => (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -101,6 +116,67 @@ export default function DocumentsDataTable({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+        )}
+        renderBulkActions={({ selectedIds, selectedRows, clearSelection }) => (
+          <>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => handleExportToExcel(selectedRows)}
+            >
+              <FileSpreadsheet className="w-4 h-4 mr-2" />
+              Export to Excel
+            </Button>
+            <AlertDialog open={bulkDeleteOpen} onOpenChange={setBulkDeleteOpen}>
+              <Button
+                type="button"
+                variant="destructive"
+                size="sm"
+                onClick={() => setBulkDeleteOpen(true)}
+              >
+                <Trash2 className="w-4 h-4 mr-2" />
+                Delete ({selectedIds.length})
+              </Button>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete selected documents?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will permanently delete {selectedIds.length} document
+                    {selectedIds.length === 1 ? '' : 's'}.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-destructive text-white hover:bg-destructive/90"
+                    onClick={async () => {
+                      try {
+                        await deletePageDocuments({ data: { ids: selectedIds } })
+                        toast.success('Deleted selected documents.')
+                        clearSelection()
+                        setBulkDeleteOpen(false)
+                        await queryClient.invalidateQueries({
+                          queryKey: ['page-documents'],
+                        })
+                        await queryClient.refetchQueries({
+                          queryKey: ['page-documents'],
+                        })
+                      } catch (error) {
+                        toast.error(
+                          error instanceof Error
+                            ? error.message
+                            : 'Failed to delete selected documents.',
+                        )
+                      }
+                    }}
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </>
         )}
       />
 

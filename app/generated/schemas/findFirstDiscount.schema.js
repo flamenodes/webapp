@@ -1,0 +1,25 @@
+import * as z from 'zod';
+import { DiscountIncludeObjectSchema as DiscountIncludeObjectSchema } from './objects/DiscountInclude.schema';
+import { DiscountOrderByWithRelationInputObjectSchema as DiscountOrderByWithRelationInputObjectSchema } from './objects/DiscountOrderByWithRelationInput.schema';
+import { DiscountWhereInputObjectSchema as DiscountWhereInputObjectSchema } from './objects/DiscountWhereInput.schema';
+import { DiscountWhereUniqueInputObjectSchema as DiscountWhereUniqueInputObjectSchema } from './objects/DiscountWhereUniqueInput.schema';
+import { DiscountScalarFieldEnumSchema } from './enums/DiscountScalarFieldEnum.schema';
+// Select schema needs to be in file to prevent circular imports
+//------------------------------------------------------
+export const DiscountFindFirstSelectSchema = z.object({
+    id: z.boolean().optional(),
+    label: z.boolean().optional(),
+    percentage: z.boolean().optional(),
+    product: z.boolean().optional(),
+    _count: z.boolean().optional()
+}).strict();
+export const DiscountFindFirstSelectZodSchema = z.object({
+    id: z.boolean().optional(),
+    label: z.boolean().optional(),
+    percentage: z.boolean().optional(),
+    product: z.boolean().optional(),
+    _count: z.boolean().optional()
+}).strict();
+export const DiscountFindFirstSchema = z.object({ select: DiscountFindFirstSelectSchema.optional(), include: z.lazy(() => DiscountIncludeObjectSchema.optional()), orderBy: z.union([DiscountOrderByWithRelationInputObjectSchema, DiscountOrderByWithRelationInputObjectSchema.array()]).optional(), where: DiscountWhereInputObjectSchema.optional(), cursor: DiscountWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([DiscountScalarFieldEnumSchema, DiscountScalarFieldEnumSchema.array()]).optional() }).strict();
+export const DiscountFindFirstZodSchema = z.object({ select: DiscountFindFirstSelectSchema.optional(), include: z.lazy(() => DiscountIncludeObjectSchema.optional()), orderBy: z.union([DiscountOrderByWithRelationInputObjectSchema, DiscountOrderByWithRelationInputObjectSchema.array()]).optional(), where: DiscountWhereInputObjectSchema.optional(), cursor: DiscountWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([DiscountScalarFieldEnumSchema, DiscountScalarFieldEnumSchema.array()]).optional() }).strict();
+//# sourceMappingURL=findFirstDiscount.schema.js.map

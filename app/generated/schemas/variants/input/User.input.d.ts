@@ -1,0 +1,35 @@
+import * as z from 'zod';
+export declare const UserInputSchema: z.ZodObject<{
+    id: z.ZodString;
+    clientId: z.ZodString;
+    name: z.ZodString;
+    email: z.ZodString;
+    emailVerified: z.ZodBoolean;
+    image: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+    createdAt: z.ZodDate;
+    updatedAt: z.ZodDate;
+    sessions: z.ZodArray<z.ZodUnknown>;
+    accounts: z.ZodArray<z.ZodUnknown>;
+    role: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+    banned: z.ZodNullable<z.ZodOptional<z.ZodBoolean>>;
+    banReason: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+    banExpires: z.ZodNullable<z.ZodOptional<z.ZodDate>>;
+    username: z.ZodString;
+    firstname: z.ZodString;
+    lastname: z.ZodString;
+    pteroUserId: z.ZodNullable<z.ZodOptional<z.ZodNumber>>;
+    address: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+    city: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+    zip: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+    country: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+    servers: z.ZodArray<z.ZodUnknown>;
+    cart: z.ZodNullable<z.ZodOptional<z.ZodUnknown>>;
+    orders: z.ZodArray<z.ZodUnknown>;
+    displayUsername: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+    tickets: z.ZodArray<z.ZodUnknown>;
+    assignedTickets: z.ZodArray<z.ZodUnknown>;
+    ticketMessages: z.ZodArray<z.ZodUnknown>;
+    notifications: z.ZodArray<z.ZodUnknown>;
+}, z.core.$strict>;
+export type UserInputType = z.infer<typeof UserInputSchema>;
+//# sourceMappingURL=User.input.d.ts.map

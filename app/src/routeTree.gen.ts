@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StatusRouteImport } from './routes/status'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as AuthRouteImport } from './routes/_auth'
@@ -22,8 +23,9 @@ import { Route as PricingMinecraftRouteImport } from './routes/pricing/minecraft
 import { Route as PricingDiscordBotRouteImport } from './routes/pricing/discord-bot'
 import { Route as PricingDedicatedRouteImport } from './routes/pricing/dedicated'
 import { Route as DocsSlugRouteImport } from './routes/docs/$slug'
-import { Route as DocsIdRouteImport } from './routes/docs/$id'
 import { Route as DevTestRouteImport } from './routes/dev/test'
+import { Route as ConfigureProductIdRouteImport } from './routes/configure/$productId'
+import { Route as CheckoutPaymentRouteImport } from './routes/checkout/payment'
 import { Route as BillingSuccessRouteImport } from './routes/billing/success'
 import { Route as BillingConfigureRouteImport } from './routes/billing/configure'
 import { Route as BillingCartRouteImport } from './routes/billing/cart'
@@ -33,15 +35,31 @@ import { Route as ProtectedUserRouteRouteImport } from './routes/_protected/user
 import { Route as ProtectedAdminRouteRouteImport } from './routes/_protected/admin/route'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ProtectedUserTicketsRouteImport } from './routes/_protected/user/tickets'
+import { Route as ProtectedUserSettingsRouteImport } from './routes/_protected/user/settings'
+import { Route as ProtectedUserServersRouteImport } from './routes/_protected/user/servers'
+import { Route as ProtectedUserOrdersRouteImport } from './routes/_protected/user/orders'
+import { Route as ProtectedUserInvoicesRouteImport } from './routes/_protected/user/invoices'
 import { Route as ProtectedUserDashboardRouteImport } from './routes/_protected/user/dashboard'
 import { Route as ProtectedAdminTicketsRouteImport } from './routes/_protected/admin/tickets'
+import { Route as ProtectedAdminStatusRouteImport } from './routes/_protected/admin/status'
+import { Route as ProtectedAdminSettingsRouteImport } from './routes/_protected/admin/settings'
+import { Route as ProtectedAdminServersRouteImport } from './routes/_protected/admin/servers'
 import { Route as ProtectedAdminProductsRouteImport } from './routes/_protected/admin/products'
+import { Route as ProtectedAdminProductConfigRouteImport } from './routes/_protected/admin/product-config'
+import { Route as ProtectedAdminOrdersRouteImport } from './routes/_protected/admin/orders'
+import { Route as ProtectedAdminInvoicesRouteImport } from './routes/_protected/admin/invoices'
 import { Route as ProtectedAdminDocumentsRouteImport } from './routes/_protected/admin/documents'
 import { Route as ProtectedAdminDashboardRouteImport } from './routes/_protected/admin/dashboard'
 import { Route as ProtectedAdminCustomersRouteImport } from './routes/_protected/admin/customers'
+import { Route as ProtectedAdminConfigurationsRouteImport } from './routes/_protected/admin/configurations'
 import { Route as ProtectedAdminDocEditorSlugRouteImport } from './routes/_protected/admin/doc-editor.$slug'
 import { Route as ProtectedAdminDocumentsEditorIdRouteImport } from './routes/_protected/admin/documents.editor.$id'
 
+const StatusRoute = StatusRouteImport.update({
+  id: '/status',
+  path: '/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
@@ -105,14 +123,19 @@ const DocsSlugRoute = DocsSlugRouteImport.update({
   path: '/docs/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DocsIdRoute = DocsIdRouteImport.update({
-  id: '/docs/$id',
-  path: '/docs/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DevTestRoute = DevTestRouteImport.update({
   id: '/dev/test',
   path: '/dev/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfigureProductIdRoute = ConfigureProductIdRouteImport.update({
+  id: '/configure/$productId',
+  path: '/configure/$productId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutPaymentRoute = CheckoutPaymentRouteImport.update({
+  id: '/checkout/payment',
+  path: '/checkout/payment',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BillingSuccessRoute = BillingSuccessRouteImport.update({
@@ -160,6 +183,26 @@ const ProtectedUserTicketsRoute = ProtectedUserTicketsRouteImport.update({
   path: '/tickets',
   getParentRoute: () => ProtectedUserRouteRoute,
 } as any)
+const ProtectedUserSettingsRoute = ProtectedUserSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ProtectedUserRouteRoute,
+} as any)
+const ProtectedUserServersRoute = ProtectedUserServersRouteImport.update({
+  id: '/servers',
+  path: '/servers',
+  getParentRoute: () => ProtectedUserRouteRoute,
+} as any)
+const ProtectedUserOrdersRoute = ProtectedUserOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => ProtectedUserRouteRoute,
+} as any)
+const ProtectedUserInvoicesRoute = ProtectedUserInvoicesRouteImport.update({
+  id: '/invoices',
+  path: '/invoices',
+  getParentRoute: () => ProtectedUserRouteRoute,
+} as any)
 const ProtectedUserDashboardRoute = ProtectedUserDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -170,9 +213,40 @@ const ProtectedAdminTicketsRoute = ProtectedAdminTicketsRouteImport.update({
   path: '/tickets',
   getParentRoute: () => ProtectedAdminRouteRoute,
 } as any)
+const ProtectedAdminStatusRoute = ProtectedAdminStatusRouteImport.update({
+  id: '/status',
+  path: '/status',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminSettingsRoute = ProtectedAdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminServersRoute = ProtectedAdminServersRouteImport.update({
+  id: '/servers',
+  path: '/servers',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
 const ProtectedAdminProductsRoute = ProtectedAdminProductsRouteImport.update({
   id: '/products',
   path: '/products',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminProductConfigRoute =
+  ProtectedAdminProductConfigRouteImport.update({
+    id: '/product-config',
+    path: '/product-config',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
+const ProtectedAdminOrdersRoute = ProtectedAdminOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminInvoicesRoute = ProtectedAdminInvoicesRouteImport.update({
+  id: '/invoices',
+  path: '/invoices',
   getParentRoute: () => ProtectedAdminRouteRoute,
 } as any)
 const ProtectedAdminDocumentsRoute = ProtectedAdminDocumentsRouteImport.update({
@@ -190,6 +264,12 @@ const ProtectedAdminCustomersRoute = ProtectedAdminCustomersRouteImport.update({
   path: '/customers',
   getParentRoute: () => ProtectedAdminRouteRoute,
 } as any)
+const ProtectedAdminConfigurationsRoute =
+  ProtectedAdminConfigurationsRouteImport.update({
+    id: '/configurations',
+    path: '/configurations',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
 const ProtectedAdminDocEditorSlugRoute =
   ProtectedAdminDocEditorSlugRouteImport.update({
     id: '/doc-editor/$slug',
@@ -207,6 +287,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/pricing': typeof PricingRouteRouteWithChildren
   '/mcp': typeof McpRoute
+  '/status': typeof StatusRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/user': typeof ProtectedUserRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
@@ -214,8 +295,9 @@ export interface FileRoutesByFullPath {
   '/billing/cart': typeof BillingCartRoute
   '/billing/configure': typeof BillingConfigureRoute
   '/billing/success': typeof BillingSuccessRoute
+  '/checkout/payment': typeof CheckoutPaymentRoute
+  '/configure/$productId': typeof ConfigureProductIdRoute
   '/dev/test': typeof DevTestRoute
-  '/docs/$id': typeof DocsIdRoute
   '/docs/$slug': typeof DocsSlugRoute
   '/pricing/dedicated': typeof PricingDedicatedRoute
   '/pricing/discord-bot': typeof PricingDiscordBotRoute
@@ -224,12 +306,23 @@ export interface FileRoutesByFullPath {
   '/pricing/vds': typeof PricingVdsRoute
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
+  '/admin/configurations': typeof ProtectedAdminConfigurationsRoute
   '/admin/customers': typeof ProtectedAdminCustomersRoute
   '/admin/dashboard': typeof ProtectedAdminDashboardRoute
   '/admin/documents': typeof ProtectedAdminDocumentsRouteWithChildren
+  '/admin/invoices': typeof ProtectedAdminInvoicesRoute
+  '/admin/orders': typeof ProtectedAdminOrdersRoute
+  '/admin/product-config': typeof ProtectedAdminProductConfigRoute
   '/admin/products': typeof ProtectedAdminProductsRoute
+  '/admin/servers': typeof ProtectedAdminServersRoute
+  '/admin/settings': typeof ProtectedAdminSettingsRoute
+  '/admin/status': typeof ProtectedAdminStatusRoute
   '/admin/tickets': typeof ProtectedAdminTicketsRoute
   '/user/dashboard': typeof ProtectedUserDashboardRoute
+  '/user/invoices': typeof ProtectedUserInvoicesRoute
+  '/user/orders': typeof ProtectedUserOrdersRoute
+  '/user/servers': typeof ProtectedUserServersRoute
+  '/user/settings': typeof ProtectedUserSettingsRoute
   '/user/tickets': typeof ProtectedUserTicketsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/admin/doc-editor/$slug': typeof ProtectedAdminDocEditorSlugRoute
@@ -239,6 +332,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/pricing': typeof PricingRouteRouteWithChildren
   '/mcp': typeof McpRoute
+  '/status': typeof StatusRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/user': typeof ProtectedUserRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
@@ -246,8 +340,9 @@ export interface FileRoutesByTo {
   '/billing/cart': typeof BillingCartRoute
   '/billing/configure': typeof BillingConfigureRoute
   '/billing/success': typeof BillingSuccessRoute
+  '/checkout/payment': typeof CheckoutPaymentRoute
+  '/configure/$productId': typeof ConfigureProductIdRoute
   '/dev/test': typeof DevTestRoute
-  '/docs/$id': typeof DocsIdRoute
   '/docs/$slug': typeof DocsSlugRoute
   '/pricing/dedicated': typeof PricingDedicatedRoute
   '/pricing/discord-bot': typeof PricingDiscordBotRoute
@@ -256,12 +351,23 @@ export interface FileRoutesByTo {
   '/pricing/vds': typeof PricingVdsRoute
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
+  '/admin/configurations': typeof ProtectedAdminConfigurationsRoute
   '/admin/customers': typeof ProtectedAdminCustomersRoute
   '/admin/dashboard': typeof ProtectedAdminDashboardRoute
   '/admin/documents': typeof ProtectedAdminDocumentsRouteWithChildren
+  '/admin/invoices': typeof ProtectedAdminInvoicesRoute
+  '/admin/orders': typeof ProtectedAdminOrdersRoute
+  '/admin/product-config': typeof ProtectedAdminProductConfigRoute
   '/admin/products': typeof ProtectedAdminProductsRoute
+  '/admin/servers': typeof ProtectedAdminServersRoute
+  '/admin/settings': typeof ProtectedAdminSettingsRoute
+  '/admin/status': typeof ProtectedAdminStatusRoute
   '/admin/tickets': typeof ProtectedAdminTicketsRoute
   '/user/dashboard': typeof ProtectedUserDashboardRoute
+  '/user/invoices': typeof ProtectedUserInvoicesRoute
+  '/user/orders': typeof ProtectedUserOrdersRoute
+  '/user/servers': typeof ProtectedUserServersRoute
+  '/user/settings': typeof ProtectedUserSettingsRoute
   '/user/tickets': typeof ProtectedUserTicketsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/admin/doc-editor/$slug': typeof ProtectedAdminDocEditorSlugRoute
@@ -274,6 +380,7 @@ export interface FileRoutesById {
   '/_auth': typeof AuthRouteWithChildren
   '/_protected': typeof ProtectedRouteWithChildren
   '/mcp': typeof McpRoute
+  '/status': typeof StatusRoute
   '/_protected/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/_protected/user': typeof ProtectedUserRouteRouteWithChildren
   '/_auth/login': typeof AuthLoginRoute
@@ -281,8 +388,9 @@ export interface FileRoutesById {
   '/billing/cart': typeof BillingCartRoute
   '/billing/configure': typeof BillingConfigureRoute
   '/billing/success': typeof BillingSuccessRoute
+  '/checkout/payment': typeof CheckoutPaymentRoute
+  '/configure/$productId': typeof ConfigureProductIdRoute
   '/dev/test': typeof DevTestRoute
-  '/docs/$id': typeof DocsIdRoute
   '/docs/$slug': typeof DocsSlugRoute
   '/pricing/dedicated': typeof PricingDedicatedRoute
   '/pricing/discord-bot': typeof PricingDiscordBotRoute
@@ -291,12 +399,23 @@ export interface FileRoutesById {
   '/pricing/vds': typeof PricingVdsRoute
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
+  '/_protected/admin/configurations': typeof ProtectedAdminConfigurationsRoute
   '/_protected/admin/customers': typeof ProtectedAdminCustomersRoute
   '/_protected/admin/dashboard': typeof ProtectedAdminDashboardRoute
   '/_protected/admin/documents': typeof ProtectedAdminDocumentsRouteWithChildren
+  '/_protected/admin/invoices': typeof ProtectedAdminInvoicesRoute
+  '/_protected/admin/orders': typeof ProtectedAdminOrdersRoute
+  '/_protected/admin/product-config': typeof ProtectedAdminProductConfigRoute
   '/_protected/admin/products': typeof ProtectedAdminProductsRoute
+  '/_protected/admin/servers': typeof ProtectedAdminServersRoute
+  '/_protected/admin/settings': typeof ProtectedAdminSettingsRoute
+  '/_protected/admin/status': typeof ProtectedAdminStatusRoute
   '/_protected/admin/tickets': typeof ProtectedAdminTicketsRoute
   '/_protected/user/dashboard': typeof ProtectedUserDashboardRoute
+  '/_protected/user/invoices': typeof ProtectedUserInvoicesRoute
+  '/_protected/user/orders': typeof ProtectedUserOrdersRoute
+  '/_protected/user/servers': typeof ProtectedUserServersRoute
+  '/_protected/user/settings': typeof ProtectedUserSettingsRoute
   '/_protected/user/tickets': typeof ProtectedUserTicketsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_protected/admin/doc-editor/$slug': typeof ProtectedAdminDocEditorSlugRoute
@@ -308,6 +427,7 @@ export interface FileRouteTypes {
     | '/'
     | '/pricing'
     | '/mcp'
+    | '/status'
     | '/admin'
     | '/user'
     | '/login'
@@ -315,8 +435,9 @@ export interface FileRouteTypes {
     | '/billing/cart'
     | '/billing/configure'
     | '/billing/success'
+    | '/checkout/payment'
+    | '/configure/$productId'
     | '/dev/test'
-    | '/docs/$id'
     | '/docs/$slug'
     | '/pricing/dedicated'
     | '/pricing/discord-bot'
@@ -325,12 +446,23 @@ export interface FileRouteTypes {
     | '/pricing/vds'
     | '/pricing/vps'
     | '/pricing/webhost'
+    | '/admin/configurations'
     | '/admin/customers'
     | '/admin/dashboard'
     | '/admin/documents'
+    | '/admin/invoices'
+    | '/admin/orders'
+    | '/admin/product-config'
     | '/admin/products'
+    | '/admin/servers'
+    | '/admin/settings'
+    | '/admin/status'
     | '/admin/tickets'
     | '/user/dashboard'
+    | '/user/invoices'
+    | '/user/orders'
+    | '/user/servers'
+    | '/user/settings'
     | '/user/tickets'
     | '/api/auth/$'
     | '/admin/doc-editor/$slug'
@@ -340,6 +472,7 @@ export interface FileRouteTypes {
     | '/'
     | '/pricing'
     | '/mcp'
+    | '/status'
     | '/admin'
     | '/user'
     | '/login'
@@ -347,8 +480,9 @@ export interface FileRouteTypes {
     | '/billing/cart'
     | '/billing/configure'
     | '/billing/success'
+    | '/checkout/payment'
+    | '/configure/$productId'
     | '/dev/test'
-    | '/docs/$id'
     | '/docs/$slug'
     | '/pricing/dedicated'
     | '/pricing/discord-bot'
@@ -357,12 +491,23 @@ export interface FileRouteTypes {
     | '/pricing/vds'
     | '/pricing/vps'
     | '/pricing/webhost'
+    | '/admin/configurations'
     | '/admin/customers'
     | '/admin/dashboard'
     | '/admin/documents'
+    | '/admin/invoices'
+    | '/admin/orders'
+    | '/admin/product-config'
     | '/admin/products'
+    | '/admin/servers'
+    | '/admin/settings'
+    | '/admin/status'
     | '/admin/tickets'
     | '/user/dashboard'
+    | '/user/invoices'
+    | '/user/orders'
+    | '/user/servers'
+    | '/user/settings'
     | '/user/tickets'
     | '/api/auth/$'
     | '/admin/doc-editor/$slug'
@@ -374,6 +519,7 @@ export interface FileRouteTypes {
     | '/_auth'
     | '/_protected'
     | '/mcp'
+    | '/status'
     | '/_protected/admin'
     | '/_protected/user'
     | '/_auth/login'
@@ -381,8 +527,9 @@ export interface FileRouteTypes {
     | '/billing/cart'
     | '/billing/configure'
     | '/billing/success'
+    | '/checkout/payment'
+    | '/configure/$productId'
     | '/dev/test'
-    | '/docs/$id'
     | '/docs/$slug'
     | '/pricing/dedicated'
     | '/pricing/discord-bot'
@@ -391,12 +538,23 @@ export interface FileRouteTypes {
     | '/pricing/vds'
     | '/pricing/vps'
     | '/pricing/webhost'
+    | '/_protected/admin/configurations'
     | '/_protected/admin/customers'
     | '/_protected/admin/dashboard'
     | '/_protected/admin/documents'
+    | '/_protected/admin/invoices'
+    | '/_protected/admin/orders'
+    | '/_protected/admin/product-config'
     | '/_protected/admin/products'
+    | '/_protected/admin/servers'
+    | '/_protected/admin/settings'
+    | '/_protected/admin/status'
     | '/_protected/admin/tickets'
     | '/_protected/user/dashboard'
+    | '/_protected/user/invoices'
+    | '/_protected/user/orders'
+    | '/_protected/user/servers'
+    | '/_protected/user/settings'
     | '/_protected/user/tickets'
     | '/api/auth/$'
     | '/_protected/admin/doc-editor/$slug'
@@ -409,17 +567,26 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   ProtectedRoute: typeof ProtectedRouteWithChildren
   McpRoute: typeof McpRoute
+  StatusRoute: typeof StatusRoute
   BillingCartRoute: typeof BillingCartRoute
   BillingConfigureRoute: typeof BillingConfigureRoute
   BillingSuccessRoute: typeof BillingSuccessRoute
+  CheckoutPaymentRoute: typeof CheckoutPaymentRoute
+  ConfigureProductIdRoute: typeof ConfigureProductIdRoute
   DevTestRoute: typeof DevTestRoute
-  DocsIdRoute: typeof DocsIdRoute
   DocsSlugRoute: typeof DocsSlugRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/status': {
+      id: '/status'
+      path: '/status'
+      fullPath: '/status'
+      preLoaderRoute: typeof StatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mcp': {
       id: '/mcp'
       path: '/mcp'
@@ -511,18 +678,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/docs/$id': {
-      id: '/docs/$id'
-      path: '/docs/$id'
-      fullPath: '/docs/$id'
-      preLoaderRoute: typeof DocsIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/dev/test': {
       id: '/dev/test'
       path: '/dev/test'
       fullPath: '/dev/test'
       preLoaderRoute: typeof DevTestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/configure/$productId': {
+      id: '/configure/$productId'
+      path: '/configure/$productId'
+      fullPath: '/configure/$productId'
+      preLoaderRoute: typeof ConfigureProductIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout/payment': {
+      id: '/checkout/payment'
+      path: '/checkout/payment'
+      fullPath: '/checkout/payment'
+      preLoaderRoute: typeof CheckoutPaymentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/billing/success': {
@@ -588,6 +762,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedUserTicketsRouteImport
       parentRoute: typeof ProtectedUserRouteRoute
     }
+    '/_protected/user/settings': {
+      id: '/_protected/user/settings'
+      path: '/settings'
+      fullPath: '/user/settings'
+      preLoaderRoute: typeof ProtectedUserSettingsRouteImport
+      parentRoute: typeof ProtectedUserRouteRoute
+    }
+    '/_protected/user/servers': {
+      id: '/_protected/user/servers'
+      path: '/servers'
+      fullPath: '/user/servers'
+      preLoaderRoute: typeof ProtectedUserServersRouteImport
+      parentRoute: typeof ProtectedUserRouteRoute
+    }
+    '/_protected/user/orders': {
+      id: '/_protected/user/orders'
+      path: '/orders'
+      fullPath: '/user/orders'
+      preLoaderRoute: typeof ProtectedUserOrdersRouteImport
+      parentRoute: typeof ProtectedUserRouteRoute
+    }
+    '/_protected/user/invoices': {
+      id: '/_protected/user/invoices'
+      path: '/invoices'
+      fullPath: '/user/invoices'
+      preLoaderRoute: typeof ProtectedUserInvoicesRouteImport
+      parentRoute: typeof ProtectedUserRouteRoute
+    }
     '/_protected/user/dashboard': {
       id: '/_protected/user/dashboard'
       path: '/dashboard'
@@ -602,11 +804,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAdminTicketsRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
+    '/_protected/admin/status': {
+      id: '/_protected/admin/status'
+      path: '/status'
+      fullPath: '/admin/status'
+      preLoaderRoute: typeof ProtectedAdminStatusRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/settings': {
+      id: '/_protected/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof ProtectedAdminSettingsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/servers': {
+      id: '/_protected/admin/servers'
+      path: '/servers'
+      fullPath: '/admin/servers'
+      preLoaderRoute: typeof ProtectedAdminServersRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
     '/_protected/admin/products': {
       id: '/_protected/admin/products'
       path: '/products'
       fullPath: '/admin/products'
       preLoaderRoute: typeof ProtectedAdminProductsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/product-config': {
+      id: '/_protected/admin/product-config'
+      path: '/product-config'
+      fullPath: '/admin/product-config'
+      preLoaderRoute: typeof ProtectedAdminProductConfigRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/orders': {
+      id: '/_protected/admin/orders'
+      path: '/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof ProtectedAdminOrdersRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/invoices': {
+      id: '/_protected/admin/invoices'
+      path: '/invoices'
+      fullPath: '/admin/invoices'
+      preLoaderRoute: typeof ProtectedAdminInvoicesRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
     '/_protected/admin/documents': {
@@ -628,6 +872,13 @@ declare module '@tanstack/react-router' {
       path: '/customers'
       fullPath: '/admin/customers'
       preLoaderRoute: typeof ProtectedAdminCustomersRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/configurations': {
+      id: '/_protected/admin/configurations'
+      path: '/configurations'
+      fullPath: '/admin/configurations'
+      preLoaderRoute: typeof ProtectedAdminConfigurationsRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
     '/_protected/admin/doc-editor/$slug': {
@@ -698,19 +949,33 @@ const ProtectedAdminDocumentsRouteWithChildren =
   )
 
 interface ProtectedAdminRouteRouteChildren {
+  ProtectedAdminConfigurationsRoute: typeof ProtectedAdminConfigurationsRoute
   ProtectedAdminCustomersRoute: typeof ProtectedAdminCustomersRoute
   ProtectedAdminDashboardRoute: typeof ProtectedAdminDashboardRoute
   ProtectedAdminDocumentsRoute: typeof ProtectedAdminDocumentsRouteWithChildren
+  ProtectedAdminInvoicesRoute: typeof ProtectedAdminInvoicesRoute
+  ProtectedAdminOrdersRoute: typeof ProtectedAdminOrdersRoute
+  ProtectedAdminProductConfigRoute: typeof ProtectedAdminProductConfigRoute
   ProtectedAdminProductsRoute: typeof ProtectedAdminProductsRoute
+  ProtectedAdminServersRoute: typeof ProtectedAdminServersRoute
+  ProtectedAdminSettingsRoute: typeof ProtectedAdminSettingsRoute
+  ProtectedAdminStatusRoute: typeof ProtectedAdminStatusRoute
   ProtectedAdminTicketsRoute: typeof ProtectedAdminTicketsRoute
   ProtectedAdminDocEditorSlugRoute: typeof ProtectedAdminDocEditorSlugRoute
 }
 
 const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
+  ProtectedAdminConfigurationsRoute: ProtectedAdminConfigurationsRoute,
   ProtectedAdminCustomersRoute: ProtectedAdminCustomersRoute,
   ProtectedAdminDashboardRoute: ProtectedAdminDashboardRoute,
   ProtectedAdminDocumentsRoute: ProtectedAdminDocumentsRouteWithChildren,
+  ProtectedAdminInvoicesRoute: ProtectedAdminInvoicesRoute,
+  ProtectedAdminOrdersRoute: ProtectedAdminOrdersRoute,
+  ProtectedAdminProductConfigRoute: ProtectedAdminProductConfigRoute,
   ProtectedAdminProductsRoute: ProtectedAdminProductsRoute,
+  ProtectedAdminServersRoute: ProtectedAdminServersRoute,
+  ProtectedAdminSettingsRoute: ProtectedAdminSettingsRoute,
+  ProtectedAdminStatusRoute: ProtectedAdminStatusRoute,
   ProtectedAdminTicketsRoute: ProtectedAdminTicketsRoute,
   ProtectedAdminDocEditorSlugRoute: ProtectedAdminDocEditorSlugRoute,
 }
@@ -720,11 +985,19 @@ const ProtectedAdminRouteRouteWithChildren =
 
 interface ProtectedUserRouteRouteChildren {
   ProtectedUserDashboardRoute: typeof ProtectedUserDashboardRoute
+  ProtectedUserInvoicesRoute: typeof ProtectedUserInvoicesRoute
+  ProtectedUserOrdersRoute: typeof ProtectedUserOrdersRoute
+  ProtectedUserServersRoute: typeof ProtectedUserServersRoute
+  ProtectedUserSettingsRoute: typeof ProtectedUserSettingsRoute
   ProtectedUserTicketsRoute: typeof ProtectedUserTicketsRoute
 }
 
 const ProtectedUserRouteRouteChildren: ProtectedUserRouteRouteChildren = {
   ProtectedUserDashboardRoute: ProtectedUserDashboardRoute,
+  ProtectedUserInvoicesRoute: ProtectedUserInvoicesRoute,
+  ProtectedUserOrdersRoute: ProtectedUserOrdersRoute,
+  ProtectedUserServersRoute: ProtectedUserServersRoute,
+  ProtectedUserSettingsRoute: ProtectedUserSettingsRoute,
   ProtectedUserTicketsRoute: ProtectedUserTicketsRoute,
 }
 
@@ -751,11 +1024,13 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   ProtectedRoute: ProtectedRouteWithChildren,
   McpRoute: McpRoute,
+  StatusRoute: StatusRoute,
   BillingCartRoute: BillingCartRoute,
   BillingConfigureRoute: BillingConfigureRoute,
   BillingSuccessRoute: BillingSuccessRoute,
+  CheckoutPaymentRoute: CheckoutPaymentRoute,
+  ConfigureProductIdRoute: ConfigureProductIdRoute,
   DevTestRoute: DevTestRoute,
-  DocsIdRoute: DocsIdRoute,
   DocsSlugRoute: DocsSlugRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }

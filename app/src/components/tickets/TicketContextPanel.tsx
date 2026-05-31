@@ -4,6 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { UserProfileModal } from '@/components/tickets/UserProfileModal'
+import { getUserProfile } from '@/serverActions/tickets/tickets.api'
+import { useMutation } from '@tanstack/react-query'
+import { useState } from 'react'
 import type { TicketDetail } from '@/data/tickets/ticketDetails'
 
 interface TicketContextPanelProps {
@@ -11,6 +15,16 @@ interface TicketContextPanelProps {
 }
 
 export function TicketContextPanel({ ticket }: TicketContextPanelProps) {
+  const [showProfileModal, setShowProfileModal] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<any>(null)
+
+  const getUserProfileMutation = useMutation({
+    mutationFn: (userId: string) => getUserProfile({ data: { userId } }),
+    onSuccess: (data) => {
+      setSelectedUser(data.user)
+      setShowProfileModal(true)
+    },
+  })
   const getPriorityColor = () => {
     switch (ticket.priority) {
       case 'high':
@@ -23,8 +37,9 @@ export function TicketContextPanel({ ticket }: TicketContextPanelProps) {
   }
 
   return (
-    <ScrollArea className="h-full">
-      <div className="flex flex-col gap-4 p-4">
+    <>
+      <ScrollArea className="h-full">
+        <div className="flex flex-col gap-4 p-4">
         <Card>
           <CardHeader>
             <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -93,7 +108,13 @@ export function TicketContextPanel({ ticket }: TicketContextPanelProps) {
               </Badge>
             </div>
             <Separator />
-            <Button variant="outline" size="sm" className="w-full gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full gap-2"
+              onClick={() => getUserProfileMutation.mutate(ticket.user.id)}
+              disabled={getUserProfileMutation.isPending}
+            >
               View Profile
               <ExternalLink className="h-3 w-3" />
             </Button>
@@ -124,5 +145,11 @@ export function TicketContextPanel({ ticket }: TicketContextPanelProps) {
         </Card>
       </div>
     </ScrollArea>
+    <UserProfileModal
+      open={showProfileModal}
+      onOpenChange={setShowProfileModal}
+      user={selectedUser}
+    />
+    </>
   )
 }

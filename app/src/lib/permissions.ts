@@ -22,7 +22,7 @@ export const statement = {
 
   tickets: ['read', 'read-all', 'create', 'reply', 'close', 'delete'],
 
-  billing: ['read', 'read-all', 'pay', 'refund'],
+  billing: ['read', 'read-all', 'update', 'update-all', 'pay', 'refund', 'delete'],
 
   announcements: ['read', 'create', 'update', 'delete'],
 
@@ -40,7 +40,7 @@ const userPermissions = {
   products: ['read'],
   tickets: ['create', 'read', 'reply'],
 
-  billing: ['read', 'pay'],
+  billing: ['read', 'update', 'pay'],
 
   announcements: ['read'],
 } as const
@@ -55,11 +55,12 @@ export const support = ac.newRole({
   tickets: [...userPermissions.tickets, 'read-all', 'close'],
 })
 
+
 export const finance = ac.newRole({
   ...userPermissions,
   dashboard: ['admin'],
   products: ['create', 'update', 'delete', 'read'],
-  billing: [...userPermissions.billing, 'read-all', 'refund'],
+  billing: [...userPermissions.billing, 'read-all', 'update-all', 'refund', 'delete'],
 })
 
 export const manager = ac.newRole({
@@ -92,7 +93,7 @@ export const admin = ac.newRole({
 
   tickets: [...userPermissions.tickets, 'read-all', 'close', 'delete'],
 
-  billing: [...userPermissions.billing, 'read-all', 'refund'],
+  billing: [...userPermissions.billing, 'read-all', 'update-all', 'refund', 'delete'],
   announcements: ['read', 'create', 'update', 'delete'],
   roles: ['read'],
 
@@ -121,7 +122,7 @@ export const owner = ac.newRole({
 
   tickets: ['read', 'read-all', 'create', 'reply', 'close', 'delete'],
 
-  billing: ['read', 'read-all', 'pay', 'refund'],
+  billing: ['read', 'read-all', 'update', 'update-all', 'pay', 'refund', 'delete'],
 
   announcements: ['read', 'create', 'update', 'delete'],
 

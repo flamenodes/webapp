@@ -1,0 +1,62 @@
+import type { Prisma } from '../../src/generated/prisma/client';
+import * as z from 'zod';
+export declare const TicketFindFirstOrThrowSelectSchema: z.ZodType<Prisma.TicketSelect>;
+export declare const TicketFindFirstOrThrowSelectZodSchema: z.ZodObject<{
+    id: z.ZodOptional<z.ZodBoolean>;
+    ticketId: z.ZodOptional<z.ZodBoolean>;
+    title: z.ZodOptional<z.ZodBoolean>;
+    description: z.ZodOptional<z.ZodBoolean>;
+    status: z.ZodOptional<z.ZodBoolean>;
+    priority: z.ZodOptional<z.ZodBoolean>;
+    userId: z.ZodOptional<z.ZodBoolean>;
+    user: z.ZodOptional<z.ZodBoolean>;
+    assignedToId: z.ZodOptional<z.ZodBoolean>;
+    assignedTo: z.ZodOptional<z.ZodBoolean>;
+    channelName: z.ZodOptional<z.ZodBoolean>;
+    tags: z.ZodOptional<z.ZodBoolean>;
+    messages: z.ZodOptional<z.ZodBoolean>;
+    createdAt: z.ZodOptional<z.ZodBoolean>;
+    updatedAt: z.ZodOptional<z.ZodBoolean>;
+    closedAt: z.ZodOptional<z.ZodBoolean>;
+    _count: z.ZodOptional<z.ZodBoolean>;
+}, z.core.$strict>;
+export declare const TicketFindFirstOrThrowSchema: z.ZodType<Prisma.TicketFindFirstOrThrowArgs>;
+export declare const TicketFindFirstOrThrowZodSchema: z.ZodObject<{
+    select: z.ZodOptional<z.ZodType<Prisma.TicketSelect<import("@prisma/client/runtime/client").DefaultArgs>, unknown, z.core.$ZodTypeInternals<Prisma.TicketSelect<import("@prisma/client/runtime/client").DefaultArgs>, unknown>>>;
+    include: z.ZodLazy<z.ZodOptional<z.ZodType<Prisma.TicketInclude<import("@prisma/client/runtime/client").DefaultArgs>, unknown, z.core.$ZodTypeInternals<Prisma.TicketInclude<import("@prisma/client/runtime/client").DefaultArgs>, unknown>>>>;
+    orderBy: z.ZodOptional<z.ZodUnion<readonly [z.ZodType<Prisma.TicketOrderByWithRelationInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketOrderByWithRelationInput, unknown>>, z.ZodArray<z.ZodType<Prisma.TicketOrderByWithRelationInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketOrderByWithRelationInput, unknown>>>]>>;
+    where: z.ZodOptional<z.ZodType<Prisma.TicketWhereInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketWhereInput, unknown>>>;
+    cursor: z.ZodOptional<z.ZodType<Prisma.TicketWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketWhereUniqueInput, unknown>>>;
+    take: z.ZodOptional<z.ZodNumber>;
+    skip: z.ZodOptional<z.ZodNumber>;
+    distinct: z.ZodOptional<z.ZodUnion<readonly [z.ZodEnum<{
+        id: "id";
+        title: "title";
+        description: "description";
+        createdAt: "createdAt";
+        userId: "userId";
+        status: "status";
+        updatedAt: "updatedAt";
+        ticketId: "ticketId";
+        priority: "priority";
+        assignedToId: "assignedToId";
+        channelName: "channelName";
+        tags: "tags";
+        closedAt: "closedAt";
+    }>, z.ZodArray<z.ZodEnum<{
+        id: "id";
+        title: "title";
+        description: "description";
+        createdAt: "createdAt";
+        userId: "userId";
+        status: "status";
+        updatedAt: "updatedAt";
+        ticketId: "ticketId";
+        priority: "priority";
+        assignedToId: "assignedToId";
+        channelName: "channelName";
+        tags: "tags";
+        closedAt: "closedAt";
+    }>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=findFirstOrThrowTicket.schema.d.ts.map

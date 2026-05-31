@@ -4,7 +4,8 @@ import { ProductCategorySchema } from '../enums/ProductCategory.schema';
 import { JsonNullValueInputSchema } from '../enums/JsonNullValueInput.schema';
 import { ProductFeatureCreateNestedManyWithoutProductInputObjectSchema as ProductFeatureCreateNestedManyWithoutProductInputObjectSchema } from './ProductFeatureCreateNestedManyWithoutProductInput.schema';
 import { DiscountCreateNestedOneWithoutProductInputObjectSchema as DiscountCreateNestedOneWithoutProductInputObjectSchema } from './DiscountCreateNestedOneWithoutProductInput.schema';
-import { CartItemCreateNestedManyWithoutProductInputObjectSchema as CartItemCreateNestedManyWithoutProductInputObjectSchema } from './CartItemCreateNestedManyWithoutProductInput.schema'
+import { CartItemCreateNestedManyWithoutProductInputObjectSchema as CartItemCreateNestedManyWithoutProductInputObjectSchema } from './CartItemCreateNestedManyWithoutProductInput.schema';
+import { ProductBillingOptionCreateNestedManyWithoutProductInputObjectSchema as ProductBillingOptionCreateNestedManyWithoutProductInputObjectSchema } from './ProductBillingOptionCreateNestedManyWithoutProductInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
@@ -24,7 +25,8 @@ const makeSchema = () => z.object({
   updatedAt: z.coerce.date().optional(),
   features: z.lazy(() => ProductFeatureCreateNestedManyWithoutProductInputObjectSchema).optional(),
   discount: z.lazy(() => DiscountCreateNestedOneWithoutProductInputObjectSchema).optional(),
-  cartItems: z.lazy(() => CartItemCreateNestedManyWithoutProductInputObjectSchema).optional()
+  cartItems: z.lazy(() => CartItemCreateNestedManyWithoutProductInputObjectSchema).optional(),
+  billingOptions: z.lazy(() => ProductBillingOptionCreateNestedManyWithoutProductInputObjectSchema).optional()
 }).strict();
 export const ProductCreateWithoutOrderItemsInputObjectSchema: z.ZodType<Prisma.ProductCreateWithoutOrderItemsInput> = makeSchema() as unknown as z.ZodType<Prisma.ProductCreateWithoutOrderItemsInput>;
 export const ProductCreateWithoutOrderItemsInputObjectZodSchema = makeSchema();

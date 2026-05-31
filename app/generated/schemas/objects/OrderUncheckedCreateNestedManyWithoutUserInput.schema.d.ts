@@ -1,0 +1,10 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+export declare const OrderUncheckedCreateNestedManyWithoutUserInputObjectSchema: z.ZodType<Prisma.OrderUncheckedCreateNestedManyWithoutUserInput>;
+export declare const OrderUncheckedCreateNestedManyWithoutUserInputObjectZodSchema: z.ZodObject<{
+    create: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.OrderCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderCreateWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.OrderCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderCreateWithoutUserInput, unknown>>>>, z.ZodLazy<z.ZodType<Prisma.OrderUncheckedCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderUncheckedCreateWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.OrderUncheckedCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderUncheckedCreateWithoutUserInput, unknown>>>>]>>;
+    connectOrCreate: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.OrderCreateOrConnectWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderCreateOrConnectWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.OrderCreateOrConnectWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderCreateOrConnectWithoutUserInput, unknown>>>>]>>;
+    createMany: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.OrderCreateManyUserInputEnvelope, unknown, z.core.$ZodTypeInternals<Prisma.OrderCreateManyUserInputEnvelope, unknown>>>>;
+    connect: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.OrderWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderWhereUniqueInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.OrderWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.OrderWhereUniqueInput, unknown>>>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=OrderUncheckedCreateNestedManyWithoutUserInput.schema.d.ts.map

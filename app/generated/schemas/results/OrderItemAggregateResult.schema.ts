@@ -9,6 +9,7 @@ export const OrderItemAggregateResultSchema = z.object({  _count: z.object({
     unitPrice: z.number(),
     totalPrice: z.number(),
     specsSnapshot: z.number(),
+    configuration: z.number(),
     expiresAt: z.number(),
     order: z.number(),
     product: z.number(),

@@ -30,9 +30,10 @@ import {
   recreateProduct,
 } from '#/serverActions/products/product.api'
 import { useQueryClient } from '@tanstack/react-query'
-import { MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal, FileSpreadsheet, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import CreateProductModal from './CreateProductModal'
+import { exportToCSV } from '#/lib/export-utils'
 
 type ProductRecord = Awaited<
   ReturnType<typeof getProducts>
@@ -71,6 +72,22 @@ function ProductsDataTable({
   const [recreateTarget, setRecreateTarget] = React.useState<ProductRecord | null>(null)
   const [deleteTarget, setDeleteTarget] = React.useState<ProductRecord | null>(null)
   const [bulkDeleteOpen, setBulkDeleteOpen] = React.useState(false)
+
+  const handleExportToExcel = (products: ProductRecord[]) => {
+    const exportData = products.map((product) => ({
+      'Product Name': product.planName,
+      'Category': product.category,
+      'Price': product.price,
+      'Stock Status': product.inStock ? 'In Stock' : 'Out of Stock',
+      'Deploy Mode': product.deployMode,
+      'Features Count': product.features.length,
+      'Specs Count': product.specEntries.length,
+      'Sort Order': product.sortOrder,
+      'Created': new Date(product.createdAt).toLocaleDateString(),
+    }))
+
+    exportToCSV(exportData, 'products')
+  }
 
   return (
     <>
@@ -174,7 +191,7 @@ function ProductsDataTable({
                     })) ?? [],
                 }}
               >
-                <DropdownMenuItem>Edit</DropdownMenuItem>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>Edit</DropdownMenuItem>
               </CreateProductModal>
               <DropdownMenuItem
                 onSelect={() => {
@@ -194,60 +211,72 @@ function ProductsDataTable({
             </DropdownMenuContent>
           </DropdownMenu>
         )}
-        renderBulkActions={({ selectedIds, clearSelection }) => (
-          <AlertDialog open={bulkDeleteOpen} onOpenChange={setBulkDeleteOpen}>
-            <AlertDialogTrigger asChild>
-              <Button
-                type="button"
-                variant="destructive"
-                size="sm"
-              >
-                Delete selected
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  Delete selected products?
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  This will permanently delete {selectedIds.length} product
-                  {selectedIds.length === 1 ? '' : 's'}.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  className="bg-destructive text-white hover:bg-destructive/90"
-                  onClick={async () => {
-                    try {
-                      await deleteProducts({
-                        data: { ids: selectedIds },
-                      })
-
-                      toast.success('Deleted selected products.')
-                      clearSelection()
-                      setBulkDeleteOpen(false)
-                      await queryClient.invalidateQueries({
-                        queryKey: ['products'],
-                      })
-                      await queryClient.refetchQueries({
-                        queryKey: ['products'],
-                      })
-                    } catch (error) {
-                      toast.error(
-                        error instanceof Error
-                          ? error.message
-                          : 'Failed to delete selected products.',
-                      )
-                    }
-                  }}
+        renderBulkActions={({ selectedIds, selectedRows, clearSelection }) => (
+          <>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => handleExportToExcel(selectedRows)}
+            >
+              <FileSpreadsheet className="w-4 h-4 mr-2" />
+              Export to Excel
+            </Button>
+            <AlertDialog open={bulkDeleteOpen} onOpenChange={setBulkDeleteOpen}>
+              <AlertDialogTrigger asChild>
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="sm"
                 >
-                  Delete
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Delete ({selectedIds.length})
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Delete selected products?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will permanently delete {selectedIds.length} product
+                    {selectedIds.length === 1 ? '' : 's'}.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-destructive text-white hover:bg-destructive/90"
+                    onClick={async () => {
+                      try {
+                        await deleteProducts({
+                          data: { ids: selectedIds },
+                        })
+
+                        toast.success('Deleted selected products.')
+                        clearSelection()
+                        setBulkDeleteOpen(false)
+                        await queryClient.invalidateQueries({
+                          queryKey: ['products'],
+                        })
+                        await queryClient.refetchQueries({
+                          queryKey: ['products'],
+                        })
+                      } catch (error) {
+                        toast.error(
+                          error instanceof Error
+                            ? error.message
+                            : 'Failed to delete selected products.',
+                        )
+                      }
+                    }}
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </>
         )}
       />
 

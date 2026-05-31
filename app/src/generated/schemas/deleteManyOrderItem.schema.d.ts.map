@@ -1,0 +1,1 @@
+{"version":3,"file":"deleteManyOrderItem.schema.d.ts","sourceRoot":"","sources":["deleteManyOrderItem.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,kBAAkB,CAAC;AAC/C,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AAGzB,eAAO,MAAM,yBAAyB,EAAE,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,uBAAuB,CAAoI,CAAC;AAErN,eAAO,MAAM,4BAA4B;;kBAA2E,CAAC"}

@@ -1,0 +1,26 @@
+import * as z from 'zod';
+import { UserArgsObjectSchema as UserArgsObjectSchema } from './UserArgs.schema';
+import { TicketMessageFindManySchema as TicketMessageFindManySchema } from '../findManyTicketMessage.schema';
+import { TicketCountOutputTypeArgsObjectSchema as TicketCountOutputTypeArgsObjectSchema } from './TicketCountOutputTypeArgs.schema';
+const makeSchema = () => z.object({
+    id: z.boolean().optional(),
+    ticketId: z.boolean().optional(),
+    title: z.boolean().optional(),
+    description: z.boolean().optional(),
+    status: z.boolean().optional(),
+    priority: z.boolean().optional(),
+    userId: z.boolean().optional(),
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
+    assignedToId: z.boolean().optional(),
+    assignedTo: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
+    channelName: z.boolean().optional(),
+    tags: z.boolean().optional(),
+    messages: z.union([z.boolean(), z.lazy(() => TicketMessageFindManySchema)]).optional(),
+    createdAt: z.boolean().optional(),
+    updatedAt: z.boolean().optional(),
+    closedAt: z.boolean().optional(),
+    _count: z.union([z.boolean(), z.lazy(() => TicketCountOutputTypeArgsObjectSchema)]).optional()
+}).strict();
+export const TicketSelectObjectSchema = makeSchema();
+export const TicketSelectObjectZodSchema = makeSchema();
+//# sourceMappingURL=TicketSelect.schema.js.map

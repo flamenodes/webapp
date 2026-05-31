@@ -14,5 +14,15 @@
 		"dev": "pnpm -r --parallel dev ",
 		"build": "pnpm -r --parallel build",
 		"start": "pnpm -r --parallel start "
+	},
+	"dependencies": {
+		"easyinvoice": "^3.0.47",
+		"imagekit": "^6.0.0"
+	},
+	"pnpm": {
+		"overrides": {
+			"react": "19.2.6",
+			"react-dom": "19.2.6"
+		}
 	}
 }

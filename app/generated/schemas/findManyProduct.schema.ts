@@ -26,6 +26,7 @@ export const ProductFindManySelectSchema: z.ZodType<Prisma.ProductSelect> = z.ob
     deployMode: z.boolean().optional(),
     cartItems: z.boolean().optional(),
     orderItems: z.boolean().optional(),
+    billingOptions: z.boolean().optional(),
     createdAt: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
     _count: z.boolean().optional()
@@ -48,6 +49,7 @@ export const ProductFindManySelectZodSchema = z.object({
     deployMode: z.boolean().optional(),
     cartItems: z.boolean().optional(),
     orderItems: z.boolean().optional(),
+    billingOptions: z.boolean().optional(),
     createdAt: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
     _count: z.boolean().optional()

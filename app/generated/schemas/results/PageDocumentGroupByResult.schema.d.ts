@@ -1,0 +1,39 @@
+import * as z from 'zod';
+export declare const PageDocumentGroupByResultSchema: z.ZodArray<z.ZodObject<{
+    id: z.ZodString;
+    slug: z.ZodString;
+    title: z.ZodString;
+    description: z.ZodString;
+    content: z.ZodString;
+    createdAt: z.ZodDate;
+    updatedAt: z.ZodDate;
+    _count: z.ZodOptional<z.ZodObject<{
+        id: z.ZodNumber;
+        slug: z.ZodNumber;
+        title: z.ZodNumber;
+        description: z.ZodNumber;
+        content: z.ZodNumber;
+        status: z.ZodNumber;
+        createdAt: z.ZodNumber;
+        updatedAt: z.ZodNumber;
+    }, z.core.$strip>>;
+    _min: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        slug: z.ZodNullable<z.ZodString>;
+        title: z.ZodNullable<z.ZodString>;
+        description: z.ZodNullable<z.ZodString>;
+        content: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+        updatedAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+    _max: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        slug: z.ZodNullable<z.ZodString>;
+        title: z.ZodNullable<z.ZodString>;
+        description: z.ZodNullable<z.ZodString>;
+        content: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+        updatedAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+}, z.core.$strip>>;
+//# sourceMappingURL=PageDocumentGroupByResult.schema.d.ts.map

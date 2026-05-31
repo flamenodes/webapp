@@ -1,0 +1,45 @@
+import * as z from 'zod';
+export declare const CartItemGroupByResultSchema: z.ZodArray<z.ZodObject<{
+    id: z.ZodString;
+    cartId: z.ZodString;
+    productId: z.ZodString;
+    quantity: z.ZodNumber;
+    configuration: z.ZodUnknown;
+    createdAt: z.ZodDate;
+    updatedAt: z.ZodDate;
+    _count: z.ZodOptional<z.ZodObject<{
+        id: z.ZodNumber;
+        cartId: z.ZodNumber;
+        productId: z.ZodNumber;
+        quantity: z.ZodNumber;
+        billingPeriod: z.ZodNumber;
+        configuration: z.ZodNumber;
+        cart: z.ZodNumber;
+        product: z.ZodNumber;
+        createdAt: z.ZodNumber;
+        updatedAt: z.ZodNumber;
+    }, z.core.$strip>>;
+    _sum: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        quantity: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _avg: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        quantity: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _min: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        cartId: z.ZodNullable<z.ZodString>;
+        productId: z.ZodNullable<z.ZodString>;
+        quantity: z.ZodNullable<z.ZodNumber>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+        updatedAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+    _max: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        cartId: z.ZodNullable<z.ZodString>;
+        productId: z.ZodNullable<z.ZodString>;
+        quantity: z.ZodNullable<z.ZodNumber>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+        updatedAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+}, z.core.$strip>>;
+//# sourceMappingURL=CartItemGroupByResult.schema.d.ts.map

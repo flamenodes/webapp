@@ -1,0 +1,23 @@
+import * as z from 'zod';
+import { StringFieldUpdateOperationsInputObjectSchema as StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
+import { NullableStringFieldUpdateOperationsInputObjectSchema as NullableStringFieldUpdateOperationsInputObjectSchema } from './NullableStringFieldUpdateOperationsInput.schema';
+import { IntFieldUpdateOperationsInputObjectSchema as IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
+import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
+import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
+import { ConfigurationOptionUpdateOneRequiredWithoutValuesNestedInputObjectSchema as ConfigurationOptionUpdateOneRequiredWithoutValuesNestedInputObjectSchema } from './ConfigurationOptionUpdateOneRequiredWithoutValuesNestedInput.schema';
+import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
+const makeSchema = () => z.object({
+    id: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
+    label: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
+    value: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
+    description: z.union([z.string(), z.lazy(() => NullableStringFieldUpdateOperationsInputObjectSchema)]).optional().nullable(),
+    priceModifier: z.union([z.number().int(), z.lazy(() => IntFieldUpdateOperationsInputObjectSchema)]).optional(),
+    metadata: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
+    sortOrder: z.union([z.number().int(), z.lazy(() => IntFieldUpdateOperationsInputObjectSchema)]).optional(),
+    createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
+    updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
+    option: z.lazy(() => ConfigurationOptionUpdateOneRequiredWithoutValuesNestedInputObjectSchema).optional()
+}).strict();
+export const ConfigurationValueUpdateInputObjectSchema = makeSchema();
+export const ConfigurationValueUpdateInputObjectZodSchema = makeSchema();
+//# sourceMappingURL=ConfigurationValueUpdateInput.schema.js.map

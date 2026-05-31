@@ -1,0 +1,10 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+export declare const TicketUncheckedCreateNestedManyWithoutAssignedToInputObjectSchema: z.ZodType<Prisma.TicketUncheckedCreateNestedManyWithoutAssignedToInput>;
+export declare const TicketUncheckedCreateNestedManyWithoutAssignedToInputObjectZodSchema: z.ZodObject<{
+    create: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.TicketCreateWithoutAssignedToInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketCreateWithoutAssignedToInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.TicketCreateWithoutAssignedToInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketCreateWithoutAssignedToInput, unknown>>>>, z.ZodLazy<z.ZodType<Prisma.TicketUncheckedCreateWithoutAssignedToInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketUncheckedCreateWithoutAssignedToInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.TicketUncheckedCreateWithoutAssignedToInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketUncheckedCreateWithoutAssignedToInput, unknown>>>>]>>;
+    connectOrCreate: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.TicketCreateOrConnectWithoutAssignedToInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketCreateOrConnectWithoutAssignedToInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.TicketCreateOrConnectWithoutAssignedToInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketCreateOrConnectWithoutAssignedToInput, unknown>>>>]>>;
+    createMany: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.TicketCreateManyAssignedToInputEnvelope, unknown, z.core.$ZodTypeInternals<Prisma.TicketCreateManyAssignedToInputEnvelope, unknown>>>>;
+    connect: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.TicketWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketWhereUniqueInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.TicketWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketWhereUniqueInput, unknown>>>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=TicketUncheckedCreateNestedManyWithoutAssignedToInput.schema.d.ts.map

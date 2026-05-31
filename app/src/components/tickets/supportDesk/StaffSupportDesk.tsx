@@ -12,8 +12,7 @@ import {
   updateTicket,
 } from '#/serverActions/tickets/tickets.api'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { io, type Socket } from 'socket.io-client'
-import { getSocketServerUrl } from '#/lib/socket/socket-url'
+import { useTicketSocket } from '#/lib/socket/useTicketSocket'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { priorityColor, statusColor } from './supportDeskColors'
@@ -29,6 +28,7 @@ export function StaffSupportDesk() {
   const [priority, setPriority] = useState<string | undefined>()
   const [channelName, setChannelName] = useState<string | undefined>()
   const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null)
+  const [typingUsers, setTypingUsers] = useState<Set<string>>(() => new Set())
 
   const listInput = useMemo(
     () => ({
@@ -69,35 +69,37 @@ export function StaffSupportDesk() {
     },
   })
 
-  const socketRef = useRef<Socket | null>(null)
-  const typingStopTimerRef = useRef<number | null>(null)
-  const isTypingRef = useRef(false)
-  const [typingUsers, setTypingUsers] = useState<Set<string>>(() => new Set())
+  // Use the WebSocket hook for live updates
+  useTicketSocket(selectedTicketId || undefined)
 
+  // Listen for typing events
   useEffect(() => {
-    if (!selectedTicketId) return
-
-    if (!socketRef.current) {
-      const url = getSocketServerUrl()
-      socketRef.current = io(url, { withCredentials: true })
+    const handleTyping = (event: CustomEvent) => {
+      const { userId } = event.detail
+      if (userId) {
+        setTypingUsers((prev) => new Set(prev).add(userId))
+      }
     }
 
-    const socket = socketRef.current
-    socket.emit('join-ticket', { ticketId: selectedTicketId })
+    const handleStopTyping = (event: CustomEvent) => {
+      const { userId } = event.detail
+      if (userId) {
+        setTypingUsers((prev) => {
+          const next = new Set(prev)
+          next.delete(userId)
+          return next
+        })
+      }
+    }
 
-    const onNewMessage = () => {
-      queryClient.invalidateQueries({ queryKey: ['ticket', selectedTicketId] })
-      queryClient.invalidateQueries({ queryKey: ['tickets'] })
+    window.addEventListener('ticket:typing', handleTyping as EventListener)
+    window.addEventListener('ticket:stop-typing', handleStopTyping as EventListener)
+
+    return () => {
+      window.removeEventListener('ticket:typing', handleTyping as EventListener)
+      window.removeEventListener('ticket:stop-typing', handleStopTyping as EventListener)
     }
-    const onTicketUpdated = () => {
-      queryClient.invalidateQueries({ queryKey: ['ticket', selectedTicketId] })
-      queryClient.invalidateQueries({ queryKey: ['tickets'] })
-    }
-    const onTyping = (payload: { ticketId?: string; userId?: string }) => {
-      if (!payload?.userId) return
-      setTypingUsers((prev) => new Set(prev).add(payload.userId!))
-    }
-    const onStopTyping = (payload: { ticketId?: string; userId?: string }) => {
+  }, [])
       if (!payload?.userId) return
       setTypingUsers((prev) => {
         const next = new Set(prev)

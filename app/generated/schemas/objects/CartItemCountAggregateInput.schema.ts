@@ -8,6 +8,7 @@ const makeSchema = () => z.object({
   productId: z.literal(true).optional(),
   quantity: z.literal(true).optional(),
   billingPeriod: z.literal(true).optional(),
+  configuration: z.literal(true).optional(),
   createdAt: z.literal(true).optional(),
   updatedAt: z.literal(true).optional(),
   _all: z.literal(true).optional()

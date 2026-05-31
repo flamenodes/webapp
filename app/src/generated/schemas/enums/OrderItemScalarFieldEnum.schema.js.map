@@ -1,0 +1,1 @@
+{"version":3,"file":"OrderItemScalarFieldEnum.schema.js","sourceRoot":"","sources":["OrderItemScalarFieldEnum.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AAEzB,MAAM,CAAC,MAAM,8BAA8B,GAAG,CAAC,CAAC,IAAI,CAAC,CAAC,IAAI,EAAE,SAAS,EAAE,WAAW,EAAE,aAAa,EAAE,UAAU,EAAE,eAAe,EAAE,WAAW,EAAE,YAAY,EAAE,eAAe,EAAE,WAAW,EAAE,WAAW,CAAC,CAAC,CAAA"}

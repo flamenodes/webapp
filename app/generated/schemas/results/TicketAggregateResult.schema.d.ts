@@ -1,0 +1,48 @@
+import * as z from 'zod';
+export declare const TicketAggregateResultSchema: z.ZodObject<{
+    _count: z.ZodOptional<z.ZodObject<{
+        id: z.ZodNumber;
+        ticketId: z.ZodNumber;
+        title: z.ZodNumber;
+        description: z.ZodNumber;
+        status: z.ZodNumber;
+        priority: z.ZodNumber;
+        userId: z.ZodNumber;
+        user: z.ZodNumber;
+        assignedToId: z.ZodNumber;
+        assignedTo: z.ZodNumber;
+        channelName: z.ZodNumber;
+        tags: z.ZodNumber;
+        messages: z.ZodNumber;
+        createdAt: z.ZodNumber;
+        updatedAt: z.ZodNumber;
+        closedAt: z.ZodNumber;
+    }, z.core.$strip>>;
+    _min: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        ticketId: z.ZodNullable<z.ZodString>;
+        title: z.ZodNullable<z.ZodString>;
+        description: z.ZodNullable<z.ZodString>;
+        userId: z.ZodNullable<z.ZodString>;
+        assignedToId: z.ZodNullable<z.ZodString>;
+        channelName: z.ZodNullable<z.ZodString>;
+        tags: z.ZodNullable<z.ZodArray<z.ZodString>>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+        updatedAt: z.ZodNullable<z.ZodDate>;
+        closedAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+    _max: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        ticketId: z.ZodNullable<z.ZodString>;
+        title: z.ZodNullable<z.ZodString>;
+        description: z.ZodNullable<z.ZodString>;
+        userId: z.ZodNullable<z.ZodString>;
+        assignedToId: z.ZodNullable<z.ZodString>;
+        channelName: z.ZodNullable<z.ZodString>;
+        tags: z.ZodNullable<z.ZodArray<z.ZodString>>;
+        createdAt: z.ZodNullable<z.ZodDate>;
+        updatedAt: z.ZodNullable<z.ZodDate>;
+        closedAt: z.ZodNullable<z.ZodDate>;
+    }, z.core.$strip>>>;
+}, z.core.$strip>;
+//# sourceMappingURL=TicketAggregateResult.schema.d.ts.map

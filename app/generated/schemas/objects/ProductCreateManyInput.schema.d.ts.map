@@ -1,0 +1,1 @@
+{"version":3,"file":"ProductCreateManyInput.schema.d.ts","sourceRoot":"","sources":["ProductCreateManyInput.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AACzB,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,sCAAsC,CAAC;AAsBnE,eAAO,MAAM,kCAAkC,EAAE,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,sBAAsB,CAAuE,CAAC;AAChK,eAAO,MAAM,qCAAqC;;;;;;;;;;;;;;;;;;;;;;;;;kBAAe,CAAC"}

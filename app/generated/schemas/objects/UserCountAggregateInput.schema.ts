@@ -18,6 +18,11 @@ const makeSchema = () => z.object({
   username: z.literal(true).optional(),
   firstname: z.literal(true).optional(),
   lastname: z.literal(true).optional(),
+  pteroUserId: z.literal(true).optional(),
+  address: z.literal(true).optional(),
+  city: z.literal(true).optional(),
+  zip: z.literal(true).optional(),
+  country: z.literal(true).optional(),
   displayUsername: z.literal(true).optional(),
   _all: z.literal(true).optional()
 }).strict();

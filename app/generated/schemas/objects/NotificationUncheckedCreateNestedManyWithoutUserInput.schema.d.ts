@@ -1,0 +1,10 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+export declare const NotificationUncheckedCreateNestedManyWithoutUserInputObjectSchema: z.ZodType<Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput>;
+export declare const NotificationUncheckedCreateNestedManyWithoutUserInputObjectZodSchema: z.ZodObject<{
+    create: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.NotificationCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.NotificationCreateWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.NotificationCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.NotificationCreateWithoutUserInput, unknown>>>>, z.ZodLazy<z.ZodType<Prisma.NotificationUncheckedCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.NotificationUncheckedCreateWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.NotificationUncheckedCreateWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.NotificationUncheckedCreateWithoutUserInput, unknown>>>>]>>;
+    connectOrCreate: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.NotificationCreateOrConnectWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.NotificationCreateOrConnectWithoutUserInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.NotificationCreateOrConnectWithoutUserInput, unknown, z.core.$ZodTypeInternals<Prisma.NotificationCreateOrConnectWithoutUserInput, unknown>>>>]>>;
+    createMany: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.NotificationCreateManyUserInputEnvelope, unknown, z.core.$ZodTypeInternals<Prisma.NotificationCreateManyUserInputEnvelope, unknown>>>>;
+    connect: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.NotificationWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.NotificationWhereUniqueInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.NotificationWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.NotificationWhereUniqueInput, unknown>>>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=NotificationUncheckedCreateNestedManyWithoutUserInput.schema.d.ts.map

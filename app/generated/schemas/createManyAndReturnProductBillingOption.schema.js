@@ -1,0 +1,6 @@
+import * as z from 'zod';
+import { ProductBillingOptionSelectObjectSchema as ProductBillingOptionSelectObjectSchema } from './objects/ProductBillingOptionSelect.schema';
+import { ProductBillingOptionCreateManyInputObjectSchema as ProductBillingOptionCreateManyInputObjectSchema } from './objects/ProductBillingOptionCreateManyInput.schema';
+export const ProductBillingOptionCreateManyAndReturnSchema = z.object({ select: ProductBillingOptionSelectObjectSchema.optional(), data: z.union([ProductBillingOptionCreateManyInputObjectSchema, z.array(ProductBillingOptionCreateManyInputObjectSchema)]), skipDuplicates: z.boolean().optional() }).strict();
+export const ProductBillingOptionCreateManyAndReturnZodSchema = z.object({ select: ProductBillingOptionSelectObjectSchema.optional(), data: z.union([ProductBillingOptionCreateManyInputObjectSchema, z.array(ProductBillingOptionCreateManyInputObjectSchema)]), skipDuplicates: z.boolean().optional() }).strict();
+//# sourceMappingURL=createManyAndReturnProductBillingOption.schema.js.map

@@ -11,6 +11,7 @@ export const OrderDeleteResultSchema = z.nullable(z.object({
   deliveryMessage: z.string().optional(),
   deliveryData: z.unknown().optional(),
   items: z.array(z.unknown()),
+  invoice: z.unknown().optional(),
   createdAt: z.date(),
   updatedAt: z.date()
 }));

@@ -1,0 +1,1 @@
+{"version":3,"file":"OrderCreateNestedOneWithoutItemsInput.schema.d.ts","sourceRoot":"","sources":["OrderCreateNestedOneWithoutItemsInput.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AACzB,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,sCAAsC,CAAC;AAWnE,eAAO,MAAM,iDAAiD,EAAE,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,qCAAqC,CAAsF,CAAC;AAC7M,eAAO,MAAM,oDAAoD;;;;kBAAe,CAAC"}

@@ -1,0 +1,10 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+export declare const TicketMessageCreateNestedManyWithoutTicketInputObjectSchema: z.ZodType<Prisma.TicketMessageCreateNestedManyWithoutTicketInput>;
+export declare const TicketMessageCreateNestedManyWithoutTicketInputObjectZodSchema: z.ZodObject<{
+    create: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.TicketMessageCreateWithoutTicketInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketMessageCreateWithoutTicketInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.TicketMessageCreateWithoutTicketInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketMessageCreateWithoutTicketInput, unknown>>>>, z.ZodLazy<z.ZodType<Prisma.TicketMessageUncheckedCreateWithoutTicketInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketMessageUncheckedCreateWithoutTicketInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.TicketMessageUncheckedCreateWithoutTicketInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketMessageUncheckedCreateWithoutTicketInput, unknown>>>>]>>;
+    connectOrCreate: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.TicketMessageCreateOrConnectWithoutTicketInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketMessageCreateOrConnectWithoutTicketInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.TicketMessageCreateOrConnectWithoutTicketInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketMessageCreateOrConnectWithoutTicketInput, unknown>>>>]>>;
+    createMany: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.TicketMessageCreateManyTicketInputEnvelope, unknown, z.core.$ZodTypeInternals<Prisma.TicketMessageCreateManyTicketInputEnvelope, unknown>>>>;
+    connect: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.TicketMessageWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketMessageWhereUniqueInput, unknown>>>, z.ZodArray<z.ZodLazy<z.ZodType<Prisma.TicketMessageWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.TicketMessageWhereUniqueInput, unknown>>>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=TicketMessageCreateNestedManyWithoutTicketInput.schema.d.ts.map

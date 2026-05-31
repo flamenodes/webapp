@@ -7,7 +7,8 @@ import { IntFieldUpdateOperationsInputObjectSchema as IntFieldUpdateOperationsIn
 import { NullableStringFieldUpdateOperationsInputObjectSchema as NullableStringFieldUpdateOperationsInputObjectSchema } from './NullableStringFieldUpdateOperationsInput.schema';
 import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
 import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
-import { UserUpdateOneRequiredWithoutOrdersNestedInputObjectSchema as UserUpdateOneRequiredWithoutOrdersNestedInputObjectSchema } from './UserUpdateOneRequiredWithoutOrdersNestedInput.schema'
+import { UserUpdateOneRequiredWithoutOrdersNestedInputObjectSchema as UserUpdateOneRequiredWithoutOrdersNestedInputObjectSchema } from './UserUpdateOneRequiredWithoutOrdersNestedInput.schema';
+import { InvoiceUpdateOneWithoutOrderNestedInputObjectSchema as InvoiceUpdateOneWithoutOrderNestedInputObjectSchema } from './InvoiceUpdateOneWithoutOrderNestedInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
@@ -22,7 +23,8 @@ const makeSchema = () => z.object({
   deliveryData: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
   updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
-  user: z.lazy(() => UserUpdateOneRequiredWithoutOrdersNestedInputObjectSchema).optional()
+  user: z.lazy(() => UserUpdateOneRequiredWithoutOrdersNestedInputObjectSchema).optional(),
+  invoice: z.lazy(() => InvoiceUpdateOneWithoutOrderNestedInputObjectSchema).optional()
 }).strict();
 export const OrderUpdateWithoutItemsInputObjectSchema: z.ZodType<Prisma.OrderUpdateWithoutItemsInput> = makeSchema() as unknown as z.ZodType<Prisma.OrderUpdateWithoutItemsInput>;
 export const OrderUpdateWithoutItemsInputObjectZodSchema = makeSchema();

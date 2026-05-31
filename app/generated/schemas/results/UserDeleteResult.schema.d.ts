@@ -1,0 +1,34 @@
+import * as z from 'zod';
+export declare const UserDeleteResultSchema: z.ZodNullable<z.ZodObject<{
+    id: z.ZodString;
+    clientId: z.ZodString;
+    name: z.ZodString;
+    email: z.ZodString;
+    emailVerified: z.ZodBoolean;
+    image: z.ZodOptional<z.ZodString>;
+    createdAt: z.ZodDate;
+    updatedAt: z.ZodDate;
+    sessions: z.ZodArray<z.ZodUnknown>;
+    accounts: z.ZodArray<z.ZodUnknown>;
+    role: z.ZodOptional<z.ZodString>;
+    banned: z.ZodOptional<z.ZodBoolean>;
+    banReason: z.ZodOptional<z.ZodString>;
+    banExpires: z.ZodOptional<z.ZodDate>;
+    username: z.ZodString;
+    firstname: z.ZodString;
+    lastname: z.ZodString;
+    pteroUserId: z.ZodOptional<z.ZodNumber>;
+    address: z.ZodOptional<z.ZodString>;
+    city: z.ZodOptional<z.ZodString>;
+    zip: z.ZodOptional<z.ZodString>;
+    country: z.ZodOptional<z.ZodString>;
+    servers: z.ZodArray<z.ZodUnknown>;
+    cart: z.ZodOptional<z.ZodUnknown>;
+    orders: z.ZodArray<z.ZodUnknown>;
+    displayUsername: z.ZodOptional<z.ZodString>;
+    tickets: z.ZodArray<z.ZodUnknown>;
+    assignedTickets: z.ZodArray<z.ZodUnknown>;
+    ticketMessages: z.ZodArray<z.ZodUnknown>;
+    notifications: z.ZodArray<z.ZodUnknown>;
+}, z.core.$strip>>;
+//# sourceMappingURL=UserDeleteResult.schema.d.ts.map

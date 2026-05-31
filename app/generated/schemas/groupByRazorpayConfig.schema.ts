@@ -1,0 +1,13 @@
+import type { Prisma } from '../../src/generated/prisma/client';
+import * as z from 'zod';
+import { RazorpayConfigWhereInputObjectSchema as RazorpayConfigWhereInputObjectSchema } from './objects/RazorpayConfigWhereInput.schema';
+import { RazorpayConfigOrderByWithAggregationInputObjectSchema as RazorpayConfigOrderByWithAggregationInputObjectSchema } from './objects/RazorpayConfigOrderByWithAggregationInput.schema';
+import { RazorpayConfigScalarWhereWithAggregatesInputObjectSchema as RazorpayConfigScalarWhereWithAggregatesInputObjectSchema } from './objects/RazorpayConfigScalarWhereWithAggregatesInput.schema';
+import { RazorpayConfigScalarFieldEnumSchema } from './enums/RazorpayConfigScalarFieldEnum.schema';
+import { RazorpayConfigCountAggregateInputObjectSchema as RazorpayConfigCountAggregateInputObjectSchema } from './objects/RazorpayConfigCountAggregateInput.schema';
+import { RazorpayConfigMinAggregateInputObjectSchema as RazorpayConfigMinAggregateInputObjectSchema } from './objects/RazorpayConfigMinAggregateInput.schema';
+import { RazorpayConfigMaxAggregateInputObjectSchema as RazorpayConfigMaxAggregateInputObjectSchema } from './objects/RazorpayConfigMaxAggregateInput.schema';
+
+export const RazorpayConfigGroupBySchema: z.ZodType<Prisma.RazorpayConfigGroupByArgs> = z.object({ where: RazorpayConfigWhereInputObjectSchema.optional(), orderBy: z.union([RazorpayConfigOrderByWithAggregationInputObjectSchema, RazorpayConfigOrderByWithAggregationInputObjectSchema.array()]).optional(), having: RazorpayConfigScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(RazorpayConfigScalarFieldEnumSchema), _count: z.union([ z.literal(true), RazorpayConfigCountAggregateInputObjectSchema ]).optional(), _min: RazorpayConfigMinAggregateInputObjectSchema.optional(), _max: RazorpayConfigMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.RazorpayConfigGroupByArgs>;
+
+export const RazorpayConfigGroupByZodSchema = z.object({ where: RazorpayConfigWhereInputObjectSchema.optional(), orderBy: z.union([RazorpayConfigOrderByWithAggregationInputObjectSchema, RazorpayConfigOrderByWithAggregationInputObjectSchema.array()]).optional(), having: RazorpayConfigScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(RazorpayConfigScalarFieldEnumSchema), _count: z.union([ z.literal(true), RazorpayConfigCountAggregateInputObjectSchema ]).optional(), _min: RazorpayConfigMinAggregateInputObjectSchema.optional(), _max: RazorpayConfigMaxAggregateInputObjectSchema.optional() }).strict();

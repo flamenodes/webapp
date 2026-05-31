@@ -1,0 +1,51 @@
+import * as z from 'zod';
+export declare const OrderAggregateResultSchema: z.ZodObject<{
+    _count: z.ZodOptional<z.ZodObject<{
+        id: z.ZodNumber;
+        userId: z.ZodNumber;
+        user: z.ZodNumber;
+        status: z.ZodNumber;
+        subtotalAmount: z.ZodNumber;
+        discountAmount: z.ZodNumber;
+        totalAmount: z.ZodNumber;
+        couponCode: z.ZodNumber;
+        deliveryMessage: z.ZodNumber;
+        deliveryData: z.ZodNumber;
+        items: z.ZodNumber;
+        createdAt: z.ZodNumber;
+        updatedAt: z.ZodNumber;
+    }, z.core.$strip>>;
+    _sum: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        subtotalAmount: z.ZodNullable<z.ZodNumber>;
+        discountAmount: z.ZodNullable<z.ZodNumber>;
+        totalAmount: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _avg: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        subtotalAmount: z.ZodNullable<z.ZodNumber>;
+        discountAmount: z.ZodNullable<z.ZodNumber>;
+        totalAmount: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _min: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        userId: z.ZodNullable<z.ZodString>;
+        subtotalAmount: z.ZodNullable<z.ZodNumber>;
+        discountAmount: z.ZodNullable<z.ZodNumber>;
+        totalAmount: z.ZodNullable<z.ZodNumber>;
+        couponCode: z.ZodNullable<z.ZodString>;
+        deliveryMessage: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodString>;
+        updatedAt: z.ZodNullable<z.ZodString>;
+    }, z.core.$strip>>>;
+    _max: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        userId: z.ZodNullable<z.ZodString>;
+        subtotalAmount: z.ZodNullable<z.ZodNumber>;
+        discountAmount: z.ZodNullable<z.ZodNumber>;
+        totalAmount: z.ZodNullable<z.ZodNumber>;
+        couponCode: z.ZodNullable<z.ZodString>;
+        deliveryMessage: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodString>;
+        updatedAt: z.ZodNullable<z.ZodString>;
+    }, z.core.$strip>>>;
+}, z.core.$strip>;
+//# sourceMappingURL=OrderAggregateResult.schema.d.ts.map

@@ -1,0 +1,1 @@
+{"version":3,"file":"OrderItemCreateManyResult.schema.js","sourceRoot":"","sources":["OrderItemCreateManyResult.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AACzB,MAAM,CAAC,MAAM,+BAA+B,GAAG,CAAC,CAAC,MAAM,CAAC;IACtD,KAAK,EAAE,CAAC,CAAC,MAAM,EAAE;CAClB,CAAC,CAAC"}

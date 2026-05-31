@@ -1,0 +1,9 @@
+import * as z from 'zod';
+import { ProductBillingOptionSelectObjectSchema as ProductBillingOptionSelectObjectSchema } from './objects/ProductBillingOptionSelect.schema';
+import { ProductBillingOptionIncludeObjectSchema as ProductBillingOptionIncludeObjectSchema } from './objects/ProductBillingOptionInclude.schema';
+import { ProductBillingOptionUpdateInputObjectSchema as ProductBillingOptionUpdateInputObjectSchema } from './objects/ProductBillingOptionUpdateInput.schema';
+import { ProductBillingOptionUncheckedUpdateInputObjectSchema as ProductBillingOptionUncheckedUpdateInputObjectSchema } from './objects/ProductBillingOptionUncheckedUpdateInput.schema';
+import { ProductBillingOptionWhereUniqueInputObjectSchema as ProductBillingOptionWhereUniqueInputObjectSchema } from './objects/ProductBillingOptionWhereUniqueInput.schema';
+export const ProductBillingOptionUpdateOneSchema = z.object({ select: ProductBillingOptionSelectObjectSchema.optional(), include: ProductBillingOptionIncludeObjectSchema.optional(), data: z.union([ProductBillingOptionUpdateInputObjectSchema, ProductBillingOptionUncheckedUpdateInputObjectSchema]), where: ProductBillingOptionWhereUniqueInputObjectSchema }).strict();
+export const ProductBillingOptionUpdateOneZodSchema = z.object({ select: ProductBillingOptionSelectObjectSchema.optional(), include: ProductBillingOptionIncludeObjectSchema.optional(), data: z.union([ProductBillingOptionUpdateInputObjectSchema, ProductBillingOptionUncheckedUpdateInputObjectSchema]), where: ProductBillingOptionWhereUniqueInputObjectSchema }).strict();
+//# sourceMappingURL=updateOneProductBillingOption.schema.js.map

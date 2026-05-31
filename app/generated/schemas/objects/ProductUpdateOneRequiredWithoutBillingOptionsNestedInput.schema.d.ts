@@ -1,0 +1,11 @@
+import * as z from 'zod';
+import type { Prisma } from '../../../src/generated/prisma/client';
+export declare const ProductUpdateOneRequiredWithoutBillingOptionsNestedInputObjectSchema: z.ZodType<Prisma.ProductUpdateOneRequiredWithoutBillingOptionsNestedInput>;
+export declare const ProductUpdateOneRequiredWithoutBillingOptionsNestedInputObjectZodSchema: z.ZodObject<{
+    create: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.ProductCreateWithoutBillingOptionsInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductCreateWithoutBillingOptionsInput, unknown>>>, z.ZodLazy<z.ZodType<Prisma.ProductUncheckedCreateWithoutBillingOptionsInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductUncheckedCreateWithoutBillingOptionsInput, unknown>>>]>>;
+    connectOrCreate: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.ProductCreateOrConnectWithoutBillingOptionsInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductCreateOrConnectWithoutBillingOptionsInput, unknown>>>>;
+    upsert: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.ProductUpsertWithoutBillingOptionsInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductUpsertWithoutBillingOptionsInput, unknown>>>>;
+    connect: z.ZodOptional<z.ZodLazy<z.ZodType<Prisma.ProductWhereUniqueInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductWhereUniqueInput, unknown>>>>;
+    update: z.ZodOptional<z.ZodUnion<readonly [z.ZodLazy<z.ZodType<Prisma.ProductUpdateToOneWithWhereWithoutBillingOptionsInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductUpdateToOneWithWhereWithoutBillingOptionsInput, unknown>>>, z.ZodLazy<z.ZodType<Prisma.ProductUpdateWithoutBillingOptionsInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductUpdateWithoutBillingOptionsInput, unknown>>>, z.ZodLazy<z.ZodType<Prisma.ProductUncheckedUpdateWithoutBillingOptionsInput, unknown, z.core.$ZodTypeInternals<Prisma.ProductUncheckedUpdateWithoutBillingOptionsInput, unknown>>>]>>;
+}, z.core.$strict>;
+//# sourceMappingURL=ProductUpdateOneRequiredWithoutBillingOptionsNestedInput.schema.d.ts.map

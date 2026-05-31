@@ -1,0 +1,8 @@
+import * as z from 'zod';
+import { ProductFeatureOrderByWithRelationInputObjectSchema as ProductFeatureOrderByWithRelationInputObjectSchema } from './objects/ProductFeatureOrderByWithRelationInput.schema';
+import { ProductFeatureWhereInputObjectSchema as ProductFeatureWhereInputObjectSchema } from './objects/ProductFeatureWhereInput.schema';
+import { ProductFeatureWhereUniqueInputObjectSchema as ProductFeatureWhereUniqueInputObjectSchema } from './objects/ProductFeatureWhereUniqueInput.schema';
+import { ProductFeatureCountAggregateInputObjectSchema as ProductFeatureCountAggregateInputObjectSchema } from './objects/ProductFeatureCountAggregateInput.schema';
+export const ProductFeatureCountSchema = z.object({ orderBy: z.union([ProductFeatureOrderByWithRelationInputObjectSchema, ProductFeatureOrderByWithRelationInputObjectSchema.array()]).optional(), where: ProductFeatureWhereInputObjectSchema.optional(), cursor: ProductFeatureWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), select: z.union([z.literal(true), ProductFeatureCountAggregateInputObjectSchema]).optional() }).strict();
+export const ProductFeatureCountZodSchema = z.object({ orderBy: z.union([ProductFeatureOrderByWithRelationInputObjectSchema, ProductFeatureOrderByWithRelationInputObjectSchema.array()]).optional(), where: ProductFeatureWhereInputObjectSchema.optional(), cursor: ProductFeatureWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), select: z.union([z.literal(true), ProductFeatureCountAggregateInputObjectSchema]).optional() }).strict();
+//# sourceMappingURL=countProductFeature.schema.js.map

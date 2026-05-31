@@ -14,33 +14,47 @@ import {
 } from '#/components/ui/sheet'
 import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
-import { FilePlusCorner, PlusIcon } from 'lucide-react'
+import { FilePlusCorner } from 'lucide-react'
 import { toast } from 'sonner'
 import { Field } from '#/components/ui/field'
 import { createPageDocument } from '#/serverActions/admin/pagedocument.api'
 
 export default function CreateDocumentSheet() {
   const [open, setOpen] = React.useState(false)
-  const [content, setContent] = React.useState('')
   const [title, setTitle] = React.useState('')
   const [description, setDescription] = React.useState('')
   const [slug, setSlug] = React.useState('')
   const [isSaving, setIsSaving] = React.useState(false)
 
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+
   const createDocument = async () => {
     setIsSaving(true)
-		if (!title || !description || !slug || !content) {
-      toast.error('All fields are required')
+    if (!title || !description || !slug) {
+      toast.error('Title, description and slug are required')
       setIsSaving(false)
       return
-		}
+    }
     const res = await createPageDocument({
-      data: { title, description, slug, content, status: 'DRAFT' },
+      data: { title, description, slug, content: '', status: 'DRAFT' },
     })
     if (!res?.success) {
       toast.error('Failed to create document')
-    } else {
-      toast.success(res?.message)
+      setIsSaving(false)
+      return
+    }
+    toast.success(res.message)
+    setOpen(false)
+    setTitle('')
+    setDescription('')
+    setSlug('')
+    await queryClient.invalidateQueries({ queryKey: ['page-documents'] })
+    if (res.res?.id) {
+      void navigate({
+        to: '/admin/documents/editor/$id',
+        params: { id: res.res.id },
+      })
     }
     setIsSaving(false)
   }
@@ -63,7 +77,7 @@ export default function CreateDocumentSheet() {
         </SheetHeader>
 
         <div className="flex flex-col justify-between h-full items-center w-full">
-          <div className="mt-6 space-y-4 ">
+          <div className="mt-6 space-y-4">
             <Field>
               <Label htmlFor="title">Title</Label>
               <Input
@@ -96,16 +110,17 @@ export default function CreateDocumentSheet() {
                 placeholder="getting-started"
               />
               <p className="text-xs text-muted-foreground">
-                Slug must be unique. If it already exists, we’ll auto-adjust it.
+                Must be unique. Content is added in the editor.
               </p>
             </Field>
           </div>
         </div>
+
         <div className="flex gap-6 justify-center w-full">
           <Button onClick={() => setOpen(false)} variant={'outline'}>
             Cancel
           </Button>
-          <Button onClick={createDocument} variant={'great'}>
+          <Button onClick={createDocument} variant={'great'} disabled={isSaving}>
             Save as Draft
           </Button>
         </div>

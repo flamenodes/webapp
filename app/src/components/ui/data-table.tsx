@@ -24,6 +24,7 @@ import {
   TableHeader,
   TableRow,
 } from '#/components/ui/table'
+import { Alert, AlertDescription } from '#/components/ui/alert'
 import {
   flexRender,
   getCoreRowModel,
@@ -39,6 +40,8 @@ import {
   type VisibilityState,
 } from '@tanstack/react-table'
 import * as React from 'react'
+import * as XLSX from 'xlsx'
+import { Download, AlertCircle, CheckCircle2 } from 'lucide-react'
 
 export type DataTableFilterOption = {
   label: string
@@ -77,6 +80,8 @@ type DataTableProps<TData, TValue> = {
     selectedIds: string[]
     clearSelection: () => void
   }) => React.ReactNode
+  enableExport?: boolean
+  exportFileName?: string
 }
 
 export function DataTable<TData, TValue>({
@@ -95,6 +100,8 @@ export function DataTable<TData, TValue>({
   enableRowSelection = false,
   renderRowActions,
   renderBulkActions,
+  enableExport = true,
+  exportFileName = 'export',
 }: DataTableProps<TData, TValue>) {
   const [tableData, setTableData] = React.useState(data)
   const [sorting, setSorting] = React.useState<SortingState>([])

@@ -1,10 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
-import { resourceUsage } from '#/data/dashboard/mockData'
+import { resourceUsage as mockData } from '#/data/dashboard/mockData'
 
-function Gauge({ label, value }: { label: string; value: number }) {
+type GaugeData = { label: string; value: number }
+
+function Gauge({ label, value }: GaugeData) {
   const r = 36
   const circ = 2 * Math.PI * r
   const dash = (value / 100) * circ
+  const color = value < 40 ? 'var(--destructive)' : value < 70 ? 'var(--warning)' : 'var(--primary)'
 
   return (
     <div className="flex flex-col items-center gap-2">
@@ -12,11 +15,9 @@ function Gauge({ label, value }: { label: string; value: number }) {
         <svg viewBox="0 0 88 88" className="w-full h-full -rotate-90">
           <circle cx="44" cy="44" r={r} fill="none" stroke="var(--muted)" strokeWidth="8" />
           <circle
-            cx="44"
-            cy="44"
-            r={r}
+            cx="44" cy="44" r={r}
             fill="none"
-            stroke="var(--primary)"
+            stroke={color}
             strokeWidth="8"
             strokeLinecap="round"
             strokeDasharray={`${dash} ${circ}`}
@@ -27,12 +28,18 @@ function Gauge({ label, value }: { label: string; value: number }) {
           <span className="text-lg font-bold">{value}%</span>
         </div>
       </div>
-      <span className="text-xs font-medium text-muted-foreground">{label}</span>
+      <span className="text-xs font-medium text-muted-foreground text-center">{label}</span>
     </div>
   )
 }
 
-export function ResourceGauges() {
+interface ResourceGaugesProps {
+  data?: GaugeData[]
+}
+
+export function ResourceGauges({ data }: ResourceGaugesProps) {
+  const gauges = data && data.length > 0 ? data : mockData
+
   return (
     <Card className="border-border bg-card gap-0 py-0">
       <CardHeader className="pb-2 px-5 pt-5">
@@ -40,7 +47,7 @@ export function ResourceGauges() {
       </CardHeader>
       <CardContent className="px-5 pb-5 pt-0">
         <div className="flex justify-around">
-          {resourceUsage.map((r) => (
+          {gauges.map((r) => (
             <Gauge key={r.label} label={r.label} value={r.value} />
           ))}
         </div>

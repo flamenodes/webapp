@@ -17,27 +17,33 @@ export type TicketSocketTicketEvent = {
 
 type SocketServerEvent =
   | { event: 'dev:broadcast'; payload: DevBroadcastPayload }
-  | { event: 'ticket:new-message'; payload: { ticketId: string; data: TicketSocketMessageEvent } }
-  | { event: 'ticket:updated'; payload: { ticketId: string; data: TicketSocketTicketEvent } }
+  | {
+      event: 'ticket:new-message'
+      payload: { ticketId: string; data: TicketSocketMessageEvent }
+    }
+  | {
+      event: 'ticket:updated'
+      payload: { ticketId: string; data: TicketSocketTicketEvent }
+    }
 
 const SOCKET_SERVER_URL = process.env.SOCKET_SERVER_URL ?? 'http://localhost:4000'
 
 async function notifySocketServer(body: SocketServerEvent) {
   const secret = process.env.SOCKET_SERVER_SECRET
-  if (!secret) {
-    return { ok: false as const, reason: 'SOCKET_SERVER_SECRET not set' }
-  }
+  const headers: Record<string, string> = { 'content-type': 'application/json' }
+  if (secret) headers['x-socket-secret'] = secret
 
   const res = await fetch(`${SOCKET_SERVER_URL}/internal/emit`, {
     method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'x-socket-secret': secret,
-    },
+    headers,
     body: JSON.stringify(body),
-  }).catch(() => null)
+  }).catch((err) => {
+    console.error('[socket-context] failed to reach socket server:', err)
+    return null
+  })
 
   if (!res?.ok) {
+    console.error('[socket-context] socket server returned', res?.status)
     return { ok: false as const, reason: 'socket server unavailable' }
   }
   return { ok: true as const }

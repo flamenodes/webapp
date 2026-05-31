@@ -1,4 +1,4 @@
-import { Copy, Star, Clock, Check, UserPlus } from 'lucide-react'
+import { Copy, Star, Clock, Check, UserPlus, X } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -16,8 +16,10 @@ interface ChatTopBarProps {
   onJoin?: () => void
   onStatusChange?: (status: 'open' | 'closed' | 'pending') => void
   onResolve?: () => void
+  onClose?: () => void
   showResolveButton?: boolean
   showJoinButton?: boolean
+  showCloseButton?: boolean
 }
 
 export function ChatTopBar({ 
@@ -31,9 +33,11 @@ export function ChatTopBar({
   status, 
   isAssigned,
   onJoin,
-  onResolve, 
+  onResolve,
+  onClose,
   showResolveButton = true,
-  showJoinButton = false
+  showJoinButton = false,
+  showCloseButton = false,
 }: ChatTopBarProps) {
   const handleCopyId = () => {
     navigator.clipboard.writeText(ticketId)
@@ -105,6 +109,12 @@ export function ChatTopBar({
           <Button onClick={onResolve} size="sm" className="gap-1">
             <Check className="h-4 w-4" />
             Resolve
+          </Button>
+        )}
+        {showCloseButton && status !== 'closed' && (
+          <Button onClick={onClose} size="sm" variant="outline" className="gap-1 text-muted-foreground hover:text-destructive hover:border-destructive/50">
+            <X className="h-4 w-4" />
+            Close
           </Button>
         )}
       </div>

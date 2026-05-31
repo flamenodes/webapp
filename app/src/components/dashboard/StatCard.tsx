@@ -12,6 +12,7 @@ interface StatCardProps {
   sparkline?: number[] | null
   progress?: number | null
   action?: string | null
+  onAction?: () => void
 }
 
 const trendStyles = {
@@ -66,7 +67,7 @@ function ProgressBar({ value }: { value: number }) {
   )
 }
 
-export function StatCard({ icon, label, value, change, trend, sparkline, progress, action }: StatCardProps) {
+export function StatCard({ icon, label, value, change, trend, sparkline, progress, action, onAction }: StatCardProps) {
   const Icon = (LucideIcons as any)[icon] ?? LucideIcons.Activity
   const { text: trendText, icon: TrendIcon } = trendStyles[trend]
 
@@ -102,6 +103,7 @@ export function StatCard({ icon, label, value, change, trend, sparkline, progres
                 variant="outline"
                 size="xs"
                 className="h-6 px-2 text-xs border-border text-muted-foreground hover:text-foreground hover:border-primary/40 shrink-0"
+                onClick={onAction}
               >
                 {action}
               </Button>

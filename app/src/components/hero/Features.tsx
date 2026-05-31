@@ -51,7 +51,7 @@ export default function Features() {
           />
         </div>
         <div className="text-center">
-          <h2 className="text-balance text-3xl lg:text-4xl font-extrabold">
+          <h2 className="text-balance text-3xl lg:text-4xl font-extrabold font-angkor">
             Why choose Us?
           </h2>
           <p className="mt-4">

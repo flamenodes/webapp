@@ -4,6 +4,7 @@ import { ProductFeatureFindManySchema as ProductFeatureFindManySchema } from '..
 import { DiscountArgsObjectSchema as DiscountArgsObjectSchema } from './DiscountArgs.schema';
 import { CartItemFindManySchema as CartItemFindManySchema } from '../findManyCartItem.schema';
 import { OrderItemFindManySchema as OrderItemFindManySchema } from '../findManyOrderItem.schema';
+import { ProductBillingOptionFindManySchema as ProductBillingOptionFindManySchema } from '../findManyProductBillingOption.schema';
 import { ProductCountOutputTypeArgsObjectSchema as ProductCountOutputTypeArgsObjectSchema } from './ProductCountOutputTypeArgs.schema'
 
 const makeSchema = () => z.object({
@@ -23,6 +24,7 @@ const makeSchema = () => z.object({
   deployMode: z.boolean().optional(),
   cartItems: z.union([z.boolean(), z.lazy(() => CartItemFindManySchema)]).optional(),
   orderItems: z.union([z.boolean(), z.lazy(() => OrderItemFindManySchema)]).optional(),
+  billingOptions: z.union([z.boolean(), z.lazy(() => ProductBillingOptionFindManySchema)]).optional(),
   createdAt: z.boolean().optional(),
   updatedAt: z.boolean().optional(),
   _count: z.union([z.boolean(), z.lazy(() => ProductCountOutputTypeArgsObjectSchema)]).optional()

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Check, Rocket } from 'lucide-react'
+import { Check, Rocket, ShoppingCart } from 'lucide-react'
 
 export interface PricingCardData {
   planName: string
@@ -15,6 +15,7 @@ export interface PricingCardData {
   featureCategory?: string
   onSelectPlan?: () => void
   buttonLabel?: string
+  productId?: string
 }
 
 export interface PricingCardProps {
@@ -33,6 +34,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({ data }) => {
     featureCategory = 'Features included',
     onSelectPlan,
     buttonLabel = 'Get started',
+    productId,
   } = data
 
   return (
@@ -152,8 +154,10 @@ export const PricingCard: React.FC<PricingCardProps> = ({ data }) => {
               focus-visible:ring-ring
               shadow-inner
               mb-4 sm:mb-5
+              flex items-center justify-center gap-2
             "
           >
+            <ShoppingCart size={16} />
             {buttonLabel}
           </button>
 

@@ -1,0 +1,6 @@
+import * as z from 'zod';
+import { ConfigurationOptionSelectObjectSchema as ConfigurationOptionSelectObjectSchema } from './objects/ConfigurationOptionSelect.schema';
+import { ConfigurationOptionCreateManyInputObjectSchema as ConfigurationOptionCreateManyInputObjectSchema } from './objects/ConfigurationOptionCreateManyInput.schema';
+export const ConfigurationOptionCreateManyAndReturnSchema = z.object({ select: ConfigurationOptionSelectObjectSchema.optional(), data: z.union([ConfigurationOptionCreateManyInputObjectSchema, z.array(ConfigurationOptionCreateManyInputObjectSchema)]), skipDuplicates: z.boolean().optional() }).strict();
+export const ConfigurationOptionCreateManyAndReturnZodSchema = z.object({ select: ConfigurationOptionSelectObjectSchema.optional(), data: z.union([ConfigurationOptionCreateManyInputObjectSchema, z.array(ConfigurationOptionCreateManyInputObjectSchema)]), skipDuplicates: z.boolean().optional() }).strict();
+//# sourceMappingURL=createManyAndReturnConfigurationOption.schema.js.map

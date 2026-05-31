@@ -3,6 +3,7 @@ import { ptero } from './client'
 import { getAllPetroNode } from './nodes'
 import { findPetroAvailableAllocation } from './allocations'
 import { convertPetroEggVariablesToEnvironment } from './nests-egg'
+import { prisma } from '#/db'
 
 export const pteroServerSchema = z.object({
   name: z.string(),
@@ -52,7 +53,17 @@ export const pteroServerData = async (
     eggId: data.egg,
   })
 
-  const allocation = await findPetroAvailableAllocation({ mode: 'balance' })
+  // Read node deployment settings from DB
+  const settings = await prisma.razorpayConfig.findFirst({
+    select: { pteroNodeMode: true, pteroNodeId: true },
+  })
+  const nodeMode = (settings?.pteroNodeMode ?? 'balance') as 'balance' | 'specific'
+  const nodeId = settings?.pteroNodeId ?? undefined
+
+  const allocation = await findPetroAvailableAllocation({
+    mode: nodeMode,
+    ...(nodeMode === 'specific' && nodeId ? { nodeId } : {}),
+  })
 
   const serverData = {
     name: data.name,
@@ -80,4 +91,18 @@ export const pteroServerData = async (
     },
   }
   return serverData
+}
+
+/** Build specs for a Pterodactyl server from a product's specs JSON field */
+export function extractPteroSpecsFromProduct(productSpecs: unknown) {
+  const s = (productSpecs ?? {}) as Record<string, number>
+  return {
+    cpu: s.cpu ?? 100,
+    memory: s.memory ?? 512,
+    swap: s.swap ?? 0,
+    disk: s.disk ?? 1024,
+    database: s.databases ?? s.database ?? 0,
+    allocation: s.allocations ?? s.allocation ?? 1,
+    backups: s.backups ?? 0,
+  }
 }

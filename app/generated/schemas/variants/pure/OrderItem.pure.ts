@@ -11,6 +11,7 @@ export const OrderItemModelSchema = z.object({
     unitPrice: z.number().int(),
     totalPrice: z.number().int(),
     specsSnapshot: z.unknown().nullable(),
+    configuration: z.unknown().nullable(),
     expiresAt: z.date().nullable(),
     order: z.unknown(),
     product: z.unknown(),

@@ -10,7 +10,8 @@ import { JsonNullValueInputSchema } from '../enums/JsonNullValueInput.schema';
 import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
 import { ProductFeatureUpdateManyWithoutProductNestedInputObjectSchema as ProductFeatureUpdateManyWithoutProductNestedInputObjectSchema } from './ProductFeatureUpdateManyWithoutProductNestedInput.schema';
 import { DiscountUpdateOneWithoutProductNestedInputObjectSchema as DiscountUpdateOneWithoutProductNestedInputObjectSchema } from './DiscountUpdateOneWithoutProductNestedInput.schema';
-import { CartItemUpdateManyWithoutProductNestedInputObjectSchema as CartItemUpdateManyWithoutProductNestedInputObjectSchema } from './CartItemUpdateManyWithoutProductNestedInput.schema'
+import { CartItemUpdateManyWithoutProductNestedInputObjectSchema as CartItemUpdateManyWithoutProductNestedInputObjectSchema } from './CartItemUpdateManyWithoutProductNestedInput.schema';
+import { ProductBillingOptionUpdateManyWithoutProductNestedInputObjectSchema as ProductBillingOptionUpdateManyWithoutProductNestedInputObjectSchema } from './ProductBillingOptionUpdateManyWithoutProductNestedInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
@@ -30,7 +31,8 @@ const makeSchema = () => z.object({
   updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
   features: z.lazy(() => ProductFeatureUpdateManyWithoutProductNestedInputObjectSchema).optional(),
   discount: z.lazy(() => DiscountUpdateOneWithoutProductNestedInputObjectSchema).optional(),
-  cartItems: z.lazy(() => CartItemUpdateManyWithoutProductNestedInputObjectSchema).optional()
+  cartItems: z.lazy(() => CartItemUpdateManyWithoutProductNestedInputObjectSchema).optional(),
+  billingOptions: z.lazy(() => ProductBillingOptionUpdateManyWithoutProductNestedInputObjectSchema).optional()
 }).strict();
 export const ProductUpdateWithoutOrderItemsInputObjectSchema: z.ZodType<Prisma.ProductUpdateWithoutOrderItemsInput> = makeSchema() as unknown as z.ZodType<Prisma.ProductUpdateWithoutOrderItemsInput>;
 export const ProductUpdateWithoutOrderItemsInputObjectZodSchema = makeSchema();

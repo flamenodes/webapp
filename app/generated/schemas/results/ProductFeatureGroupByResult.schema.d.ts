@@ -1,0 +1,33 @@
+import * as z from 'zod';
+export declare const ProductFeatureGroupByResultSchema: z.ZodArray<z.ZodObject<{
+    id: z.ZodString;
+    productId: z.ZodString;
+    label: z.ZodString;
+    sortOrder: z.ZodNumber;
+    _count: z.ZodOptional<z.ZodObject<{
+        id: z.ZodNumber;
+        productId: z.ZodNumber;
+        product: z.ZodNumber;
+        label: z.ZodNumber;
+        sortOrder: z.ZodNumber;
+    }, z.core.$strip>>;
+    _sum: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        sortOrder: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _avg: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        sortOrder: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _min: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        productId: z.ZodNullable<z.ZodString>;
+        label: z.ZodNullable<z.ZodString>;
+        sortOrder: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _max: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        productId: z.ZodNullable<z.ZodString>;
+        label: z.ZodNullable<z.ZodString>;
+        sortOrder: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+}, z.core.$strip>>;
+//# sourceMappingURL=ProductFeatureGroupByResult.schema.d.ts.map

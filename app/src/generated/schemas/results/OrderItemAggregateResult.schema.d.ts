@@ -1,0 +1,52 @@
+import * as z from 'zod';
+export declare const OrderItemAggregateResultSchema: z.ZodObject<{
+    _count: z.ZodOptional<z.ZodObject<{
+        id: z.ZodNumber;
+        orderId: z.ZodNumber;
+        productId: z.ZodNumber;
+        productName: z.ZodNumber;
+        quantity: z.ZodNumber;
+        billingPeriod: z.ZodNumber;
+        unitPrice: z.ZodNumber;
+        totalPrice: z.ZodNumber;
+        specsSnapshot: z.ZodNumber;
+        expiresAt: z.ZodNumber;
+        order: z.ZodNumber;
+        product: z.ZodNumber;
+        server: z.ZodNumber;
+        createdAt: z.ZodNumber;
+    }, z.core.$strip>>;
+    _sum: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        quantity: z.ZodNullable<z.ZodNumber>;
+        unitPrice: z.ZodNullable<z.ZodNumber>;
+        totalPrice: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _avg: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        quantity: z.ZodNullable<z.ZodNumber>;
+        unitPrice: z.ZodNullable<z.ZodNumber>;
+        totalPrice: z.ZodNullable<z.ZodNumber>;
+    }, z.core.$strip>>>;
+    _min: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        orderId: z.ZodNullable<z.ZodString>;
+        productId: z.ZodNullable<z.ZodString>;
+        productName: z.ZodNullable<z.ZodString>;
+        quantity: z.ZodNullable<z.ZodNumber>;
+        unitPrice: z.ZodNullable<z.ZodNumber>;
+        totalPrice: z.ZodNullable<z.ZodNumber>;
+        expiresAt: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodString>;
+    }, z.core.$strip>>>;
+    _max: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodNullable<z.ZodString>;
+        orderId: z.ZodNullable<z.ZodString>;
+        productId: z.ZodNullable<z.ZodString>;
+        productName: z.ZodNullable<z.ZodString>;
+        quantity: z.ZodNullable<z.ZodNumber>;
+        unitPrice: z.ZodNullable<z.ZodNumber>;
+        totalPrice: z.ZodNullable<z.ZodNumber>;
+        expiresAt: z.ZodNullable<z.ZodString>;
+        createdAt: z.ZodNullable<z.ZodString>;
+    }, z.core.$strip>>>;
+}, z.core.$strip>;
+//# sourceMappingURL=OrderItemAggregateResult.schema.d.ts.map

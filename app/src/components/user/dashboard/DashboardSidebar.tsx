@@ -1,16 +1,13 @@
 import FlameNodesLogo from '#/components/blocks/FlameNodesLogo'
 import { Link, useRouterState } from '@tanstack/react-router'
-import {
-  Flame, Plus, LayoutGrid, Server, ShoppingBag,
-  ShoppingCart, Ticket, Settings,
-} from 'lucide-react'
+import { Plus, LayoutGrid, Server, ShoppingBag, Ticket, Settings, FileText } from 'lucide-react'
 
 const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutGrid,   to: '/user/dashboard' },
-  { id: 'servers',   label: 'Servers',   icon: Server,       to: '/user/servers'   },
-  { id: 'orders',    label: 'Orders',    icon: ShoppingBag,  to: '/user/orders'    },
-  { id: 'carts',     label: 'Carts',     icon: ShoppingCart, to: '/user/carts'     },
-  { id: 'tickets',   label: 'Tickets',   icon: Ticket,       to: '/user/tickets'   },
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutGrid,  to: '/user/dashboard' },
+  { id: 'servers',   label: 'Servers',   icon: Server,      to: '/user/servers'   },
+  { id: 'orders',    label: 'Orders',    icon: ShoppingBag, to: '/user/orders'    },
+  { id: 'invoices',  label: 'Invoices',  icon: FileText,    to: '/user/invoices'  },
+  { id: 'tickets',   label: 'Tickets',   icon: Ticket,      to: '/user/tickets'   },
 ]
 
 interface Props {
@@ -103,14 +100,14 @@ export function DashboardSidebar({ open, onClose }: Props) {
 
         {/* Footer */}
         <div className="px-3 pb-4 pt-3 border-t border-border shrink-0">
-          <button className={itemClass(false)}>
+          <Link to="/user/settings" className={itemClass(pathname === '/user/settings')}>
             <Settings
               size={17}
               strokeWidth={1.75}
-              className="shrink-0 transition-transform duration-200 group-hover:scale-110"
+              className={`shrink-0 transition-transform duration-200 group-hover:scale-110 ${pathname === '/user/settings' ? 'text-primary' : ''}`}
             />
             <span className="text-sm font-medium">Settings</span>
-          </button>
+          </Link>
         </div>
       </aside>
     </>
