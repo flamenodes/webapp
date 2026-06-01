@@ -101,3 +101,14 @@ export const ConfigurationOptionType = {
 } as const
 
 export type ConfigurationOptionType = (typeof ConfigurationOptionType)[keyof typeof ConfigurationOptionType]
+
+
+export const AnnouncementType = {
+  INFO: 'INFO',
+  WARNING: 'WARNING',
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  MAINTENANCE: 'MAINTENANCE'
+} as const
+
+export type AnnouncementType = (typeof AnnouncementType)[keyof typeof AnnouncementType]

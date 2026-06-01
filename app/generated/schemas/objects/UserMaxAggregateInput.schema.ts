@@ -23,6 +23,7 @@ const makeSchema = () => z.object({
   city: z.literal(true).optional(),
   zip: z.literal(true).optional(),
   country: z.literal(true).optional(),
+  phone: z.literal(true).optional(),
   displayUsername: z.literal(true).optional()
 }).strict();
 export const UserMaxAggregateInputObjectSchema: z.ZodType<Prisma.UserMaxAggregateInputType> = makeSchema() as unknown as z.ZodType<Prisma.UserMaxAggregateInputType>;

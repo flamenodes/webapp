@@ -143,7 +143,17 @@ export type ConfigurationValue = Prisma.ConfigurationValueModel
  */
 export type Notification = Prisma.NotificationModel
 /**
+ * Model Announcement
+ * 
+ */
+export type Announcement = Prisma.AnnouncementModel
+/**
  * Model RazorpayConfig
  * 
  */
 export type RazorpayConfig = Prisma.RazorpayConfigModel
+/**
+ * Model WebSettings
+ * 
+ */
+export type WebSettings = Prisma.WebSettingsModel

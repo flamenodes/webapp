@@ -23,6 +23,7 @@ export const UserInputSchema = z.object({
     city: z.string().optional().nullable(),
     zip: z.string().optional().nullable(),
     country: z.string().optional().nullable(),
+    phone: z.string().optional().nullable(),
     servers: z.array(z.unknown()),
     cart: z.unknown().optional().nullable(),
     orders: z.array(z.unknown()),

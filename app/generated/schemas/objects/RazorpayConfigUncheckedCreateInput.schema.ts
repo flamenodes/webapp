@@ -15,6 +15,8 @@ const makeSchema = () => z.object({
   companyCity: z.string().optional().nullable(),
   companyZip: z.string().optional().nullable(),
   companyCountry: z.string().optional().nullable(),
+  pteroNodeMode: z.string().optional().nullable(),
+  pteroNodeId: z.number().int().optional().nullable(),
   createdAt: z.coerce.date().optional()
 }).strict();
 export const RazorpayConfigUncheckedCreateInputObjectSchema: z.ZodType<Prisma.RazorpayConfigUncheckedCreateInput> = makeSchema() as unknown as z.ZodType<Prisma.RazorpayConfigUncheckedCreateInput>;

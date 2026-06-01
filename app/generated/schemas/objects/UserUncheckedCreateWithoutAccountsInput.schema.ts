@@ -30,6 +30,7 @@ const makeSchema = () => z.object({
   city: z.string().optional().nullable(),
   zip: z.string().optional().nullable(),
   country: z.string().optional().nullable(),
+  phone: z.string().optional().nullable(),
   displayUsername: z.string().optional().nullable(),
   sessions: z.lazy(() => SessionUncheckedCreateNestedManyWithoutUserInputObjectSchema).optional(),
   servers: z.lazy(() => ServerUncheckedCreateNestedManyWithoutUserInputObjectSchema).optional(),

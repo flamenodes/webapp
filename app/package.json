@@ -29,6 +29,7 @@
 		"@imagekit/react": "^5.0.2",
 		"@mdxeditor/editor": "^4.0.1",
 		"@modelcontextprotocol/sdk": "^1.27.1",
+		"@n8n/chat": "^1.22.0",
 		"@prisma/adapter-pg": "^7.4.2",
 		"@prisma/client": "^7.4.2",
 		"@react-three/drei": "^10.7.7",

@@ -23,6 +23,7 @@ export const UserModelSchema = z.object({
     city: z.string().nullable(),
     zip: z.string().nullable(),
     country: z.string().nullable(),
+    phone: z.string().nullable(),
     servers: z.array(z.unknown()),
     cart: z.unknown().nullable(),
     orders: z.array(z.unknown()),

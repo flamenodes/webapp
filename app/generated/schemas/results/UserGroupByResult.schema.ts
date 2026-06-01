@@ -20,6 +20,7 @@ export const UserGroupByResultSchema = z.array(z.object({
   city: z.string(),
   zip: z.string(),
   country: z.string(),
+  phone: z.string(),
   displayUsername: z.string(),
   _count: z.object({
     id: z.number(),
@@ -44,6 +45,7 @@ export const UserGroupByResultSchema = z.array(z.object({
     city: z.number(),
     zip: z.number(),
     country: z.number(),
+    phone: z.number(),
     servers: z.number(),
     cart: z.number(),
     orders: z.number(),
@@ -78,6 +80,7 @@ export const UserGroupByResultSchema = z.array(z.object({
     city: z.string().nullable(),
     zip: z.string().nullable(),
     country: z.string().nullable(),
+    phone: z.string().nullable(),
     displayUsername: z.string().nullable()
   }).nullable().optional(),
   _max: z.object({
@@ -99,6 +102,7 @@ export const UserGroupByResultSchema = z.array(z.object({
     city: z.string().nullable(),
     zip: z.string().nullable(),
     country: z.string().nullable(),
+    phone: z.string().nullable(),
     displayUsername: z.string().nullable()
   }).nullable().optional()
 }));

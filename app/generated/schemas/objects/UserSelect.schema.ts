@@ -33,6 +33,7 @@ const makeSchema = () => z.object({
   city: z.boolean().optional(),
   zip: z.boolean().optional(),
   country: z.boolean().optional(),
+  phone: z.boolean().optional(),
   servers: z.union([z.boolean(), z.lazy(() => ServerFindManySchema)]).optional(),
   cart: z.union([z.boolean(), z.lazy(() => CartArgsObjectSchema)]).optional(),
   orders: z.union([z.boolean(), z.lazy(() => OrderFindManySchema)]).optional(),

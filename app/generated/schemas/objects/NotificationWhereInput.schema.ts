@@ -2,6 +2,8 @@ import * as z from 'zod';
 import type { Prisma } from '../../../src/generated/prisma/client';
 import { StringFilterObjectSchema as StringFilterObjectSchema } from './StringFilter.schema';
 import { BoolFilterObjectSchema as BoolFilterObjectSchema } from './BoolFilter.schema';
+import { StringNullableFilterObjectSchema as StringNullableFilterObjectSchema } from './StringNullableFilter.schema';
+import { JsonNullableFilterObjectSchema as JsonNullableFilterObjectSchema } from './JsonNullableFilter.schema';
 import { DateTimeFilterObjectSchema as DateTimeFilterObjectSchema } from './DateTimeFilter.schema';
 import { UserScalarRelationFilterObjectSchema as UserScalarRelationFilterObjectSchema } from './UserScalarRelationFilter.schema';
 import { UserWhereInputObjectSchema as UserWhereInputObjectSchema } from './UserWhereInput.schema'
@@ -16,6 +18,8 @@ const notificationwhereinputSchema = z.object({
   title: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
   message: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
   read: z.union([z.lazy(() => BoolFilterObjectSchema), z.boolean()]).optional(),
+  link: z.union([z.lazy(() => StringNullableFilterObjectSchema), z.string()]).optional().nullable(),
+  metadata: z.lazy(() => JsonNullableFilterObjectSchema).optional(),
   createdAt: z.union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()]).optional(),
   user: z.union([z.lazy(() => UserScalarRelationFilterObjectSchema), z.lazy(() => UserWhereInputObjectSchema)]).optional()
 }).strict();

@@ -509,10 +509,38 @@ model Notification {
   title     String
   message   String
   read      Boolean  @default(false)
+  link      String?
+  metadata  Json?
   createdAt DateTime @default(now())
 
   @@index([userId])
   @@index([read])
+  @@index([createdAt])
+}
+
+enum AnnouncementType {
+  INFO
+  WARNING
+  SUCCESS
+  ERROR
+  MAINTENANCE
+}
+
+model Announcement {
+  id        String           @id @default(uuid())
+  title     String
+  message   String
+  type      AnnouncementType @default(INFO)
+  active    Boolean          @default(true)
+  priority  Int              @default(0)
+  link      String?
+  expiresAt DateTime?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([active])
+  @@index([priority])
+  @@index([createdAt])
 }
 
 model RazorpayConfig {
@@ -532,4 +560,14 @@ model RazorpayConfig {
   pteroNodeId    Int?
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
+}
+
+model WebSettings {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@index([key])
 }

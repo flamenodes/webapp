@@ -61,75 +61,83 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           <FlameNodesLogo />
         </div>
 
-        <ScrollArea className="flex-1 px-4 py-6 overflow-auto">
+        <ScrollArea className="flex-1 px-3 py-4 overflow-auto">
           {sections.map((section) => {
             const items = navItems.filter((n) => n.section === section.key)
             if (!items.length) return null
             return (
-              <div key={section.key} className="mb-6">
-                <p className="px-3 mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
-                  {section.label}
-                </p>
-                {items.map((item) => {
-                  const Icon =
-                    (LucideIcons as any)[item.icon] || LucideIcons.Circle
-                  return (
-                    <button
-                      key={item.label}
-                      onClick={() => navigate({ to: item.to })}
-                      className={`
-                        w-full flex items-center gap-3 px-3 h-10 rounded-lg text-sm font-medium
-                        transition-all duration-200 mb-1
-                        ${
-                          isActive(item.to)
-                            ? 'bg-sidebar-accent text-sidebar-foreground border border-sidebar-border/60'
-                            : 'text-sidebar-foreground/70 hover:bg-white/5 hover:text-sidebar-foreground border border-transparent'
-                        }
-                      `}
-                    >
-                      <Icon className="w-4 h-4 shrink-0" />
-                      {item.label}
-                      {isActive(item.to) && (
-                        <span className="ml-auto w-1.5 h-1.5 rounded-full bg-primary" />
-                      )}
-                    </button>
-                  )
-                })}
+              <div key={section.key} className="mb-5">
+                <div className="px-3 py-1.5 mb-1.5">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground/70">
+                    {section.label}
+                  </p>
+                </div>
+                <div className="space-y-0.5">
+                  {items.map((item) => {
+                    const Icon =
+                      (LucideIcons as any)[item.icon] || LucideIcons.Circle
+                    return (
+                      <button
+                        key={item.label}
+                        onClick={() => navigate({ to: item.to })}
+                        className={`
+                          w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-sm font-medium
+                          transition-all duration-150
+                          ${
+                            isActive(item.to)
+                              ? 'bg-sidebar-accent text-sidebar-foreground shadow-sm'
+                              : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
+                          }
+                        `}
+                      >
+                        <Icon className="w-[18px] h-[18px] shrink-0" />
+                        <span className="flex-1 text-left">{item.label}</span>
+                        {isActive(item.to) && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
             )
           })}
 
           {/* Owner-only: Pterodactyl Admin Panel link */}
           {isOwner && pteroUrl && (
-            <div className="mb-6">
-              <p className="px-3 mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
-                Pterodactyl
-              </p>
-              <a
-                href={pteroUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full flex items-center gap-3 px-3 h-10 rounded-lg text-sm font-medium transition-all duration-200 mb-1 text-sidebar-foreground/70 hover:bg-white/5 hover:text-sidebar-foreground border border-transparent"
-              >
-                <LucideIcons.ExternalLink className="w-4 h-4 shrink-0" />
-                Admin Panel
-                <span className="ml-auto text-[10px] font-semibold px-1.5 py-0.5 rounded bg-primary/15 text-primary">
-                  Owner
-                </span>
-              </a>
+            <div className="mb-5">
+              <div className="px-3 py-1.5 mb-1.5">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground/70">
+                  Pterodactyl
+                </p>
+              </div>
+              <div className="space-y-0.5">
+                <a
+                  href={pteroUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-sm font-medium transition-all duration-150 text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                >
+                  <LucideIcons.ExternalLink className="w-[18px] h-[18px] shrink-0" />
+                  <span className="flex-1 text-left">Admin Panel</span>
+                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-primary/15 text-primary uppercase tracking-wide shrink-0">
+                    Owner
+                  </span>
+                </a>
+              </div>
             </div>
           )}
         </ScrollArea>
 
         {/* User footer */}
-        <div className="px-4 py-4 border-t border-sidebar-border shrink-0">
-          <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
-            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-              <span className="text-xs font-bold text-primary">AD</span>
+        <div className="px-3 py-3 border-t border-sidebar-border shrink-0">
+          <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-sidebar-accent/50 transition-colors cursor-pointer">
+            <div className="w-9 h-9 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
+              <span className="text-sm font-bold text-primary">AD</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold truncate">Admin User</p>
-              <p className="text-xs text-muted-foreground truncate">
+              <p className="text-sm font-semibold truncate leading-tight">Admin User</p>
+              <p className="text-[11px] text-muted-foreground truncate leading-tight mt-0.5">
                 admin@flamenodes.io
               </p>
             </div>

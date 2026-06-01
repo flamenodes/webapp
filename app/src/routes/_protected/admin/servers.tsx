@@ -1,16 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useSuspenseQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { getAdminServers, fetchPteroServerData, pingAdminServer, updateAdminServer } from '@/serverActions/admin/servers.api'
+import { getAdminServers, fetchPteroServerData, pingAdminServer, updateAdminServer, deleteAdminServer } from '@/serverActions/admin/servers.api'
 import { useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
-import { Label } from '@/components/ui/label'
+import { Field, FieldLabel, FieldDescription } from '@/components/ui/field'
 import {
   Server, RefreshCw, Loader2, Wifi, WifiOff, Activity,
   Cpu, HardDrive, MemoryStick, ExternalLink, Settings, Search,
-  Ban, Play,
+  Ban, Play, Trash2,
 } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -194,19 +194,29 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
     onError: () => toast.error('Failed to update server status'),
   })
 
+  const deleteMutation = useMutation({
+    mutationFn: () => deleteAdminServer({ data: { serverId: server.id } }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin-servers'] })
+      toast.success('Server deleted successfully')
+      onClose()
+    },
+    onError: () => toast.error('Failed to delete server'),
+  })
+
   const sc = statusConfig[server.status] ?? { label: server.status, dot: 'bg-muted-foreground', badge: 'outline' as const }
 
   return (
     <Sheet open onOpenChange={(o) => !o && onClose()}>
       <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
-        <SheetHeader className="mb-4">
+        <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
             <Server className="w-4 h-4" />
             {server.name}
           </SheetTitle>
         </SheetHeader>
 
-        <div className="space-y-5">
+        <div className="space-y-6 mt-6">
           {/* Meta + status controls */}
           <div className="rounded-lg border border-border p-3 space-y-3">
             <div className="grid grid-cols-2 gap-3 text-sm">
@@ -263,90 +273,112 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
 
           {/* Pterodactyl live data */}
           {isPtero && (
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Live Panel Data</p>
+            <div className="space-y-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Live Panel Data</p>
               <PteroDetails serverId={server.id} />
             </div>
           )}
 
           {/* Ping (custom only) */}
           {!isPtero && server.ip && (
-            <div className="flex items-center gap-3">
-              <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => pingMutation.mutate()} disabled={pingMutation.isPending}>
-                {pingMutation.isPending ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <Activity className="w-3 h-3 mr-1" />}
-                Ping
+            <div className="flex items-center gap-3 pt-1">
+              <Button size="sm" variant="outline" onClick={() => pingMutation.mutate()} disabled={pingMutation.isPending}>
+                {pingMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Activity className="w-4 h-4 mr-2" />}
+                Ping Server
               </Button>
               {pingResult !== null && (
                 pingResult.online
-                  ? <span className="flex items-center gap-1 text-xs text-emerald-500"><Wifi className="w-3 h-3" /> Online</span>
-                  : <span className="flex items-center gap-1 text-xs text-destructive"><WifiOff className="w-3 h-3" /> Offline</span>
+                  ? <span className="flex items-center gap-1.5 text-sm text-emerald-500"><Wifi className="w-4 h-4" /> Online</span>
+                  : <span className="flex items-center gap-1.5 text-sm text-destructive"><WifiOff className="w-4 h-4" /> Offline</span>
               )}
             </div>
           )}
 
           {/* Label */}
-          <div>
-            <Label className="text-xs">Label / Display Name</Label>
-            <Input className="h-8 text-sm mt-1" placeholder="e.g. Production MC Server" value={form.label} onChange={(e) => setForm((f) => ({ ...f, label: e.target.value }))} />
-          </div>
+          <Field>
+            <FieldLabel>Label / Display Name</FieldLabel>
+            <Input placeholder="e.g. Production MC Server" value={form.label} onChange={(e) => setForm((f) => ({ ...f, label: e.target.value }))} />
+            <FieldDescription>Custom display name for this server</FieldDescription>
+          </Field>
 
           {/* IP / Port for custom servers */}
           {!isPtero && (
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <Label className="text-xs">IP Address</Label>
-                <Input className="h-8 text-sm mt-1 font-mono" placeholder="0.0.0.0" value={form.ip} onChange={(e) => setForm((f) => ({ ...f, ip: e.target.value }))} />
-              </div>
-              <div>
-                <Label className="text-xs">Port</Label>
-                <Input className="h-8 text-sm mt-1 font-mono" placeholder="25565" type="number" value={form.port} onChange={(e) => setForm((f) => ({ ...f, port: e.target.value }))} />
-              </div>
+            <div className="grid grid-cols-2 gap-4">
+              <Field>
+                <FieldLabel>IP Address</FieldLabel>
+                <Input className="font-mono" placeholder="0.0.0.0" value={form.ip} onChange={(e) => setForm((f) => ({ ...f, ip: e.target.value }))} />
+              </Field>
+              <Field>
+                <FieldLabel>Port</FieldLabel>
+                <Input className="font-mono" placeholder="25565" type="number" value={form.port} onChange={(e) => setForm((f) => ({ ...f, port: e.target.value }))} />
+              </Field>
             </div>
           )}
 
           {/* Resource specs — shown for all, synced to Pterodactyl if applicable */}
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-              Resource Specs {isPtero && <span className="text-primary normal-case font-normal">(will sync to Pterodactyl)</span>}
-            </p>
-            <div className="grid grid-cols-3 gap-2">
-              <div>
-                <Label className="text-xs">CPU (%)</Label>
-                <Input className="h-8 text-sm mt-1" placeholder="100" type="number" value={form.cpu} onChange={(e) => setForm((f) => ({ ...f, cpu: e.target.value }))} />
-              </div>
-              <div>
-                <Label className="text-xs">RAM (MB)</Label>
-                <Input className="h-8 text-sm mt-1" placeholder="1024" type="number" value={form.memory} onChange={(e) => setForm((f) => ({ ...f, memory: e.target.value }))} />
-              </div>
-              <div>
-                <Label className="text-xs">Swap (MB)</Label>
-                <Input className="h-8 text-sm mt-1" placeholder="0" type="number" value={form.swap} onChange={(e) => setForm((f) => ({ ...f, swap: e.target.value }))} />
-              </div>
-              <div>
-                <Label className="text-xs">Disk (MB)</Label>
-                <Input className="h-8 text-sm mt-1" placeholder="10240" type="number" value={form.disk} onChange={(e) => setForm((f) => ({ ...f, disk: e.target.value }))} />
-              </div>
-              <div>
-                <Label className="text-xs">Databases</Label>
-                <Input className="h-8 text-sm mt-1" placeholder="0" type="number" value={form.databases} onChange={(e) => setForm((f) => ({ ...f, databases: e.target.value }))} />
-              </div>
-              <div>
-                <Label className="text-xs">Backups</Label>
-                <Input className="h-8 text-sm mt-1" placeholder="0" type="number" value={form.backups} onChange={(e) => setForm((f) => ({ ...f, backups: e.target.value }))} />
-              </div>
+          <div className="space-y-4">
+            <div>
+              <p className="text-sm font-semibold text-foreground mb-1">
+                Resource Specifications
+              </p>
               {isPtero && (
-                <div>
-                  <Label className="text-xs">Allocations</Label>
-                  <Input className="h-8 text-sm mt-1" placeholder="1" type="number" value={form.allocations} onChange={(e) => setForm((f) => ({ ...f, allocations: e.target.value }))} />
-                </div>
+                <p className="text-xs text-muted-foreground">Changes will sync to Pterodactyl panel</p>
+              )}
+            </div>
+            <div className="grid grid-cols-3 gap-4">
+              <Field>
+                <FieldLabel>CPU (%)</FieldLabel>
+                <Input placeholder="100" type="number" value={form.cpu} onChange={(e) => setForm((f) => ({ ...f, cpu: e.target.value }))} />
+              </Field>
+              <Field>
+                <FieldLabel>RAM (MB)</FieldLabel>
+                <Input placeholder="1024" type="number" value={form.memory} onChange={(e) => setForm((f) => ({ ...f, memory: e.target.value }))} />
+              </Field>
+              <Field>
+                <FieldLabel>Swap (MB)</FieldLabel>
+                <Input placeholder="0" type="number" value={form.swap} onChange={(e) => setForm((f) => ({ ...f, swap: e.target.value }))} />
+              </Field>
+              <Field>
+                <FieldLabel>Disk (MB)</FieldLabel>
+                <Input placeholder="10240" type="number" value={form.disk} onChange={(e) => setForm((f) => ({ ...f, disk: e.target.value }))} />
+              </Field>
+              <Field>
+                <FieldLabel>Databases</FieldLabel>
+                <Input placeholder="0" type="number" value={form.databases} onChange={(e) => setForm((f) => ({ ...f, databases: e.target.value }))} />
+              </Field>
+              <Field>
+                <FieldLabel>Backups</FieldLabel>
+                <Input placeholder="0" type="number" value={form.backups} onChange={(e) => setForm((f) => ({ ...f, backups: e.target.value }))} />
+              </Field>
+              {isPtero && (
+                <Field>
+                  <FieldLabel>Allocations</FieldLabel>
+                  <Input placeholder="1" type="number" value={form.allocations} onChange={(e) => setForm((f) => ({ ...f, allocations: e.target.value }))} />
+                </Field>
               )}
             </div>
           </div>
 
-          <Button className="w-full" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
-            {saveMutation.isPending && <Loader2 className="w-3.5 h-3.5 mr-2 animate-spin" />}
-            Save Changes
-          </Button>
+          <div className="flex gap-3 pt-2">
+            <Button className="flex-1" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
+              {saveMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+              Save Changes
+            </Button>
+
+            <Button
+              variant="destructive"
+              className="flex-1"
+              onClick={() => {
+                if (confirm(`Are you sure you want to delete this server? ${isPtero ? 'It will also be deleted from Pterodactyl.' : ''}`)) {
+                  deleteMutation.mutate()
+                }
+              }}
+              disabled={deleteMutation.isPending}
+            >
+              {deleteMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Trash2 className="w-4 h-4 mr-2" />}
+              Delete
+            </Button>
+          </div>
         </div>
       </SheetContent>
     </Sheet>

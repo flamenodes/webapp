@@ -12,6 +12,8 @@ export const RazorpayConfigGroupByResultSchema = z.array(z.object({
   companyCity: z.string(),
   companyZip: z.string(),
   companyCountry: z.string(),
+  pteroNodeMode: z.string(),
+  pteroNodeId: z.number().int(),
   updatedAt: z.date(),
   createdAt: z.date(),
   _count: z.object({
@@ -27,9 +29,17 @@ export const RazorpayConfigGroupByResultSchema = z.array(z.object({
     companyCity: z.number(),
     companyZip: z.number(),
     companyCountry: z.number(),
+    pteroNodeMode: z.number(),
+    pteroNodeId: z.number(),
     updatedAt: z.number(),
     createdAt: z.number()
   }).optional(),
+  _sum: z.object({
+    pteroNodeId: z.number().nullable()
+  }).nullable().optional(),
+  _avg: z.object({
+    pteroNodeId: z.number().nullable()
+  }).nullable().optional(),
   _min: z.object({
     id: z.string().nullable(),
     mode: z.string().nullable(),
@@ -43,6 +53,8 @@ export const RazorpayConfigGroupByResultSchema = z.array(z.object({
     companyCity: z.string().nullable(),
     companyZip: z.string().nullable(),
     companyCountry: z.string().nullable(),
+    pteroNodeMode: z.string().nullable(),
+    pteroNodeId: z.number().int().nullable(),
     updatedAt: z.date().nullable(),
     createdAt: z.date().nullable()
   }).nullable().optional(),
@@ -59,6 +71,8 @@ export const RazorpayConfigGroupByResultSchema = z.array(z.object({
     companyCity: z.string().nullable(),
     companyZip: z.string().nullable(),
     companyCountry: z.string().nullable(),
+    pteroNodeMode: z.string().nullable(),
+    pteroNodeId: z.number().int().nullable(),
     updatedAt: z.date().nullable(),
     createdAt: z.date().nullable()
   }).nullable().optional()

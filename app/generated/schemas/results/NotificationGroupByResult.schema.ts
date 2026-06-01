@@ -6,6 +6,8 @@ export const NotificationGroupByResultSchema = z.array(z.object({
   title: z.string(),
   message: z.string(),
   read: z.boolean(),
+  link: z.string(),
+  metadata: z.unknown(),
   createdAt: z.date(),
   _count: z.object({
     id: z.number(),
@@ -15,6 +17,8 @@ export const NotificationGroupByResultSchema = z.array(z.object({
     title: z.number(),
     message: z.number(),
     read: z.number(),
+    link: z.number(),
+    metadata: z.number(),
     createdAt: z.number()
   }).optional(),
   _min: z.object({
@@ -23,6 +27,7 @@ export const NotificationGroupByResultSchema = z.array(z.object({
     type: z.string().nullable(),
     title: z.string().nullable(),
     message: z.string().nullable(),
+    link: z.string().nullable(),
     createdAt: z.date().nullable()
   }).nullable().optional(),
   _max: z.object({
@@ -31,6 +36,7 @@ export const NotificationGroupByResultSchema = z.array(z.object({
     type: z.string().nullable(),
     title: z.string().nullable(),
     message: z.string().nullable(),
+    link: z.string().nullable(),
     createdAt: z.date().nullable()
   }).nullable().optional()
 }));

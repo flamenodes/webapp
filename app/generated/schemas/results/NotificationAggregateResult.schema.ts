@@ -7,6 +7,8 @@ export const NotificationAggregateResultSchema = z.object({  _count: z.object({
     title: z.number(),
     message: z.number(),
     read: z.number(),
+    link: z.number(),
+    metadata: z.number(),
     createdAt: z.number()
   }).optional(),
   _min: z.object({
@@ -15,6 +17,7 @@ export const NotificationAggregateResultSchema = z.object({  _count: z.object({
     type: z.string().nullable(),
     title: z.string().nullable(),
     message: z.string().nullable(),
+    link: z.string().nullable(),
     createdAt: z.date().nullable()
   }).nullable().optional(),
   _max: z.object({
@@ -23,5 +26,6 @@ export const NotificationAggregateResultSchema = z.object({  _count: z.object({
     type: z.string().nullable(),
     title: z.string().nullable(),
     message: z.string().nullable(),
+    link: z.string().nullable(),
     createdAt: z.date().nullable()
   }).nullable().optional()});

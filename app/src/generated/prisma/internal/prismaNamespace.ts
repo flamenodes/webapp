@@ -409,7 +409,9 @@ export const ModelName = {
   ConfigurationOption: 'ConfigurationOption',
   ConfigurationValue: 'ConfigurationValue',
   Notification: 'Notification',
-  RazorpayConfig: 'RazorpayConfig'
+  Announcement: 'Announcement',
+  RazorpayConfig: 'RazorpayConfig',
+  WebSettings: 'WebSettings'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -425,7 +427,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "discount" | "product" | "productBillingOption" | "productCategoryConfig" | "productFeature" | "coupon" | "cart" | "cartItem" | "order" | "invoice" | "orderItem" | "server" | "pageDocument" | "ticketCounter" | "ticket" | "ticketMessage" | "ticketTagPreset" | "statusNode" | "configurationOption" | "configurationValue" | "notification" | "razorpayConfig"
+    modelProps: "user" | "session" | "account" | "verification" | "discount" | "product" | "productBillingOption" | "productCategoryConfig" | "productFeature" | "coupon" | "cart" | "cartItem" | "order" | "invoice" | "orderItem" | "server" | "pageDocument" | "ticketCounter" | "ticket" | "ticketMessage" | "ticketTagPreset" | "statusNode" | "configurationOption" | "configurationValue" | "notification" | "announcement" | "razorpayConfig" | "webSettings"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2279,6 +2281,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Announcement: {
+      payload: Prisma.$AnnouncementPayload<ExtArgs>
+      fields: Prisma.AnnouncementFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AnnouncementFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AnnouncementFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+        }
+        findFirst: {
+          args: Prisma.AnnouncementFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AnnouncementFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+        }
+        findMany: {
+          args: Prisma.AnnouncementFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>[]
+        }
+        create: {
+          args: Prisma.AnnouncementCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+        }
+        createMany: {
+          args: Prisma.AnnouncementCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AnnouncementCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>[]
+        }
+        delete: {
+          args: Prisma.AnnouncementDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+        }
+        update: {
+          args: Prisma.AnnouncementUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+        }
+        deleteMany: {
+          args: Prisma.AnnouncementDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AnnouncementUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AnnouncementUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>[]
+        }
+        upsert: {
+          args: Prisma.AnnouncementUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+        }
+        aggregate: {
+          args: Prisma.AnnouncementAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAnnouncement>
+        }
+        groupBy: {
+          args: Prisma.AnnouncementGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnnouncementGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AnnouncementCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnnouncementCountAggregateOutputType> | number
+        }
+      }
+    }
     RazorpayConfig: {
       payload: Prisma.$RazorpayConfigPayload<ExtArgs>
       fields: Prisma.RazorpayConfigFieldRefs
@@ -2353,6 +2429,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    WebSettings: {
+      payload: Prisma.$WebSettingsPayload<ExtArgs>
+      fields: Prisma.WebSettingsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WebSettingsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebSettingsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WebSettingsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebSettingsPayload>
+        }
+        findFirst: {
+          args: Prisma.WebSettingsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebSettingsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WebSettingsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebSettingsPayload>
+        }
+        findMany: {
+          args: Prisma.WebSettingsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebSettingsPayload>[]
+        }
+        create: {
+          args: Prisma.WebSettingsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebSettingsPayload>
+        }
+        createMany: {
+          args: Prisma.WebSettingsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WebSettingsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebSettingsPayload>[]
+        }
+        delete: {
+          args: Prisma.WebSettingsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebSettingsPayload>
+        }
+        update: {
+          args: Prisma.WebSettingsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebSettingsPayload>
+        }
+        deleteMany: {
+          args: Prisma.WebSettingsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WebSettingsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WebSettingsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebSettingsPayload>[]
+        }
+        upsert: {
+          args: Prisma.WebSettingsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WebSettingsPayload>
+        }
+        aggregate: {
+          args: Prisma.WebSettingsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWebSettings>
+        }
+        groupBy: {
+          args: Prisma.WebSettingsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WebSettingsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WebSettingsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WebSettingsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2413,6 +2563,7 @@ export const UserScalarFieldEnum = {
   city: 'city',
   zip: 'zip',
   country: 'country',
+  phone: 'phone',
   displayUsername: 'displayUsername'
 } as const
 
@@ -2757,10 +2908,28 @@ export const NotificationScalarFieldEnum = {
   title: 'title',
   message: 'message',
   read: 'read',
+  link: 'link',
+  metadata: 'metadata',
   createdAt: 'createdAt'
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const AnnouncementScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  message: 'message',
+  type: 'type',
+  active: 'active',
+  priority: 'priority',
+  link: 'link',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AnnouncementScalarFieldEnum = (typeof AnnouncementScalarFieldEnum)[keyof typeof AnnouncementScalarFieldEnum]
 
 
 export const RazorpayConfigScalarFieldEnum = {
@@ -2776,11 +2945,24 @@ export const RazorpayConfigScalarFieldEnum = {
   companyCity: 'companyCity',
   companyZip: 'companyZip',
   companyCountry: 'companyCountry',
+  pteroNodeMode: 'pteroNodeMode',
+  pteroNodeId: 'pteroNodeId',
   updatedAt: 'updatedAt',
   createdAt: 'createdAt'
 } as const
 
 export type RazorpayConfigScalarFieldEnum = (typeof RazorpayConfigScalarFieldEnum)[keyof typeof RazorpayConfigScalarFieldEnum]
+
+
+export const WebSettingsScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  value: 'value',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type WebSettingsScalarFieldEnum = (typeof WebSettingsScalarFieldEnum)[keyof typeof WebSettingsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -3039,6 +3221,20 @@ export type EnumConfigurationOptionTypeFieldRefInput<$PrismaModel> = FieldRefInp
 export type ListEnumConfigurationOptionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConfigurationOptionType[]'>
     
 
+
+/**
+ * Reference to a field of type 'AnnouncementType'
+ */
+export type EnumAnnouncementTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AnnouncementType'>
+    
+
+
+/**
+ * Reference to a field of type 'AnnouncementType[]'
+ */
+export type ListEnumAnnouncementTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AnnouncementType[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -3174,7 +3370,9 @@ export type GlobalOmitConfig = {
   configurationOption?: Prisma.ConfigurationOptionOmit
   configurationValue?: Prisma.ConfigurationValueOmit
   notification?: Prisma.NotificationOmit
+  announcement?: Prisma.AnnouncementOmit
   razorpayConfig?: Prisma.RazorpayConfigOmit
+  webSettings?: Prisma.WebSettingsOmit
 }
 
 /* Types for Logging */

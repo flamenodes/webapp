@@ -28,4 +28,6 @@ export { StatusNodeResultSchema } from './StatusNode.result';
 export { ConfigurationOptionResultSchema } from './ConfigurationOption.result';
 export { ConfigurationValueResultSchema } from './ConfigurationValue.result';
 export { NotificationResultSchema } from './Notification.result';
+export { AnnouncementResultSchema } from './Announcement.result';
 export { RazorpayConfigResultSchema } from './RazorpayConfig.result';
+export { WebSettingsResultSchema } from './WebSettings.result';

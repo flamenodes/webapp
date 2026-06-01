@@ -17,6 +17,8 @@ export const NotificationFindManySelectSchema: z.ZodType<Prisma.NotificationSele
     title: z.boolean().optional(),
     message: z.boolean().optional(),
     read: z.boolean().optional(),
+    link: z.boolean().optional(),
+    metadata: z.boolean().optional(),
     createdAt: z.boolean().optional()
   }).strict() as unknown as z.ZodType<Prisma.NotificationSelect>;
 
@@ -28,6 +30,8 @@ export const NotificationFindManySelectZodSchema = z.object({
     title: z.boolean().optional(),
     message: z.boolean().optional(),
     read: z.boolean().optional(),
+    link: z.boolean().optional(),
+    metadata: z.boolean().optional(),
     createdAt: z.boolean().optional()
   }).strict();
 

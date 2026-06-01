@@ -13,6 +13,8 @@ export const RazorpayConfigInputSchema = z.object({
     companyCity: z.string().optional().nullable(),
     companyZip: z.string().optional().nullable(),
     companyCountry: z.string().optional().nullable(),
+    pteroNodeMode: z.string().optional().nullable(),
+    pteroNodeId: z.number().int().optional().nullable(),
     updatedAt: z.date(),
     createdAt: z.date()
 }).strict();

@@ -186,3 +186,28 @@ export const updateAdminServer = createServerFn({ method: 'POST' })
       },
     })
   })
+
+export const deleteAdminServer = createServerFn({ method: 'POST' })
+  .inputValidator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
+  .handler(async ({ data }) => {
+    await requireAdmin()
+
+    const server = await prisma.server.findUniqueOrThrow({
+      where: { id: data.serverId },
+      include: { orderItem: { include: { product: { select: { deployMode: true } } } } },
+    })
+
+    const deployMode = server.orderItem?.product?.deployMode ?? 'CUSTOM'
+    const pteroData = server.pterodactylData as any
+
+    if (deployMode === 'PTERODACTYL' && pteroData?.id) {
+      try {
+        await ptero.delete(`/application/servers/${pteroData.id}`)
+      } catch (pteroError: any) {
+        console.error(`Failed to delete Pterodactyl server ${pteroData.id}:`, pteroError.message)
+      }
+    }
+
+    await prisma.server.delete({ where: { id: data.serverId } })
+    return { success: true }
+  })

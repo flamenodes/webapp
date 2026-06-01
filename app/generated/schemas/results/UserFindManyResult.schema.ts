@@ -23,6 +23,7 @@ export const UserFindManyResultSchema = z.object({
   city: z.string().optional(),
   zip: z.string().optional(),
   country: z.string().optional(),
+  phone: z.string().optional(),
   servers: z.array(z.unknown()),
   cart: z.unknown().optional(),
   orders: z.array(z.unknown()),

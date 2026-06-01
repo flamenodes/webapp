@@ -29,6 +29,7 @@ const makeSchema = () => z.object({
   city: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   zip: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   country: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
+  phone: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   displayUsername: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   _count: z.lazy(() => UserCountOrderByAggregateInputObjectSchema).optional(),
   _avg: z.lazy(() => UserAvgOrderByAggregateInputObjectSchema).optional(),

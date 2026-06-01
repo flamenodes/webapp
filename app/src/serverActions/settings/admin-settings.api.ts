@@ -94,3 +94,22 @@ export const getActiveRazorpayKeys = createServerFn({ method: 'GET' }).handler(a
     companyCountry: config.companyCountry,
   }
 })
+
+export const getWebSettingsToggle = createServerFn({ method: 'GET' }).handler(async () => {
+  const setting = await prisma.webSettings.findUnique({
+    where: { key: 'enabled' }
+  })
+  return setting?.value?.enabled ?? false
+})
+
+export const updateWebSettingsToggle = createServerFn({ method: 'POST' })
+  .inputValidator((data: unknown) => z.boolean().parse(data))
+  .handler(async ({ data: enabled }) => {
+    await requireAdmin()
+    await prisma.webSettings.upsert({
+      where: { key: 'enabled' },
+      update: { value: { enabled } },
+      create: { key: 'enabled', value: { enabled } }
+    })
+    return wrapSuccess('Web settings toggle updated', { enabled })
+  })

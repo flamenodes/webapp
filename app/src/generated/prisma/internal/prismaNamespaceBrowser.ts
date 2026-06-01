@@ -76,7 +76,9 @@ export const ModelName = {
   ConfigurationOption: 'ConfigurationOption',
   ConfigurationValue: 'ConfigurationValue',
   Notification: 'Notification',
-  RazorpayConfig: 'RazorpayConfig'
+  Announcement: 'Announcement',
+  RazorpayConfig: 'RazorpayConfig',
+  WebSettings: 'WebSettings'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -116,6 +118,7 @@ export const UserScalarFieldEnum = {
   city: 'city',
   zip: 'zip',
   country: 'country',
+  phone: 'phone',
   displayUsername: 'displayUsername'
 } as const
 
@@ -460,10 +463,28 @@ export const NotificationScalarFieldEnum = {
   title: 'title',
   message: 'message',
   read: 'read',
+  link: 'link',
+  metadata: 'metadata',
   createdAt: 'createdAt'
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const AnnouncementScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  message: 'message',
+  type: 'type',
+  active: 'active',
+  priority: 'priority',
+  link: 'link',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AnnouncementScalarFieldEnum = (typeof AnnouncementScalarFieldEnum)[keyof typeof AnnouncementScalarFieldEnum]
 
 
 export const RazorpayConfigScalarFieldEnum = {
@@ -479,11 +500,24 @@ export const RazorpayConfigScalarFieldEnum = {
   companyCity: 'companyCity',
   companyZip: 'companyZip',
   companyCountry: 'companyCountry',
+  pteroNodeMode: 'pteroNodeMode',
+  pteroNodeId: 'pteroNodeId',
   updatedAt: 'updatedAt',
   createdAt: 'createdAt'
 } as const
 
 export type RazorpayConfigScalarFieldEnum = (typeof RazorpayConfigScalarFieldEnum)[keyof typeof RazorpayConfigScalarFieldEnum]
+
+
+export const WebSettingsScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  value: 'value',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type WebSettingsScalarFieldEnum = (typeof WebSettingsScalarFieldEnum)[keyof typeof WebSettingsScalarFieldEnum]
 
 
 export const SortOrder = {

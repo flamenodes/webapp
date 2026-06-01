@@ -9,37 +9,19 @@ import { Button } from '../ui/button'
 import { authClient } from '#/lib/auth-client'
 import { toast } from 'sonner'
 import FlameNodesLogo from './FlameNodesLogo'
+import { useQuery } from '@tanstack/react-query'
+import { getHeaderSettings } from '@/serverActions/web-settings.api'
 
-const menuItems: NavItemProps[] = [
-  {
-    title: 'Services',
-    children: [
-      {
-        title: 'Game Hosting',
-        href: '/pricing/minecraft',
-        description: 'High-performance servers for game hosting.',
-      },
-      {
-        title: 'VPS Hosting',
-        href: '/pricing/vps',
-        description: 'Scalable virtual private servers.',
-      },
-      {
-        title: 'Dedicated Servers',
-        href: '/pricing/dedicated',
-        description: 'Full dedicated hardware for your workloads.',
-      },
-      {
-        title: 'DDoS Protection',
-        href: '/pricing/protection',
-        description: 'Enterprise-grade protection for your infrastructure.',
-      },
-    ],
-  },
-  { title: 'Pricing', href: '/pricing' },
-  { title: 'Company', href: '/' },
-  { title: 'Status', href: '/' },
-]
+type CompanyLink = {
+  id: string
+  label: string
+  url: string
+}
+
+type HeaderSettings = {
+  companyDropdown: CompanyLink[]
+}
+
 const Header = () => {
   const [menuState, setMenuState] = React.useState(false)
   const [isScrolled, setIsScrolled] = React.useState(false)
@@ -47,6 +29,55 @@ const Header = () => {
   const navigate = useNavigate()
   const { data, error, isPending } = authClient.useSession()
   const session = data?.session.id
+  
+  const { data: headerSettings } = useQuery<HeaderSettings>({
+    queryKey: ['headerSettings'],
+    queryFn: () => getHeaderSettings(),
+    initialData: { companyDropdown: [] },
+  })
+
+  const menuItems: NavItemProps[] = [
+    {
+      title: 'Services',
+      children: [
+        {
+          title: 'Game Hosting',
+          href: '/pricing/minecraft',
+          description: 'High-performance servers for game hosting.',
+        },
+        {
+          title: 'VPS Hosting',
+          href: '/pricing/vps',
+          description: 'Scalable virtual private servers.',
+        },
+        {
+          title: 'Dedicated Servers',
+          href: '/pricing/dedicated',
+          description: 'Full dedicated hardware for your workloads.',
+        },
+        {
+          title: 'DDoS Protection',
+          href: '/pricing/protection',
+          description: 'Enterprise-grade protection for your infrastructure.',
+        },
+      ],
+    },
+    { title: 'Pricing', href: '/pricing' },
+    {
+      title: 'Company',
+      ...(headerSettings.companyDropdown.length > 0
+        ? {
+            children: headerSettings.companyDropdown.map((link) => ({
+              title: link.label,
+              href: link.url,
+              description: link.description,
+            })),
+          }
+        : { href: '/' }),
+    },
+    { title: 'Status', href: '/' },
+  ]
+  
   if (error) {
     toast.error(error.message)
   }

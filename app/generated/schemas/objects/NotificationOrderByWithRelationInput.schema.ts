@@ -1,6 +1,7 @@
 import * as z from 'zod';
 import type { Prisma } from '../../../src/generated/prisma/client';
 import { SortOrderSchema } from '../enums/SortOrder.schema';
+import { SortOrderInputObjectSchema as SortOrderInputObjectSchema } from './SortOrderInput.schema';
 import { UserOrderByWithRelationInputObjectSchema as UserOrderByWithRelationInputObjectSchema } from './UserOrderByWithRelationInput.schema'
 
 const makeSchema = () => z.object({
@@ -10,6 +11,8 @@ const makeSchema = () => z.object({
   title: SortOrderSchema.optional(),
   message: SortOrderSchema.optional(),
   read: SortOrderSchema.optional(),
+  link: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
+  metadata: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   createdAt: SortOrderSchema.optional(),
   user: z.lazy(() => UserOrderByWithRelationInputObjectSchema).optional()
 }).strict();

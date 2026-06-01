@@ -20,8 +20,18 @@ export type RazorpayConfigModel = runtime.Types.Result.DefaultSelection<Prisma.$
 
 export type AggregateRazorpayConfig = {
   _count: RazorpayConfigCountAggregateOutputType | null
+  _avg: RazorpayConfigAvgAggregateOutputType | null
+  _sum: RazorpayConfigSumAggregateOutputType | null
   _min: RazorpayConfigMinAggregateOutputType | null
   _max: RazorpayConfigMaxAggregateOutputType | null
+}
+
+export type RazorpayConfigAvgAggregateOutputType = {
+  pteroNodeId: number | null
+}
+
+export type RazorpayConfigSumAggregateOutputType = {
+  pteroNodeId: number | null
 }
 
 export type RazorpayConfigMinAggregateOutputType = {
@@ -37,6 +47,8 @@ export type RazorpayConfigMinAggregateOutputType = {
   companyCity: string | null
   companyZip: string | null
   companyCountry: string | null
+  pteroNodeMode: string | null
+  pteroNodeId: number | null
   updatedAt: Date | null
   createdAt: Date | null
 }
@@ -54,6 +66,8 @@ export type RazorpayConfigMaxAggregateOutputType = {
   companyCity: string | null
   companyZip: string | null
   companyCountry: string | null
+  pteroNodeMode: string | null
+  pteroNodeId: number | null
   updatedAt: Date | null
   createdAt: Date | null
 }
@@ -71,11 +85,21 @@ export type RazorpayConfigCountAggregateOutputType = {
   companyCity: number
   companyZip: number
   companyCountry: number
+  pteroNodeMode: number
+  pteroNodeId: number
   updatedAt: number
   createdAt: number
   _all: number
 }
 
+
+export type RazorpayConfigAvgAggregateInputType = {
+  pteroNodeId?: true
+}
+
+export type RazorpayConfigSumAggregateInputType = {
+  pteroNodeId?: true
+}
 
 export type RazorpayConfigMinAggregateInputType = {
   id?: true
@@ -90,6 +114,8 @@ export type RazorpayConfigMinAggregateInputType = {
   companyCity?: true
   companyZip?: true
   companyCountry?: true
+  pteroNodeMode?: true
+  pteroNodeId?: true
   updatedAt?: true
   createdAt?: true
 }
@@ -107,6 +133,8 @@ export type RazorpayConfigMaxAggregateInputType = {
   companyCity?: true
   companyZip?: true
   companyCountry?: true
+  pteroNodeMode?: true
+  pteroNodeId?: true
   updatedAt?: true
   createdAt?: true
 }
@@ -124,6 +152,8 @@ export type RazorpayConfigCountAggregateInputType = {
   companyCity?: true
   companyZip?: true
   companyCountry?: true
+  pteroNodeMode?: true
+  pteroNodeId?: true
   updatedAt?: true
   createdAt?: true
   _all?: true
@@ -167,6 +197,18 @@ export type RazorpayConfigAggregateArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: RazorpayConfigAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: RazorpayConfigSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: RazorpayConfigMinAggregateInputType
@@ -197,6 +239,8 @@ export type RazorpayConfigGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   _count?: RazorpayConfigCountAggregateInputType | true
+  _avg?: RazorpayConfigAvgAggregateInputType
+  _sum?: RazorpayConfigSumAggregateInputType
   _min?: RazorpayConfigMinAggregateInputType
   _max?: RazorpayConfigMaxAggregateInputType
 }
@@ -214,9 +258,13 @@ export type RazorpayConfigGroupByOutputType = {
   companyCity: string | null
   companyZip: string | null
   companyCountry: string | null
+  pteroNodeMode: string | null
+  pteroNodeId: number | null
   updatedAt: Date
   createdAt: Date
   _count: RazorpayConfigCountAggregateOutputType | null
+  _avg: RazorpayConfigAvgAggregateOutputType | null
+  _sum: RazorpayConfigSumAggregateOutputType | null
   _min: RazorpayConfigMinAggregateOutputType | null
   _max: RazorpayConfigMaxAggregateOutputType | null
 }
@@ -252,6 +300,8 @@ export type RazorpayConfigWhereInput = {
   companyCity?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
   companyZip?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
   companyCountry?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
+  pteroNodeMode?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
+  pteroNodeId?: Prisma.IntNullableFilter<"RazorpayConfig"> | number | null
   updatedAt?: Prisma.DateTimeFilter<"RazorpayConfig"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"RazorpayConfig"> | Date | string
 }
@@ -269,6 +319,8 @@ export type RazorpayConfigOrderByWithRelationInput = {
   companyCity?: Prisma.SortOrderInput | Prisma.SortOrder
   companyZip?: Prisma.SortOrderInput | Prisma.SortOrder
   companyCountry?: Prisma.SortOrderInput | Prisma.SortOrder
+  pteroNodeMode?: Prisma.SortOrderInput | Prisma.SortOrder
+  pteroNodeId?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -289,6 +341,8 @@ export type RazorpayConfigWhereUniqueInput = Prisma.AtLeast<{
   companyCity?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
   companyZip?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
   companyCountry?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
+  pteroNodeMode?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
+  pteroNodeId?: Prisma.IntNullableFilter<"RazorpayConfig"> | number | null
   updatedAt?: Prisma.DateTimeFilter<"RazorpayConfig"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"RazorpayConfig"> | Date | string
 }, "id">
@@ -306,11 +360,15 @@ export type RazorpayConfigOrderByWithAggregationInput = {
   companyCity?: Prisma.SortOrderInput | Prisma.SortOrder
   companyZip?: Prisma.SortOrderInput | Prisma.SortOrder
   companyCountry?: Prisma.SortOrderInput | Prisma.SortOrder
+  pteroNodeMode?: Prisma.SortOrderInput | Prisma.SortOrder
+  pteroNodeId?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.RazorpayConfigCountOrderByAggregateInput
+  _avg?: Prisma.RazorpayConfigAvgOrderByAggregateInput
   _max?: Prisma.RazorpayConfigMaxOrderByAggregateInput
   _min?: Prisma.RazorpayConfigMinOrderByAggregateInput
+  _sum?: Prisma.RazorpayConfigSumOrderByAggregateInput
 }
 
 export type RazorpayConfigScalarWhereWithAggregatesInput = {
@@ -329,6 +387,8 @@ export type RazorpayConfigScalarWhereWithAggregatesInput = {
   companyCity?: Prisma.StringNullableWithAggregatesFilter<"RazorpayConfig"> | string | null
   companyZip?: Prisma.StringNullableWithAggregatesFilter<"RazorpayConfig"> | string | null
   companyCountry?: Prisma.StringNullableWithAggregatesFilter<"RazorpayConfig"> | string | null
+  pteroNodeMode?: Prisma.StringNullableWithAggregatesFilter<"RazorpayConfig"> | string | null
+  pteroNodeId?: Prisma.IntNullableWithAggregatesFilter<"RazorpayConfig"> | number | null
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"RazorpayConfig"> | Date | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"RazorpayConfig"> | Date | string
 }
@@ -346,6 +406,8 @@ export type RazorpayConfigCreateInput = {
   companyCity?: string | null
   companyZip?: string | null
   companyCountry?: string | null
+  pteroNodeMode?: string | null
+  pteroNodeId?: number | null
   updatedAt?: Date | string
   createdAt?: Date | string
 }
@@ -363,6 +425,8 @@ export type RazorpayConfigUncheckedCreateInput = {
   companyCity?: string | null
   companyZip?: string | null
   companyCountry?: string | null
+  pteroNodeMode?: string | null
+  pteroNodeId?: number | null
   updatedAt?: Date | string
   createdAt?: Date | string
 }
@@ -380,6 +444,8 @@ export type RazorpayConfigUpdateInput = {
   companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyZip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pteroNodeMode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pteroNodeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -397,6 +463,8 @@ export type RazorpayConfigUncheckedUpdateInput = {
   companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyZip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pteroNodeMode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pteroNodeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -414,6 +482,8 @@ export type RazorpayConfigCreateManyInput = {
   companyCity?: string | null
   companyZip?: string | null
   companyCountry?: string | null
+  pteroNodeMode?: string | null
+  pteroNodeId?: number | null
   updatedAt?: Date | string
   createdAt?: Date | string
 }
@@ -431,6 +501,8 @@ export type RazorpayConfigUpdateManyMutationInput = {
   companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyZip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pteroNodeMode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pteroNodeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -448,6 +520,8 @@ export type RazorpayConfigUncheckedUpdateManyInput = {
   companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyZip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pteroNodeMode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pteroNodeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -465,8 +539,14 @@ export type RazorpayConfigCountOrderByAggregateInput = {
   companyCity?: Prisma.SortOrder
   companyZip?: Prisma.SortOrder
   companyCountry?: Prisma.SortOrder
+  pteroNodeMode?: Prisma.SortOrder
+  pteroNodeId?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type RazorpayConfigAvgOrderByAggregateInput = {
+  pteroNodeId?: Prisma.SortOrder
 }
 
 export type RazorpayConfigMaxOrderByAggregateInput = {
@@ -482,6 +562,8 @@ export type RazorpayConfigMaxOrderByAggregateInput = {
   companyCity?: Prisma.SortOrder
   companyZip?: Prisma.SortOrder
   companyCountry?: Prisma.SortOrder
+  pteroNodeMode?: Prisma.SortOrder
+  pteroNodeId?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -499,8 +581,14 @@ export type RazorpayConfigMinOrderByAggregateInput = {
   companyCity?: Prisma.SortOrder
   companyZip?: Prisma.SortOrder
   companyCountry?: Prisma.SortOrder
+  pteroNodeMode?: Prisma.SortOrder
+  pteroNodeId?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type RazorpayConfigSumOrderByAggregateInput = {
+  pteroNodeId?: Prisma.SortOrder
 }
 
 
@@ -518,6 +606,8 @@ export type RazorpayConfigSelect<ExtArgs extends runtime.Types.Extensions.Intern
   companyCity?: boolean
   companyZip?: boolean
   companyCountry?: boolean
+  pteroNodeMode?: boolean
+  pteroNodeId?: boolean
   updatedAt?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["razorpayConfig"]>
@@ -535,6 +625,8 @@ export type RazorpayConfigSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   companyCity?: boolean
   companyZip?: boolean
   companyCountry?: boolean
+  pteroNodeMode?: boolean
+  pteroNodeId?: boolean
   updatedAt?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["razorpayConfig"]>
@@ -552,6 +644,8 @@ export type RazorpayConfigSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   companyCity?: boolean
   companyZip?: boolean
   companyCountry?: boolean
+  pteroNodeMode?: boolean
+  pteroNodeId?: boolean
   updatedAt?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["razorpayConfig"]>
@@ -569,11 +663,13 @@ export type RazorpayConfigSelectScalar = {
   companyCity?: boolean
   companyZip?: boolean
   companyCountry?: boolean
+  pteroNodeMode?: boolean
+  pteroNodeId?: boolean
   updatedAt?: boolean
   createdAt?: boolean
 }
 
-export type RazorpayConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "mode" | "testKeyId" | "testKeySecret" | "prodKeyId" | "prodKeySecret" | "gstin" | "companyName" | "companyAddress" | "companyCity" | "companyZip" | "companyCountry" | "updatedAt" | "createdAt", ExtArgs["result"]["razorpayConfig"]>
+export type RazorpayConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "mode" | "testKeyId" | "testKeySecret" | "prodKeyId" | "prodKeySecret" | "gstin" | "companyName" | "companyAddress" | "companyCity" | "companyZip" | "companyCountry" | "pteroNodeMode" | "pteroNodeId" | "updatedAt" | "createdAt", ExtArgs["result"]["razorpayConfig"]>
 
 export type $RazorpayConfigPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "RazorpayConfig"
@@ -591,6 +687,8 @@ export type $RazorpayConfigPayload<ExtArgs extends runtime.Types.Extensions.Inte
     companyCity: string | null
     companyZip: string | null
     companyCountry: string | null
+    pteroNodeMode: string | null
+    pteroNodeId: number | null
     updatedAt: Date
     createdAt: Date
   }, ExtArgs["result"]["razorpayConfig"]>
@@ -1028,6 +1126,8 @@ export interface RazorpayConfigFieldRefs {
   readonly companyCity: Prisma.FieldRef<"RazorpayConfig", 'String'>
   readonly companyZip: Prisma.FieldRef<"RazorpayConfig", 'String'>
   readonly companyCountry: Prisma.FieldRef<"RazorpayConfig", 'String'>
+  readonly pteroNodeMode: Prisma.FieldRef<"RazorpayConfig", 'String'>
+  readonly pteroNodeId: Prisma.FieldRef<"RazorpayConfig", 'Int'>
   readonly updatedAt: Prisma.FieldRef<"RazorpayConfig", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"RazorpayConfig", 'DateTime'>
 }

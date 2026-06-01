@@ -58,7 +58,7 @@ function Dashboard() {
       change: 'Total registered',
       trend: 'up' as const,
       sparkline: null, progress: null,
-      action: 'View Customers',
+      action: 'View',
       onAction: () => navigate({ to: '/admin/customers' }),
     },
     {

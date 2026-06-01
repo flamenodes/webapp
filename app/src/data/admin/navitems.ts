@@ -43,24 +43,6 @@ export const navItems = [
     section: 'management',
   },
   {
-    icon: 'Wrench',
-    label: 'Product Config',
-    to: '/admin/product-config',
-    section: 'management',
-  },
-  // {
-  //   icon: 'CreditCard',
-  //   label: 'Billing',
-  //   active: false,
-  //   section: 'management',
-  // },
-  // {
-  //   icon: 'BarChart2',
-  //   label: 'Analytics',
-  //   active: false,
-  //   section: 'management',
-  // },
-  {
     icon: 'Ticket',
     label: 'Tickets',
     to: '/admin/tickets',
@@ -69,10 +51,11 @@ export const navItems = [
   {
     icon: 'Megaphone',
     label: 'Announcements',
-    active: false,
+    to: '/admin/announcements',
     section: 'support',
   },
   { icon: 'Activity', label: 'Status Page', to: '/admin/status', section: 'support' },
+  { icon: 'Globe', label: 'Web Settings', to: '/admin/web-settings', section: 'system' },
   { icon: 'UserRound', label: 'Roles', to: '/admin/roles', section: 'system' },
   { icon: 'Settings', label: 'Settings', to: '/admin/settings', section: 'system' },
 ]

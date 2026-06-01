@@ -295,3 +295,55 @@ export const deliverCustomOrder = createServerFn({ method: 'POST' })
 
     return wrapSuccess('Order delivered successfully', updatedServer)
   })
+
+const deleteOrderSchema = z.object({
+  orderId: z.string(),
+})
+
+export const deleteOrder = createServerFn({ method: 'POST' })
+  .inputValidator((data) => deleteOrderSchema.parse(data))
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const session = await auth.api.getSession({ headers })
+    if (!session?.user) return wrapError('Unauthorized')
+
+    const user = await prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } })
+    const role = user?.role?.toLowerCase()
+    if (role !== 'admin' && role !== 'owner') return wrapError('Forbidden')
+
+    const order = await prisma.order.findUnique({
+      where: { id: data.orderId },
+      include: {
+        items: {
+          include: {
+            server: true,
+            product: { select: { deployMode: true } },
+          },
+        },
+      },
+    })
+
+    if (!order) return wrapError('Order not found')
+
+    // Delete servers from Pterodactyl if applicable
+    for (const item of order.items) {
+      if (item.server) {
+        const deployMode = item.product?.deployMode ?? 'CUSTOM'
+        const pteroData = item.server.pterodactylData as any
+
+        if (deployMode === 'PTERODACTYL' && pteroData?.id) {
+          try {
+            const { ptero } = await import('../pterodactyl/client')
+            await ptero.delete(`/application/servers/${pteroData.id}`)
+          } catch (pteroError: any) {
+            console.error(`Failed to delete Pterodactyl server ${pteroData.id}:`, pteroError.message)
+          }
+        }
+      }
+    }
+
+    // Delete order (cascade will delete servers and order items)
+    await prisma.order.delete({ where: { id: data.orderId } })
+
+    return wrapSuccess('Order and associated servers deleted successfully')
+  })

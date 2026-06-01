@@ -12,6 +12,8 @@ export const RazorpayConfigDeleteResultSchema = z.nullable(z.object({
   companyCity: z.string().optional(),
   companyZip: z.string().optional(),
   companyCountry: z.string().optional(),
+  pteroNodeMode: z.string().optional(),
+  pteroNodeId: z.number().int().optional(),
   updatedAt: z.date(),
   createdAt: z.date()
 }));

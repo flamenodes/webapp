@@ -1,15 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useSuspenseQuery, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
-import { getRazorpayConfig, updateRazorpayConfig } from '@/serverActions/settings/admin-settings.api'
+import { getRazorpayConfig, updateRazorpayConfig, getWebSettingsToggle, updateWebSettingsToggle } from '@/serverActions/settings/admin-settings.api'
 import { getPteroNodes } from '@/serverActions/pterodactyl/nodes'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
+import { Switch } from '@/components/ui/switch'
 import {
   CreditCard, Eye, EyeOff, Save, Loader2,
-  Building2, MapPin, FlaskConical, Globe, Server, RefreshCw
+  Building2, MapPin, FlaskConical, Globe, Server, RefreshCw, Settings2
 } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -53,6 +54,28 @@ function AdminSettingsPage() {
     staleTime: 30_000,
   })
 
+  const { data: webSettingsEnabled } = useSuspenseQuery({
+    queryKey: ['web-settings-toggle'],
+    queryFn: () => getWebSettingsToggle(),
+  })
+
+  const [webSettingsToggle, setWebSettingsToggle] = useState(webSettingsEnabled ?? false)
+
+  const toggleMutation = useMutation({
+    mutationFn: (enabled: boolean) => updateWebSettingsToggle({ data: enabled }),
+    onSuccess: (res) => {
+      if (res.success) {
+        qc.invalidateQueries({ queryKey: ['web-settings-toggle'] })
+        qc.invalidateQueries({ queryKey: ['headerSettings'] })
+        qc.invalidateQueries({ queryKey: ['footerSettings'] })
+        toast.success('Web settings toggle updated')
+      } else {
+        toast.error(res.message || 'Failed to update toggle')
+      }
+    },
+    onError: () => toast.error('Failed to update toggle'),
+  })
+
   const mutation = useMutation({
     mutationFn: () => updateRazorpayConfig({
       data: {
@@ -85,6 +108,40 @@ function AdminSettingsPage() {
             Configure payment gateway and company information
           </p>
         </div>
+
+        {/* Web Settings Toggle */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
+                <Settings2 className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <CardTitle className="text-base">Dynamic Web Settings</CardTitle>
+                <CardDescription>Enable or disable database-driven header and footer content</CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between p-4 border rounded-lg">
+              <div className="space-y-0.5">
+                <Label className="text-sm font-medium">Enable Web Settings</Label>
+                <p className="text-xs text-muted-foreground">
+                  When enabled, header and footer content will be loaded from the database.
+                  When disabled, hardcoded default content will be shown.
+                </p>
+              </div>
+              <Switch
+                checked={webSettingsToggle}
+                onCheckedChange={(checked) => {
+                  setWebSettingsToggle(checked)
+                  toggleMutation.mutate(checked)
+                }}
+                disabled={toggleMutation.isPending}
+              />
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Mode toggle */}
         <Card>

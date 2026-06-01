@@ -55,6 +55,7 @@ export type UserMinAggregateOutputType = {
   city: string | null
   zip: string | null
   country: string | null
+  phone: string | null
   displayUsername: string | null
 }
 
@@ -79,6 +80,7 @@ export type UserMaxAggregateOutputType = {
   city: string | null
   zip: string | null
   country: string | null
+  phone: string | null
   displayUsername: string | null
 }
 
@@ -103,6 +105,7 @@ export type UserCountAggregateOutputType = {
   city: number
   zip: number
   country: number
+  phone: number
   displayUsername: number
   _all: number
 }
@@ -137,6 +140,7 @@ export type UserMinAggregateInputType = {
   city?: true
   zip?: true
   country?: true
+  phone?: true
   displayUsername?: true
 }
 
@@ -161,6 +165,7 @@ export type UserMaxAggregateInputType = {
   city?: true
   zip?: true
   country?: true
+  phone?: true
   displayUsername?: true
 }
 
@@ -185,6 +190,7 @@ export type UserCountAggregateInputType = {
   city?: true
   zip?: true
   country?: true
+  phone?: true
   displayUsername?: true
   _all?: true
 }
@@ -296,6 +302,7 @@ export type UserGroupByOutputType = {
   city: string | null
   zip: string | null
   country: string | null
+  phone: string | null
   displayUsername: string | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
@@ -343,6 +350,7 @@ export type UserWhereInput = {
   city?: Prisma.StringNullableFilter<"User"> | string | null
   zip?: Prisma.StringNullableFilter<"User"> | string | null
   country?: Prisma.StringNullableFilter<"User"> | string | null
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
   displayUsername?: Prisma.StringNullableFilter<"User"> | string | null
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
@@ -376,6 +384,7 @@ export type UserOrderByWithRelationInput = {
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   zip?: Prisma.SortOrderInput | Prisma.SortOrder
   country?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
   displayUsername?: Prisma.SortOrderInput | Prisma.SortOrder
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
@@ -412,6 +421,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   city?: Prisma.StringNullableFilter<"User"> | string | null
   zip?: Prisma.StringNullableFilter<"User"> | string | null
   country?: Prisma.StringNullableFilter<"User"> | string | null
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
   displayUsername?: Prisma.StringNullableFilter<"User"> | string | null
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
@@ -445,6 +455,7 @@ export type UserOrderByWithAggregationInput = {
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   zip?: Prisma.SortOrderInput | Prisma.SortOrder
   country?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
   displayUsername?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
@@ -477,6 +488,7 @@ export type UserScalarWhereWithAggregatesInput = {
   city?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   zip?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   country?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   displayUsername?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
@@ -501,6 +513,7 @@ export type UserCreateInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -534,6 +547,7 @@ export type UserUncheckedCreateInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -567,6 +581,7 @@ export type UserUpdateInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -600,6 +615,7 @@ export type UserUncheckedUpdateInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -633,6 +649,7 @@ export type UserCreateManyInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
 }
 
@@ -657,6 +674,7 @@ export type UserUpdateManyMutationInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -681,6 +699,7 @@ export type UserUncheckedUpdateManyInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -705,6 +724,7 @@ export type UserCountOrderByAggregateInput = {
   city?: Prisma.SortOrder
   zip?: Prisma.SortOrder
   country?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
   displayUsername?: Prisma.SortOrder
 }
 
@@ -733,6 +753,7 @@ export type UserMaxOrderByAggregateInput = {
   city?: Prisma.SortOrder
   zip?: Prisma.SortOrder
   country?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
   displayUsername?: Prisma.SortOrder
 }
 
@@ -757,6 +778,7 @@ export type UserMinOrderByAggregateInput = {
   city?: Prisma.SortOrder
   zip?: Prisma.SortOrder
   country?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
   displayUsername?: Prisma.SortOrder
 }
 
@@ -955,6 +977,7 @@ export type UserCreateWithoutSessionsInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   servers?: Prisma.ServerCreateNestedManyWithoutUserInput
@@ -987,6 +1010,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   servers?: Prisma.ServerUncheckedCreateNestedManyWithoutUserInput
@@ -1035,6 +1059,7 @@ export type UserUpdateWithoutSessionsInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   servers?: Prisma.ServerUpdateManyWithoutUserNestedInput
@@ -1067,6 +1092,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   servers?: Prisma.ServerUncheckedUpdateManyWithoutUserNestedInput
@@ -1099,6 +1125,7 @@ export type UserCreateWithoutAccountsInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   servers?: Prisma.ServerCreateNestedManyWithoutUserInput
@@ -1131,6 +1158,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   servers?: Prisma.ServerUncheckedCreateNestedManyWithoutUserInput
@@ -1179,6 +1207,7 @@ export type UserUpdateWithoutAccountsInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   servers?: Prisma.ServerUpdateManyWithoutUserNestedInput
@@ -1211,6 +1240,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   servers?: Prisma.ServerUncheckedUpdateManyWithoutUserNestedInput
@@ -1243,6 +1273,7 @@ export type UserCreateWithoutCartInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1275,6 +1306,7 @@ export type UserUncheckedCreateWithoutCartInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1323,6 +1355,7 @@ export type UserUpdateWithoutCartInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1355,6 +1388,7 @@ export type UserUncheckedUpdateWithoutCartInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1387,6 +1421,7 @@ export type UserCreateWithoutOrdersInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1419,6 +1454,7 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1467,6 +1503,7 @@ export type UserUpdateWithoutOrdersInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1499,6 +1536,7 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1531,6 +1569,7 @@ export type UserCreateWithoutServersInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1563,6 +1602,7 @@ export type UserUncheckedCreateWithoutServersInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1611,6 +1651,7 @@ export type UserUpdateWithoutServersInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1643,6 +1684,7 @@ export type UserUncheckedUpdateWithoutServersInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1675,6 +1717,7 @@ export type UserCreateWithoutTicketsInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1707,6 +1750,7 @@ export type UserUncheckedCreateWithoutTicketsInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1744,6 +1788,7 @@ export type UserCreateWithoutAssignedTicketsInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1776,6 +1821,7 @@ export type UserUncheckedCreateWithoutAssignedTicketsInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1824,6 +1870,7 @@ export type UserUpdateWithoutTicketsInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1856,6 +1903,7 @@ export type UserUncheckedUpdateWithoutTicketsInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1899,6 +1947,7 @@ export type UserUpdateWithoutAssignedTicketsInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1931,6 +1980,7 @@ export type UserUncheckedUpdateWithoutAssignedTicketsInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1963,6 +2013,7 @@ export type UserCreateWithoutTicketMessagesInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1995,6 +2046,7 @@ export type UserUncheckedCreateWithoutTicketMessagesInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2043,6 +2095,7 @@ export type UserUpdateWithoutTicketMessagesInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2075,6 +2128,7 @@ export type UserUncheckedUpdateWithoutTicketMessagesInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -2107,6 +2161,7 @@ export type UserCreateWithoutNotificationsInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2139,6 +2194,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   city?: string | null
   zip?: string | null
   country?: string | null
+  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2187,6 +2243,7 @@ export type UserUpdateWithoutNotificationsInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2219,6 +2276,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -2345,6 +2403,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   city?: boolean
   zip?: boolean
   country?: boolean
+  phone?: boolean
   displayUsername?: boolean
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -2379,6 +2438,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   city?: boolean
   zip?: boolean
   country?: boolean
+  phone?: boolean
   displayUsername?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -2403,6 +2463,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   city?: boolean
   zip?: boolean
   country?: boolean
+  phone?: boolean
   displayUsername?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -2427,10 +2488,11 @@ export type UserSelectScalar = {
   city?: boolean
   zip?: boolean
   country?: boolean
+  phone?: boolean
   displayUsername?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "clientId" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "role" | "banned" | "banReason" | "banExpires" | "username" | "firstname" | "lastname" | "pteroUserId" | "address" | "city" | "zip" | "country" | "displayUsername", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "clientId" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "role" | "banned" | "banReason" | "banExpires" | "username" | "firstname" | "lastname" | "pteroUserId" | "address" | "city" | "zip" | "country" | "phone" | "displayUsername", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -2480,6 +2542,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     city: string | null
     zip: string | null
     country: string | null
+    phone: string | null
     displayUsername: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
@@ -2933,6 +2996,7 @@ export interface UserFieldRefs {
   readonly city: Prisma.FieldRef<"User", 'String'>
   readonly zip: Prisma.FieldRef<"User", 'String'>
   readonly country: Prisma.FieldRef<"User", 'String'>
+  readonly phone: Prisma.FieldRef<"User", 'String'>
   readonly displayUsername: Prisma.FieldRef<"User", 'String'>
 }
     

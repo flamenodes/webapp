@@ -8,6 +8,8 @@ export const NotificationFindManyResultSchema = z.object({
   title: z.string(),
   message: z.string(),
   read: z.boolean(),
+  link: z.string().optional(),
+  metadata: z.unknown().optional(),
   createdAt: z.date()
 })),
   pagination: z.object({

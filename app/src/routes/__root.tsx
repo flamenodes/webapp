@@ -12,6 +12,7 @@ import Footer from '#/components/blocks/Footer'
 import { Toaster } from '#/components/ui/sonner'
 import { ThemeProvider } from '#/components/theme/theme-provider'
 import { AuthProvider } from '#/components/auth/AuthProvider'
+import { AnnouncementBanner } from '#/components/AnnouncementBanner'
 import { seo } from '#/utils/seo'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -67,6 +68,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <AuthProvider>
           <ThemeProvider>
             <QueryClientProvider client={queryClient}>
+              <AnnouncementBanner />
               {!hideNavbar && <Header />}
 
               {children}

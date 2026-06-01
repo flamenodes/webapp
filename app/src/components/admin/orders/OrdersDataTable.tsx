@@ -57,6 +57,7 @@ interface OrdersDataTableProps {
   data: OrderRecord[]
   onGeneratePaymentLink?: (orderId: string) => void
   onUpdateStatus?: (orderId: string, status: string) => void
+  onDeleteOrder?: (orderId: string) => void
   isGeneratingLink?: boolean
 }
 
@@ -90,6 +91,7 @@ export function OrdersDataTable({
   data,
   onGeneratePaymentLink,
   onUpdateStatus,
+  onDeleteOrder,
   isGeneratingLink,
 }: OrdersDataTableProps) {
   const qc = useQueryClient()
@@ -108,15 +110,25 @@ export function OrdersDataTable({
   }
 
   const deleteMutation = useMutation({
-    mutationFn: (orderId: string) => deleteOrder({ data: { id: orderId } }),
+    mutationFn: (orderId: string) => {
+      if (onDeleteOrder) {
+        onDeleteOrder(orderId)
+        return Promise.resolve()
+      }
+      return deleteOrder({ data: { id: orderId } })
+    },
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['admin-orders'] })
-      toast.success('Order deleted successfully')
+      if (!onDeleteOrder) {
+        qc.invalidateQueries({ queryKey: ['admin-orders'] })
+        toast.success('Order deleted successfully')
+      }
       setDeleteDialogOpen(false)
       setOrderToDelete(null)
     },
     onError: () => {
-      toast.error('Failed to delete order')
+      if (!onDeleteOrder) {
+        toast.error('Failed to delete order')
+      }
     },
   })
 
@@ -361,7 +373,7 @@ export function OrdersDataTable({
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Order</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this order? This action cannot be undone.
+              Are you sure you want to delete this order? All associated servers will be deleted{onDeleteOrder ? ', including from Pterodactyl if applicable' : ''}. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

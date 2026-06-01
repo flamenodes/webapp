@@ -28,4 +28,6 @@ export { StatusNodeInputSchema } from './StatusNode.input';
 export { ConfigurationOptionInputSchema } from './ConfigurationOption.input';
 export { ConfigurationValueInputSchema } from './ConfigurationValue.input';
 export { NotificationInputSchema } from './Notification.input';
+export { AnnouncementInputSchema } from './Announcement.input';
 export { RazorpayConfigInputSchema } from './RazorpayConfig.input';
+export { WebSettingsInputSchema } from './WebSettings.input';

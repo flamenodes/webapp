@@ -10,6 +10,8 @@ const makeSchema = () => z.object({
   title: z.boolean().optional(),
   message: z.boolean().optional(),
   read: z.boolean().optional(),
+  link: z.boolean().optional(),
+  metadata: z.boolean().optional(),
   createdAt: z.boolean().optional()
 }).strict();
 export const NotificationSelectObjectSchema: z.ZodType<Prisma.NotificationSelect> = makeSchema() as unknown as z.ZodType<Prisma.NotificationSelect>;

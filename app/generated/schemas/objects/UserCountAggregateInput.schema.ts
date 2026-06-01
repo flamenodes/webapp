@@ -23,6 +23,7 @@ const makeSchema = () => z.object({
   city: z.literal(true).optional(),
   zip: z.literal(true).optional(),
   country: z.literal(true).optional(),
+  phone: z.literal(true).optional(),
   displayUsername: z.literal(true).optional(),
   _all: z.literal(true).optional()
 }).strict();

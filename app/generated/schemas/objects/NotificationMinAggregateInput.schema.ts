@@ -9,6 +9,7 @@ const makeSchema = () => z.object({
   title: z.literal(true).optional(),
   message: z.literal(true).optional(),
   read: z.literal(true).optional(),
+  link: z.literal(true).optional(),
   createdAt: z.literal(true).optional()
 }).strict();
 export const NotificationMinAggregateInputObjectSchema: z.ZodType<Prisma.NotificationMinAggregateInputType> = makeSchema() as unknown as z.ZodType<Prisma.NotificationMinAggregateInputType>;

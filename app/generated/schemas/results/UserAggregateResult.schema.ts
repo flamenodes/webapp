@@ -22,6 +22,7 @@ export const UserAggregateResultSchema = z.object({  _count: z.object({
     city: z.number(),
     zip: z.number(),
     country: z.number(),
+    phone: z.number(),
     servers: z.number(),
     cart: z.number(),
     orders: z.number(),
@@ -56,6 +57,7 @@ export const UserAggregateResultSchema = z.object({  _count: z.object({
     city: z.string().nullable(),
     zip: z.string().nullable(),
     country: z.string().nullable(),
+    phone: z.string().nullable(),
     displayUsername: z.string().nullable()
   }).nullable().optional(),
   _max: z.object({
@@ -77,5 +79,6 @@ export const UserAggregateResultSchema = z.object({  _count: z.object({
     city: z.string().nullable(),
     zip: z.string().nullable(),
     country: z.string().nullable(),
+    phone: z.string().nullable(),
     displayUsername: z.string().nullable()
   }).nullable().optional()});

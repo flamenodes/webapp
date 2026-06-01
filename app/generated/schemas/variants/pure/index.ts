@@ -28,4 +28,6 @@ export { StatusNodeModelSchema } from './StatusNode.pure';
 export { ConfigurationOptionModelSchema } from './ConfigurationOption.pure';
 export { ConfigurationValueModelSchema } from './ConfigurationValue.pure';
 export { NotificationModelSchema } from './Notification.pure';
+export { AnnouncementModelSchema } from './Announcement.pure';
 export { RazorpayConfigModelSchema } from './RazorpayConfig.pure';
+export { WebSettingsModelSchema } from './WebSettings.pure';

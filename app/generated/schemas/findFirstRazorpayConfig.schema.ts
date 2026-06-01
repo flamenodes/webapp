@@ -21,6 +21,8 @@ export const RazorpayConfigFindFirstSelectSchema: z.ZodType<Prisma.RazorpayConfi
     companyCity: z.boolean().optional(),
     companyZip: z.boolean().optional(),
     companyCountry: z.boolean().optional(),
+    pteroNodeMode: z.boolean().optional(),
+    pteroNodeId: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
     createdAt: z.boolean().optional()
   }).strict() as unknown as z.ZodType<Prisma.RazorpayConfigSelect>;
@@ -38,6 +40,8 @@ export const RazorpayConfigFindFirstSelectZodSchema = z.object({
     companyCity: z.boolean().optional(),
     companyZip: z.boolean().optional(),
     companyCountry: z.boolean().optional(),
+    pteroNodeMode: z.boolean().optional(),
+    pteroNodeId: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
     createdAt: z.boolean().optional()
   }).strict();

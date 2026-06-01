@@ -15,6 +15,8 @@ const makeSchema = () => z.object({
   companyCity: SortOrderSchema.optional(),
   companyZip: SortOrderSchema.optional(),
   companyCountry: SortOrderSchema.optional(),
+  pteroNodeMode: SortOrderSchema.optional(),
+  pteroNodeId: SortOrderSchema.optional(),
   updatedAt: SortOrderSchema.optional(),
   createdAt: SortOrderSchema.optional()
 }).strict();

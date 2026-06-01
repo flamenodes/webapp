@@ -16,6 +16,8 @@ const makeSchema = () => z.object({
   companyCity: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   companyZip: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   companyCountry: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
+  pteroNodeMode: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
+  pteroNodeId: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   updatedAt: SortOrderSchema.optional(),
   createdAt: SortOrderSchema.optional()
 }).strict();

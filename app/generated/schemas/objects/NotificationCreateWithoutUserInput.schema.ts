@@ -1,6 +1,8 @@
 import * as z from 'zod';
 import type { Prisma } from '../../../src/generated/prisma/client';
+import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema'
 
+import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
 const makeSchema = () => z.object({
   id: z.string().optional(),
@@ -8,6 +10,8 @@ const makeSchema = () => z.object({
   title: z.string(),
   message: z.string(),
   read: z.boolean().optional(),
+  link: z.string().optional().nullable(),
+  metadata: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   createdAt: z.coerce.date().optional()
 }).strict();
 export const NotificationCreateWithoutUserInputObjectSchema: z.ZodType<Prisma.NotificationCreateWithoutUserInput> = makeSchema() as unknown as z.ZodType<Prisma.NotificationCreateWithoutUserInput>;

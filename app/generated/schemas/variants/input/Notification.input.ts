@@ -8,6 +8,8 @@ export const NotificationInputSchema = z.object({
     title: z.string(),
     message: z.string(),
     read: z.boolean(),
+    link: z.string().optional().nullable(),
+    metadata: z.unknown().optional().nullable(),
     createdAt: z.date()
 }).strict();
 

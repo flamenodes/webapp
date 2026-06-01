@@ -3,7 +3,7 @@ import { useSuspenseQuery, useMutation, useQueryClient, useQuery } from '@tansta
 import {
   getAllOrders, createManualOrder, generatePaymentLink,
   updateOrderStatus, getAllProducts,
-  getPendingCustomOrders, deliverCustomOrder,
+  getPendingCustomOrders, deliverCustomOrder, deleteOrder,
 } from '@/serverActions/admin/orders.api'
 import { useState } from 'react'
 import { OrdersDataTable } from '@/components/admin/orders/OrdersDataTable'
@@ -93,6 +93,16 @@ function OrdersPage() {
       toast.success('Order delivered successfully!')
     },
     onError: () => toast.error('Failed to deliver order'),
+  })
+
+  const deleteMutation = useMutation({
+    mutationFn: (orderId: string) => deleteOrder({ data: { orderId } }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin-orders'] })
+      qc.invalidateQueries({ queryKey: ['pending-custom-orders'] })
+      toast.success('Order and associated servers deleted')
+    },
+    onError: (error: any) => toast.error(error?.message || 'Failed to delete order'),
   })
 
   const handleCopyLink = () => {
@@ -252,6 +262,11 @@ function OrdersPage() {
             data={orders}
             onGeneratePaymentLink={(orderId) => generateLinkMutation.mutate(orderId)}
             onUpdateStatus={(orderId, status) => updateStatusMutation.mutate({ orderId, status })}
+            onDeleteOrder={(orderId) => {
+              if (confirm('Are you sure you want to delete this order? All associated servers will be deleted, including from Pterodactyl if applicable.')) {
+                deleteMutation.mutate(orderId)
+              }
+            }}
             isGeneratingLink={generateLinkMutation.isPending}
           />
         </div>

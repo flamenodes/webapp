@@ -2,6 +2,7 @@ import { createServerFn } from '@tanstack/react-start'
 import { getRequestHeaders } from '@tanstack/react-start/server'
 import { prisma } from '#/db'
 import { auth } from '@/lib/auth'
+import { z } from 'zod'
 
 export const getUserServers = createServerFn({ method: 'GET' }).handler(async () => {
   const headers = getRequestHeaders()
@@ -26,42 +27,11 @@ export const getUserNotifications = createServerFn({ method: 'GET' }).handler(as
   const session = await auth.api.getSession({ headers })
   if (!session?.user) throw new Error('Unauthorized')
 
-  // Get recent orders
-  const recentOrders = await prisma.order.findMany({
+  return prisma.notification.findMany({
     where: { userId: session.user.id },
     orderBy: { createdAt: 'desc' },
-    take: 5,
+    take: 50,
   })
-
-  // Get recent servers
-  const recentServers = await prisma.server.findMany({
-    where: { userId: session.user.id },
-    orderBy: { createdAt: 'desc' },
-    take: 5,
-  })
-
-  const notifications = [
-    ...recentOrders.map((order) => ({
-      id: `order-${order.id}`,
-      type: 'order' as const,
-      title: `Order ${order.status.toLowerCase()}`,
-      message: `Order #${order.id.slice(0, 8)} - ₹${order.totalAmount}`,
-      timestamp: order.createdAt,
-      read: false,
-    })),
-    ...recentServers.map((server) => ({
-      id: `server-${server.id}`,
-      type: 'server' as const,
-      title: `Server ${server.status.toLowerCase()}`,
-      message: server.name,
-      timestamp: server.createdAt,
-      read: false,
-    })),
-  ]
-
-  return notifications.sort((a, b) =>
-    new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-  ).slice(0, 10)
 })
 
 export const getUserStats = createServerFn({ method: 'GET' }).handler(async () => {
@@ -82,4 +52,63 @@ export const getUserStats = createServerFn({ method: 'GET' }).handler(async () =
     totalOrders,
     pendingOrders,
   }
+})
+
+export const markNotificationRead = createServerFn({ method: 'POST' })
+  .inputValidator((data: unknown) => z.object({ id: z.string() }).parse(data))
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const session = await auth.api.getSession({ headers })
+    if (!session?.user) throw new Error('Unauthorized')
+
+    await prisma.notification.update({
+      where: { id: data.id, userId: session.user.id },
+      data: { read: true },
+    })
+
+    return { success: true, message: 'Notification marked as read' }
+  })
+
+export const markAllNotificationsRead = createServerFn({ method: 'POST' }).handler(async () => {
+  const headers = getRequestHeaders()
+  const session = await auth.api.getSession({ headers })
+  if (!session?.user) throw new Error('Unauthorized')
+
+  await prisma.notification.updateMany({
+    where: { userId: session.user.id, read: false },
+    data: { read: true },
+  })
+
+  return { success: true, message: 'All notifications marked as read' }
+})
+
+export const markNotificationRead = createServerFn({ method: 'POST' })
+  .inputValidator((data: unknown) => {
+    const { z } = require('zod')
+    return z.object({ id: z.string() }).parse(data)
+  })
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const session = await auth.api.getSession({ headers })
+    if (!session?.user) throw new Error('Unauthorized')
+
+    await prisma.notification.update({
+      where: { id: data.id, userId: session.user.id },
+      data: { read: true },
+    })
+
+    return { success: true }
+  })
+
+export const markAllNotificationsRead = createServerFn({ method: 'POST' }).handler(async () => {
+  const headers = getRequestHeaders()
+  const session = await auth.api.getSession({ headers })
+  if (!session?.user) throw new Error('Unauthorized')
+
+  await prisma.notification.updateMany({
+    where: { userId: session.user.id, read: false },
+    data: { read: true },
+  })
+
+  return { success: true }
 })

@@ -23,6 +23,7 @@ const makeSchema = () => z.object({
   city: z.string().optional().nullable(),
   zip: z.string().optional().nullable(),
   country: z.string().optional().nullable(),
+  phone: z.string().optional().nullable(),
   displayUsername: z.string().optional().nullable()
 }).strict();
 export const UserCreateManyInputObjectSchema: z.ZodType<Prisma.UserCreateManyInput> = makeSchema() as unknown as z.ZodType<Prisma.UserCreateManyInput>;

@@ -41,6 +41,7 @@ const userwhereinputSchema = z.object({
   city: z.union([z.lazy(() => StringNullableFilterObjectSchema), z.string()]).optional().nullable(),
   zip: z.union([z.lazy(() => StringNullableFilterObjectSchema), z.string()]).optional().nullable(),
   country: z.union([z.lazy(() => StringNullableFilterObjectSchema), z.string()]).optional().nullable(),
+  phone: z.union([z.lazy(() => StringNullableFilterObjectSchema), z.string()]).optional().nullable(),
   displayUsername: z.union([z.lazy(() => StringNullableFilterObjectSchema), z.string()]).optional().nullable(),
   sessions: z.lazy(() => SessionListRelationFilterObjectSchema).optional(),
   accounts: z.lazy(() => AccountListRelationFilterObjectSchema).optional(),

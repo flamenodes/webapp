@@ -40,6 +40,7 @@ import { Route as ProtectedUserServersRouteImport } from './routes/_protected/us
 import { Route as ProtectedUserOrdersRouteImport } from './routes/_protected/user/orders'
 import { Route as ProtectedUserInvoicesRouteImport } from './routes/_protected/user/invoices'
 import { Route as ProtectedUserDashboardRouteImport } from './routes/_protected/user/dashboard'
+import { Route as ProtectedAdminWebSettingsRouteImport } from './routes/_protected/admin/web-settings'
 import { Route as ProtectedAdminTicketsRouteImport } from './routes/_protected/admin/tickets'
 import { Route as ProtectedAdminStatusRouteImport } from './routes/_protected/admin/status'
 import { Route as ProtectedAdminSettingsRouteImport } from './routes/_protected/admin/settings'
@@ -52,6 +53,7 @@ import { Route as ProtectedAdminDocumentsRouteImport } from './routes/_protected
 import { Route as ProtectedAdminDashboardRouteImport } from './routes/_protected/admin/dashboard'
 import { Route as ProtectedAdminCustomersRouteImport } from './routes/_protected/admin/customers'
 import { Route as ProtectedAdminConfigurationsRouteImport } from './routes/_protected/admin/configurations'
+import { Route as ProtectedAdminAnnouncementsRouteImport } from './routes/_protected/admin/announcements'
 import { Route as ProtectedAdminDocEditorSlugRouteImport } from './routes/_protected/admin/doc-editor.$slug'
 import { Route as ProtectedAdminDocumentsEditorIdRouteImport } from './routes/_protected/admin/documents.editor.$id'
 
@@ -208,6 +210,12 @@ const ProtectedUserDashboardRoute = ProtectedUserDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ProtectedUserRouteRoute,
 } as any)
+const ProtectedAdminWebSettingsRoute =
+  ProtectedAdminWebSettingsRouteImport.update({
+    id: '/web-settings',
+    path: '/web-settings',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
 const ProtectedAdminTicketsRoute = ProtectedAdminTicketsRouteImport.update({
   id: '/tickets',
   path: '/tickets',
@@ -270,6 +278,12 @@ const ProtectedAdminConfigurationsRoute =
     path: '/configurations',
     getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
+const ProtectedAdminAnnouncementsRoute =
+  ProtectedAdminAnnouncementsRouteImport.update({
+    id: '/announcements',
+    path: '/announcements',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
 const ProtectedAdminDocEditorSlugRoute =
   ProtectedAdminDocEditorSlugRouteImport.update({
     id: '/doc-editor/$slug',
@@ -306,6 +320,7 @@ export interface FileRoutesByFullPath {
   '/pricing/vds': typeof PricingVdsRoute
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
+  '/admin/announcements': typeof ProtectedAdminAnnouncementsRoute
   '/admin/configurations': typeof ProtectedAdminConfigurationsRoute
   '/admin/customers': typeof ProtectedAdminCustomersRoute
   '/admin/dashboard': typeof ProtectedAdminDashboardRoute
@@ -318,6 +333,7 @@ export interface FileRoutesByFullPath {
   '/admin/settings': typeof ProtectedAdminSettingsRoute
   '/admin/status': typeof ProtectedAdminStatusRoute
   '/admin/tickets': typeof ProtectedAdminTicketsRoute
+  '/admin/web-settings': typeof ProtectedAdminWebSettingsRoute
   '/user/dashboard': typeof ProtectedUserDashboardRoute
   '/user/invoices': typeof ProtectedUserInvoicesRoute
   '/user/orders': typeof ProtectedUserOrdersRoute
@@ -351,6 +367,7 @@ export interface FileRoutesByTo {
   '/pricing/vds': typeof PricingVdsRoute
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
+  '/admin/announcements': typeof ProtectedAdminAnnouncementsRoute
   '/admin/configurations': typeof ProtectedAdminConfigurationsRoute
   '/admin/customers': typeof ProtectedAdminCustomersRoute
   '/admin/dashboard': typeof ProtectedAdminDashboardRoute
@@ -363,6 +380,7 @@ export interface FileRoutesByTo {
   '/admin/settings': typeof ProtectedAdminSettingsRoute
   '/admin/status': typeof ProtectedAdminStatusRoute
   '/admin/tickets': typeof ProtectedAdminTicketsRoute
+  '/admin/web-settings': typeof ProtectedAdminWebSettingsRoute
   '/user/dashboard': typeof ProtectedUserDashboardRoute
   '/user/invoices': typeof ProtectedUserInvoicesRoute
   '/user/orders': typeof ProtectedUserOrdersRoute
@@ -399,6 +417,7 @@ export interface FileRoutesById {
   '/pricing/vds': typeof PricingVdsRoute
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
+  '/_protected/admin/announcements': typeof ProtectedAdminAnnouncementsRoute
   '/_protected/admin/configurations': typeof ProtectedAdminConfigurationsRoute
   '/_protected/admin/customers': typeof ProtectedAdminCustomersRoute
   '/_protected/admin/dashboard': typeof ProtectedAdminDashboardRoute
@@ -411,6 +430,7 @@ export interface FileRoutesById {
   '/_protected/admin/settings': typeof ProtectedAdminSettingsRoute
   '/_protected/admin/status': typeof ProtectedAdminStatusRoute
   '/_protected/admin/tickets': typeof ProtectedAdminTicketsRoute
+  '/_protected/admin/web-settings': typeof ProtectedAdminWebSettingsRoute
   '/_protected/user/dashboard': typeof ProtectedUserDashboardRoute
   '/_protected/user/invoices': typeof ProtectedUserInvoicesRoute
   '/_protected/user/orders': typeof ProtectedUserOrdersRoute
@@ -446,6 +466,7 @@ export interface FileRouteTypes {
     | '/pricing/vds'
     | '/pricing/vps'
     | '/pricing/webhost'
+    | '/admin/announcements'
     | '/admin/configurations'
     | '/admin/customers'
     | '/admin/dashboard'
@@ -458,6 +479,7 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/status'
     | '/admin/tickets'
+    | '/admin/web-settings'
     | '/user/dashboard'
     | '/user/invoices'
     | '/user/orders'
@@ -491,6 +513,7 @@ export interface FileRouteTypes {
     | '/pricing/vds'
     | '/pricing/vps'
     | '/pricing/webhost'
+    | '/admin/announcements'
     | '/admin/configurations'
     | '/admin/customers'
     | '/admin/dashboard'
@@ -503,6 +526,7 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/status'
     | '/admin/tickets'
+    | '/admin/web-settings'
     | '/user/dashboard'
     | '/user/invoices'
     | '/user/orders'
@@ -538,6 +562,7 @@ export interface FileRouteTypes {
     | '/pricing/vds'
     | '/pricing/vps'
     | '/pricing/webhost'
+    | '/_protected/admin/announcements'
     | '/_protected/admin/configurations'
     | '/_protected/admin/customers'
     | '/_protected/admin/dashboard'
@@ -550,6 +575,7 @@ export interface FileRouteTypes {
     | '/_protected/admin/settings'
     | '/_protected/admin/status'
     | '/_protected/admin/tickets'
+    | '/_protected/admin/web-settings'
     | '/_protected/user/dashboard'
     | '/_protected/user/invoices'
     | '/_protected/user/orders'
@@ -797,6 +823,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedUserDashboardRouteImport
       parentRoute: typeof ProtectedUserRouteRoute
     }
+    '/_protected/admin/web-settings': {
+      id: '/_protected/admin/web-settings'
+      path: '/web-settings'
+      fullPath: '/admin/web-settings'
+      preLoaderRoute: typeof ProtectedAdminWebSettingsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
     '/_protected/admin/tickets': {
       id: '/_protected/admin/tickets'
       path: '/tickets'
@@ -881,6 +914,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAdminConfigurationsRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
+    '/_protected/admin/announcements': {
+      id: '/_protected/admin/announcements'
+      path: '/announcements'
+      fullPath: '/admin/announcements'
+      preLoaderRoute: typeof ProtectedAdminAnnouncementsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
     '/_protected/admin/doc-editor/$slug': {
       id: '/_protected/admin/doc-editor/$slug'
       path: '/doc-editor/$slug'
@@ -949,6 +989,7 @@ const ProtectedAdminDocumentsRouteWithChildren =
   )
 
 interface ProtectedAdminRouteRouteChildren {
+  ProtectedAdminAnnouncementsRoute: typeof ProtectedAdminAnnouncementsRoute
   ProtectedAdminConfigurationsRoute: typeof ProtectedAdminConfigurationsRoute
   ProtectedAdminCustomersRoute: typeof ProtectedAdminCustomersRoute
   ProtectedAdminDashboardRoute: typeof ProtectedAdminDashboardRoute
@@ -961,10 +1002,12 @@ interface ProtectedAdminRouteRouteChildren {
   ProtectedAdminSettingsRoute: typeof ProtectedAdminSettingsRoute
   ProtectedAdminStatusRoute: typeof ProtectedAdminStatusRoute
   ProtectedAdminTicketsRoute: typeof ProtectedAdminTicketsRoute
+  ProtectedAdminWebSettingsRoute: typeof ProtectedAdminWebSettingsRoute
   ProtectedAdminDocEditorSlugRoute: typeof ProtectedAdminDocEditorSlugRoute
 }
 
 const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
+  ProtectedAdminAnnouncementsRoute: ProtectedAdminAnnouncementsRoute,
   ProtectedAdminConfigurationsRoute: ProtectedAdminConfigurationsRoute,
   ProtectedAdminCustomersRoute: ProtectedAdminCustomersRoute,
   ProtectedAdminDashboardRoute: ProtectedAdminDashboardRoute,
@@ -977,6 +1020,7 @@ const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
   ProtectedAdminSettingsRoute: ProtectedAdminSettingsRoute,
   ProtectedAdminStatusRoute: ProtectedAdminStatusRoute,
   ProtectedAdminTicketsRoute: ProtectedAdminTicketsRoute,
+  ProtectedAdminWebSettingsRoute: ProtectedAdminWebSettingsRoute,
   ProtectedAdminDocEditorSlugRoute: ProtectedAdminDocEditorSlugRoute,
 }
 
