@@ -79,9 +79,9 @@ function Home() {
     <main className=" w-full">
       <HeroSection />
       <Features />
-      <section className="text-center mt-20 mx-auto max-w-5xl px-1 font-cursive leading-30 *:text-sm">
+      <section className="text-center mt-20 mx-auto max-w-5xl px-4 sm:px-6 font-cursive leading-10 *:text-sm">
         <ScrollReveal
-          textClassName="text-4xl"
+          textClassName="text-3xl sm:text-4xl"
           baseOpacity={0.1}
           enableBlur
           baseRotation={6}
@@ -91,16 +91,12 @@ function Home() {
           solutions for gamers, developers, and online communities.
         </ScrollReveal>
       </section>
-      <section className="flex flex-col items-center justify-center [perspective:1000px] space-y-8 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-background/10 to-primary/20 blur-3xl rounded-full scale-150 opacity-60"></div>
-        <h1
-          className="text-6xl font-angkor font-extrabold text-transparent bg-clip-text bg-linear-60 from-primary to-primary/50 text-shadow-[
-0_0_20px_rgba(238,105,105,0.3)]
-]"
-        >
+      <section className="flex flex-col items-center justify-center [perspective:1000px] gap-8 relative px-4 sm:px-6 pb-20 pt-8">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-background/10 to-primary/20 blur-3xl rounded-full scale-150 opacity-60 pointer-events-none"></div>
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-angkor font-extrabold text-transparent bg-clip-text bg-linear-60 from-primary to-primary/50 [text-shadow:0_0_20px_rgba(238,105,105,0.3)]">
           Plans Starts At!
         </h1>
-        <div id="pricing" className="grid grid-cols-3  space-x-6">
+        <div id="pricing" className="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
           {pricing.map((map, key) => (
             <PricingHeroCard
               key={key}
