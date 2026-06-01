@@ -96,7 +96,7 @@ function Home() {
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-angkor font-extrabold text-transparent bg-clip-text bg-linear-60 from-primary to-primary/50 [text-shadow:0_0_20px_rgba(238,105,105,0.3)]">
           Plans Starts At!
         </h1>
-        <div id="pricing" className="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+        <div id="pricing" className="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10 space-y-4">
           {pricing.map((map, key) => (
             <PricingHeroCard
               key={key}

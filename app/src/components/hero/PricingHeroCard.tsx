@@ -50,7 +50,7 @@ const PricingHeroCard = React.forwardRef<HTMLDivElement, PricingHeroCardProps>(
           <CardHeader className="px-0 pb-0">
             <div className="flex flex-col gap-1">
               {icon && <div className="text-3xl">{icon}</div>}
-              <h3 className="text-2xl font-semibold text-foreground">{name}</h3>
+              <h3 className="text-2xl font-bold text-foreground font-angkor">{name}</h3>
               <p className="text-sm text-muted-foreground">{description}</p>
             </div>
           </CardHeader>
