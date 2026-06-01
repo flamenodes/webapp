@@ -7,6 +7,7 @@
 	},
 	"scripts": {
 		"dev": "vite dev --port 3000",
+		"start": "node .output/server/index.mjs",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "vitest run",
@@ -22,6 +23,7 @@
 		"db:seed": "dotenv -e .env.local -- prisma db seed"
 	},
 	"dependencies": {
+		"@better-auth/kysely-adapter": "^1.6.13",
 		"@better-auth/prisma-adapter": "^1.6.10",
 		"@firecms/neat": "^0.8.0",
 		"@imagekit/nodejs": "^7.6.1",

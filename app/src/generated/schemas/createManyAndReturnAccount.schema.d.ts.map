@@ -1,1 +1,0 @@
-{"version":3,"file":"createManyAndReturnAccount.schema.d.ts","sourceRoot":"","sources":["createManyAndReturnAccount.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,kBAAkB,CAAC;AAC/C,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AAIzB,eAAO,MAAM,gCAAgC,EAAE,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,8BAA8B,CAAkR,CAAC;AAEjX,eAAO,MAAM,mCAAmC;;;;kBAAkN,CAAC"}

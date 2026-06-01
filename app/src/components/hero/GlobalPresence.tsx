@@ -2,6 +2,7 @@
 import { lazy, Suspense } from 'react'
 import { Link } from '@tanstack/react-router'
 import { ArrowRight, MapPin } from 'lucide-react'
+import { ClientOnly } from '#/components/ClientOnly'
 
 // Lazy-loaded so three-globe never runs during SSR
 const World = lazy(() => import('#/components/ui/globe').then((m) => ({ default: m.World })))
@@ -169,9 +170,11 @@ export function GlobalPresence() {
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl" />
 
           <div className="relative h-[480px] w-full max-w-[520px] lg:h-[540px]">
-            <Suspense fallback={<div className="h-full w-full rounded-full bg-primary/5 animate-pulse" />}>
-              <World globeConfig={globeConfig} data={ARCS} />
-            </Suspense>
+            <ClientOnly fallback={<div className="h-full w-full rounded-full bg-primary/5 animate-pulse" />}>
+              <Suspense fallback={<div className="h-full w-full rounded-full bg-primary/5 animate-pulse" />}>
+                <World globeConfig={globeConfig} data={ARCS} />
+              </Suspense>
+            </ClientOnly>
           </div>
         </div>
       </div>

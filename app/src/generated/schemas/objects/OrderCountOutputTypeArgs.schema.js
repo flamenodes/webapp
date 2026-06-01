@@ -1,8 +1,0 @@
-import * as z from 'zod';
-import { OrderCountOutputTypeSelectObjectSchema as OrderCountOutputTypeSelectObjectSchema } from './OrderCountOutputTypeSelect.schema';
-const makeSchema = () => z.object({
-    select: z.lazy(() => OrderCountOutputTypeSelectObjectSchema).optional()
-}).strict();
-export const OrderCountOutputTypeArgsObjectSchema = makeSchema();
-export const OrderCountOutputTypeArgsObjectZodSchema = makeSchema();
-//# sourceMappingURL=OrderCountOutputTypeArgs.schema.js.map

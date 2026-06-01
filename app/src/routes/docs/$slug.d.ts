@@ -1,4 +1,0 @@
-import '@/styles/markdown-styles.css';
-import '@mdxeditor/editor/style.css';
-export declare const Route: import("@tanstack/router-core").Route<import("@tanstack/react-router").Register, import("@tanstack/react-router").RootRoute<import("@tanstack/react-router").Register, undefined, {}, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, {}, undefined, unknown, unknown, unknown, unknown, undefined>, "/docs/$slug", "/docs/$slug", "/docs/$slug", "/docs/$slug", undefined, import("@tanstack/router-core").ResolveParams<"/docs/$slug">, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, {}, undefined, unknown, unknown, unknown, unknown, undefined>;
-//# sourceMappingURL=$slug.d.ts.map

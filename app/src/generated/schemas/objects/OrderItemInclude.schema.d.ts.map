@@ -1,1 +1,0 @@
-{"version":3,"file":"OrderItemInclude.schema.d.ts","sourceRoot":"","sources":["OrderItemInclude.schema.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AACzB,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,qBAAqB,CAAC;AAUlD,eAAO,MAAM,4BAA4B,EAAE,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,gBAAgB,CAAiE,CAAC;AAC9I,eAAO,MAAM,+BAA+B;;;;;;;;;;;;;kBAAe,CAAC"}

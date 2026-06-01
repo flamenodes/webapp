@@ -1,8 +1,0 @@
-import * as z from 'zod';
-export const DiscountFindFirstResultSchema = z.nullable(z.object({
-    id: z.string(),
-    label: z.string(),
-    percentage: z.number().int(),
-    product: z.array(z.any())
-}));
-//# sourceMappingURL=DiscountFindFirstResult.schema.js.map

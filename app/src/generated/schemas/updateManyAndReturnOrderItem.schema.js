@@ -1,7 +1,0 @@
-import * as z from 'zod';
-import { OrderItemSelectObjectSchema as OrderItemSelectObjectSchema } from './objects/OrderItemSelect.schema';
-import { OrderItemUpdateManyMutationInputObjectSchema as OrderItemUpdateManyMutationInputObjectSchema } from './objects/OrderItemUpdateManyMutationInput.schema';
-import { OrderItemWhereInputObjectSchema as OrderItemWhereInputObjectSchema } from './objects/OrderItemWhereInput.schema';
-export const OrderItemUpdateManyAndReturnSchema = z.object({ select: OrderItemSelectObjectSchema.optional(), data: OrderItemUpdateManyMutationInputObjectSchema, where: OrderItemWhereInputObjectSchema.optional() }).strict();
-export const OrderItemUpdateManyAndReturnZodSchema = z.object({ select: OrderItemSelectObjectSchema.optional(), data: OrderItemUpdateManyMutationInputObjectSchema, where: OrderItemWhereInputObjectSchema.optional() }).strict();
-//# sourceMappingURL=updateManyAndReturnOrderItem.schema.js.map
