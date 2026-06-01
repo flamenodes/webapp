@@ -1,5 +1,6 @@
 import { prisma } from '#/db'
 import { betterAuth } from 'better-auth'
+import type { GoogleProfile } from 'better-auth/social-providers'
 import { admin as adminPlugin, username } from 'better-auth/plugins'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import {
@@ -58,6 +59,19 @@ export const auth = betterAuth({
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+
+      mapProfileToUser(profile: GoogleProfile) {
+        const fullName = profile.name
+
+        return {
+          username: profile.email.split('@')[0]?.replace(/[^a-zA-Z0-9_]/g, '_'),
+          firstname: profile.given_name,
+          lastname: profile.family_name,
+          name: fullName,
+          email: profile.email,
+          image: profile.picture,
+        }
+      },
     },
     discord: {
       clientId: process.env.DISCORD_CLIENT_ID!,
