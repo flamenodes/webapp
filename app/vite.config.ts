@@ -35,24 +35,7 @@ const config = defineConfig({
   plugins: [
     devtools(),
     nitro({
-      rollupConfig: {
-        output: {
-          // @react-three/drei (and three, bundled inside it) use `self` and `navigator`
-          // at the top level of the module with no typeof guard. Polyfill them so the
-          // server bundle doesn't crash when those chunks are first imported at request time.
-          intro: [
-            'if (typeof globalThis.self === "undefined") globalThis.self = globalThis;',
-            'if (typeof globalThis.navigator === "undefined") globalThis.navigator = {};',
-          ].join(' '),
-        },
-        external: [
-          /^@sentry\//,
-          // kysely-adapter imports kysely internals removed in v0.29; keep external so nitro doesn't inline it
-          /^@better-auth\/kysely-adapter/,
-        ],
-      },
-      serverDir: "./src/server",
-      experimental: { websocket: true },
+			preset: 'node-server',
     }),
     tailwindcss(),
     tanstackStart(),
