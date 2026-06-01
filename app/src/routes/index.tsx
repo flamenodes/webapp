@@ -3,12 +3,7 @@ import Features from '#/components/hero/Features'
 import HeroSection from '#/components/hero/HeroSection'
 import ScrollReveal from '#/components/ScrollReveal'
 import { PricingHeroCard } from '#/components/hero/PricingHeroCard'
-import { GlobalPresence } from '#/components/hero/GlobalPresence'
 import { seo } from '#/utils/seo'
-import ScrollStack, { ScrollStackItem } from '@/components/ScrollStack'
-import BorderGlow from '@/components/BorderGlow'
-import { Card, CardContent, CardTitle } from '@/components/ui/card'
-import { PlugZap } from 'lucide-react'
 import { ContactUS } from '@/components/hero/ContactUS'
 
 export const Route = createFileRoute('/')({

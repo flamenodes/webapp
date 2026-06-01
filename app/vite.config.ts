@@ -6,7 +6,7 @@ import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import viteReact from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { nitro } from 'nitro/vite'
-import path from 'path'
+import path from 'node:path'
 
 const config = defineConfig({
   resolve: {
@@ -24,8 +24,6 @@ const config = defineConfig({
       'three-conic-polygon-geometry',
       '@react-three/fiber',
       '@react-three/drei',
-      // kysely-adapter references kysely exports not present in v0.29
-      '@better-auth/kysely-adapter',
     ],
     noExternal: [],
   },
@@ -33,6 +31,25 @@ const config = defineConfig({
     exclude: ['**/Silk.tsx'],
   },
   plugins: [
+    // kysely@0.29 moved DEFAULT_MIGRATION_TABLE/LOCK_TABLE to 'kysely/migration'.
+    // @better-auth/kysely-adapter (bundled inside better-auth) still imports them
+    // from the main entry, causing rolldown MISSING_EXPORT errors at build time.
+    // This plugin intercepts the kysely main entry and appends the missing re-exports.
+    {
+      name: 'patch-kysely-migration-exports',
+      enforce: 'pre',
+      transform(code, id) {
+        if (
+          /[/\\]kysely[/\\]dist[/\\]index\.js$/.test(id) &&
+          !code.includes('DEFAULT_MIGRATION_TABLE')
+        ) {
+          return {
+            code: code + "\nexport { DEFAULT_MIGRATION_TABLE, DEFAULT_MIGRATION_LOCK_TABLE } from './migration/migrator.js';\n",
+            map: null,
+          }
+        }
+      },
+    },
     devtools(),
     nitro({
 			preset: 'node-server',

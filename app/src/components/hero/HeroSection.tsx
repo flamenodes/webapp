@@ -1,6 +1,7 @@
 import { Button } from '../ui/button'
 import ShinyText from '../ShinyText'
 import ColorBends from '../ColorBends'
+import { ClientOnly } from '@tanstack/react-router'
 
 const HeroSection = () => {
   return (
@@ -31,14 +32,14 @@ const HeroSection = () => {
           </p>
 
           <div className="space-x-8">
-            <Button 
-              variant="great" 
-              size="great" 
+            <Button
+              variant="great"
+              size="great"
               className="cursor-pointer"
               onClick={() => {
-                const pricingSection = document.getElementById('pricing');
+                const pricingSection = document.getElementById('pricing')
                 if (pricingSection) {
-                  pricingSection.scrollIntoView({ behavior: 'smooth' });
+                  pricingSection.scrollIntoView({ behavior: 'smooth' })
                 }
               }}
             >
@@ -54,25 +55,25 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+          <div className="absolute z-0 h-full w-full top-[0] ">
+            <ColorBends
+              rotation={90}
+              speed={0.2}
+              colors={['#ff2353']}
+              transparent
+              autoRotate={0}
+              scale={2}
+              frequency={1}
+              warpStrength={1}
+              mouseInfluence={1}
+              parallax={0.5}
+              noise={0.15}
+              iterations={1}
+              intensity={1.5}
+              bandWidth={6}
+            />
+          </div>
 
-      <div className="absolute z-0 h-full w-full top-[0] ">
-        <ColorBends
-          rotation={90}
-          speed={0.2}
-          colors={['#ff2353']}
-          transparent
-          autoRotate={0}
-          scale={2}
-          frequency={1}
-          warpStrength={1}
-          mouseInfluence={1}
-          parallax={0.5}
-          noise={0.15}
-          iterations={1}
-          intensity={1.5}
-          bandWidth={6}
-        />
-      </div>
     </section>
   )
 }
