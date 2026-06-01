@@ -39,7 +39,7 @@ export const auth = betterAuth({
     },
   },
   plugins: [
-    username({ maxUsernameLength: 10, minUsernameLength: 4 }),
+    username({ maxUsernameLength: 60, minUsernameLength: 3 }),
     adminPlugin({
       ac,
       roles: {
