@@ -257,7 +257,7 @@ function OrdersPage() {
           </Card>
         )}
 
-        <div className="rounded-xl border bg-card">
+        <div className="rounded-xl">
           <OrdersDataTable
             data={orders}
             onGeneratePaymentLink={(orderId) => generateLinkMutation.mutate(orderId)}
@@ -272,7 +272,6 @@ function OrdersPage() {
         </div>
       </div>
 
-      {/* Deliver Order Sheet */}
       <Sheet open={!!deliverSheet} onOpenChange={(o) => !o && setDeliverSheet(null)}>
         <SheetContent>
           <SheetHeader>
@@ -346,7 +345,6 @@ function OrdersPage() {
         </SheetContent>
       </Sheet>
 
-      {/* Payment Link Modal */}
       {paymentLinkModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setPaymentLinkModal(null)}>
           <div className="bg-card border rounded-xl p-6 max-w-lg w-full mx-4" onClick={(e) => e.stopPropagation()}>
