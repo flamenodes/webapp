@@ -6,6 +6,15 @@ import { navItems } from '#/data/admin/navitems'
 import { useQuery } from '@tanstack/react-query'
 import { getSession } from '#/handlers/auth.handler'
 import { getPteroUrl } from '#/serverActions/pterodactyl/reset-password'
+import { isWebSettingsEnabled } from '@/serverActions/web-settings.api'
+import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '#/components/ui/dropdown-menu'
 
 const sections = [
   { key: 'main', label: 'Main' },
@@ -33,6 +42,11 @@ export function Sidebar({ open, onClose }: SidebarProps) {
     queryKey: ['ptero-url'],
     queryFn: () => getPteroUrl(),
     enabled: isOwner,
+  })
+
+  const { data: webSettingsEnabled = false } = useQuery({
+    queryKey: ['web-settings-enabled'],
+    queryFn: () => isWebSettingsEnabled(),
   })
 
   const isActive = (to: any) => {
@@ -63,7 +77,13 @@ export function Sidebar({ open, onClose }: SidebarProps) {
 
         <ScrollArea className="flex-1 px-3 py-4 overflow-auto">
           {sections.map((section) => {
-            const items = navItems.filter((n) => n.section === section.key)
+            const items = navItems.filter((n) => {
+              // Filter out Web Settings if feature is disabled
+              if (n.to === '/admin/web-settings' && !webSettingsEnabled) {
+                return false
+              }
+              return n.section === section.key
+            })
             if (!items.length) return null
             return (
               <div key={section.key} className="mb-5">
@@ -131,18 +151,45 @@ export function Sidebar({ open, onClose }: SidebarProps) {
 
         {/* User footer */}
         <div className="px-3 py-3 border-t border-sidebar-border shrink-0">
-          <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-sidebar-accent/50 transition-colors cursor-pointer">
-            <div className="w-9 h-9 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
-              <span className="text-sm font-bold text-primary">AD</span>
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold truncate leading-tight">Admin User</p>
-              <p className="text-[11px] text-muted-foreground truncate leading-tight mt-0.5">
-                admin@flamenodes.io
-              </p>
-            </div>
-            <LucideIcons.ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-sidebar-accent/50 transition-colors">
+                <Avatar className="w-9 h-9 shrink-0">
+                  <AvatarImage src={session?.user?.image || ''} alt={session?.user?.name || 'User'} />
+                  <AvatarFallback className="bg-primary/15 text-primary font-bold">
+                    {session?.user?.name?.substring(0, 2).toUpperCase() || 'AD'}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0 text-left">
+                  <p className="text-sm font-semibold truncate leading-tight">
+                    {session?.user?.name || 'Admin User'}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground truncate leading-tight mt-0.5">
+                    {session?.user?.email || 'admin@flamenodes.io'}
+                  </p>
+                </div>
+                <LucideIcons.ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuItem onClick={() => navigate({ to: '/admin/settings' })} className="cursor-pointer">
+                <LucideIcons.Settings className="mr-2 h-4 w-4" />
+                <span>Settings</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate({ to: '/billing/cart' })} className="cursor-pointer">
+                <LucideIcons.CreditCard className="mr-2 h-4 w-4" />
+                <span>Billing</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => {
+                // Add logout logic here
+                navigate({ to: '/login' })
+              }} className="cursor-pointer text-destructive focus:text-destructive" variant="destructive">
+                <LucideIcons.LogOut className="mr-2 h-4 w-4" />
+                <span>Logout</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </aside>
     </>

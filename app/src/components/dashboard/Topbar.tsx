@@ -5,6 +5,7 @@ import { Bell, Search, Menu } from 'lucide-react'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { getSession } from '#/handlers/auth.handler'
 import { Suspense } from 'react'
+import { NotificationDropdown } from './NotificationDropdown'
 
 interface TopbarProps {
   onMenuClick: () => void
@@ -40,16 +41,7 @@ export function Topbar({ onMenuClick }: TopbarProps) {
 
       <div className="flex items-center gap-1 ml-auto">
         {/* Notifications */}
-        <div className="relative">
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            className="text-muted-foreground hover:text-foreground"
-          >
-            <Bell className="w-5 h-5" />
-          </Button>
-          <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-primary" />
-        </div>
+        <NotificationDropdown userId={data?.user.id} />
 
         <ThemeSwitch />
 

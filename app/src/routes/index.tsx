@@ -5,6 +5,10 @@ import ScrollReveal from '#/components/ScrollReveal'
 import { PricingHeroCard } from '#/components/hero/PricingHeroCard'
 import { seo } from '#/utils/seo'
 import { ContactUS } from '@/components/hero/ContactUS'
+import { TrustSection } from '@/components/hero/TrustSection'
+import { useQuery } from '@tanstack/react-query'
+import { getTrustpilotReviews } from '@/serverActions/trustpilot.api'
+import { GamePanelCardSwap } from '@/components/GamePanelCardSwap'
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -21,6 +25,14 @@ export const Route = createFileRoute('/')({
 })
 
 function Home() {
+  const { data: reviews } = useQuery({
+    queryKey: ['trustpilot-reviews'],
+    queryFn: () => getTrustpilotReviews(),
+    staleTime: 1000 * 60 * 30, // 30 minutes
+  })
+
+  const trustpilotReviews = reviews || []
+
   const pricing = [
     {
       icon: '',
@@ -76,7 +88,7 @@ function Home() {
   ]
 
   return (
-    <main className=" w-full">
+    <main className="w-full">
       <HeroSection />
       <Features />
       <section className="text-center mt-20 mx-auto max-w-5xl px-4 sm:px-6 font-cursive leading-10 *:text-sm">
@@ -111,7 +123,48 @@ function Home() {
           ))}
         </div>
       </section>
-      <ContactUS/>
+      
+      <TrustSection reviews={trustpilotReviews} />
+      
+      <section className="py-8 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background pointer-events-none"></div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center -mb-20">
+            <h2 className="text-4xl sm:text-5xl font-angkor font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/50 mb-2">
+              Game Panel Features
+            </h2>
+            <p className="text-muted-foreground">
+              Powerful management tools at your fingertips
+            </p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div className="space-y-6 lg:pr-8">
+              <div>
+                <h3 className="text-2xl font-bold mb-2 text-primary">Intuitive Control Panel</h3>
+                <p className="text-muted-foreground">
+                  Manage your game servers with ease using our modern, user-friendly interface designed for both beginners and experts.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold mb-2 text-primary">Real-Time Management</h3>
+                <p className="text-muted-foreground">
+                  Monitor server performance, manage files, and control settings instantly without any delays or complicated processes.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold mb-2 text-primary">One-Click Operations</h3>
+                <p className="text-muted-foreground">
+                  Start, stop, restart servers, install mods, and manage backups with simple one-click actions from your dashboard.
+                </p>
+              </div>
+            </div>
+            <div>
+              <GamePanelCardSwap />
+            </div>
+          </div>
+        </div>
+      </section>
+      
     </main>
   )
 }

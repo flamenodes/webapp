@@ -10,13 +10,15 @@ export function getRouter() {
     defaultPreloadStaleTime: 0,
   })
   router.subscribe('onBeforeLoad', ({ pathChanged }) => {
-    if (pathChanged) {
+    if (pathChanged && typeof document !== 'undefined') {
       nprogress.start()
     }
   })
 
   router.subscribe('onLoad', () => {
-    nprogress.done()
+    if (typeof document !== 'undefined') {
+      nprogress.done()
+    }
   })
   return router
 }

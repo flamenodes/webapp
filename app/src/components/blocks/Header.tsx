@@ -93,26 +93,28 @@ const Header = () => {
     <header>
       <nav
         data-state={menuState && 'active'}
-        className="fixed z-20 w-full px-2"
+        className="fixed z-[9999] w-full px-2"
       >
         <div
           className={cn(
-            'mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12',
+            'mx-auto mt-2 max-w-6xl px-2 transition-all duration-300 lg:px-12',
             isScrolled &&
               'bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5',
           )}
         >
-          <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
-            <div className="flex w-full justify-between lg:w-auto">
-              <FlameNodesLogo />
+          <div className="relative flex flex-wrap items-center justify-between gap-1 py-2 lg:gap-0 lg:py-4">
+            <div className="flex w-full justify-between lg:w-auto shrink">
+              <div className="scale-75 origin-left lg:scale-100">
+                <FlameNodesLogo />
+              </div>
 
               <button
                 onClick={() => setMenuState(!menuState)}
                 aria-label={menuState == true ? 'Close Menu' : 'Open Menu'}
-                className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden"
+                className="relative z-20 flex items-center justify-center w-8 h-8 lg:hidden shrink-0"
               >
-                <Menu className="in-data-[state=active]:rotate-180 in-data-[state=active]:scale-0 in-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
-                <X className="in-data-[state=active]:rotate-0 in-data-[state=active]:scale-100 in-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
+                <Menu className="in-data-[state=active]:rotate-180 in-data-[state=active]:scale-0 in-data-[state=active]:opacity-0 m-auto size-5 duration-200" />
+                <X className="in-data-[state=active]:rotate-0 in-data-[state=active]:scale-100 in-data-[state=active]:opacity-100 absolute inset-0 m-auto size-5 -rotate-180 scale-0 opacity-0 duration-200" />
               </button>
             </div>
 
@@ -124,17 +126,42 @@ const Header = () => {
               </ul>
             </div>
 
-            <div className="bg-background in-data-[state=active]:block lg:in-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
+            <div className="bg-background in-data-[state=active]:block lg:in-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent max-lg:absolute max-lg:top-full max-lg:left-2 max-lg:right-auto max-lg:w-[280px] max-lg:mt-2">
               <div className="lg:hidden">
                 <ul className="space-y-6 text-base">
                   {menuItems.map((item, index) => (
                     <li key={index}>
-                      <Link
-                        to={item.href ?? '/'}
-                        className="text-foreground hover:text-accent-foreground block duration-150"
-                      >
-                        <span>{item.title}</span>
-                      </Link>
+                      {item.children ? (
+                        <details className="group">
+                          <summary className="text-foreground hover:text-accent-foreground cursor-pointer list-none flex items-center justify-between duration-150">
+                            <span>{item.title}</span>
+                            <svg className="w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </summary>
+                          <ul className="mt-3 ml-4 space-y-3">
+                            {item.children.map((child, childIndex) => (
+                              <li key={childIndex}>
+                                <Link
+                                  to={child.href}
+                                  className="text-muted-foreground hover:text-foreground text-sm block duration-150"
+                                  onClick={() => setMenuState(false)}
+                                >
+                                  {child.title}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </details>
+                      ) : (
+                        <Link
+                          to={item.href ?? '/'}
+                          className="text-foreground hover:text-accent-foreground block duration-150"
+                          onClick={() => setMenuState(false)}
+                        >
+                          <span>{item.title}</span>
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>

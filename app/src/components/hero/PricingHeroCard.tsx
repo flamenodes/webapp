@@ -39,6 +39,7 @@ const PricingHeroCard = React.forwardRef<HTMLDivElement, PricingHeroCardProps>(
             <></>
           )}
         </div>
+        
         <Card
           ref={ref}
           className={cn(

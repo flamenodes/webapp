@@ -15,6 +15,7 @@ import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as PricingRouteRouteImport } from './routes/pricing/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PricingIndexRouteImport } from './routes/pricing/index'
 import { Route as PricingWebhostRouteImport } from './routes/pricing/webhost'
 import { Route as PricingVpsRouteImport } from './routes/pricing/vps'
 import { Route as PricingVdsRouteImport } from './routes/pricing/vds'
@@ -45,6 +46,7 @@ import { Route as ProtectedAdminTicketsRouteImport } from './routes/_protected/a
 import { Route as ProtectedAdminStatusRouteImport } from './routes/_protected/admin/status'
 import { Route as ProtectedAdminSettingsRouteImport } from './routes/_protected/admin/settings'
 import { Route as ProtectedAdminServersRouteImport } from './routes/_protected/admin/servers'
+import { Route as ProtectedAdminRolesRouteImport } from './routes/_protected/admin/roles'
 import { Route as ProtectedAdminProductsRouteImport } from './routes/_protected/admin/products'
 import { Route as ProtectedAdminProductConfigRouteImport } from './routes/_protected/admin/product-config'
 import { Route as ProtectedAdminOrdersRouteImport } from './routes/_protected/admin/orders'
@@ -84,6 +86,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PricingIndexRoute = PricingIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PricingRouteRoute,
 } as any)
 const PricingWebhostRoute = PricingWebhostRouteImport.update({
   id: '/webhost',
@@ -236,6 +243,11 @@ const ProtectedAdminServersRoute = ProtectedAdminServersRouteImport.update({
   path: '/servers',
   getParentRoute: () => ProtectedAdminRouteRoute,
 } as any)
+const ProtectedAdminRolesRoute = ProtectedAdminRolesRouteImport.update({
+  id: '/roles',
+  path: '/roles',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
 const ProtectedAdminProductsRoute = ProtectedAdminProductsRouteImport.update({
   id: '/products',
   path: '/products',
@@ -320,6 +332,7 @@ export interface FileRoutesByFullPath {
   '/pricing/vds': typeof PricingVdsRoute
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
+  '/pricing/': typeof PricingIndexRoute
   '/admin/announcements': typeof ProtectedAdminAnnouncementsRoute
   '/admin/configurations': typeof ProtectedAdminConfigurationsRoute
   '/admin/customers': typeof ProtectedAdminCustomersRoute
@@ -329,6 +342,7 @@ export interface FileRoutesByFullPath {
   '/admin/orders': typeof ProtectedAdminOrdersRoute
   '/admin/product-config': typeof ProtectedAdminProductConfigRoute
   '/admin/products': typeof ProtectedAdminProductsRoute
+  '/admin/roles': typeof ProtectedAdminRolesRoute
   '/admin/servers': typeof ProtectedAdminServersRoute
   '/admin/settings': typeof ProtectedAdminSettingsRoute
   '/admin/status': typeof ProtectedAdminStatusRoute
@@ -346,7 +360,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/pricing': typeof PricingRouteRouteWithChildren
   '/mcp': typeof McpRoute
   '/status': typeof StatusRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
@@ -367,6 +380,7 @@ export interface FileRoutesByTo {
   '/pricing/vds': typeof PricingVdsRoute
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
+  '/pricing': typeof PricingIndexRoute
   '/admin/announcements': typeof ProtectedAdminAnnouncementsRoute
   '/admin/configurations': typeof ProtectedAdminConfigurationsRoute
   '/admin/customers': typeof ProtectedAdminCustomersRoute
@@ -376,6 +390,7 @@ export interface FileRoutesByTo {
   '/admin/orders': typeof ProtectedAdminOrdersRoute
   '/admin/product-config': typeof ProtectedAdminProductConfigRoute
   '/admin/products': typeof ProtectedAdminProductsRoute
+  '/admin/roles': typeof ProtectedAdminRolesRoute
   '/admin/servers': typeof ProtectedAdminServersRoute
   '/admin/settings': typeof ProtectedAdminSettingsRoute
   '/admin/status': typeof ProtectedAdminStatusRoute
@@ -417,6 +432,7 @@ export interface FileRoutesById {
   '/pricing/vds': typeof PricingVdsRoute
   '/pricing/vps': typeof PricingVpsRoute
   '/pricing/webhost': typeof PricingWebhostRoute
+  '/pricing/': typeof PricingIndexRoute
   '/_protected/admin/announcements': typeof ProtectedAdminAnnouncementsRoute
   '/_protected/admin/configurations': typeof ProtectedAdminConfigurationsRoute
   '/_protected/admin/customers': typeof ProtectedAdminCustomersRoute
@@ -426,6 +442,7 @@ export interface FileRoutesById {
   '/_protected/admin/orders': typeof ProtectedAdminOrdersRoute
   '/_protected/admin/product-config': typeof ProtectedAdminProductConfigRoute
   '/_protected/admin/products': typeof ProtectedAdminProductsRoute
+  '/_protected/admin/roles': typeof ProtectedAdminRolesRoute
   '/_protected/admin/servers': typeof ProtectedAdminServersRoute
   '/_protected/admin/settings': typeof ProtectedAdminSettingsRoute
   '/_protected/admin/status': typeof ProtectedAdminStatusRoute
@@ -466,6 +483,7 @@ export interface FileRouteTypes {
     | '/pricing/vds'
     | '/pricing/vps'
     | '/pricing/webhost'
+    | '/pricing/'
     | '/admin/announcements'
     | '/admin/configurations'
     | '/admin/customers'
@@ -475,6 +493,7 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/product-config'
     | '/admin/products'
+    | '/admin/roles'
     | '/admin/servers'
     | '/admin/settings'
     | '/admin/status'
@@ -492,7 +511,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/pricing'
     | '/mcp'
     | '/status'
     | '/admin'
@@ -513,6 +531,7 @@ export interface FileRouteTypes {
     | '/pricing/vds'
     | '/pricing/vps'
     | '/pricing/webhost'
+    | '/pricing'
     | '/admin/announcements'
     | '/admin/configurations'
     | '/admin/customers'
@@ -522,6 +541,7 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/product-config'
     | '/admin/products'
+    | '/admin/roles'
     | '/admin/servers'
     | '/admin/settings'
     | '/admin/status'
@@ -562,6 +582,7 @@ export interface FileRouteTypes {
     | '/pricing/vds'
     | '/pricing/vps'
     | '/pricing/webhost'
+    | '/pricing/'
     | '/_protected/admin/announcements'
     | '/_protected/admin/configurations'
     | '/_protected/admin/customers'
@@ -571,6 +592,7 @@ export interface FileRouteTypes {
     | '/_protected/admin/orders'
     | '/_protected/admin/product-config'
     | '/_protected/admin/products'
+    | '/_protected/admin/roles'
     | '/_protected/admin/servers'
     | '/_protected/admin/settings'
     | '/_protected/admin/status'
@@ -647,6 +669,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/pricing/': {
+      id: '/pricing/'
+      path: '/'
+      fullPath: '/pricing/'
+      preLoaderRoute: typeof PricingIndexRouteImport
+      parentRoute: typeof PricingRouteRoute
     }
     '/pricing/webhost': {
       id: '/pricing/webhost'
@@ -858,6 +887,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAdminServersRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
+    '/_protected/admin/roles': {
+      id: '/_protected/admin/roles'
+      path: '/roles'
+      fullPath: '/admin/roles'
+      preLoaderRoute: typeof ProtectedAdminRolesRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
     '/_protected/admin/products': {
       id: '/_protected/admin/products'
       path: '/products'
@@ -946,6 +982,7 @@ interface PricingRouteRouteChildren {
   PricingVdsRoute: typeof PricingVdsRoute
   PricingVpsRoute: typeof PricingVpsRoute
   PricingWebhostRoute: typeof PricingWebhostRoute
+  PricingIndexRoute: typeof PricingIndexRoute
 }
 
 const PricingRouteRouteChildren: PricingRouteRouteChildren = {
@@ -956,6 +993,7 @@ const PricingRouteRouteChildren: PricingRouteRouteChildren = {
   PricingVdsRoute: PricingVdsRoute,
   PricingVpsRoute: PricingVpsRoute,
   PricingWebhostRoute: PricingWebhostRoute,
+  PricingIndexRoute: PricingIndexRoute,
 }
 
 const PricingRouteRouteWithChildren = PricingRouteRoute._addFileChildren(
@@ -998,6 +1036,7 @@ interface ProtectedAdminRouteRouteChildren {
   ProtectedAdminOrdersRoute: typeof ProtectedAdminOrdersRoute
   ProtectedAdminProductConfigRoute: typeof ProtectedAdminProductConfigRoute
   ProtectedAdminProductsRoute: typeof ProtectedAdminProductsRoute
+  ProtectedAdminRolesRoute: typeof ProtectedAdminRolesRoute
   ProtectedAdminServersRoute: typeof ProtectedAdminServersRoute
   ProtectedAdminSettingsRoute: typeof ProtectedAdminSettingsRoute
   ProtectedAdminStatusRoute: typeof ProtectedAdminStatusRoute
@@ -1016,6 +1055,7 @@ const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
   ProtectedAdminOrdersRoute: ProtectedAdminOrdersRoute,
   ProtectedAdminProductConfigRoute: ProtectedAdminProductConfigRoute,
   ProtectedAdminProductsRoute: ProtectedAdminProductsRoute,
+  ProtectedAdminRolesRoute: ProtectedAdminRolesRoute,
   ProtectedAdminServersRoute: ProtectedAdminServersRoute,
   ProtectedAdminSettingsRoute: ProtectedAdminSettingsRoute,
   ProtectedAdminStatusRoute: ProtectedAdminStatusRoute,

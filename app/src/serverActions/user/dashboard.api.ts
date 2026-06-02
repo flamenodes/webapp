@@ -81,34 +81,3 @@ export const markAllNotificationsRead = createServerFn({ method: 'POST' }).handl
 
   return { success: true, message: 'All notifications marked as read' }
 })
-
-export const markNotificationRead = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => {
-    const { z } = require('zod')
-    return z.object({ id: z.string() }).parse(data)
-  })
-  .handler(async ({ data }) => {
-    const headers = getRequestHeaders()
-    const session = await auth.api.getSession({ headers })
-    if (!session?.user) throw new Error('Unauthorized')
-
-    await prisma.notification.update({
-      where: { id: data.id, userId: session.user.id },
-      data: { read: true },
-    })
-
-    return { success: true }
-  })
-
-export const markAllNotificationsRead = createServerFn({ method: 'POST' }).handler(async () => {
-  const headers = getRequestHeaders()
-  const session = await auth.api.getSession({ headers })
-  if (!session?.user) throw new Error('Unauthorized')
-
-  await prisma.notification.updateMany({
-    where: { userId: session.user.id, read: false },
-    data: { read: true },
-  })
-
-  return { success: true }
-})

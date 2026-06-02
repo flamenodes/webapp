@@ -1,19 +1,23 @@
 import { createServerFn } from '@tanstack/react-start'
 import { getRequestHeaders } from '@tanstack/react-start/server'
-import { prisma } from '#/db'
 import { auth } from '@/lib/auth'
 import { z } from 'zod'
+import { hasPermissionFn } from '@/lib/has-permission'
 
-const wrapSuccess = <T>(message: string, data?: T) => ({ success: true, message, data })
+const wrapSuccess = <T>(message: string, data?: T) => ({
+  success: true,
+  message,
+  data,
+})
 const wrapError = (message: string) => ({ success: false, message })
 
 async function requireAdmin() {
-  const headers = getRequestHeaders()
-  const session = await auth.api.getSession({ headers })
-  if (!session?.user || session.user.role !== 'admin') {
-    throw new Error('Unauthorized')
+  const perm = await hasPermissionFn({
+    data: { permissions: { dashboard: ['admin'] } },
+  })
+  if (!perm) {
+    throw new Error('You do not have permission to access settings.')
   }
-  return session.user
 }
 
 const razorpayConfigSchema = z.object({
@@ -32,17 +36,21 @@ const razorpayConfigSchema = z.object({
   pteroNodeId: z.number().int().positive().optional().nullable(),
 })
 
-export const getRazorpayConfig = createServerFn({ method: 'GET' }).handler(async () => {
-  await requireAdmin()
+export const getRazorpayConfig = createServerFn({ method: 'GET' }).handler(
+  async () => {
+    await requireAdmin()
+    const { prisma } = await import('#/db')
 
-  const config = await prisma.razorpayConfig.findFirst()
-  return wrapSuccess('Config fetched', config)
-})
+    const config = await prisma.razorpayConfig.findFirst()
+    return wrapSuccess('Config fetched', config)
+  },
+)
 
 export const updateRazorpayConfig = createServerFn({ method: 'POST' })
   .inputValidator((data) => razorpayConfigSchema.parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
+    const { prisma } = await import('#/db')
 
     const existing = await prisma.razorpayConfig.findFirst()
 
@@ -61,55 +69,67 @@ export const updateRazorpayConfig = createServerFn({ method: 'POST' })
     return wrapSuccess('Razorpay configuration updated', config)
   })
 
-export const getPteroNodeSettings = createServerFn({ method: 'GET' }).handler(async () => {
-  const config = await prisma.razorpayConfig.findFirst()
-  return {
-    nodeMode: (config?.pteroNodeMode ?? 'balance') as 'balance' | 'specific',
-    nodeId: config?.pteroNodeId ?? undefined,
-  }
-})
-
-export const getActiveRazorpayKeys = createServerFn({ method: 'GET' }).handler(async () => {
-  const config = await prisma.razorpayConfig.findFirst()
-
-  if (!config) {
+export const getPteroNodeSettings = createServerFn({ method: 'GET' }).handler(
+  async () => {
+    const { prisma } = await import('#/db')
+    const config = await prisma.razorpayConfig.findFirst()
     return {
-      keyId: process.env.RAZORPAY_KEY_ID || '',
-      keySecret: process.env.RAZORPAY_KEY_SECRET || '',
-      mode: 'test',
-      gstin: null,
+      nodeMode: (config?.pteroNodeMode ?? 'balance') as 'balance' | 'specific',
+      nodeId: config?.pteroNodeId ?? undefined,
     }
-  }
+  },
+)
 
-  const isProduction = config.mode === 'production'
-  return {
-    keyId: isProduction ? (config.prodKeyId || '') : (config.testKeyId || ''),
-    keySecret: isProduction ? (config.prodKeySecret || '') : (config.testKeySecret || ''),
-    mode: config.mode,
-    gstin: config.gstin,
-    companyName: config.companyName,
-    companyAddress: config.companyAddress,
-    companyCity: config.companyCity,
-    companyZip: config.companyZip,
-    companyCountry: config.companyCountry,
-  }
-})
+export const getActiveRazorpayKeys = createServerFn({ method: 'GET' }).handler(
+  async () => {
+    const { prisma } = await import('#/db')
+    const config = await prisma.razorpayConfig.findFirst()
 
-export const getWebSettingsToggle = createServerFn({ method: 'GET' }).handler(async () => {
-  const setting = await prisma.webSettings.findUnique({
-    where: { key: 'enabled' }
-  })
-  return setting?.value?.enabled ?? false
-})
+    if (!config) {
+      return {
+        keyId: process.env.RAZORPAY_KEY_ID || '',
+        keySecret: process.env.RAZORPAY_KEY_SECRET || '',
+        mode: 'test',
+        gstin: null,
+      }
+    }
+
+    const isProduction = config.mode === 'production'
+    return {
+      keyId: isProduction ? config.prodKeyId || '' : config.testKeyId || '',
+      keySecret: isProduction
+        ? config.prodKeySecret || ''
+        : config.testKeySecret || '',
+      mode: config.mode,
+      gstin: config.gstin,
+      companyName: config.companyName,
+      companyAddress: config.companyAddress,
+      companyCity: config.companyCity,
+      companyZip: config.companyZip,
+      companyCountry: config.companyCountry,
+    }
+  },
+)
+
+export const getWebSettingsToggle = createServerFn({ method: 'GET' }).handler(
+  async () => {
+    const { prisma } = await import('#/db')
+    const setting = await prisma.webSettings.findUnique({
+      where: { key: 'enabled' },
+    })
+    return setting?.value?.enabled ?? false
+  },
+)
 
 export const updateWebSettingsToggle = createServerFn({ method: 'POST' })
   .inputValidator((data: unknown) => z.boolean().parse(data))
   .handler(async ({ data: enabled }) => {
     await requireAdmin()
+    const { prisma } = await import('#/db')
     await prisma.webSettings.upsert({
       where: { key: 'enabled' },
       update: { value: { enabled } },
-      create: { key: 'enabled', value: { enabled } }
+      create: { key: 'enabled', value: { enabled } },
     })
     return wrapSuccess('Web settings toggle updated', { enabled })
   })
