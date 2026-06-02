@@ -9,17 +9,11 @@ import { nitro } from 'nitro/vite'
 import path from 'node:path'
 
 const config = defineConfig({
-  optimizeDeps: {
-    include: ['radix-ui'],
-  },
   resolve: {
     tsconfigPaths: true,
     dedupe: ['three'],
     alias: {
-      'three/addons/inspector/Inspector.js': path.resolve(
-        __dirname,
-        'src/stubs/three-inspector-stub.js',
-      ),
+      'three/addons/inspector/Inspector.js': path.resolve(__dirname, 'src/stubs/three-inspector-stub.js'),
     },
   },
   ssr: {
@@ -31,7 +25,7 @@ const config = defineConfig({
       '@react-three/fiber',
       '@react-three/drei',
     ],
-    noExternal: ['@radix-ui/*'],
+    noExternal: [],
   },
   oxc: {
     exclude: ['**/Silk.tsx'],
@@ -50,9 +44,7 @@ const config = defineConfig({
           !code.includes('DEFAULT_MIGRATION_TABLE')
         ) {
           return {
-            code:
-              code +
-              "\nexport { DEFAULT_MIGRATION_TABLE, DEFAULT_MIGRATION_LOCK_TABLE } from './migration/migrator.js';\n",
+            code: code + "\nexport { DEFAULT_MIGRATION_TABLE, DEFAULT_MIGRATION_LOCK_TABLE } from './migration/migrator.js';\n",
             map: null,
           }
         }
@@ -60,7 +52,7 @@ const config = defineConfig({
     },
     devtools(),
     nitro({
-      preset: 'node-server',
+			preset: 'node-server',
     }),
     tailwindcss(),
     tanstackStart(),

@@ -3,7 +3,6 @@ import { SignupForm } from '#/components/auth/signup-form'
 import FlameNodesLogo from '#/components/blocks/FlameNodesLogo'
 import Hyperspeed from '@/components/Hyperspeed'
 import { hyperspeedPresets } from '@/components/HyperSpeedPresets'
-import TextType from '@/components/TextType'
 import { createFileRoute } from '@tanstack/react-router'
 import { GalleryVerticalEnd } from 'lucide-react'
 

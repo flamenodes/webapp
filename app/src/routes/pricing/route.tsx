@@ -1,15 +1,13 @@
 import { HostingTabs } from '#/components/pricing/HostingTabs'
 import { Spotlight } from '#/components/ui/spotlight-new'
 import { createFileRoute, Outlet, useLocation, useNavigate } from '@tanstack/react-router'
-import { Boxes, Server, Cpu, Globe, Gamepad2, Shield, Zap } from 'lucide-react'
+import { Boxes, Server, Cpu, Globe, Gamepad2, Shield, Zap,ChevronDown } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '#/components/ui/dropdown-menu'
-import { Button } from '#/components/ui/button'
-import { ChevronDown } from 'lucide-react'
 import { seo } from '#/utils/seo'
 
 type PageTitle = { 
