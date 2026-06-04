@@ -24,6 +24,7 @@ const config = defineConfig({
       'three-conic-polygon-geometry',
       '@react-three/fiber',
       '@react-three/drei',
+      '@mr-fougere/react-trustpilot-widgets',
     ],
     noExternal: [],
   },

@@ -19,29 +19,6 @@ const NotFound = () => {
     window.history.back()
   }
 
-  const features = [
-    {
-      icon: <FaShieldHalved />,
-      title: 'High Performance',
-      desc: 'Powerful infrastructure built for speed.',
-    },
-    {
-      icon: <FaServer />,
-      title: 'Reliable Uptime',
-      desc: '99.9% uptime engineered for production.',
-    },
-    {
-      icon: <FaGlobe />,
-      title: 'Global Network',
-      desc: 'Low latency nodes across the globe.',
-    },
-    {
-      icon: <FaHeadset />,
-      title: 'Expert Support',
-      desc: 'Real humans ready to help 24/7.',
-    },
-  ]
-
   return (
     <main className="relative min-h-screen overflow-hidden bg-background text-foreground">
 
@@ -98,38 +75,7 @@ const NotFound = () => {
             <FaFireFlameCurved />
             Home Page
           </Button>
-
         </div>
-
-        {/* features card */}
-        <div className="mt-20 w-full max-w-7xl rounded-3xl border border-border bg-card/60 backdrop-blur-xl p-8">
-
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-
-            {features.map((item) => (
-              <div
-                key={item.title}
-                className="flex flex-col items-center text-center"
-              >
-                <div className="mb-5 text-3xl text-primary">
-                  {item.icon}
-                </div>
-
-                <h3 className="font-semibold text-lg text-primary">
-                  {item.title}
-                </h3>
-
-                <p className="mt-2 text-sm text-muted-foreground max-w-[220px]">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-
-          </div>
-
-        </div>
-
-
       </section>
     </main>
   )

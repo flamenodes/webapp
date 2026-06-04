@@ -41,7 +41,16 @@ function RouteComponent() {
     currency: '₹',
     buttonLabel: 'Order',
     productId: product.id,
-    onSelectPlan: () => navigate({ to: '/configure/$productId', params: { productId: product.id } }),
+    onSelectPlan: () => {
+      // Store product info for billing flow
+      sessionStorage.setItem('selectedProduct', JSON.stringify({
+        id: product.id,
+        planName: product.planName,
+        price: product.price,
+        category: product.category,
+      }))
+      navigate({ to: '/billing/info' })
+    },
   }))
 
   return (

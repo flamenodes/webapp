@@ -70,7 +70,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <QueryClientProvider client={queryClient}>
               <AnnouncementBanner />
               {!hideNavbar && <Header />}
-
               {children}
               {!hideNavbar && <Footer />}
               <Toaster />

@@ -1,11 +1,9 @@
 import PricingCard from '#/components/pricing/PricingCard'
 import type { PricingCardProps } from '#/components/pricing/PricingCard'
-import { createFileRoute } from '@tanstack/react-router'
-import { useSuspenseQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { getProductsByCategory } from '#/serverActions/products/product.api'
-import { addToCart } from '#/serverActions/cart/cart.api'
 import { seo } from '#/utils/seo'
-import { toast } from 'sonner'
 
 export const Route = createFileRoute('/pricing/vps')({
   head: () => ({
@@ -20,35 +18,13 @@ export const Route = createFileRoute('/pricing/vps')({
 })
 
 function RouteComponent() {
-  const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const { data } = useSuspenseQuery({
     queryKey: ['pricing-products', 'VPS'],
     queryFn: () =>
       getProductsByCategory({
         data: { category: 'VPS' },
       }),
-  })
-
-  const addToCartMutation = useMutation({
-    mutationFn: (productId: string) =>
-      addToCart({
-        data: {
-          productId,
-          quantity: 1,
-          billingPeriod: 'MONTHLY',
-        },
-      }),
-    onSuccess: (result) => {
-      if (result.success) {
-        toast.success('Added to cart')
-        queryClient.invalidateQueries({ queryKey: ['user-cart'] })
-      } else {
-        toast.error(result.message)
-      }
-    },
-    onError: () => {
-      toast.error('Failed to add to cart')
-    },
   })
 
   const plans: PricingCardProps['data'][] = data.map((product) => ({
@@ -61,7 +37,16 @@ function RouteComponent() {
     currency: '₹',
     buttonLabel: 'Order',
     productId: product.id,
-    onSelectPlan: () => addToCartMutation.mutate(product.id),
+    onSelectPlan: () => {
+      // Store product info for billing flow
+      sessionStorage.setItem('selectedProduct', JSON.stringify({
+        id: product.id,
+        planName: product.planName,
+        price: product.price,
+        category: product.category,
+      }))
+      navigate({ to: '/billing/info' })
+    },
   }))
 
   return (

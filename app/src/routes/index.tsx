@@ -2,13 +2,10 @@ import { createFileRoute } from '@tanstack/react-router'
 import Features from '#/components/hero/Features'
 import HeroSection from '#/components/hero/HeroSection'
 import ScrollReveal from '#/components/ScrollReveal'
-import { PricingHeroCard } from '#/components/hero/PricingHeroCard'
 import { seo } from '#/utils/seo'
-import { ContactUS } from '@/components/hero/ContactUS'
 import { TrustSection } from '@/components/hero/TrustSection'
-import { useQuery } from '@tanstack/react-query'
-import { getTrustpilotReviews } from '@/serverActions/trustpilot.api'
-import { GamePanelCardSwap } from '@/components/GamePanelCardSwap'
+import { PricingTableFour } from '@/components/billingsdk/pricing-table-four'
+import { plans } from '@/lib/billingsdk-config'
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -25,14 +22,6 @@ export const Route = createFileRoute('/')({
 })
 
 function Home() {
-  const { data: reviews } = useQuery({
-    queryKey: ['trustpilot-reviews'],
-    queryFn: () => getTrustpilotReviews(),
-    staleTime: 1000 * 60 * 30, // 30 minutes
-  })
-
-  const trustpilotReviews = reviews || []
-
   const pricing = [
     {
       icon: '',
@@ -88,7 +77,7 @@ function Home() {
   ]
 
   return (
-    <main className="w-full">
+    <main className="w-full overflow-x-hidden">
       <HeroSection />
       <Features />
       <section className="text-center mt-20 mx-auto max-w-5xl px-4 sm:px-6 font-cursive leading-10 *:text-sm">
@@ -103,68 +92,28 @@ function Home() {
           solutions for gamers, developers, and online communities.
         </ScrollReveal>
       </section>
-      <section className="flex flex-col items-center justify-center [perspective:1000px] gap-8 relative px-4 sm:px-6 pb-20 pt-8">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-background/10 to-primary/20 blur-3xl rounded-full scale-150 opacity-60 pointer-events-none"></div>
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-angkor font-extrabold text-transparent bg-clip-text bg-linear-60 from-primary to-primary/50 [text-shadow:0_0_20px_rgba(238,105,105,0.3)]">
-          Plans Starts At!
-        </h1>
-        <div id="pricing" className="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10 space-y-4">
-          {pricing.map((map, key) => (
-            <PricingHeroCard
-              key={key}
-              name={map.title}
-              description={map.description}
-              featured={map.featured}
-              price={map.price}
-              features={map.features}
-              cta={map.cta}
-              to={map.to}
-            />
-          ))}
+      <section className=" flex justify-center items-center w-full">
+        <div className="max-w-[60rem]">
+          <PricingTableFour
+            plans={plans}
+            title="Choose Your Perfect Plan"
+            theme="classic"
+            description="Transform your project with our comprehensive pricing options designed for every need."
+            subtitle="Simple Pricing"
+            onPlanSelect={(planId: string) =>
+              console.log('Selected plan:', planId)
+            }
+            size="medium"
+            className="w-full"
+            showBillingToggle={true}
+            billingToggleLabels={{
+              monthly: 'Monthly',
+              yearly: 'Yearly',
+            }}
+          />
         </div>
       </section>
-      
-      <TrustSection reviews={trustpilotReviews} />
-      
-      <section className="py-8 px-4 sm:px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background pointer-events-none"></div>
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center -mb-20">
-            <h2 className="text-4xl sm:text-5xl font-angkor font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/50 mb-2">
-              Game Panel Features
-            </h2>
-            <p className="text-muted-foreground">
-              Powerful management tools at your fingertips
-            </p>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            <div className="space-y-6 lg:pr-8">
-              <div>
-                <h3 className="text-2xl font-bold mb-2 text-primary">Intuitive Control Panel</h3>
-                <p className="text-muted-foreground">
-                  Manage your game servers with ease using our modern, user-friendly interface designed for both beginners and experts.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold mb-2 text-primary">Real-Time Management</h3>
-                <p className="text-muted-foreground">
-                  Monitor server performance, manage files, and control settings instantly without any delays or complicated processes.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold mb-2 text-primary">One-Click Operations</h3>
-                <p className="text-muted-foreground">
-                  Start, stop, restart servers, install mods, and manage backups with simple one-click actions from your dashboard.
-                </p>
-              </div>
-            </div>
-            <div>
-              <GamePanelCardSwap />
-            </div>
-          </div>
-        </div>
-      </section>
-      
+      <TrustSection />
     </main>
   )
 }

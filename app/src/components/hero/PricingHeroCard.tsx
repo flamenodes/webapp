@@ -34,7 +34,7 @@ const PricingHeroCard = React.forwardRef<HTMLDivElement, PricingHeroCardProps>(
       >
         <div className="absolute h-full w-full">
           {featured ? (
-            <ElectricBorder color="#d21f5e" className="h-full" />
+            <ElectricBorder color="#d21f5e" className="h-full w-full" />
           ) : (
             <></>
           )}

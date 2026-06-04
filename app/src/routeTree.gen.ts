@@ -25,10 +25,10 @@ import { Route as PricingDiscordBotRouteImport } from './routes/pricing/discord-
 import { Route as PricingDedicatedRouteImport } from './routes/pricing/dedicated'
 import { Route as DocsSlugRouteImport } from './routes/docs/$slug'
 import { Route as DevTestRouteImport } from './routes/dev/test'
-import { Route as ConfigureProductIdRouteImport } from './routes/configure/$productId'
 import { Route as CheckoutPaymentRouteImport } from './routes/checkout/payment'
 import { Route as BillingSuccessRouteImport } from './routes/billing/success'
 import { Route as BillingConfigureRouteImport } from './routes/billing/configure'
+import { Route as BillingCheckoutRouteImport } from './routes/billing/checkout'
 import { Route as BillingCartRouteImport } from './routes/billing/cart'
 import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
@@ -41,6 +41,9 @@ import { Route as ProtectedUserServersRouteImport } from './routes/_protected/us
 import { Route as ProtectedUserOrdersRouteImport } from './routes/_protected/user/orders'
 import { Route as ProtectedUserInvoicesRouteImport } from './routes/_protected/user/invoices'
 import { Route as ProtectedUserDashboardRouteImport } from './routes/_protected/user/dashboard'
+import { Route as ProtectedBillingPaymentRouteImport } from './routes/_protected/billing/payment'
+import { Route as ProtectedBillingInfoRouteImport } from './routes/_protected/billing/info'
+import { Route as ProtectedBillingAddressRouteImport } from './routes/_protected/billing/address'
 import { Route as ProtectedAdminWebSettingsRouteImport } from './routes/_protected/admin/web-settings'
 import { Route as ProtectedAdminTicketsRouteImport } from './routes/_protected/admin/tickets'
 import { Route as ProtectedAdminStatusRouteImport } from './routes/_protected/admin/status'
@@ -137,11 +140,6 @@ const DevTestRoute = DevTestRouteImport.update({
   path: '/dev/test',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ConfigureProductIdRoute = ConfigureProductIdRouteImport.update({
-  id: '/configure/$productId',
-  path: '/configure/$productId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const CheckoutPaymentRoute = CheckoutPaymentRouteImport.update({
   id: '/checkout/payment',
   path: '/checkout/payment',
@@ -155,6 +153,11 @@ const BillingSuccessRoute = BillingSuccessRouteImport.update({
 const BillingConfigureRoute = BillingConfigureRouteImport.update({
   id: '/billing/configure',
   path: '/billing/configure',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BillingCheckoutRoute = BillingCheckoutRouteImport.update({
+  id: '/billing/checkout',
+  path: '/billing/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BillingCartRoute = BillingCartRouteImport.update({
@@ -216,6 +219,21 @@ const ProtectedUserDashboardRoute = ProtectedUserDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => ProtectedUserRouteRoute,
+} as any)
+const ProtectedBillingPaymentRoute = ProtectedBillingPaymentRouteImport.update({
+  id: '/billing/payment',
+  path: '/billing/payment',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedBillingInfoRoute = ProtectedBillingInfoRouteImport.update({
+  id: '/billing/info',
+  path: '/billing/info',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedBillingAddressRoute = ProtectedBillingAddressRouteImport.update({
+  id: '/billing/address',
+  path: '/billing/address',
+  getParentRoute: () => ProtectedRoute,
 } as any)
 const ProtectedAdminWebSettingsRoute =
   ProtectedAdminWebSettingsRouteImport.update({
@@ -319,10 +337,10 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
   '/billing/cart': typeof BillingCartRoute
+  '/billing/checkout': typeof BillingCheckoutRoute
   '/billing/configure': typeof BillingConfigureRoute
   '/billing/success': typeof BillingSuccessRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
-  '/configure/$productId': typeof ConfigureProductIdRoute
   '/dev/test': typeof DevTestRoute
   '/docs/$slug': typeof DocsSlugRoute
   '/pricing/dedicated': typeof PricingDedicatedRoute
@@ -348,6 +366,9 @@ export interface FileRoutesByFullPath {
   '/admin/status': typeof ProtectedAdminStatusRoute
   '/admin/tickets': typeof ProtectedAdminTicketsRoute
   '/admin/web-settings': typeof ProtectedAdminWebSettingsRoute
+  '/billing/address': typeof ProtectedBillingAddressRoute
+  '/billing/info': typeof ProtectedBillingInfoRoute
+  '/billing/payment': typeof ProtectedBillingPaymentRoute
   '/user/dashboard': typeof ProtectedUserDashboardRoute
   '/user/invoices': typeof ProtectedUserInvoicesRoute
   '/user/orders': typeof ProtectedUserOrdersRoute
@@ -367,10 +388,10 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
   '/billing/cart': typeof BillingCartRoute
+  '/billing/checkout': typeof BillingCheckoutRoute
   '/billing/configure': typeof BillingConfigureRoute
   '/billing/success': typeof BillingSuccessRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
-  '/configure/$productId': typeof ConfigureProductIdRoute
   '/dev/test': typeof DevTestRoute
   '/docs/$slug': typeof DocsSlugRoute
   '/pricing/dedicated': typeof PricingDedicatedRoute
@@ -396,6 +417,9 @@ export interface FileRoutesByTo {
   '/admin/status': typeof ProtectedAdminStatusRoute
   '/admin/tickets': typeof ProtectedAdminTicketsRoute
   '/admin/web-settings': typeof ProtectedAdminWebSettingsRoute
+  '/billing/address': typeof ProtectedBillingAddressRoute
+  '/billing/info': typeof ProtectedBillingInfoRoute
+  '/billing/payment': typeof ProtectedBillingPaymentRoute
   '/user/dashboard': typeof ProtectedUserDashboardRoute
   '/user/invoices': typeof ProtectedUserInvoicesRoute
   '/user/orders': typeof ProtectedUserOrdersRoute
@@ -419,10 +443,10 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/signup': typeof AuthSignupRoute
   '/billing/cart': typeof BillingCartRoute
+  '/billing/checkout': typeof BillingCheckoutRoute
   '/billing/configure': typeof BillingConfigureRoute
   '/billing/success': typeof BillingSuccessRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
-  '/configure/$productId': typeof ConfigureProductIdRoute
   '/dev/test': typeof DevTestRoute
   '/docs/$slug': typeof DocsSlugRoute
   '/pricing/dedicated': typeof PricingDedicatedRoute
@@ -448,6 +472,9 @@ export interface FileRoutesById {
   '/_protected/admin/status': typeof ProtectedAdminStatusRoute
   '/_protected/admin/tickets': typeof ProtectedAdminTicketsRoute
   '/_protected/admin/web-settings': typeof ProtectedAdminWebSettingsRoute
+  '/_protected/billing/address': typeof ProtectedBillingAddressRoute
+  '/_protected/billing/info': typeof ProtectedBillingInfoRoute
+  '/_protected/billing/payment': typeof ProtectedBillingPaymentRoute
   '/_protected/user/dashboard': typeof ProtectedUserDashboardRoute
   '/_protected/user/invoices': typeof ProtectedUserInvoicesRoute
   '/_protected/user/orders': typeof ProtectedUserOrdersRoute
@@ -470,10 +497,10 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/billing/cart'
+    | '/billing/checkout'
     | '/billing/configure'
     | '/billing/success'
     | '/checkout/payment'
-    | '/configure/$productId'
     | '/dev/test'
     | '/docs/$slug'
     | '/pricing/dedicated'
@@ -499,6 +526,9 @@ export interface FileRouteTypes {
     | '/admin/status'
     | '/admin/tickets'
     | '/admin/web-settings'
+    | '/billing/address'
+    | '/billing/info'
+    | '/billing/payment'
     | '/user/dashboard'
     | '/user/invoices'
     | '/user/orders'
@@ -518,10 +548,10 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/billing/cart'
+    | '/billing/checkout'
     | '/billing/configure'
     | '/billing/success'
     | '/checkout/payment'
-    | '/configure/$productId'
     | '/dev/test'
     | '/docs/$slug'
     | '/pricing/dedicated'
@@ -547,6 +577,9 @@ export interface FileRouteTypes {
     | '/admin/status'
     | '/admin/tickets'
     | '/admin/web-settings'
+    | '/billing/address'
+    | '/billing/info'
+    | '/billing/payment'
     | '/user/dashboard'
     | '/user/invoices'
     | '/user/orders'
@@ -569,10 +602,10 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_auth/signup'
     | '/billing/cart'
+    | '/billing/checkout'
     | '/billing/configure'
     | '/billing/success'
     | '/checkout/payment'
-    | '/configure/$productId'
     | '/dev/test'
     | '/docs/$slug'
     | '/pricing/dedicated'
@@ -598,6 +631,9 @@ export interface FileRouteTypes {
     | '/_protected/admin/status'
     | '/_protected/admin/tickets'
     | '/_protected/admin/web-settings'
+    | '/_protected/billing/address'
+    | '/_protected/billing/info'
+    | '/_protected/billing/payment'
     | '/_protected/user/dashboard'
     | '/_protected/user/invoices'
     | '/_protected/user/orders'
@@ -617,10 +653,10 @@ export interface RootRouteChildren {
   McpRoute: typeof McpRoute
   StatusRoute: typeof StatusRoute
   BillingCartRoute: typeof BillingCartRoute
+  BillingCheckoutRoute: typeof BillingCheckoutRoute
   BillingConfigureRoute: typeof BillingConfigureRoute
   BillingSuccessRoute: typeof BillingSuccessRoute
   CheckoutPaymentRoute: typeof CheckoutPaymentRoute
-  ConfigureProductIdRoute: typeof ConfigureProductIdRoute
   DevTestRoute: typeof DevTestRoute
   DocsSlugRoute: typeof DocsSlugRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
@@ -740,13 +776,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevTestRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/configure/$productId': {
-      id: '/configure/$productId'
-      path: '/configure/$productId'
-      fullPath: '/configure/$productId'
-      preLoaderRoute: typeof ConfigureProductIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/checkout/payment': {
       id: '/checkout/payment'
       path: '/checkout/payment'
@@ -766,6 +795,13 @@ declare module '@tanstack/react-router' {
       path: '/billing/configure'
       fullPath: '/billing/configure'
       preLoaderRoute: typeof BillingConfigureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/billing/checkout': {
+      id: '/billing/checkout'
+      path: '/billing/checkout'
+      fullPath: '/billing/checkout'
+      preLoaderRoute: typeof BillingCheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/billing/cart': {
@@ -851,6 +887,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/user/dashboard'
       preLoaderRoute: typeof ProtectedUserDashboardRouteImport
       parentRoute: typeof ProtectedUserRouteRoute
+    }
+    '/_protected/billing/payment': {
+      id: '/_protected/billing/payment'
+      path: '/billing/payment'
+      fullPath: '/billing/payment'
+      preLoaderRoute: typeof ProtectedBillingPaymentRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/billing/info': {
+      id: '/_protected/billing/info'
+      path: '/billing/info'
+      fullPath: '/billing/info'
+      preLoaderRoute: typeof ProtectedBillingInfoRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/billing/address': {
+      id: '/_protected/billing/address'
+      path: '/billing/address'
+      fullPath: '/billing/address'
+      preLoaderRoute: typeof ProtectedBillingAddressRouteImport
+      parentRoute: typeof ProtectedRoute
     }
     '/_protected/admin/web-settings': {
       id: '/_protected/admin/web-settings'
@@ -1091,11 +1148,17 @@ const ProtectedUserRouteRouteWithChildren =
 interface ProtectedRouteChildren {
   ProtectedAdminRouteRoute: typeof ProtectedAdminRouteRouteWithChildren
   ProtectedUserRouteRoute: typeof ProtectedUserRouteRouteWithChildren
+  ProtectedBillingAddressRoute: typeof ProtectedBillingAddressRoute
+  ProtectedBillingInfoRoute: typeof ProtectedBillingInfoRoute
+  ProtectedBillingPaymentRoute: typeof ProtectedBillingPaymentRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedAdminRouteRoute: ProtectedAdminRouteRouteWithChildren,
   ProtectedUserRouteRoute: ProtectedUserRouteRouteWithChildren,
+  ProtectedBillingAddressRoute: ProtectedBillingAddressRoute,
+  ProtectedBillingInfoRoute: ProtectedBillingInfoRoute,
+  ProtectedBillingPaymentRoute: ProtectedBillingPaymentRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
@@ -1110,10 +1173,10 @@ const rootRouteChildren: RootRouteChildren = {
   McpRoute: McpRoute,
   StatusRoute: StatusRoute,
   BillingCartRoute: BillingCartRoute,
+  BillingCheckoutRoute: BillingCheckoutRoute,
   BillingConfigureRoute: BillingConfigureRoute,
   BillingSuccessRoute: BillingSuccessRoute,
   CheckoutPaymentRoute: CheckoutPaymentRoute,
-  ConfigureProductIdRoute: ConfigureProductIdRoute,
   DevTestRoute: DevTestRoute,
   DocsSlugRoute: DocsSlugRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,

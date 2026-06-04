@@ -1,25 +1,18 @@
 "use client";
 
-import { InfiniteMovingCards } from '#/components/ui/infinite-moving-cards';
 import { FaStar } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 
-interface Review {
-  quote: string;
-  name: string;
-  title: string;
-  stars?: number;
-}
-
-interface TrustSectionProps {
-  reviews: Review[];
-}
-
-export function TrustSection({ reviews }: TrustSectionProps) {
+export function TrustSection() {
   const [isMounted, setIsMounted] = useState(false);
+  const [TrustpilotWidget, setTrustpilotWidget] = useState<any>(null);
 
   useEffect(() => {
     setIsMounted(true);
+    
+    import('@mr-fougere/react-trustpilot-widgets').then((module) => {
+      setTrustpilotWidget(() => module);
+    });
   }, []);
 
   return (
@@ -60,38 +53,22 @@ export function TrustSection({ reviews }: TrustSectionProps) {
           </a>
         </div>
         
-        {/* Reviews Carousel */}
-        <div className="relative">
-          {isMounted ? (
-            <InfiniteMovingCards
-              items={reviews}
-              direction="right"
-              speed="slow"
-              pauseOnHover={true}
-              className="py-4"
-            />
-          ) : (
-            <div className="flex gap-4 py-4 overflow-hidden">
-              {reviews.slice(0, 3).map((item, idx) => (
-                <div
-                  key={idx}
-                  className="w-[350px] md:w-[450px] shrink-0 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-[linear-gradient(180deg,#fafafa,#f5f5f5)] dark:bg-[linear-gradient(180deg,#27272a,#18181b)] px-8 py-6"
-                >
-                  <blockquote>
-                    <span className="text-sm leading-[1.6] font-normal text-neutral-800 dark:text-gray-100">
-                      {item.quote}
-                    </span>
-                    <div className="mt-6 flex flex-col gap-1">
-                      <span className="text-sm leading-[1.6] font-normal text-neutral-500 dark:text-gray-400">
-                        {item.name}
-                      </span>
-                      <span className="text-sm leading-[1.6] font-normal text-neutral-500 dark:text-gray-400">
-                        {item.title}
-                      </span>
-                    </div>
-                  </blockquote>
+        {/* Trustpilot Widget */}
+        <div className="relative max-w-6xl mx-auto">
+          {isMounted && TrustpilotWidget ? (
+            <TrustpilotWidget.TrustpilotWidgetProvider
+              businessUnitId="67699d92aa43d7422dc2c59d"
+              websiteUrl="flamenodes.cloud"
+            >
+              <TrustpilotWidget.TrustBoxWidget.Carousel height="240px" width="100%">
+                <div className="flex items-center justify-center h-40 text-muted-foreground">
+                  Loading reviews...
                 </div>
-              ))}
+              </TrustpilotWidget.TrustBoxWidget.Carousel>
+            </TrustpilotWidget.TrustpilotWidgetProvider>
+          ) : (
+            <div className="flex items-center justify-center h-60 text-muted-foreground">
+              Loading reviews...
             </div>
           )}
         </div>

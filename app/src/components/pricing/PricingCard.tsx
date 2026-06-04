@@ -33,7 +33,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({ data }) => {
     features = [],
     featureCategory = 'Features included',
     onSelectPlan,
-    buttonLabel = 'Get started',
+    buttonLabel = 'Buy Now',
     productId,
   } = data
 
@@ -65,7 +65,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({ data }) => {
         />
 
         <div className="absolute top-4 right-4 z-10">
-          <img src={icon} className="size-[30px]" />
+          <img src={icon} className="size-[40px]" />
         </div>
 
         {/* Content */}
@@ -145,9 +145,9 @@ export const PricingCard: React.FC<PricingCardProps> = ({ data }) => {
               px-4
               text-sm
               font-medium
-              bg-secondary
-              hover:bg-secondary/80
-              text-secondary-foreground
+              bg-foreground
+              hover:bg-foreground/80
+              text-background
               transition-all duration-150
               focus-visible:outline-none
               focus-visible:ring-2
