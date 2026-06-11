@@ -1,5 +1,6 @@
 import { BloomEffect, EffectComposer, EffectPass, RenderPass, SMAAEffect, SMAAPreset } from 'postprocessing';
-import { FC, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import type { FC } from 'react';
 import * as THREE from 'three';
 
 interface Distortion {

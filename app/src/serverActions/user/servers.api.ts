@@ -216,3 +216,52 @@ export const renewServer = createServerFn({ method: 'POST' })
     })
   })
 
+export const reinstallServer = createServerFn({ method: 'POST' })
+  .inputValidator((data: any) => z.object({ serverId: z.string() }).parse(data))
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const session = await auth.api.getSession({ headers })
+    if (!session?.user) return wrapError('Unauthorized')
+
+    const server = await prisma.server.findUnique({
+      where: { id: data.serverId, userId: session.user.id },
+    })
+    if (!server) return wrapError('Server not found')
+
+    const pteroData = server.pterodactylData as any
+    if (!pteroData?.identifier) {
+      return wrapError('Server does not support reinstall')
+    }
+
+    try {
+      await ptero.post(`/client/servers/${pteroData.identifier}/settings/reinstall`)
+      return wrapSuccess('Server reinstall initiated')
+    } catch (error: any) {
+      return wrapError(error.message || 'Failed to reinstall server')
+    }
+  })
+
+export const getServerDetails = createServerFn({ method: 'GET' })
+  .inputValidator((data: any) => z.object({ serverId: z.string() }).parse(data))
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const session = await auth.api.getSession({ headers })
+    if (!session?.user) throw new Error('Unauthorized')
+
+    const server = await prisma.server.findUnique({
+      where: { id: data.serverId, userId: session.user.id },
+      include: {
+        orderItem: {
+          include: {
+            product: true,
+            order: true,
+          },
+        },
+      },
+    })
+
+    if (!server) throw new Error('Server not found')
+
+    return server
+  })
+

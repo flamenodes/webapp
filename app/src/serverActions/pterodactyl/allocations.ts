@@ -3,8 +3,8 @@ import { ptero } from './client'
 
 export const allocationSchema = z.object({
   mode: z.enum(['balance', 'specific']),
-
   nodeId: z.number().optional(),
+  excludeAllocations: z.array(z.number()).optional(),
 })
 
 export const findPetroAvailableAllocation =
@@ -12,11 +12,14 @@ export const findPetroAvailableAllocation =
     data: z.infer<typeof allocationSchema>,
   ) => {
     try {
+      console.log('🔍 Finding available allocation with mode:', data.mode, 'nodeId:', data.nodeId)
+      
       const nodesRes = await ptero.get(
         '/application/nodes',
       )
 
       const nodes = nodesRes.data.data
+      console.log(`📊 Found ${nodes.length} nodes`)
 
       const nodeAllocations =
         await Promise.all(
@@ -29,9 +32,11 @@ export const findPetroAvailableAllocation =
             const freeAllocations =
               allocationsRes.data.data.filter(
                 (allocation: any) =>
-                  !allocation.attributes
-                    .assigned,
+                  !allocation.attributes.assigned &&
+                  !(data.excludeAllocations || []).includes(allocation.attributes.id),
               )
+
+            console.log(`Node ${node.attributes.name} (ID: ${node.attributes.id}): ${freeAllocations.length} free allocations`)
 
             return {
               nodeId:
@@ -71,6 +76,7 @@ export const findPetroAvailableAllocation =
           )
         }
 
+        console.log(`✅ Selected allocation ${node.freeAllocations[0].attributes.id} on node ${node.nodeId}`)
         return {
           nodeId: node.nodeId,
 
@@ -93,10 +99,11 @@ export const findPetroAvailableAllocation =
           .freeAllocations.length === 0
       ) {
         throw new Error(
-          'No allocations available',
+          'No allocations available on any node',
         )
       }
 
+      console.log(`✅ Selected allocation ${balancedNode.freeAllocations[0].attributes.id} on node ${balancedNode.nodeId} (${balancedNode.nodeName})`)
       return {
         nodeId: balancedNode.nodeId,
 
@@ -106,9 +113,7 @@ export const findPetroAvailableAllocation =
             .attributes.id,
       }
     } catch (err: any) {
-      console.error(
-        err.response?.data || err,
-      )
+      console.error('❌ Allocation finding error:', err.response?.data || err.message)
 
       throw err
     }

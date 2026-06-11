@@ -6,6 +6,7 @@ export const navItems = [
     section: 'main',
   },
   { icon: 'Server', label: 'Servers', to: '/admin/servers', section: 'main' },
+  { icon: 'Zap', label: 'Deploy & Queues', to: '/admin/deploy', section: 'main' },
   {
     icon: 'Users',
     label: 'Customers',

@@ -1,0 +1,81 @@
+{
+  "meta": {
+    "version": "PTDL_v2",
+    "update_url": null
+  },
+  "exported_at": "2025-01-01T00:00:00+00:00",
+  "name": "FlameNodes Cloud",
+  "author": "admin@flamenodes.com",
+  "description": "FlameNodes Cloud Platform - Complete hosting management solution with BullMQ workers",
+  "features": null,
+  "docker_images": {
+    "ghcr.io/parkervcp/yolks:nodejs_22": "ghcr.io/parkervcp/yolks:nodejs_22"
+  },
+  "file_denylist": [],
+  "startup": "if [ -f /home/container/app/.output/server/index.mjs ]; then pnpm start & pnpm workers; else pnpm install && pnpm db:push && pnpm build && pnpm start & pnpm workers; fi",
+  "config": {
+    "files": "{\n    \"app/.env\": {\n        \"parser\": \"file\",\n        \"find\": {\n            \"DATABASE_URL\": \"DATABASE_URL={{server.build.env.DATABASE_URL}}\",\n            \"REDIS_URL\": \"REDIS_URL={{server.build.env.REDIS_URL}}\",\n            \"APP_URL\": \"APP_URL=http://{{server.build.default.ip}}:{{server.build.default.port}}\"\n        }\n    }\n}",
+    "startup": "{\n    \"done\": \"Server started\"\n}",
+    "logs": "{}",
+    "stop": "^C"
+  },
+  "scripts": {
+    "installation": {
+      "script": "#!/bin/bash\n\napt update\napt install -y git curl jq file unzip make gcc g++ python3 python3-dev libtool\n\ncurl -fsSL https://get.pnpm.io/install.sh | sh -\nexport PNPM_HOME=\"/root/.local/share/pnpm\"\nexport PATH=\"$PNPM_HOME:$PATH\"\n\ncd /mnt/server\n\nif [ -z \"${GIT_ADDRESS}\" ]; then\n    echo \"Git repository not provided\"\n    exit 1\nfi\n\ngit clone ${GIT_ADDRESS} .\n\npnpm install\ncd app && pnpm db:generate\n\necho \"Installation complete\"",
+      "container": "ghcr.io/parkervcp/installers:debian",
+      "entrypoint": "bash"
+    }
+  },
+  "variables": [
+    {
+      "name": "Git Repository",
+      "description": "The Git repository URL",
+      "env_variable": "GIT_ADDRESS",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string",
+      "field_type": "text"
+    },
+    {
+      "name": "Database URL",
+      "description": "PostgreSQL connection string",
+      "env_variable": "DATABASE_URL",
+      "default_value": "postgresql://user:pass@localhost:5432/flamenodes",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string",
+      "field_type": "text"
+    },
+    {
+      "name": "Redis URL",
+      "description": "Redis connection string for BullMQ",
+      "env_variable": "REDIS_URL",
+      "default_value": "redis://localhost:6379",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string",
+      "field_type": "text"
+    },
+    {
+      "name": "Pterodactyl API URL",
+      "description": "Pterodactyl panel URL",
+      "env_variable": "PTERODACTYL_URL",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string",
+      "field_type": "text"
+    },
+    {
+      "name": "Pterodactyl API Key",
+      "description": "Pterodactyl API key",
+      "env_variable": "PTERODACTYL_API_KEY",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string",
+      "field_type": "text"
+    }
+  ]
+}

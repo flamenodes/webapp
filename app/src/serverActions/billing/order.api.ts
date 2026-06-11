@@ -4,7 +4,6 @@ import { prisma } from "#/db";
 import { auth } from "@/lib/auth";
 import { z } from "zod";
 import type { OrderStatus } from "@/generated/prisma/client";
-import { enqueuePteroDeployment } from "../deploy/queue";
 
 const createOrderSchema = z.object({
   cartId: z.string().optional(),
@@ -48,7 +47,7 @@ function calculateExpiryDate(billingPeriod: string): Date {
 
 
 export const createOrder = createServerFn({ method: "POST" })
-  .inputValidator((data) => createOrderSchema.parse(data))
+  .inputValidator(createOrderSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });
@@ -132,14 +131,13 @@ export const getOrders = createServerFn({ method: "GET" }).handler(
 );
 
 export const getOrder = createServerFn({ method: "GET" })
-  .inputValidator((data) => getOrderSchema.parse(data))
+  .inputValidator(getOrderSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });
-    if (!session?.user) throw new Error("Unauthorized");
-
+    
     const order = await prisma.order.findFirst({
-      where: { id: data.orderId, userId: session.user.id },
+      where: { id: data.orderId },
       include: {
         items: { include: { product: true } },
         user: { select: { id: true, name: true, email: true } }
@@ -151,14 +149,14 @@ export const getOrder = createServerFn({ method: "GET" })
   });
 
 export const updateOrderStatus = createServerFn({ method: "POST" })
-  .inputValidator((data) => updateOrderStatusSchema.parse(data))
+  .inputValidator(updateOrderStatusSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });
     if (!session?.user) return wrapError("Unauthorized");
 
     const order = await prisma.order.findFirst({
-      where: { id: data.orderId, userId: session.user.id },
+      where: { id: data.orderId },
       include: { items: { include: { product: true } } },
     });
 
@@ -176,6 +174,24 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
       const customItems = order.items.filter(
         (item) => item.product.deployMode === 'CUSTOM',
       );
+
+      // Send order confirmation email
+      const billingDetails = order.deliveryData as any
+      const { sendEmailFn } = await import('../queue/deploy-functions')
+      
+      await sendEmailFn({
+        data: {
+          type: 'order-confirmation',
+          to: billingDetails?.billingDetails?.email || session.user.email,
+          subject: `Order Confirmation - ${order.id}`,
+          data: {
+            userName: billingDetails?.billingDetails?.firstName || session.user.name,
+            orderId: order.id,
+            productName: order.items[0]?.productName,
+            amount: (order.totalAmount / 100).toFixed(2),
+          },
+        },
+      })
 
       // Handle CUSTOM items — create a pending server record for manual delivery
       await Promise.all(
@@ -198,7 +214,7 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
         }),
       );
 
-      // Handle PTERODACTYL items
+      // Handle PTERODACTYL items - Add to deployment queue
       await Promise.all(
         pteroItems.map(async (item) => {
           const existingServer = await prisma.server.findUnique({
@@ -211,12 +227,10 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
           const productSpecs = item.product.specs as Record<string, any> ?? {};
           const userConfig = (item.configuration ?? {}) as Record<string, string>;
 
-          // Resolve egg/nest/envVars from ConfigurationValue metadata
           let resolvedEgg = Number(productSpecs.egg ?? process.env.PTERO_DEFAULT_EGG ?? 1);
           let resolvedNest = Number(productSpecs.nest ?? process.env.PTERO_DEFAULT_NEST ?? 1);
           let extraEnv: Record<string, string> = {};
 
-          // Find any config value that has egg/nest in its metadata
           const configValueIds = Object.values(userConfig).filter(Boolean);
           if (configValueIds.length > 0) {
             const configValues = await prisma.configurationValue.findMany({
@@ -253,26 +267,32 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
             },
           });
 
-          await enqueuePteroDeployment({
-            orderId: order.id,
-            orderItemId: item.id,
-            serverId: server.id,
-            name,
-            user: Number(process.env.PTERO_DEFAULT_USER_ID ?? 1),
-            nest: resolvedNest,
-            egg: resolvedEgg,
-            extraEnv,
-            specs: {
-              cpu: Number(productSpecs.cpu ?? 0),
-              memory: Number(productSpecs.memory ?? 0),
-              swap: Number(productSpecs.swap ?? 0),
-              disk: Number(productSpecs.disk ?? 0),
-              database: Number(productSpecs.database ?? 0),
-              allocation: Number(productSpecs.allocation ?? 1),
-              backups: Number(productSpecs.backups ?? 0),
+          // Deploy server in background
+          const { deployServerFn } = await import('../queue/deploy-functions')
+          deployServerFn({
+            data: {
+              orderId: order.id,
+              orderItemId: item.id,
+              serverId: server.id,
+              name,
+              user: Number(process.env.PTERO_DEFAULT_USER_ID ?? 1),
+              nest: resolvedNest,
+              egg: resolvedEgg,
+              extraEnv,
+              specs: {
+                cpu: Number(productSpecs.cpu ?? 0),
+                memory: Number(productSpecs.memory ?? 0),
+                swap: Number(productSpecs.swap ?? 0),
+                disk: Number(productSpecs.disk ?? 0),
+                database: Number(productSpecs.database ?? 0),
+                allocation: Number(productSpecs.allocation ?? 1),
+                backups: Number(productSpecs.backups ?? 0),
+              },
+              type: item.product.category,
+              userEmail: billingDetails?.billingDetails?.email || session.user.email,
+              userName: billingDetails?.billingDetails?.firstName || session.user.name,
             },
-            type: item.product.category,
-          });
+          }).catch(err => console.error('Deployment failed:', err));
         }),
       );
     }
@@ -283,6 +303,24 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
 const checkoutSchema = z.object({
   productId: z.string(),
   quantity: z.number().int().positive().default(1),
+  billingPeriod: z.enum(['HOURLY', 'DAILY', 'MONTHLY', 'QUARTERLY', 'SEMIANNUALLY', 'YEARLY']).default('MONTHLY'),
+  configurationData: z.record(z.string()).optional(),
+  billingDetails: z.object({
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string().email(),
+    phone: z.string(),
+    address: z.string(),
+    city: z.string(),
+    state: z.string(),
+    zipCode: z.string(),
+    country: z.string(),
+  }),
+})
+
+const oldCheckoutSchema = z.object({
+  productId: z.string(),
+  quantity: z.number().int().positive().default(1),
   billingPeriod: z.enum(['MONTHLY', 'QUARTERLY', 'YEARLY']).default('MONTHLY'),
   configuration: z.record(z.string()).optional(),
   billingName: z.string().min(1),
@@ -290,8 +328,62 @@ const checkoutSchema = z.object({
   billingPhone: z.string().optional(),
 })
 
+export const createOrderDirect = createServerFn({ method: "POST" })
+  .inputValidator(z.any())
+  .handler(async ({ data: rawData }) => {
+    const data = checkoutSchema.parse(rawData)
+    const headers = getRequestHeaders()
+    const session = await auth.api.getSession({ headers })
+    if (!session?.user) throw new Error("Unauthorized")
+
+    const product = await prisma.product.findUnique({
+      where: { id: data.productId },
+      include: { billingOptions: true },
+    })
+    if (!product) throw new Error("Product not found")
+
+    let unitPrice = product.price
+    const billingOption = product.billingOptions?.find(
+      (opt) => opt.billingPeriod === data.billingPeriod
+    )
+    if (billingOption) {
+      unitPrice = billingOption.price
+    }
+
+    const totalAmount = unitPrice * data.quantity
+
+    const order = await prisma.order.create({
+      data: {
+        userId: session.user.id,
+        status: 'PENDING',
+        subtotalAmount: totalAmount,
+        discountAmount: 0,
+        totalAmount,
+        items: {
+          create: {
+            productId: product.id,
+            productName: product.planName,
+            quantity: data.quantity,
+            billingPeriod: data.billingPeriod,
+            unitPrice,
+            totalPrice: totalAmount,
+            specsSnapshot: product.specs ?? {},
+            configuration: data.configurationData ?? undefined,
+            expiresAt: calculateExpiryDate(data.billingPeriod),
+          },
+        },
+        deliveryData: {
+          billingDetails: data.billingDetails,
+        },
+      },
+      include: { items: true },
+    })
+
+    return order
+  })
+
 export const checkoutProduct = createServerFn({ method: "POST" })
-  .inputValidator((data) => checkoutSchema.parse(data))
+  .inputValidator(oldCheckoutSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -375,7 +467,7 @@ export const checkoutProduct = createServerFn({ method: "POST" })
   })
 
 export const cancelOrder = createServerFn({ method: "POST" })
-  .inputValidator((data) => cancelOrderSchema.parse(data))
+  .inputValidator(cancelOrderSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });

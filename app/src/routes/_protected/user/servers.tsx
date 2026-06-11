@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useSuspenseQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { getUserServersWithDetails, pingServer, updateCustomServer, renewServer } from '@/serverActions/user/servers.api'
+import { getUserServersWithDetails, pingServer, updateCustomServer, renewServer, reinstallServer } from '@/serverActions/user/servers.api'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import {
   Server, ExternalLink, RefreshCw, Cpu, HardDrive,
-  Wifi, WifiOff, Settings, Activity, Network, Database, Clock
+  Wifi, WifiOff, Settings, Activity, Network, Database, Clock, ExternalLinkIcon
 } from 'lucide-react'
 import { formatDistanceToNow } from '@/lib/date-utils'
 import { useState } from 'react'
@@ -357,12 +357,30 @@ function ServerCard({ server }: { server: any }) {
             )}
 
             {!isExpired && isPtero && pteroData.identifier && server.status !== 'SUSPENDED' && server.status !== 'TERMINATED' && (
-              <Button size="sm" className="h-7 text-xs flex-1" asChild>
-                <a href={`${panelUrl}/server/${pteroData.identifier}`} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="w-3 h-3 mr-1.5" />
-                  Access Panel
-                </a>
-              </Button>
+              <>
+                <Button size="sm" className="h-7 text-xs flex-1" asChild>
+                  <a href={`${panelUrl}/server/${pteroData.identifier}`} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="w-3 h-3 mr-1.5" />
+                    Panel
+                  </a>
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-7 text-xs"
+                  onClick={async () => {
+                    if (!confirm('Reinstall server? All data will be lost.')) return
+                    try {
+                      const res = await reinstallServer({ data: { serverId: server.id } })
+                      if (res.success) toast.success('Server reinstall initiated')
+                      else toast.error(res.message)
+                    } catch { toast.error('Failed to reinstall') }
+                  }}
+                >
+                  <RefreshCw className="w-3 h-3 mr-1.5" />
+                  Reinstall
+                </Button>
+              </>
             )}
 
             {!isExpired && isPtero && server.status === 'PROCESSING' && (
@@ -384,7 +402,19 @@ function ServerCard({ server }: { server: any }) {
                 onClick={() => setEditOpen(true)}
               >
                 <Settings className="w-3 h-3 mr-1.5" />
-                Edit
+                Manage
+              </Button>
+            )}
+
+            {server.orderItem?.orderId && (
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-7 text-xs"
+                onClick={() => navigate({ to: '/billing/success', search: { orderId: server.orderItem.orderId } })}
+              >
+                <ExternalLinkIcon className="w-3 h-3 mr-1.5" />
+                Track Order
               </Button>
             )}
 

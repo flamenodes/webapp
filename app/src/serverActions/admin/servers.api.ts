@@ -101,17 +101,9 @@ export const updateAdminServer = createServerFn({ method: 'POST' })
       serverId: z.string(),
       ip: z.string().optional(),
       port: z.number().int().min(1).max(65535).optional(),
-      resources: z.object({
-        cpu: z.number().optional(),
-        memory: z.number().int().optional(),
-        swap: z.number().int().optional(),
-        disk: z.number().int().optional(),
-        databases: z.number().int().optional(),
-        backups: z.number().int().optional(),
-        allocations: z.number().int().optional(),
-      }).optional(),
       label: z.string().optional(),
       status: z.enum(['ACTIVE', 'SUSPENDED', 'TERMINATED', 'PROCESSING']).optional(),
+      syncToPanel: z.boolean().optional(),
     }).parse(data),
   )
   .handler(async ({ data }) => {
@@ -123,20 +115,12 @@ export const updateAdminServer = createServerFn({ method: 'POST' })
     })
     const resources = (server.resources as any) ?? {}
 
-    if (data.resources?.cpu !== undefined) resources.cpu = data.resources.cpu
-    if (data.resources?.memory !== undefined) resources.memory = data.resources.memory
-    if (data.resources?.swap !== undefined) resources.swap = data.resources.swap
-    if (data.resources?.disk !== undefined) resources.disk = data.resources.disk
-    if (data.resources?.databases !== undefined) resources.databases = data.resources.databases
-    if (data.resources?.backups !== undefined) resources.backups = data.resources.backups
-    if (data.resources?.allocations !== undefined) resources.allocations = data.resources.allocations
     if (data.label !== undefined) resources.label = data.label
 
     const deployMode = server.orderItem?.product?.deployMode ?? 'CUSTOM'
     const pteroData = server.pterodactylData as any
 
-    if (deployMode === 'PTERODACTYL' && pteroData?.id) {
-      // Sync status to Pterodactyl
+    if (deployMode === 'PTERODACTYL' && pteroData?.id && data.syncToPanel) {
       if (data.status) {
         try {
           if (data.status === 'SUSPENDED') {
@@ -146,29 +130,7 @@ export const updateAdminServer = createServerFn({ method: 'POST' })
           }
         } catch (pteroError: any) {
           console.error(`Pterodactyl status sync failed for server ${pteroData.id}:`, pteroError.message)
-        }
-      }
-
-      // Sync resource specs to Pterodactyl build
-      if (data.resources) {
-        try {
-          await ptero.patch(`/application/servers/${pteroData.id}/build`, {
-            allocation: pteroData.allocation,
-            memory: resources.memory ?? 512,
-            swap: resources.swap ?? 0,
-            disk: resources.disk ?? 1024,
-            io: 500,
-            cpu: resources.cpu ?? 100,
-            threads: null,
-            oom_disabled: false,
-            feature_limits: {
-              databases: resources.databases ?? 0,
-              allocations: resources.allocations ?? 1,
-              backups: resources.backups ?? 0,
-            },
-          })
-        } catch (pteroError: any) {
-          console.error(`Pterodactyl build sync failed for server ${pteroData.id}:`, pteroError.message)
+          throw new Error('Failed to sync status to Pterodactyl panel')
         }
       }
     }
@@ -210,4 +172,70 @@ export const deleteAdminServer = createServerFn({ method: 'POST' })
 
     await prisma.server.delete({ where: { id: data.serverId } })
     return { success: true }
+  })
+
+export const retryDeployment = createServerFn({ method: 'POST' })
+  .inputValidator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
+  .handler(async ({ data }) => {
+    await requireAdmin()
+
+    const server = await prisma.server.findUniqueOrThrow({
+      where: { id: data.serverId },
+      include: {
+        user: { select: { id: true, name: true, email: true } },
+        orderItem: {
+          include: {
+            order: { select: { id: true } },
+            product: { select: { deployMode: true, pteroConfig: true, specs: true } },
+          },
+        },
+      },
+    })
+
+    if (server.orderItem?.product?.deployMode !== 'PTERODACTYL') {
+      throw new Error('Manual deployment only supported for Pterodactyl servers')
+    }
+
+    const pteroConfig = (server.orderItem.product.pteroConfig as any) ?? {}
+    const productSpecs = (server.orderItem.product.specs as any) ?? {}
+    const orderId = server.orderItem.order?.id
+    
+    if (!orderId) throw new Error('No order found for this server')
+
+    await prisma.server.update({
+      where: { id: data.serverId },
+      data: { status: 'PROCESSING' },
+    })
+
+    const { deployServerFn } = await import('../queue/deploy-functions')
+    
+    const result = await deployServerFn({
+      data: {
+        orderId,
+        orderItemId: server.orderItemId!,
+        serverId: server.id,
+        name: server.name,
+        user: pteroConfig.user ?? 1,
+        nest: pteroConfig.nest ?? 1,
+        egg: pteroConfig.egg ?? 1,
+        extraEnv: pteroConfig.extraEnv ?? {},
+        specs: {
+          cpu: productSpecs.cpu ?? 100,
+          memory: productSpecs.memory ?? 512,
+          swap: productSpecs.swap ?? 0,
+          disk: productSpecs.disk ?? 1024,
+          database: productSpecs.databases ?? productSpecs.database ?? 0,
+          allocation: productSpecs.allocations ?? productSpecs.allocation ?? 1,
+          backups: productSpecs.backups ?? 0,
+        },
+        type: 'pterodactyl',
+        userEmail: server.user?.email ?? '',
+        userName: server.user?.name ?? 'User',
+      },
+    })
+    
+    return { 
+      success: result.success,
+      message: result.success ? 'Deployment completed successfully' : result.error || 'Deployment failed'
+    }
   })

@@ -51,7 +51,7 @@ export const getAllOrders = createServerFn({ method: 'GET' }).handler(async () =
 })
 
 export const createManualOrder = createServerFn({ method: 'POST' })
-  .inputValidator((data) => createManualOrderSchema.parse(data))
+  .inputValidator(createManualOrderSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -106,7 +106,7 @@ export const createManualOrder = createServerFn({ method: 'POST' })
   })
 
 export const generatePaymentLink = createServerFn({ method: 'POST' })
-  .inputValidator((data) => generatePaymentLinkSchema.parse(data))
+  .inputValidator(generatePaymentLinkSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -154,7 +154,7 @@ export const generatePaymentLink = createServerFn({ method: 'POST' })
         },
       })
 
-      const paymentLink = `${process.env.APP_URL || 'http://localhost:3000'}/checkout/payment?orderId=${order.id}&razorpayOrderId=${razorpayOrder.id}`
+      const paymentLink = `${process.env.VITE_BETTER_AUTH_URL || process.env.BETTER_AUTH_URL || 'http://localhost:3000'}/checkout/payment?orderId=${order.id}&razorpayOrderId=${razorpayOrder.id}`
 
       return wrapSuccess('Payment link generated successfully', {
         orderId: order.id,
@@ -168,7 +168,7 @@ export const generatePaymentLink = createServerFn({ method: 'POST' })
   })
 
 export const updateOrderStatus = createServerFn({ method: 'POST' })
-  .inputValidator((data) => updateOrderStatusSchema.parse(data))
+  .inputValidator(updateOrderStatusSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -248,7 +248,7 @@ export const getPendingCustomOrders = createServerFn({ method: 'GET' }).handler(
 })
 
 export const deliverCustomOrder = createServerFn({ method: 'POST' })
-  .inputValidator((data) => deliverCustomOrderSchema.parse(data))
+  .inputValidator(deliverCustomOrderSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -301,7 +301,7 @@ const deleteOrderSchema = z.object({
 })
 
 export const deleteOrder = createServerFn({ method: 'POST' })
-  .inputValidator((data) => deleteOrderSchema.parse(data))
+  .inputValidator(deleteOrderSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })

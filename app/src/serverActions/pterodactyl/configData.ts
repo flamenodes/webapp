@@ -47,6 +47,7 @@ export const getPetroEggData = async ({
 
 export const pteroServerData = async (
   data: z.infer<typeof pteroServerSchema>,
+  excludeAllocations?: number[],
 ) => {
   const eggData: PteroEgg = await getPetroEggData({
     nestId: data.nest,
@@ -63,6 +64,7 @@ export const pteroServerData = async (
   const allocation = await findPetroAvailableAllocation({
     mode: nodeMode,
     ...(nodeMode === 'specific' && nodeId ? { nodeId } : {}),
+    ...(excludeAllocations ? { excludeAllocations } : {}),
   })
 
   const serverData = {

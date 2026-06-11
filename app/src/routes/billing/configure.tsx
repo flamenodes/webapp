@@ -52,7 +52,7 @@ function CartPage() {
       product: cartData.product,
       totalPrice: cartData.orderSummary.total.value,
     }))
-    navigate({ to: '/billing/info' })
+    navigate({ to: '/billing/cart' })
   }
 
   return (

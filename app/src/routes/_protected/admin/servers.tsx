@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useSuspenseQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { getAdminServers, fetchPteroServerData, pingAdminServer, updateAdminServer, deleteAdminServer } from '@/serverActions/admin/servers.api'
+import { getAdminServers, fetchPteroServerData, pingAdminServer, updateAdminServer, deleteAdminServer, retryDeployment } from '@/serverActions/admin/servers.api'
 import { useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -8,9 +8,19 @@ import { Input } from '@/components/ui/input'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Field, FieldLabel, FieldDescription } from '@/components/ui/field'
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import {
   Server, RefreshCw, Loader2, Wifi, WifiOff, Activity,
   Cpu, HardDrive, MemoryStick, ExternalLink, Settings, Search,
-  Ban, Play, Trash2,
+  Ban, Play, Trash2, RotateCw,
 } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -25,6 +35,7 @@ const statusConfig: Record<string, { label: string; dot: string; badge: 'default
   PENDING_MANUAL: { label: 'Pending', dot: 'bg-orange-500', badge: 'outline' },
   SUSPENDED: { label: 'Suspended', dot: 'bg-destructive', badge: 'destructive' },
   TERMINATED: { label: 'Terminated', dot: 'bg-muted-foreground', badge: 'outline' },
+  FAILED: { label: 'Failed', dot: 'bg-red-500', badge: 'destructive' },
 }
 
 function formatBytes(bytes: number) {
@@ -133,18 +144,12 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
   const isPtero = server.deployMode === 'PTERODACTYL'
   const resources = (server.resources as any) ?? {}
   const isSuspended = server.status === 'SUSPENDED'
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false)
 
   const [form, setForm] = useState({
     ip: server.ip ?? '',
     port: server.port?.toString() ?? '',
     label: resources.label ?? '',
-    cpu: resources.cpu?.toString() ?? '',
-    memory: resources.memory?.toString() ?? '',
-    swap: resources.swap?.toString() ?? '0',
-    disk: resources.disk?.toString() ?? '',
-    databases: resources.databases?.toString() ?? '0',
-    backups: resources.backups?.toString() ?? '0',
-    allocations: resources.allocations?.toString() ?? '1',
   })
 
   const [pingResult, setPingResult] = useState<{ online: boolean } | null>(null)
@@ -163,21 +168,12 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
           ip: !isPtero ? (form.ip || undefined) : undefined,
           port: !isPtero && form.port ? Number(form.port) : undefined,
           label: form.label || undefined,
-          resources: {
-            cpu: form.cpu ? Number(form.cpu) : undefined,
-            memory: form.memory ? Number(form.memory) : undefined,
-            swap: form.swap !== '' ? Number(form.swap) : undefined,
-            disk: form.disk ? Number(form.disk) : undefined,
-            databases: form.databases !== '' ? Number(form.databases) : undefined,
-            backups: form.backups !== '' ? Number(form.backups) : undefined,
-            allocations: form.allocations !== '' ? Number(form.allocations) : undefined,
-          },
         },
       }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['admin-servers'] })
       qc.invalidateQueries({ queryKey: ['ptero-detail', server.id] })
-      toast.success(isPtero ? 'Server updated and synced to Pterodactyl' : 'Server updated')
+      toast.success('Server updated successfully')
       onClose()
     },
     onError: () => toast.error('Failed to update server'),
@@ -185,11 +181,10 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
 
   const statusMutation = useMutation({
     mutationFn: (newStatus: 'SUSPENDED' | 'ACTIVE') =>
-      updateAdminServer({ data: { serverId: server.id, status: newStatus } }),
+      updateAdminServer({ data: { serverId: server.id, status: newStatus, syncToPanel: true } }),
     onSuccess: (_, newStatus) => {
       qc.invalidateQueries({ queryKey: ['admin-servers'] })
-      toast.success(newStatus === 'SUSPENDED' ? 'Server suspended' : 'Server unsuspended')
-      onClose()
+      toast.success(newStatus === 'SUSPENDED' ? 'Server suspended' : 'Server activated')
     },
     onError: () => toast.error('Failed to update server status'),
   })
@@ -202,6 +197,16 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
       onClose()
     },
     onError: () => toast.error('Failed to delete server'),
+  })
+
+  const retryMutation = useMutation({
+    mutationFn: () => retryDeployment({ data: { serverId: server.id } }),
+    onSuccess: (res) => {
+      qc.invalidateQueries({ queryKey: ['admin-servers'] })
+      toast.success(res.message || 'Deployment retried successfully')
+      onClose()
+    },
+    onError: (err: any) => toast.error(err.message || 'Failed to retry deployment'),
   })
 
   const sc = statusConfig[server.status] ?? { label: server.status, dot: 'bg-muted-foreground', badge: 'outline' as const }
@@ -243,7 +248,19 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
 
             {/* Suspend / Unsuspend */}
             {server.status !== 'TERMINATED' && (
-              <div className="pt-1 border-t border-border">
+              <div className="pt-1 border-t border-border space-y-2">
+                {server.status === 'FAILED' && isPtero && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="h-7 text-xs text-blue-600 border-blue-500/30 hover:bg-blue-500/10 w-full"
+                    onClick={() => retryMutation.mutate()}
+                    disabled={retryMutation.isPending}
+                  >
+                    {retryMutation.isPending ? <Loader2 className="w-3 h-3 mr-1.5 animate-spin" /> : <RotateCw className="w-3 h-3 mr-1.5" />}
+                    Retry Deployment
+                  </Button>
+                )}
                 {isSuspended ? (
                   <Button
                     size="sm"
@@ -295,7 +312,7 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
           )}
 
           {/* Label */}
-          <Field>
+          <Field className="space-y-2">
             <FieldLabel>Label / Display Name</FieldLabel>
             <Input placeholder="e.g. Production MC Server" value={form.label} onChange={(e) => setForm((f) => ({ ...f, label: e.target.value }))} />
             <FieldDescription>Custom display name for this server</FieldDescription>
@@ -304,82 +321,61 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
           {/* IP / Port for custom servers */}
           {!isPtero && (
             <div className="grid grid-cols-2 gap-4">
-              <Field>
+              <Field className="space-y-2">
                 <FieldLabel>IP Address</FieldLabel>
                 <Input className="font-mono" placeholder="0.0.0.0" value={form.ip} onChange={(e) => setForm((f) => ({ ...f, ip: e.target.value }))} />
               </Field>
-              <Field>
+              <Field className="space-y-2">
                 <FieldLabel>Port</FieldLabel>
                 <Input className="font-mono" placeholder="25565" type="number" value={form.port} onChange={(e) => setForm((f) => ({ ...f, port: e.target.value }))} />
               </Field>
             </div>
           )}
 
-          {/* Resource specs — shown for all, synced to Pterodactyl if applicable */}
-          <div className="space-y-4">
-            <div>
-              <p className="text-sm font-semibold text-foreground mb-1">
-                Resource Specifications
-              </p>
-              {isPtero && (
-                <p className="text-xs text-muted-foreground">Changes will sync to Pterodactyl panel</p>
-              )}
-            </div>
-            <div className="grid grid-cols-3 gap-4">
-              <Field>
-                <FieldLabel>CPU (%)</FieldLabel>
-                <Input placeholder="100" type="number" value={form.cpu} onChange={(e) => setForm((f) => ({ ...f, cpu: e.target.value }))} />
-              </Field>
-              <Field>
-                <FieldLabel>RAM (MB)</FieldLabel>
-                <Input placeholder="1024" type="number" value={form.memory} onChange={(e) => setForm((f) => ({ ...f, memory: e.target.value }))} />
-              </Field>
-              <Field>
-                <FieldLabel>Swap (MB)</FieldLabel>
-                <Input placeholder="0" type="number" value={form.swap} onChange={(e) => setForm((f) => ({ ...f, swap: e.target.value }))} />
-              </Field>
-              <Field>
-                <FieldLabel>Disk (MB)</FieldLabel>
-                <Input placeholder="10240" type="number" value={form.disk} onChange={(e) => setForm((f) => ({ ...f, disk: e.target.value }))} />
-              </Field>
-              <Field>
-                <FieldLabel>Databases</FieldLabel>
-                <Input placeholder="0" type="number" value={form.databases} onChange={(e) => setForm((f) => ({ ...f, databases: e.target.value }))} />
-              </Field>
-              <Field>
-                <FieldLabel>Backups</FieldLabel>
-                <Input placeholder="0" type="number" value={form.backups} onChange={(e) => setForm((f) => ({ ...f, backups: e.target.value }))} />
-              </Field>
-              {isPtero && (
-                <Field>
-                  <FieldLabel>Allocations</FieldLabel>
-                  <Input placeholder="1" type="number" value={form.allocations} onChange={(e) => setForm((f) => ({ ...f, allocations: e.target.value }))} />
-                </Field>
-              )}
-            </div>
-          </div>
+          {/* Save button */}
+          <Button className="w-full" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
+            {saveMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+            Save Changes
+          </Button>
 
-          <div className="flex gap-3 pt-2">
-            <Button className="flex-1" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
-              {saveMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-              Save Changes
-            </Button>
-
-            <Button
-              variant="destructive"
-              className="flex-1"
-              onClick={() => {
-                if (confirm(`Are you sure you want to delete this server? ${isPtero ? 'It will also be deleted from Pterodactyl.' : ''}`)) {
-                  deleteMutation.mutate()
-                }
-              }}
-              disabled={deleteMutation.isPending}
-            >
-              {deleteMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Trash2 className="w-4 h-4 mr-2" />}
-              Delete
-            </Button>
-          </div>
+          {/* Delete button */}
+          <Button
+            variant="destructive"
+            className="w-full"
+            onClick={() => setShowDeleteAlert(true)}
+            disabled={deleteMutation.isPending}
+          >
+            {deleteMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Trash2 className="w-4 h-4 mr-2" />}
+            Delete Server
+          </Button>
         </div>
+
+        {/* Delete Confirmation Dialog */}
+        <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Delete Server?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Are you sure you want to delete <strong>{server.name}</strong>?
+                {isPtero && ' This will also delete the server from Pterodactyl panel.'}
+                <br /><br />
+                This action cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  deleteMutation.mutate()
+                  setShowDeleteAlert(false)
+                }}
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              >
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </SheetContent>
     </Sheet>
   )
@@ -461,10 +457,16 @@ function ServersPage() {
             ) : (
               filtered.map((server) => {
                 const sc = statusConfig[server.status] ?? { label: server.status, dot: 'bg-muted-foreground', badge: 'outline' as const }
+                const showRetry = server.status === 'FAILED' && server.deployMode === 'PTERODACTYL'
                 return (
                   <tr key={server.id} className="hover:bg-muted/30 transition-colors">
                     <td className="px-4 py-3">
-                      <span className={`inline-block w-2.5 h-2.5 rounded-full ${sc.dot}`} />
+                      <div className="flex items-center gap-2">
+                        <span className={`inline-block w-2.5 h-2.5 rounded-full ${sc.dot}`} />
+                        {showRetry && (
+                          <RotateCw className="w-3.5 h-3.5 text-blue-500" title="Can retry deployment" />
+                        )}
+                      </div>
                     </td>
                     <td className="px-4 py-3 font-medium max-w-[160px] truncate">
                       {(server.resources as any)?.label

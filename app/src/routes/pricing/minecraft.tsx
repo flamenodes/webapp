@@ -42,14 +42,7 @@ function RouteComponent() {
     buttonLabel: 'Order',
     productId: product.id,
     onSelectPlan: () => {
-      // Store product info for billing flow
-      sessionStorage.setItem('selectedProduct', JSON.stringify({
-        id: product.id,
-        planName: product.planName,
-        price: product.price,
-        category: product.category,
-      }))
-      navigate({ to: '/billing/info' })
+      navigate({ to: '/billing/cart', search: { productId: product.id } })
     },
   }))
 

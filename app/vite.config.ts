@@ -26,7 +26,10 @@ const config = defineConfig({
       '@react-three/drei',
       '@mr-fougere/react-trustpilot-widgets',
     ],
-    noExternal: [],
+    noExternal: ['bullmq', 'ioredis'],
+  },
+  optimizeDeps: {
+    exclude: ['bullmq', 'ioredis'],
   },
   oxc: {
     exclude: ['**/Silk.tsx'],
