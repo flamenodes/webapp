@@ -305,6 +305,8 @@ function InvoiceDownloadButton({ orderId }: { orderId: string }) {
   const { data: invoice, isLoading } = useQuery({
     queryKey: ['invoice', orderId],
     queryFn: () => getInvoiceByOrderId({ data: { orderId } }),
+    retry: false,
+    staleTime: 60000,
   })
 
   if (isLoading) {
@@ -317,18 +319,30 @@ function InvoiceDownloadButton({ orderId }: { orderId: string }) {
   }
 
   if (!invoice) {
-    return null
+    return (
+      <Button
+        size="sm"
+        variant="outline"
+        className="h-8"
+        onClick={() => toast.info('Invoice not available yet')}
+      >
+        <Package className="w-3 h-3 mr-1.5" />
+        Track Order
+      </Button>
+    )
   }
 
   return (
-    <Button
-      size="sm"
-      variant="outline"
-      className="h-8"
-      onClick={() => window.open(invoice.pdfUrl, '_blank')}
-    >
-      <Download className="w-3 h-3 mr-1.5" />
-      Invoice
-    </Button>
+    <div className="flex gap-2 justify-end">
+      <Button
+        size="sm"
+        variant="outline"
+        className="h-8"
+        onClick={() => window.open(invoice.pdfUrl, '_blank')}
+      >
+        <Download className="w-3 h-3 mr-1.5" />
+        Invoice
+      </Button>
+    </div>
   )
 }

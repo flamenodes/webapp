@@ -1,12 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useSuspenseQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { getAdminServers, fetchPteroServerData, pingAdminServer, updateAdminServer, deleteAdminServer, retryDeployment } from '@/serverActions/admin/servers.api'
+import { getAdminServers, fetchPteroServerData, pingAdminServer, updateAdminServer, deleteAdminServer, retryDeployment, redeployServer, bulkDeleteServers } from '@/serverActions/admin/servers.api'
 import { useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Field, FieldLabel, FieldDescription } from '@/components/ui/field'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -85,6 +86,37 @@ function PteroDetails({ serverId }: { serverId: string }) {
         <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => refetch()}>
           <RefreshCw className="w-3.5 h-3.5" />
         </Button>
+      </div>
+
+      {/* Server Connection Info */}
+      <div className="rounded-lg border border-border bg-muted/30 p-3 space-y-2">
+        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Server Connection</p>
+        <div className="grid grid-cols-2 gap-2 text-xs">
+          {data.ip && (
+            <div>
+              <p className="text-muted-foreground">IP Address</p>
+              <p className="font-mono text-sm font-semibold">{data.ip}</p>
+            </div>
+          )}
+          {data.port && (
+            <div>
+              <p className="text-muted-foreground">Port</p>
+              <p className="font-mono text-sm font-semibold">{data.port}</p>
+            </div>
+          )}
+          {data.nodeAlias && (
+            <div className="col-span-2">
+              <p className="text-muted-foreground">Node</p>
+              <p className="text-sm font-semibold">{data.nodeAlias}</p>
+            </div>
+          )}
+          {data.allocationId && (
+            <div className="col-span-2">
+              <p className="text-muted-foreground">Allocation ID</p>
+              <p className="font-mono text-xs">{data.allocationId}</p>
+            </div>
+          )}
+        </div>
       </div>
 
       {data.usage && (
@@ -209,21 +241,31 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
     onError: (err: any) => toast.error(err.message || 'Failed to retry deployment'),
   })
 
+  const redeployMutation = useMutation({
+    mutationFn: () => redeployServer({ data: { serverId: server.id } }),
+    onSuccess: (res) => {
+      qc.invalidateQueries({ queryKey: ['admin-servers'] })
+      toast.success(res.message || 'Redeployment started successfully')
+      onClose()
+    },
+    onError: (err: any) => toast.error(err.message || 'Failed to start redeployment'),
+  })
+
   const sc = statusConfig[server.status] ?? { label: server.status, dot: 'bg-muted-foreground', badge: 'outline' as const }
 
   return (
     <Sheet open onOpenChange={(o) => !o && onClose()}>
-      <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
-        <SheetHeader>
+      <SheetContent className="w-full sm:max-w-lg overflow-y-auto p-6">
+        <SheetHeader className="pb-4">
           <SheetTitle className="flex items-center gap-2">
             <Server className="w-4 h-4" />
             {server.name}
           </SheetTitle>
         </SheetHeader>
 
-        <div className="space-y-6 mt-6">
+        <div className="space-y-6">
           {/* Meta + status controls */}
-          <div className="rounded-lg border border-border p-3 space-y-3">
+          <div className="rounded-lg border border-border p-4 space-y-4">
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div>
                 <p className="text-xs text-muted-foreground mb-0.5">Status</p>
@@ -246,9 +288,9 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
               </div>
             </div>
 
-            {/* Suspend / Unsuspend */}
+            {/* Suspend / Unsuspend / Redeploy */}
             {server.status !== 'TERMINATED' && (
-              <div className="pt-1 border-t border-border space-y-2">
+              <div className="pt-3 border-t border-border space-y-2">
                 {server.status === 'FAILED' && isPtero && (
                   <Button
                     size="sm"
@@ -261,11 +303,23 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
                     Retry Deployment
                   </Button>
                 )}
+                {server.status === 'ACTIVE' && isPtero && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="h-7 text-xs text-blue-600 border-blue-500/30 hover:bg-blue-500/10 w-full"
+                    onClick={() => redeployMutation.mutate()}
+                    disabled={redeployMutation.isPending}
+                  >
+                    {redeployMutation.isPending ? <Loader2 className="w-3 h-3 mr-1.5 animate-spin" /> : <RotateCw className="w-3 h-3 mr-1.5" />}
+                    Redeploy Server
+                  </Button>
+                )}
                 {isSuspended ? (
                   <Button
                     size="sm"
                     variant="outline"
-                    className="h-7 text-xs text-emerald-600 border-emerald-500/30 hover:bg-emerald-500/10"
+                    className="h-7 text-xs text-emerald-600 border-emerald-500/30 hover:bg-emerald-500/10 w-full"
                     onClick={() => statusMutation.mutate('ACTIVE')}
                     disabled={statusMutation.isPending}
                   >
@@ -276,7 +330,7 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
                   <Button
                     size="sm"
                     variant="outline"
-                    className="h-7 text-xs text-destructive border-destructive/30 hover:bg-destructive/10"
+                    className="h-7 text-xs text-destructive border-destructive/30 hover:bg-destructive/10 w-full"
                     onClick={() => statusMutation.mutate('SUSPENDED')}
                     disabled={statusMutation.isPending}
                   >
@@ -290,7 +344,7 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
 
           {/* Pterodactyl live data */}
           {isPtero && (
-            <div className="space-y-3">
+            <div className="space-y-4">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Live Panel Data</p>
               <PteroDetails serverId={server.id} />
             </div>
@@ -298,7 +352,7 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
 
           {/* Ping (custom only) */}
           {!isPtero && server.ip && (
-            <div className="flex items-center gap-3 pt-1">
+            <div className="flex items-center gap-3 pt-2">
               <Button size="sm" variant="outline" onClick={() => pingMutation.mutate()} disabled={pingMutation.isPending}>
                 {pingMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Activity className="w-4 h-4 mr-2" />}
                 Ping Server
@@ -312,7 +366,7 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
           )}
 
           {/* Label */}
-          <Field className="space-y-2">
+          <Field className="space-y-2.5">
             <FieldLabel>Label / Display Name</FieldLabel>
             <Input placeholder="e.g. Production MC Server" value={form.label} onChange={(e) => setForm((f) => ({ ...f, label: e.target.value }))} />
             <FieldDescription>Custom display name for this server</FieldDescription>
@@ -321,11 +375,11 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
           {/* IP / Port for custom servers */}
           {!isPtero && (
             <div className="grid grid-cols-2 gap-4">
-              <Field className="space-y-2">
+              <Field className="space-y-2.5">
                 <FieldLabel>IP Address</FieldLabel>
                 <Input className="font-mono" placeholder="0.0.0.0" value={form.ip} onChange={(e) => setForm((f) => ({ ...f, ip: e.target.value }))} />
               </Field>
-              <Field className="space-y-2">
+              <Field className="space-y-2.5">
                 <FieldLabel>Port</FieldLabel>
                 <Input className="font-mono" placeholder="25565" type="number" value={form.port} onChange={(e) => setForm((f) => ({ ...f, port: e.target.value }))} />
               </Field>
@@ -333,7 +387,7 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
           )}
 
           {/* Save button */}
-          <Button className="w-full" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
+          <Button className="w-full h-9" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
             {saveMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
             Save Changes
           </Button>
@@ -341,7 +395,7 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
           {/* Delete button */}
           <Button
             variant="destructive"
-            className="w-full"
+            className="w-full h-9"
             onClick={() => setShowDeleteAlert(true)}
             disabled={deleteMutation.isPending}
           >
@@ -390,6 +444,33 @@ function ServersPage() {
 
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState<AdminServer | null>(null)
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [showBulkDeleteAlert, setShowBulkDeleteAlert] = useState(false)
+
+  const bulkDeleteMutation = useMutation({
+    mutationFn: () => bulkDeleteServers({ data: { serverIds: selectedIds } }),
+    onSuccess: (result) => {
+      qc.invalidateQueries({ queryKey: ['admin-servers'] })
+      toast.success(`Successfully deleted ${result.deletedCount} server(s)`)
+      setSelectedIds([])
+      setShowBulkDeleteAlert(false)
+    },
+    onError: () => toast.error('Failed to delete servers'),
+  })
+
+  const toggleSelectAll = () => {
+    if (selectedIds.length === filtered.length) {
+      setSelectedIds([])
+    } else {
+      setSelectedIds(filtered.map(s => s.id))
+    }
+  }
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds(prev => 
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    )
+  }
 
   const filtered = servers.filter((s) => {
     const q = search.toLowerCase()
@@ -418,14 +499,26 @@ function ServersPage() {
             {counts.total} total · {counts.active} active · {counts.ptero} Pterodactyl · {counts.custom} custom
           </p>
         </div>
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={() => qc.invalidateQueries({ queryKey: ['admin-servers'] })}
-        >
-          <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
-          Refresh
-        </Button>
+        <div className="flex items-center gap-2">
+          {selectedIds.length > 0 && (
+            <Button
+              size="sm"
+              variant="destructive"
+              onClick={() => setShowBulkDeleteAlert(true)}
+            >
+              <Trash2 className="w-3.5 h-3.5 mr-1.5" />
+              Delete ({selectedIds.length})
+            </Button>
+          )}
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => qc.invalidateQueries({ queryKey: ['admin-servers'] })}
+          >
+            <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
+            Refresh
+          </Button>
+        </div>
       </div>
 
       <div className="relative max-w-sm">
@@ -442,6 +535,12 @@ function ServersPage() {
         <table className="w-full text-sm">
           <thead className="bg-muted/40 border-b border-border text-left text-muted-foreground text-xs">
             <tr>
+              <th className="px-4 py-3 font-medium w-10">
+                <Checkbox
+                  checked={selectedIds.length === filtered.length && filtered.length > 0}
+                  onCheckedChange={toggleSelectAll}
+                />
+              </th>
               {['Status', 'Name', 'Owner', 'Type', 'IP / Port', 'Product', 'Expires', ''].map((h) => (
                 <th key={h} className="px-4 py-3 font-medium">{h}</th>
               ))}
@@ -450,7 +549,7 @@ function ServersPage() {
           <tbody className="divide-y divide-border">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={8} className="text-center py-12 text-muted-foreground">
+                <td colSpan={9} className="text-center py-12 text-muted-foreground">
                   {search ? 'No servers match your search.' : 'No servers yet.'}
                 </td>
               </tr>
@@ -461,10 +560,18 @@ function ServersPage() {
                 return (
                   <tr key={server.id} className="hover:bg-muted/30 transition-colors">
                     <td className="px-4 py-3">
+                      <Checkbox
+                        checked={selectedIds.includes(server.id)}
+                        onCheckedChange={() => toggleSelect(server.id)}
+                      />
+                    </td>
+                    <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <span className={`inline-block w-2.5 h-2.5 rounded-full ${sc.dot}`} />
                         {showRetry && (
-                          <RotateCw className="w-3.5 h-3.5 text-blue-500" title="Can retry deployment" />
+                          <span title="Can retry deployment">
+                            <RotateCw className="w-3.5 h-3.5 text-blue-500" />
+                          </span>
                         )}
                       </div>
                     </td>
@@ -509,6 +616,33 @@ function ServersPage() {
       {selected && (
         <ServerSheet server={selected} onClose={() => setSelected(null)} />
       )}
+
+      {/* Bulk Delete Confirmation Dialog */}
+      <AlertDialog open={showBulkDeleteAlert} onOpenChange={setShowBulkDeleteAlert}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Multiple Servers?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete {selectedIds.length} server(s)?
+              <br /><br />
+              Servers with Pterodactyl deployment will also be removed from the panel.
+              <br /><br />
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => bulkDeleteMutation.mutate()}
+              disabled={bulkDeleteMutation.isPending}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {bulkDeleteMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+              Delete {selectedIds.length} Server(s)
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </main>
   )
 }

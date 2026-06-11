@@ -124,6 +124,7 @@ enum BillingPeriod {
   QUARTERLY
   SEMIANNUALLY
   YEARLY
+  CUSTOM
 }
 
 enum OrderStatus {
@@ -186,6 +187,7 @@ model ProductBillingOption {
   product       Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
   billingPeriod BillingPeriod
   price         Int
+  customDays    Int?
 
   @@unique([productId, billingPeriod])
   @@index([productId])
@@ -323,6 +325,7 @@ model Server {
   status          String
   ip              String?
   port            Int?
+  pterodactylServerId Int?
   expiresAt       DateTime?
   resources       Json?
   pterodactylData Json?

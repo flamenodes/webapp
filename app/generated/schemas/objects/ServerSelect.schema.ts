@@ -14,6 +14,7 @@ const makeSchema = () => z.object({
   status: z.boolean().optional(),
   ip: z.boolean().optional(),
   port: z.boolean().optional(),
+  pterodactylServerId: z.boolean().optional(),
   expiresAt: z.boolean().optional(),
   resources: z.boolean().optional(),
   pterodactylData: z.boolean().optional(),

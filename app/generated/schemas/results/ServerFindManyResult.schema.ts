@@ -11,6 +11,7 @@ export const ServerFindManyResultSchema = z.object({
   status: z.string(),
   ip: z.string().optional(),
   port: z.number().int().optional(),
+  pterodactylServerId: z.number().int().optional(),
   expiresAt: z.date().optional(),
   resources: z.unknown().optional(),
   pterodactylData: z.unknown().optional(),

@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate, Link } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
@@ -6,12 +6,13 @@ import { Button } from '#/components/ui/button'
 import { Label } from '#/components/ui/label'
 import { Input } from '#/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '#/components/ui/select'
-import { Spotlight } from '#/components/ui/spotlight-new'
 import { ArrowRight, ArrowLeft, MapPin, User, Phone, Mail, Plus } from 'lucide-react'
 import { toast } from 'sonner'
+import { ThemeSwitch } from '#/components/theme/ThemeSwitch'
 
 export const Route = createFileRoute('/_protected/billing/address')({
   component: BillingAddressPage,
+  head: () => ({ meta: [{ title: 'Billing Address | Flame Nodes' }] }),
 })
 
 interface BillingAddress {
@@ -58,6 +59,21 @@ function BillingAddressPage() {
     if (saved) {
       const addresses = JSON.parse(saved)
       setSavedAddresses(addresses)
+      
+      // Check if there's an existing billing address in session
+      const existingAddress = sessionStorage.getItem('billingAddress')
+      if (existingAddress) {
+        const addressData = JSON.parse(existingAddress)
+        setFormData(addressData)
+        
+        // Find if this address matches a saved one
+        const matchingSaved = addresses.find((a: BillingAddress) => 
+          a.email === addressData.email && a.phone === addressData.phone
+        )
+        if (matchingSaved) {
+          setSelectedAddressId(matchingSaved.id)
+        }
+      }
     }
   }, [])
 
@@ -114,62 +130,65 @@ function BillingAddressPage() {
     navigate({ to: '/billing/payment' })
   }
 
-  const handleBack = () => {
-    navigate({ to: '/billing/cart' })
-  }
-
   if (!billingConfig) {
     return null
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      <Spotlight
-        gradientFirst="radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(220, 100%, 70%, .16) 0, hsla(220, 100%, 50%, .06) 50%, hsla(220, 100%, 45%, 0) 80%)"
-        gradientSecond="radial-gradient(50% 50% at 50% 50%, hsla(210, 100%, 75%, .12) 0, hsla(220, 100%, 55%, .04) 80%, transparent 100%)"
-        gradientThird="radial-gradient(50% 50% at 50% 50%, hsla(200, 100%, 65%, .08) 0, hsla(210, 100%, 50%, .03) 80%, transparent 100%)"
-      />
+    <div className="min-h-screen flex flex-col">
+      {/* Minimal Header */}
+      <header className="border-b bg-card">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2">
+            <img src="/flamenodes.png" alt="Flame Nodes" className="h-8 w-8" />
+            <span className="text-xl font-bold">Flame Nodes</span>
+          </Link>
+          <ThemeSwitch />
+        </div>
+      </header>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600">
-            Billing Information
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Step 2 of 3: Enter your billing details
-          </p>
-        </motion.div>
+      {/* Main Content */}
+      <div className="flex-1 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4 py-12">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-8"
+          >
+            <h1 className="text-4xl font-bold mb-2">
+              Billing Information
+            </h1>
+            <p className="text-muted-foreground">
+              Step 2 of 3: Enter your billing details
+            </p>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ opacity: 1, scaleX: 1 }}
-          className="max-w-2xl mx-auto mb-12"
-        >
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-muted-foreground">Configuration</span>
-            <span className="text-sm font-medium text-blue-600">Billing Details</span>
-            <span className="text-sm text-muted-foreground">Payment</span>
-          </div>
-          <div className="h-2 bg-muted rounded-full overflow-hidden">
-            <div className="h-full w-2/3 bg-gradient-to-r from-blue-600 to-blue-500 rounded-full" />
-          </div>
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            className="max-w-2xl mx-auto mb-8"
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-muted-foreground">Configuration</span>
+              <span className="text-sm font-medium text-primary">Billing Details</span>
+              <span className="text-sm text-muted-foreground">Payment</span>
+            </div>
+            <div className="h-2 bg-muted rounded-full overflow-hidden">
+              <div className="h-full w-2/3 bg-primary rounded-full" />
+            </div>
+          </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             {savedAddresses.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
               >
-                <Card className="border-blue-500/20 bg-card/50 backdrop-blur-xl shadow-2xl">
+                <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <MapPin className="w-5 h-5 text-blue-600" />
+                      <MapPin className="w-5 h-5 text-primary" />
                       Select Billing Address
                     </CardTitle>
                   </CardHeader>
@@ -202,10 +221,10 @@ function BillingAddressPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 }}
             >
-              <Card className="border-blue-500/20 bg-card/50 backdrop-blur-xl shadow-2xl">
+              <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <User className="w-5 h-5 text-blue-600" />
+                    <User className="w-5 h-5 text-primary" />
                     Personal Information
                   </CardTitle>
                 </CardHeader>
@@ -268,10 +287,10 @@ function BillingAddressPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <Card className="border-blue-500/20 bg-card/50 backdrop-blur-xl shadow-2xl">
+              <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <MapPin className="w-5 h-5 text-blue-600" />
+                    <MapPin className="w-5 h-5 text-primary" />
                     Address Details
                   </CardTitle>
                 </CardHeader>
@@ -340,15 +359,15 @@ function BillingAddressPage() {
             <div className="flex gap-4">
               <Button
                 variant="outline"
-                onClick={handleBack}
-                className="flex-1 h-12 text-lg"
+                onClick={() => window.history.back()}
+                className="flex-1 h-12"
               >
                 <ArrowLeft className="w-5 h-5 mr-2" />
                 Back
               </Button>
               <Button
                 onClick={handleContinue}
-                className="flex-1 h-12 text-lg bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600"
+                className="flex-1 h-12"
               >
                 Continue to Payment
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -363,7 +382,7 @@ function BillingAddressPage() {
               transition={{ delay: 0.3 }}
               className="sticky top-6"
             >
-              <Card className="border-blue-500/20 bg-card/50 backdrop-blur-xl shadow-2xl">
+              <Card>
                 <CardHeader>
                   <CardTitle>Order Summary</CardTitle>
                 </CardHeader>
@@ -386,15 +405,23 @@ function BillingAddressPage() {
                   <div className="border-t pt-4">
                     <div className="flex justify-between items-center">
                       <span className="text-lg font-semibold">Total</span>
-                      <span className="text-3xl font-bold text-blue-600">₹{billingConfig.totalPrice.toFixed(2)}</span>
+                      <span className="text-3xl font-bold text-primary">₹{billingConfig.totalPrice.toFixed(2)}</span>
                     </div>
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
           </div>
+          </div>
         </div>
       </div>
+
+      {/* Minimal Footer */}
+      <footer className="border-t bg-card py-4">
+        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-muted-foreground">
+          © {new Date().getFullYear()} Flame Nodes. All rights reserved.
+        </div>
+      </footer>
     </div>
   )
 }

@@ -8,6 +8,7 @@ export const ServerGroupByResultSchema = z.array(z.object({
   status: z.string(),
   ip: z.string(),
   port: z.number().int(),
+  pterodactylServerId: z.number().int(),
   expiresAt: z.date(),
   resources: z.unknown(),
   pterodactylData: z.unknown(),
@@ -25,6 +26,7 @@ export const ServerGroupByResultSchema = z.array(z.object({
     status: z.number(),
     ip: z.number(),
     port: z.number(),
+    pterodactylServerId: z.number(),
     expiresAt: z.number(),
     resources: z.number(),
     pterodactylData: z.number(),
@@ -33,10 +35,12 @@ export const ServerGroupByResultSchema = z.array(z.object({
     updatedAt: z.number()
   }).optional(),
   _sum: z.object({
-    port: z.number().nullable()
+    port: z.number().nullable(),
+    pterodactylServerId: z.number().nullable()
   }).nullable().optional(),
   _avg: z.object({
-    port: z.number().nullable()
+    port: z.number().nullable(),
+    pterodactylServerId: z.number().nullable()
   }).nullable().optional(),
   _min: z.object({
     id: z.string().nullable(),
@@ -47,6 +51,7 @@ export const ServerGroupByResultSchema = z.array(z.object({
     status: z.string().nullable(),
     ip: z.string().nullable(),
     port: z.number().int().nullable(),
+    pterodactylServerId: z.number().int().nullable(),
     expiresAt: z.date().nullable(),
     createdAt: z.date().nullable(),
     updatedAt: z.date().nullable()
@@ -60,6 +65,7 @@ export const ServerGroupByResultSchema = z.array(z.object({
     status: z.string().nullable(),
     ip: z.string().nullable(),
     port: z.number().int().nullable(),
+    pterodactylServerId: z.number().int().nullable(),
     expiresAt: z.date().nullable(),
     createdAt: z.date().nullable(),
     updatedAt: z.date().nullable()

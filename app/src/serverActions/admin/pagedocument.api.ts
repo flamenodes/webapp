@@ -25,7 +25,10 @@ export const createPageDocument = createServerFn({ method: 'POST' })
       const res = await prisma.pageDocument.create({ data })
 
       return { success: true, message: 'Page created successfully.', res }
-    } catch (err) {}
+    } catch (err) {
+      console.error('Error creating page document:', err)
+      return { success: false, message: 'Failed to create page document.' }
+    }
   })
 
 export const updatePageDocument = createServerFn({ method: 'POST' })
@@ -38,8 +41,11 @@ export const updatePageDocument = createServerFn({ method: 'POST' })
         data: updateData,
       })
 
-      return { success: true, message: 'Page created successfully.', res }
-    } catch (err) {}
+      return { success: true, message: 'Page updated successfully.', res }
+    } catch (err) {
+      console.error('Error updating page document:', err)
+      return { success: false, message: 'Failed to update page document.' }
+    }
   })
 
 export const getPageDocument = createServerFn({ method: 'POST' })
@@ -47,8 +53,11 @@ export const getPageDocument = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     try {
       const resData = await prisma.pageDocument.findFirst({ where: { id: data.id } })
-      return { resData }
-    } catch (err) {}
+      return { resData, success: true }
+    } catch (err) {
+      console.error('Error fetching page document:', err)
+      return { resData: null, success: false }
+    }
   })
 
 export const getPageDocumentBySlug = createServerFn({ method: 'POST' })
@@ -58,9 +67,10 @@ export const getPageDocumentBySlug = createServerFn({ method: 'POST' })
       const resData = await prisma.pageDocument.findFirst({
         where: { slug: data.slug },
       })
-      return { resData }
+      return { resData, success: true }
     } catch (err) {
-      console.error(err)
+      console.error('Error fetching document by slug:', err)
+      return { resData: null, success: false }
     }
   })
 export const getPageDocuments = createServerFn({ method: 'POST' }).inputValidator(z.object({

@@ -329,6 +329,7 @@ export const ServerScalarFieldEnum = {
   status: 'status',
   ip: 'ip',
   port: 'port',
+  pterodactylServerId: 'pterodactylServerId',
   expiresAt: 'expiresAt',
   resources: 'resources',
   pterodactylData: 'pterodactylData',

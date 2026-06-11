@@ -8,6 +8,7 @@ export interface Plan {
   monthlyPrice: string;
   yearlyPrice: string;
   buttonText: string;
+  buttonLink?: string;
   badge?: string;
   features: {
     name: string;
@@ -27,113 +28,130 @@ export interface CurrentPlan {
 
 export const plans: Plan[] = [
   {
-    id: "starter",
-    title: "Starter",
-    description: "For developers testing out Liveblocks locally.",
-    currency: "$",
-    monthlyPrice: "0",
-    yearlyPrice: "0",
-    buttonText: "Start today for free",
+    id: "webhosting",
+    title: "Web Hosting",
+    description: "Fast and reliable web hosting solutions for your websites.",
+    currency: "₹",
+    monthlyPrice: "49",
+    yearlyPrice: "490",
+    buttonText: "Get Started",
+    buttonLink: "/pricing/webhost",
     features: [
       {
-        name: "Presence",
+        name: "WordPress, Node.js & More",
         icon: "check",
         iconColor: "text-green-500",
       },
       {
-        name: "Comments",
-        icon: "check",
-        iconColor: "text-orange-500",
-      },
-      {
-        name: "Notifications",
-        icon: "check",
-        iconColor: "text-teal-500",
-      },
-      {
-        name: "Text Editor",
+        name: "Free Subdomain",
         icon: "check",
         iconColor: "text-blue-500",
       },
       {
-        name: "Sync Datastore",
+        name: "High Speed NVMe SSD",
         icon: "check",
-        iconColor: "text-zinc-500",
+        iconColor: "text-purple-500",
+      },
+      {
+        name: "Premium Support",
+        icon: "check",
+        iconColor: "text-orange-500",
+      },
+      {
+        name: "Free SSL Certificate",
+        icon: "check",
+        iconColor: "text-teal-500",
+      },
+      {
+        name: "Daily Backups",
+        icon: "check",
+        iconColor: "text-pink-500",
       },
     ],
   },
   {
-    id: "pro",
-    title: "Pro",
-    description: "For companies adding collaboration in production.",
-    currency: "$",
-    monthlyPrice: "20",
-    yearlyPrice: "199",
-    buttonText: "Sign up",
-    badge: "Most popular",
+    id: "minecraft",
+    title: "Minecraft Hosting",
+    description: "Optimized servers for the best Minecraft gameplay experience.",
+    currency: "₹",
+    monthlyPrice: "99",
+    yearlyPrice: "990",
+    buttonText: "Get Started",
+    buttonLink: "/pricing/minecraft",
+    badge: "Most Popular",
     highlight: true,
     features: [
       {
-        name: "Presence",
+        name: "Ryzen 9 (Optimized)",
         icon: "check",
         iconColor: "text-green-500",
       },
       {
-        name: "Comments",
-        icon: "check",
-        iconColor: "text-orange-500",
-      },
-      {
-        name: "Notifications",
-        icon: "check",
-        iconColor: "text-teal-500",
-      },
-      {
-        name: "Text Editor",
+        name: "DDR4 RAM",
         icon: "check",
         iconColor: "text-blue-500",
       },
       {
-        name: "Sync Datastore",
+        name: "High Speed NVMe SSD",
         icon: "check",
-        iconColor: "text-zinc-500",
+        iconColor: "text-purple-500",
+      },
+      {
+        name: "Premium Support",
+        icon: "check",
+        iconColor: "text-orange-500",
+      },
+      {
+        name: "One-Click Modpack Install",
+        icon: "check",
+        iconColor: "text-teal-500",
+      },
+      {
+        name: "DDoS Protection",
+        icon: "check",
+        iconColor: "text-red-500",
       },
     ],
   },
   {
-    id: "enterprise",
-    title: "Enterprise",
-    description:
-      "For organizations that need more support and compliance features.",
-    currency: "$",
-    monthlyPrice: "Custom",
-    yearlyPrice: "Custom",
-    buttonText: "Contact sales",
+    id: "vpshosting",
+    title: "VPS Hosting",
+    description: "High-performance virtual private servers with full control.",
+    currency: "₹",
+    monthlyPrice: "399",
+    yearlyPrice: "3990",
+    buttonText: "Get Started",
+    buttonLink: "/pricing/vps",
     features: [
       {
-        name: "Presence",
+        name: "Ryzen 9 (Core)",
         icon: "check",
         iconColor: "text-green-500",
       },
       {
-        name: "Comments",
-        icon: "check",
-        iconColor: "text-orange-500",
-      },
-      {
-        name: "Notifications",
-        icon: "check",
-        iconColor: "text-teal-500",
-      },
-      {
-        name: "Text Editor",
+        name: "DDR4 RAM",
         icon: "check",
         iconColor: "text-blue-500",
       },
       {
-        name: "Sync Datastore",
+        name: "High Speed NVMe SSD",
         icon: "check",
-        iconColor: "text-zinc-500",
+        iconColor: "text-purple-500",
+      },
+      {
+        name: "Premium Support",
+        icon: "check",
+        iconColor: "text-orange-500",
+      },
+      {
+        name: "Full Root Access",
+        icon: "check",
+        iconColor: "text-teal-500",
+      },
+      {
+        name: "99.9% Uptime SLA",
+        icon: "check",
+        iconColor: "text-pink-500",
       },
     ],
   },

@@ -57,7 +57,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     select: (state) => state.location.pathname,
   })
   const [queryClient] = useState(() => new QueryClient())
-  const dashes = ['/user', '/admin', '/signup']
+  const dashes = ['/user', '/admin', '/signup', '/billing']
   const hideNavbar = dashes.some((dash) => pathname.startsWith(dash))
   return (
     <html lang="en" suppressHydrationWarning>

@@ -12,6 +12,7 @@ const makeSchema = () => z.object({
   status: z.string(),
   ip: z.string().optional().nullable(),
   port: z.number().int().optional().nullable(),
+  pterodactylServerId: z.number().int().optional().nullable(),
   expiresAt: z.coerce.date().optional().nullable(),
   resources: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   pterodactylData: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),

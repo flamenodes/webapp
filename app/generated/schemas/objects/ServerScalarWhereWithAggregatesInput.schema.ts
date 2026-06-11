@@ -20,6 +20,7 @@ const serverscalarwherewithaggregatesinputSchema = z.object({
   status: z.union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()]).optional(),
   ip: z.union([z.lazy(() => StringNullableWithAggregatesFilterObjectSchema), z.string()]).optional().nullable(),
   port: z.union([z.lazy(() => IntNullableWithAggregatesFilterObjectSchema), z.number().int()]).optional().nullable(),
+  pterodactylServerId: z.union([z.lazy(() => IntNullableWithAggregatesFilterObjectSchema), z.number().int()]).optional().nullable(),
   expiresAt: z.union([z.lazy(() => DateTimeNullableWithAggregatesFilterObjectSchema), z.coerce.date()]).optional().nullable(),
   resources: z.lazy(() => JsonNullableWithAggregatesFilterObjectSchema).optional(),
   pterodactylData: z.lazy(() => JsonNullableWithAggregatesFilterObjectSchema).optional(),

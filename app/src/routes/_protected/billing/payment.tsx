@@ -1,17 +1,18 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate, Link } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
-import { Spotlight } from '#/components/ui/spotlight-new'
 import { ArrowLeft, CreditCard, Check, Loader2, ShieldCheck } from 'lucide-react'
 import { toast } from 'sonner'
 import { createRazorOrderFn } from '#/serverActions/razorpay/order'
 import { verifyRazorpayPayment } from '#/serverActions/razorpay/verify'
 import { createOrderDirect } from '#/serverActions/billing/order.api'
+import { ThemeSwitch } from '#/components/theme/ThemeSwitch'
 
 export const Route = createFileRoute('/_protected/billing/payment')({
   component: BillingPaymentPage,
+  head: () => ({ meta: [{ title: 'Payment | Flame Nodes' }] }),
 })
 
 declare global {
@@ -33,7 +34,7 @@ function BillingPaymentPage() {
     
     if (!config || !address) {
       toast.error('Missing billing information')
-      navigate({ to: '/billing/cart' })
+      navigate({ to: '/pricing' })
       return
     }
     
@@ -110,7 +111,7 @@ function BillingPaymentPage() {
             sessionStorage.removeItem('billingAddress')
 
             toast.success('Payment successful!')
-            navigate({ to: '/user/orders' })
+            navigate({ to: '/billing/success', search: { orderId: order.id } })
           } catch (error: any) {
             toast.error(error.message || 'Payment verification failed')
             setProcessing(false)
@@ -123,7 +124,6 @@ function BillingPaymentPage() {
         },
         theme: {
           color: '#10b981',
-          backdrop_color: 'rgba(0, 0, 0, 0.5)',
         },
         modal: {
           backdropclose: true,
@@ -151,52 +151,59 @@ function BillingPaymentPage() {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      <Spotlight
-        gradientFirst="radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(150, 100%, 70%, .16) 0, hsla(150, 100%, 50%, .06) 50%, hsla(150, 100%, 45%, 0) 80%)"
-        gradientSecond="radial-gradient(50% 50% at 50% 50%, hsla(140, 100%, 75%, .12) 0, hsla(150, 100%, 55%, .04) 80%, transparent 100%)"
-        gradientThird="radial-gradient(50% 50% at 50% 50%, hsla(130, 100%, 65%, .08) 0, hsla(140, 100%, 50%, .03) 80%, transparent 100%)"
-      />
+    <div className="min-h-screen flex flex-col">
+      {/* Minimal Header */}
+      <header className="border-b bg-card">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2">
+            <img src="/flamenodes.png" alt="Flame Nodes" className="h-8 w-8" />
+            <span className="text-xl font-bold">Flame Nodes</span>
+          </Link>
+          <ThemeSwitch />
+        </div>
+      </header>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-green-500 to-green-600">
-            Complete Your Order
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Step 3 of 3: Review and pay
-          </p>
-        </motion.div>
+      {/* Main Content */}
+      <div className="flex-1 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4 py-12">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-8"
+          >
+            <h1 className="text-4xl font-bold mb-2">
+              Complete Your Order
+            </h1>
+            <p className="text-muted-foreground">
+              Step 3 of 3: Review and pay
+            </p>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ opacity: 1, scaleX: 1 }}
-          className="max-w-2xl mx-auto mb-12"
-        >
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-muted-foreground">Configuration</span>
-            <span className="text-sm text-muted-foreground">Billing Details</span>
-            <span className="text-sm font-medium text-green-600">Payment</span>
-          </div>
-          <div className="h-2 bg-muted rounded-full overflow-hidden">
-            <div className="h-full w-full bg-gradient-to-r from-green-600 to-green-500 rounded-full" />
-          </div>
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            className="max-w-2xl mx-auto mb-8"
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-muted-foreground">Configuration</span>
+              <span className="text-sm text-muted-foreground">Billing Details</span>
+              <span className="text-sm font-medium text-primary">Payment</span>
+            </div>
+            <div className="h-2 bg-muted rounded-full overflow-hidden">
+              <div className="h-full w-full bg-primary rounded-full" />
+            </div>
+          </motion.div>
 
-        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="max-w-4xl mx-auto space-y-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="border-green-500/20 bg-card/50 backdrop-blur-xl shadow-2xl">
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <CreditCard className="w-5 h-5 text-green-600" />
+                  <CreditCard className="w-5 h-5 text-primary" />
                   Order Summary
                 </CardTitle>
               </CardHeader>
@@ -259,26 +266,26 @@ function BillingPaymentPage() {
                 <div className="border-t pt-6">
                   <div className="flex justify-between items-center mb-6">
                     <span className="text-2xl font-bold">Total Amount</span>
-                    <span className="text-4xl font-bold text-green-600">₹{billingConfig.totalPrice.toFixed(2)}</span>
+                    <span className="text-4xl font-bold text-primary">₹{billingConfig.totalPrice.toFixed(2)}</span>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
-                      <ShieldCheck className="w-5 h-5 text-green-600" />
+                      <ShieldCheck className="w-5 h-5 text-primary" />
                       <div className="text-xs">
                         <p className="font-medium">Secure Payment</p>
                         <p className="text-muted-foreground">256-bit SSL encryption</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
-                      <Check className="w-5 h-5 text-green-600" />
+                      <Check className="w-5 h-5 text-primary" />
                       <div className="text-xs">
                         <p className="font-medium">Instant Activation</p>
                         <p className="text-muted-foreground">Setup within minutes</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
-                      <Check className="w-5 h-5 text-green-600" />
+                      <Check className="w-5 h-5 text-primary" />
                       <div className="text-xs">
                         <p className="font-medium">24/7 Support</p>
                         <p className="text-muted-foreground">Expert assistance</p>
@@ -291,7 +298,7 @@ function BillingPaymentPage() {
                       variant="outline"
                       onClick={handleBack}
                       disabled={processing}
-                      className="flex-1 h-12 text-lg"
+                      className="flex-1 h-12"
                     >
                       <ArrowLeft className="w-5 h-5 mr-2" />
                       Back
@@ -299,7 +306,7 @@ function BillingPaymentPage() {
                     <Button
                       onClick={handlePayment}
                       disabled={processing || !scriptLoaded}
-                      className="flex-1 h-12 text-lg bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600"
+                      className="flex-1 h-12"
                     >
                       {processing ? (
                         <>
@@ -309,7 +316,7 @@ function BillingPaymentPage() {
                       ) : (
                         <>
                           <CreditCard className="w-5 h-5 mr-2" />
-                          Pay ₹{billingConfig.totalPrice.toFixed(2)}
+                          Choose Payment
                         </>
                       )}
                     </Button>
@@ -328,7 +335,7 @@ function BillingPaymentPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="border-green-500/20 bg-card/50 backdrop-blur-xl">
+            <Card>
               <CardContent className="pt-6">
                 <div className="flex items-center justify-center gap-8 flex-wrap">
                   <img src="https://img.icons8.com/color/48/visa.png" alt="Visa" className="h-8 opacity-70" />
@@ -342,8 +349,16 @@ function BillingPaymentPage() {
               </CardContent>
             </Card>
           </motion.div>
+          </div>
         </div>
       </div>
+
+      {/* Minimal Footer */}
+      <footer className="border-t bg-card py-4">
+        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-muted-foreground">
+          © {new Date().getFullYear()} Flame Nodes. All rights reserved.
+        </div>
+      </footer>
     </div>
   )
 }

@@ -67,6 +67,17 @@ export const pteroServerData = async (
     ...(excludeAllocations ? { excludeAllocations } : {}),
   })
 
+  // Ensure critical specs are never 0
+  const cpu = data.specs.cpu || 100
+  const memory = data.specs.memory || 512
+  const disk = data.specs.disk || 1024
+  const swap = data.specs.swap >= 0 ? data.specs.swap : 0
+  const database = data.specs.database >= 0 ? data.specs.database : 0
+  const allocations = data.specs.allocation || 1
+  const backups = data.specs.backups >= 0 ? data.specs.backups : 0
+
+  console.log('🚀 Deploying server with specs:', { cpu, memory, disk, swap, database, allocations, backups })
+
   const serverData = {
     name: data.name,
     user: data.user,
@@ -76,17 +87,17 @@ export const pteroServerData = async (
     startup: eggData.startup,
     environment: convertPetroEggVariablesToEnvironment(eggData),
     limits: {
-      memory: data.specs.memory,
-      swap: data.specs.swap,
-      disk: data.specs.disk,
+      memory: memory,
+      swap: swap,
+      disk: disk,
       io: 500,
-      cpu: data.specs.cpu,
+      cpu: cpu,
       oom_disabled: false,
     },
     feature_limits: {
-      databases: data.specs.database,
-      allocations: data.specs.allocation,
-      backups: data.specs.backups,
+      databases: database,
+      allocations: allocations,
+      backups: backups,
     },
     allocation: {
       default: allocation.allocation,
@@ -97,14 +108,33 @@ export const pteroServerData = async (
 
 /** Build specs for a Pterodactyl server from a product's specs JSON field */
 export function extractPteroSpecsFromProduct(productSpecs: unknown) {
-  const s = (productSpecs ?? {}) as Record<string, number>
-  return {
-    cpu: s.cpu ?? 100,
-    memory: s.memory ?? 512,
-    swap: s.swap ?? 0,
-    disk: s.disk ?? 1024,
-    database: s.databases ?? s.database ?? 0,
-    allocation: s.allocations ?? s.allocation ?? 1,
-    backups: s.backups ?? 0,
+  console.log('🔍 Extracting specs from product:', JSON.stringify(productSpecs, null, 2));
+  
+  const s = (productSpecs ?? {}) as Record<string, any>
+  
+  // Parse values - they might be strings from the database
+  const cpu = typeof s.cpu === 'string' ? Number(s.cpu) : (s.cpu ?? 0)
+  const memory = typeof s.memory === 'string' ? Number(s.memory) : (s.memory ?? 0)
+  const disk = typeof s.disk === 'string' ? Number(s.disk) : (s.disk ?? 0)
+  const swap = typeof s.swap === 'string' ? Number(s.swap) : (s.swap ?? 0)
+  const database = typeof s.databases === 'string' ? Number(s.databases) : 
+                  typeof s.database === 'string' ? Number(s.database) : 
+                  (s.databases ?? s.database ?? 0)
+  const allocation = typeof s.allocations === 'string' ? Number(s.allocations) : 
+                    typeof s.allocation === 'string' ? Number(s.allocation) : 
+                    (s.allocations ?? s.allocation ?? 1)
+  const backups = typeof s.backups === 'string' ? Number(s.backups) : (s.backups ?? 0)
+  
+  const result = {
+    cpu,
+    memory,
+    disk,
+    swap,
+    database,
+    allocation,
+    backups,
   }
+  
+  console.log('✅ Extracted specs result:', JSON.stringify(result, null, 2));
+  return result
 }

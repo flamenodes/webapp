@@ -50,6 +50,9 @@ export const getProducts = createServerFn({ method: 'GET' }).handler(async () =>
 
   const products = await prisma.product.findMany({
     orderBy: [{ category: 'asc' }, { sortOrder: 'asc' }],
+    include: {
+      billingOptions: true,
+    },
   })
 
   return wrapSuccess('Products fetched successfully', products)

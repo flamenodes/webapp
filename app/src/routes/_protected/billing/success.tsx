@@ -1,12 +1,12 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate, Link } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
-import { Spotlight } from '#/components/ui/spotlight-new'
-import { CheckCircle2, ArrowRight, Download, Mail } from 'lucide-react'
+import { CheckCircle2, ArrowRight, Package, Receipt } from 'lucide-react'
 import { getOrder } from '#/serverActions/billing/order.api'
 import { toast } from 'sonner'
+import { ThemeSwitch } from '#/components/theme/ThemeSwitch'
 
 export const Route = createFileRoute('/_protected/billing/success')({
   component: BillingSuccessPage,
@@ -24,7 +24,7 @@ function BillingSuccessPage() {
   useEffect(() => {
     if (!orderId) {
       toast.error('No order ID provided')
-      navigate({ to: '/billing/cart' })
+      navigate({ to: '/pricing' })
       return
     }
 
@@ -68,42 +68,49 @@ function BillingSuccessPage() {
   const billingDetails = (order.deliveryData as any)?.billingDetails
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      <Spotlight
-        gradientFirst="radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(160, 100%, 70%, .16) 0, hsla(160, 100%, 50%, .06) 50%, hsla(160, 100%, 45%, 0) 80%)"
-        gradientSecond="radial-gradient(50% 50% at 50% 50%, hsla(150, 100%, 75%, .12) 0, hsla(160, 100%, 55%, .04) 80%, transparent 100%)"
-        gradientThird="radial-gradient(50% 50% at 50% 50%, hsla(140, 100%, 65%, .08) 0, hsla(150, 100%, 50%, .03) 80%, transparent 100%)"
-      />
+    <div className="min-h-screen flex flex-col">
+      {/* Minimal Header */}
+      <header className="border-b bg-card">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2">
+            <img src="/flamenodes.png" alt="Flame Nodes" className="h-8 w-8" />
+            <span className="text-xl font-bold">Flame Nodes</span>
+          </Link>
+          <ThemeSwitch />
+        </div>
+      </header>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 py-12">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center mb-12"
-        >
+      {/* Main Content */}
+      <div className="flex-1 bg-muted/30">
+        <div className="max-w-4xl mx-auto px-4 py-12">
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-            className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-emerald-500/10 mb-6"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center mb-8"
           >
-            <CheckCircle2 className="w-12 h-12 text-emerald-600" />
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+              className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-4"
+            >
+              <CheckCircle2 className="w-10 h-10 text-primary" />
+            </motion.div>
+            <h1 className="text-4xl font-bold mb-2">
+              Payment Successful!
+            </h1>
+            <p className="text-muted-foreground">
+              Your order has been confirmed and is being processed
+            </p>
           </motion.div>
-          <h1 className="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-600">
-            Payment Successful!
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Your order has been confirmed and is being processed
-          </p>
-        </motion.div>
 
-        <div className="space-y-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <Card className="border-emerald-500/20 bg-card/50 backdrop-blur-xl shadow-2xl">
+          <div className="space-y-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+            <Card>
               <CardHeader>
                 <CardTitle>Order Details</CardTitle>
               </CardHeader>
@@ -119,13 +126,13 @@ function BillingSuccessPage() {
                   </div>
                   <div>
                     <p className="text-muted-foreground mb-1">Status</p>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
                       {order.status}
                     </span>
                   </div>
                   <div>
                     <p className="text-muted-foreground mb-1">Total Amount</p>
-                    <p className="text-2xl font-bold text-emerald-600">₹{(order.totalAmount / 100).toFixed(2)}</p>
+                    <p className="text-2xl font-bold text-primary">₹{(order.totalAmount / 100).toFixed(2)}</p>
                   </div>
                 </div>
 
@@ -173,28 +180,18 @@ function BillingSuccessPage() {
                 )}
               </CardContent>
             </Card>
-          </motion.div>
+            </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <Card className="border-emerald-500/20 bg-card/50 backdrop-blur-xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+            <Card>
               <CardContent className="pt-6">
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                    <Mail className="w-5 h-5 text-emerald-600 mt-1" />
-                    <div>
-                      <h3 className="font-semibold mb-1">Confirmation Email</h3>
-                      <p className="text-sm text-muted-foreground">
-                        A confirmation email with your order details and invoice has been sent to{' '}
-                        <span className="font-medium">{billingDetails?.email || order.user?.email}</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600 mt-1" />
+                    <CheckCircle2 className="w-5 h-5 text-primary mt-1" />
                     <div>
                       <h3 className="font-semibold mb-1">What's Next?</h3>
                       <p className="text-sm text-muted-foreground">
@@ -205,32 +202,40 @@ function BillingSuccessPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+            </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-4"
-          >
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="flex flex-col sm:flex-row gap-4"
+            >
+            <Button
+              className="flex-1 h-12"
+              onClick={() => navigate({ to: '/user/orders' })}
+            >
+              <Receipt className="w-5 h-5 mr-2" />
+              View My Orders
+            </Button>
             <Button
               variant="outline"
               className="flex-1 h-12"
-              onClick={() => navigate({ to: '/user/dashboard' })}
+              onClick={() => navigate({ to: '/pricing' })}
             >
-              <Download className="w-5 h-5 mr-2" />
-              View Dashboard
+              <Package className="w-5 h-5 mr-2" />
+              Browse More Products
             </Button>
-            <Button
-              className="flex-1 h-12 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600"
-              onClick={() => navigate({ to: '/billing/cart' })}
-            >
-              Create Another Order
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </div>
+
+      {/* Minimal Footer */}
+      <footer className="border-t bg-card py-4">
+        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-muted-foreground">
+          © {new Date().getFullYear()} Flame Nodes. All rights reserved.
+        </div>
+      </footer>
     </div>
   )
 }

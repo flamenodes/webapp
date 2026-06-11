@@ -1,38 +1,21 @@
 import '@/styles/markdown-styles.css'
-import '@mdxeditor/editor/style.css'
+import 'react-markdown-editor-lite/lib/index.css'
 
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { Label } from '#/components/ui/label'
-import {
-  MDXEditor,
-  type MDXEditorMethods,
-  BlockTypeSelect,
-  BoldItalicUnderlineToggles,
-  CodeToggle,
-  CreateLink,
-  InsertThematicBreak,
-  ListsToggle,
-  UndoRedo,
-  codeBlockPlugin,
-  codeMirrorPlugin,
-  headingsPlugin,
-  linkDialogPlugin,
-  linkPlugin,
-  listsPlugin,
-  markdownShortcutPlugin,
-  quotePlugin,
-  thematicBreakPlugin,
-  toolbarPlugin,
-} from '@mdxeditor/editor'
+import React, { useRef, useState } from 'react'
+import MarkdownIt from 'markdown-it'
+import MdEditor from 'react-markdown-editor-lite'
 import { useQueryClient } from '@tanstack/react-query'
-import { useRef, useState } from 'react'
 import { toast } from 'sonner'
 
 import {
   UpdatePageDocument,
   GetPageDocuments,
 } from '#/serverActions/admin/pagedocument.api'
+
+const mdParser = new MarkdownIt()
 
 type PageDocumentRecord = NonNullable<
   Awaited<ReturnType<typeof GetPageDocuments>>
@@ -48,14 +31,7 @@ export default function DocumentEditor({
   onClose?: () => void
 }) {
   const queryClient = useQueryClient()
-  const editorRef = useRef<MDXEditorMethods>(null)
-
-  // Unescape markdown that may have been over-escaped on previous saves
-  const initialMarkdown = (document.content || '')
-    .replace(/\\#/g, '#')
-    .replace(/\\>/g, '>')
-    .replace(/\\-/g, '-')
-    .replace(/\\\*/g, '*')
+  const editorRef = useRef<{ getText: () => string } | null>(null)
 
   const [title, setTitle] = useState(document.title ?? '')
   const [description, setDescription] = useState(document.description ?? '')
@@ -65,18 +41,13 @@ export default function DocumentEditor({
     (document.status as 'DRAFT' | 'PUBLISHED') ?? 'DRAFT',
   )
   const [isSaving, setIsSaving] = useState(false)
+  const [content, setContent] = useState(document.content || '')
 
   async function persist(nextStatus: 'DRAFT' | 'PUBLISHED') {
     setIsSaving(true)
+    
     try {
-      // Clean any over-escaped characters before saving
-      const content = (editorRef.current?.getMarkdown() ?? '')
-        .replace(/\\#/g, '#')
-        .replace(/\\>/g, '>')
-        .replace(/\\-/g, '-')
-        .replace(/\\\*/g, '*')
-
-      await UpdatePageDocument({
+      const result = await UpdatePageDocument({
         data: {
           id: document.id,
           content,
@@ -86,6 +57,10 @@ export default function DocumentEditor({
           ...(showSlug ? { slug } : {}),
         },
       })
+
+      if (!result?.success) {
+        throw new Error(result?.message || 'Failed to save document')
+      }
 
       setCurrentStatus(nextStatus)
 
@@ -97,9 +72,9 @@ export default function DocumentEditor({
         nextStatus === 'PUBLISHED' ? 'Document published.' : 'Draft saved.',
       )
 
-      // Only invalidate the list so the table stays fresh; do NOT invalidate
-      // the per-document query or the editor will re-mount and lose state.
       await queryClient.invalidateQueries({ queryKey: ['page-documents'] })
+      await queryClient.invalidateQueries({ queryKey: ['page-document', document.id] })
+      await queryClient.invalidateQueries({ queryKey: ['docs', slug] })
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : 'Failed to save document.',
@@ -107,6 +82,10 @@ export default function DocumentEditor({
     } finally {
       setIsSaving(false)
     }
+  }
+
+  function handleEditorChange({ text }: { html: string; text: string }) {
+    setContent(text)
   }
 
   return (
@@ -196,54 +175,13 @@ export default function DocumentEditor({
         </div>
 
         {/* ── Editor ── */}
-        <div className="flex-1 overflow-y-auto">
-          <MDXEditor
+        <div className="flex-1 overflow-hidden">
+          <MdEditor
             ref={editorRef}
-            markdown={initialMarkdown}
-            contentEditableClassName="prose dark:prose-invert max-w-none min-h-[1200px] p-8 focus:outline-none"
-            plugins={[
-              headingsPlugin(),
-              listsPlugin(),
-              quotePlugin(),
-              thematicBreakPlugin(),
-              markdownShortcutPlugin(),
-              linkPlugin(),
-              linkDialogPlugin(),
-              codeBlockPlugin({ defaultCodeBlockLanguage: 'txt' }),
-              codeMirrorPlugin({
-                codeBlockLanguages: {
-                  '': 'Plain text',
-                  txt: 'Plain text',
-                  js: 'JavaScript',
-                  jsx: 'JavaScript (JSX)',
-                  ts: 'TypeScript',
-                  tsx: 'TypeScript (TSX)',
-                  css: 'CSS',
-                  html: 'HTML',
-                  json: 'JSON',
-                  bash: 'Bash',
-                  sh: 'Shell',
-                  sql: 'SQL',
-                  py: 'Python',
-                  md: 'Markdown',
-                },
-              }),
-              toolbarPlugin({
-                toolbarClassName:
-                  'sticky top-0 z-50 border-b bg-background',
-                toolbarContents: () => (
-                  <>
-                    <UndoRedo />
-                    <BoldItalicUnderlineToggles />
-                    <BlockTypeSelect />
-                    <ListsToggle />
-                    <CreateLink />
-                    <CodeToggle />
-                    <InsertThematicBreak />
-                  </>
-                ),
-              }),
-            ]}
+            value={content}
+            style={{ height: '100%' }}
+            renderHTML={(text) => mdParser.render(text)}
+            onChange={handleEditorChange}
           />
         </div>
       </div>

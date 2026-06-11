@@ -92,19 +92,19 @@ function Home() {
           solutions for gamers, developers, and online communities.
         </ScrollReveal>
       </section>
-      <section className=" flex justify-center items-center w-full">
+      <section className="flex justify-center items-center w-full">
         <div className="max-w-[60rem]">
           <PricingTableFour
             plans={plans}
-            title="Choose Your Perfect Plan"
-            theme="classic"
-            description="Transform your project with our comprehensive pricing options designed for every need."
-            subtitle="Simple Pricing"
+            title="Find Your Perfect Plan"
+            theme="minimal"
+            description="Reliable infrastructure, premium features, and flexible pricing designed for creators and gaming communities."
+            subtitle="Everything You Need to Build and Grow"
             onPlanSelect={(planId: string) =>
               console.log('Selected plan:', planId)
             }
             size="medium"
-            className="w-full"
+            className="w-full bg-transparent py-12"
             showBillingToggle={true}
             billingToggleLabels={{
               monthly: 'Monthly',

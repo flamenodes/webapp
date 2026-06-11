@@ -476,7 +476,13 @@ export function PricingTableFour({
                   {/* CTA Button */}
                   <div className="mb-6">
                     <Button
-                      onClick={() => handlePlanSelect(plan.id)}
+                      onClick={() => {
+                        if (plan.buttonLink) {
+                          window.location.href = plan.buttonLink;
+                        } else {
+                          handlePlanSelect(plan.id);
+                        }
+                      }}
                       className={cn(
                         buttonVariants({ theme }),
                         !plan.highlight &&

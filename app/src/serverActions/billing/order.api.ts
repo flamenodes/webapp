@@ -224,6 +224,30 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
           if (existingServer) return;
 
           const name = `${item.productName}-${item.id.slice(0, 8)}`;
+          
+          console.log('='.repeat(80));
+          console.log('🔍 DEBUGGING SPECS ISSUE');
+          console.log('='.repeat(80));
+          console.log('📦 Product ID:', item.productId);
+          console.log('📦 Product Name:', item.productName);
+          console.log('📦 Product Object:', JSON.stringify(item.product, null, 2));
+          console.log('📦 Product specs field:', JSON.stringify(item.product.specs, null, 2));
+          console.log('📦 Product specs type:', typeof item.product.specs);
+          console.log('📦 OrderItem specsSnapshot:', JSON.stringify(item.specsSnapshot, null, 2));
+          console.log('='.repeat(80));
+          
+          const { extractPteroSpecsFromProduct } = await import('../pterodactyl/configData');
+          const specs = extractPteroSpecsFromProduct(item.product.specs);
+          
+          console.log('✅ Final extracted specs:', JSON.stringify(specs, null, 2));
+          console.log('='.repeat(80));
+          
+          // Validate critical specs are not 0
+          if (!specs.cpu || !specs.memory || !specs.disk) {
+            console.error(`Invalid specs for product ${item.productName}:`, specs);
+            throw new Error(`Product ${item.productName} has invalid specs. CPU, memory, and disk must be greater than 0.`);
+          }
+
           const productSpecs = item.product.specs as Record<string, any> ?? {};
           const userConfig = (item.configuration ?? {}) as Record<string, string>;
 
@@ -255,15 +279,7 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
               type: item.product.category,
               status: 'PROCESSING',
               expiresAt: item.expiresAt,
-              resources: {
-                cpu: Number(productSpecs.cpu ?? 0),
-                memory: Number(productSpecs.memory ?? 0),
-                swap: Number(productSpecs.swap ?? 0),
-                disk: Number(productSpecs.disk ?? 0),
-                database: Number(productSpecs.database ?? 0),
-                allocation: Number(productSpecs.allocation ?? 1),
-                backups: Number(productSpecs.backups ?? 0),
-              },
+              resources: specs,
             },
           });
 
@@ -279,15 +295,7 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
               nest: resolvedNest,
               egg: resolvedEgg,
               extraEnv,
-              specs: {
-                cpu: Number(productSpecs.cpu ?? 0),
-                memory: Number(productSpecs.memory ?? 0),
-                swap: Number(productSpecs.swap ?? 0),
-                disk: Number(productSpecs.disk ?? 0),
-                database: Number(productSpecs.database ?? 0),
-                allocation: Number(productSpecs.allocation ?? 1),
-                backups: Number(productSpecs.backups ?? 0),
-              },
+              specs,
               type: item.product.category,
               userEmail: billingDetails?.billingDetails?.email || session.user.email,
               userName: billingDetails?.billingDetails?.firstName || session.user.name,

@@ -11,6 +11,7 @@ const makeSchema = () => z.object({
   status: SortOrderSchema.optional(),
   ip: SortOrderSchema.optional(),
   port: SortOrderSchema.optional(),
+  pterodactylServerId: SortOrderSchema.optional(),
   expiresAt: SortOrderSchema.optional(),
   suspended: SortOrderSchema.optional(),
   createdAt: SortOrderSchema.optional(),

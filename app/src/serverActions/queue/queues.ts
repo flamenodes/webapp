@@ -3,9 +3,10 @@ import { Queue } from 'bullmq'
 
 let emailQueue: any = null
 let deploymentQueue: any = null
+let expirationQueue: any = null
 
 function initQueues() {
-  if (emailQueue && deploymentQueue) return
+  if (emailQueue && deploymentQueue && expirationQueue) return
   
   const redis = getRedis()
   if (!redis) return
@@ -30,13 +31,23 @@ function initQueues() {
         removeOnFail: { count: 100, age: 30 * 24 * 3600 },
       },
     })
+
+    expirationQueue = new Queue('server-expiration', {
+      connection: redis,
+      defaultJobOptions: {
+        attempts: 1,
+        removeOnComplete: { count: 10, age: 24 * 3600 },
+        removeOnFail: { count: 50, age: 7 * 24 * 3600 },
+      },
+    })
   } catch {
     emailQueue = null
     deploymentQueue = null
+    expirationQueue = null
   }
 }
 
-export { emailQueue, deploymentQueue, initQueues }
+export { emailQueue, deploymentQueue, expirationQueue, initQueues }
 
 export interface EmailJobData {
   type: 'order-confirmation' | 'server-processing' | 'server-ready' | 'payment-failed'

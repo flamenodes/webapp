@@ -93,7 +93,7 @@ const Header = () => {
     <header>
       <nav
         data-state={menuState && 'active'}
-        className="fixed z-[9999] w-full px-2"
+        className="fixed z-50 w-full px-2"
       >
         <div
           className={cn(

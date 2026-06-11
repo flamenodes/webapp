@@ -73,23 +73,18 @@ function CheckoutPaymentPage() {
           color: '#FF4500',
         },
         handler: async function (response: any) {
-          try {
-            await updateOrderStatus({
-              data: {
-                orderId: order.id,
-                status: 'PAID',
-              }
-            })
-
-            toast.success('Payment successful!')
-            
-            setTimeout(() => {
-              navigate({ to: "/user/dashboard" })
-            }, 1500)
-          } catch (error: any) {
-            toast.error(error.message || 'Payment verification failed')
-            setProcessing(false)
-          }
+          toast.success('Payment successful!')
+          navigate({ to: "/user/dashboard" })
+          
+          // Update order status in background
+          updateOrderStatus({
+            data: {
+              orderId: order.id,
+              status: 'PAID',
+            }
+          }).catch((error) => {
+            console.error('Background order update failed:', error)
+          })
         },
         modal: {
           ondismiss: function () {

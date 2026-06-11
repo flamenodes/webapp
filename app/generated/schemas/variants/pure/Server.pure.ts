@@ -11,6 +11,7 @@ export const ServerModelSchema = z.object({
     status: z.string(),
     ip: z.string().nullable(),
     port: z.number().int().nullable(),
+    pterodactylServerId: z.number().int().nullable(),
     expiresAt: z.date().nullable(),
     resources: z.unknown().nullable(),
     pterodactylData: z.unknown().nullable(),

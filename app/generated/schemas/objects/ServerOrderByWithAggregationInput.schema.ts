@@ -17,6 +17,7 @@ const makeSchema = () => z.object({
   status: SortOrderSchema.optional(),
   ip: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   port: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
+  pterodactylServerId: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   expiresAt: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   resources: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   pterodactylData: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),

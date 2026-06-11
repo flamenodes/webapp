@@ -57,6 +57,11 @@ export const fetchPteroServerData = createServerFn({ method: 'POST' })
         ? detailsRes.value.data?.attributes
         : null
 
+    // Extract allocation and node info from stored pterodactylData
+    const allocationData = pteroData.relationships?.allocations?.data?.[0]?.attributes
+    const nodeData = pteroData.relationships?.node?.data?.attributes
+    const allocationId = pteroData.relationships?.allocations?.data?.[0]?.id
+
     return {
       state: resources?.current_state ?? null,
       usage: resources?.resources
@@ -72,6 +77,11 @@ export const fetchPteroServerData = createServerFn({ method: 'POST' })
       name: details?.name ?? null,
       description: details?.description ?? null,
       identifier: pteroData.identifier,
+      ip: allocationData?.ip ?? null,
+      port: allocationData?.port ?? null,
+      allocationId: allocationId ?? null,
+      nodeId: nodeData?.id ?? null,
+      nodeAlias: nodeData?.name_short ?? nodeData?.name ?? null,
     }
   })
 
@@ -174,6 +184,33 @@ export const deleteAdminServer = createServerFn({ method: 'POST' })
     return { success: true }
   })
 
+export const bulkDeleteServers = createServerFn({ method: 'POST' })
+  .inputValidator((data: unknown) => z.object({ serverIds: z.array(z.string()) }).parse(data))
+  .handler(async ({ data }) => {
+    await requireAdmin()
+
+    const servers = await prisma.server.findMany({
+      where: { id: { in: data.serverIds } },
+      include: { orderItem: { include: { product: { select: { deployMode: true } } } } },
+    })
+
+    for (const server of servers) {
+      const deployMode = server.orderItem?.product?.deployMode ?? 'CUSTOM'
+      const pteroData = server.pterodactylData as any
+
+      if (deployMode === 'PTERODACTYL' && pteroData?.id) {
+        try {
+          await ptero.delete(`/application/servers/${pteroData.id}`)
+        } catch (pteroError: any) {
+          console.error(`Failed to delete Pterodactyl server ${pteroData.id}:`, pteroError.message)
+        }
+      }
+    }
+
+    await prisma.server.deleteMany({ where: { id: { in: data.serverIds } } })
+    return { success: true, deletedCount: servers.length }
+  })
+
 export const retryDeployment = createServerFn({ method: 'POST' })
   .inputValidator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
   .handler(async ({ data }) => {
@@ -186,7 +223,7 @@ export const retryDeployment = createServerFn({ method: 'POST' })
         orderItem: {
           include: {
             order: { select: { id: true } },
-            product: { select: { deployMode: true, pteroConfig: true, specs: true } },
+            product: true,
           },
         },
       },
@@ -196,8 +233,29 @@ export const retryDeployment = createServerFn({ method: 'POST' })
       throw new Error('Manual deployment only supported for Pterodactyl servers')
     }
 
+    console.log('='.repeat(80));
+    console.log('🔄 RETRY DEPLOYMENT - DEBUGGING SPECS');
+    console.log('='.repeat(80));
+    console.log('📦 Product ID:', server.orderItem.product.id);
+    console.log('📦 Product Name:', server.orderItem.product.planName);
+    console.log('📦 Product Object:', JSON.stringify(server.orderItem.product, null, 2));
+    console.log('📦 Product specs field:', JSON.stringify(server.orderItem.product.specs, null, 2));
+    console.log('📦 Product specs type:', typeof server.orderItem.product.specs);
+    console.log('📦 OrderItem specsSnapshot:', JSON.stringify(server.orderItem?.specsSnapshot, null, 2));
+    console.log('='.repeat(80));
+
+    const { extractPteroSpecsFromProduct } = await import('../pterodactyl/configData')
+    const specs = extractPteroSpecsFromProduct(server.orderItem.product.specs)
+    
+    console.log('✅ Final extracted specs:', JSON.stringify(specs, null, 2));
+    console.log('='.repeat(80));
+    
+    // Validate critical specs are not 0
+    if (!specs.cpu || !specs.memory || !specs.disk) {
+      throw new Error('Product specs are incomplete. CPU, memory, and disk must be greater than 0.')
+    }
+
     const pteroConfig = (server.orderItem.product.pteroConfig as any) ?? {}
-    const productSpecs = (server.orderItem.product.specs as any) ?? {}
     const orderId = server.orderItem.order?.id
     
     if (!orderId) throw new Error('No order found for this server')
@@ -219,15 +277,7 @@ export const retryDeployment = createServerFn({ method: 'POST' })
         nest: pteroConfig.nest ?? 1,
         egg: pteroConfig.egg ?? 1,
         extraEnv: pteroConfig.extraEnv ?? {},
-        specs: {
-          cpu: productSpecs.cpu ?? 100,
-          memory: productSpecs.memory ?? 512,
-          swap: productSpecs.swap ?? 0,
-          disk: productSpecs.disk ?? 1024,
-          database: productSpecs.databases ?? productSpecs.database ?? 0,
-          allocation: productSpecs.allocations ?? productSpecs.allocation ?? 1,
-          backups: productSpecs.backups ?? 0,
-        },
+        specs,
         type: 'pterodactyl',
         userEmail: server.user?.email ?? '',
         userName: server.user?.name ?? 'User',
@@ -237,5 +287,81 @@ export const retryDeployment = createServerFn({ method: 'POST' })
     return { 
       success: result.success,
       message: result.success ? 'Deployment completed successfully' : result.error || 'Deployment failed'
+    }
+  })
+
+export const redeployServer = createServerFn({ method: 'POST' })
+  .inputValidator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
+  .handler(async ({ data }) => {
+    await requireAdmin()
+
+    const server = await prisma.server.findUniqueOrThrow({
+      where: { id: data.serverId },
+      include: {
+        user: { select: { id: true, name: true, email: true } },
+        orderItem: {
+          include: {
+            order: { select: { id: true } },
+            product: true,
+          },
+        },
+      },
+    })
+
+    if (server.orderItem?.product?.deployMode !== 'PTERODACTYL') {
+      throw new Error('Redeployment only supported for Pterodactyl servers')
+    }
+
+    console.log('='.repeat(80));
+    console.log('🔄 REDEPLOY - DEBUGGING SPECS');
+    console.log('='.repeat(80));
+    console.log('📦 Product ID:', server.orderItem.product.id);
+    console.log('📦 Product Name:', server.orderItem.product.planName);
+    console.log('📦 Product Object:', JSON.stringify(server.orderItem.product, null, 2));
+    console.log('📦 Product specs field:', JSON.stringify(server.orderItem.product.specs, null, 2));
+    console.log('📦 Product specs type:', typeof server.orderItem.product.specs);
+    console.log('📦 OrderItem specsSnapshot:', JSON.stringify(server.orderItem?.specsSnapshot, null, 2));
+    console.log('='.repeat(80));
+
+    const { extractPteroSpecsFromProduct } = await import('../pterodactyl/configData')
+    const specs = extractPteroSpecsFromProduct(server.orderItem.product.specs)
+    
+    console.log('✅ Final extracted specs:', JSON.stringify(specs, null, 2));
+    console.log('='.repeat(80));
+    
+    // Validate critical specs are not 0
+    if (!specs.cpu || !specs.memory || !specs.disk) {
+      throw new Error('Product specs are incomplete. CPU, memory, and disk must be greater than 0.')
+    }
+
+    const pteroConfig = (server.orderItem.product.pteroConfig as any) ?? {}
+
+    await prisma.server.update({
+      where: { id: data.serverId },
+      data: { status: 'PROCESSING' },
+    })
+
+    const { redeployServerFn } = await import('../queue/deploy-functions')
+    
+    const result = await redeployServerFn({
+      data: {
+        orderId: server.orderItem.order?.id ?? '',
+        orderItemId: server.orderItemId!,
+        serverId: server.id,
+        name: server.name,
+        user: pteroConfig.user ?? 1,
+        nest: pteroConfig.nest ?? 1,
+        egg: pteroConfig.egg ?? 1,
+        extraEnv: pteroConfig.extraEnv ?? {},
+        specs,
+        type: 'pterodactyl',
+        userEmail: server.user?.email ?? '',
+        userName: server.user?.name ?? 'User',
+      },
+    })
+    
+    return { 
+      success: result.success,
+      message: result.success ? 'Redeployment started successfully' : result.error || 'Redeployment failed'
     }
   })

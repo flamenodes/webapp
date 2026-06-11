@@ -1,9 +1,11 @@
 import PricingCard from '#/components/pricing/PricingCard'
 import type { PricingCardProps } from '#/components/pricing/PricingCard'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { QuickCheckoutSheet } from '#/components/billing/QuickCheckoutSheet'
+import { createFileRoute } from '@tanstack/react-router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { getProductsByCategory } from '#/serverActions/products/product.api'
 import { seo } from '#/utils/seo'
+import { useState } from 'react'
 
 export const Route = createFileRoute('/pricing/vps')({
   head: () => ({
@@ -18,7 +20,9 @@ export const Route = createFileRoute('/pricing/vps')({
 })
 
 function RouteComponent() {
-  const navigate = useNavigate()
+  const [selectedProduct, setSelectedProduct] = useState<any>(null)
+  const [sheetOpen, setSheetOpen] = useState(false)
+
   const { data } = useSuspenseQuery({
     queryKey: ['pricing-products', 'VPS'],
     queryFn: () =>
@@ -38,15 +42,23 @@ function RouteComponent() {
     buttonLabel: 'Order',
     productId: product.id,
     onSelectPlan: () => {
-      navigate({ to: '/billing/cart', search: { productId: product.id } })
+      setSelectedProduct(product)
+      setSheetOpen(true)
     },
   }))
 
   return (
-    <div className="grid grid-cols-1 gap-6 p-4 sm:p-6 md:grid-cols-2 lg:grid-cols-3 xl:gap-8">
-      {plans.map((plan) => (
-        <PricingCard key={plan.planName} data={plan} />
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-1 gap-6 p-4 sm:p-6 md:grid-cols-2 lg:grid-cols-3 xl:gap-8">
+        {plans.map((plan) => (
+          <PricingCard key={plan.planName} data={plan} />
+        ))}
+      </div>
+      <QuickCheckoutSheet
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+        product={selectedProduct}
+      />
+    </>
   )
 }

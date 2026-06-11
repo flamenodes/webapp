@@ -11,6 +11,7 @@ export const ServerInputSchema = z.object({
     status: z.string(),
     ip: z.string().optional().nullable(),
     port: z.number().int().optional().nullable(),
+    pterodactylServerId: z.number().int().optional().nullable(),
     expiresAt: z.date().optional().nullable(),
     resources: z.unknown().optional().nullable(),
     pterodactylData: z.unknown().optional().nullable(),

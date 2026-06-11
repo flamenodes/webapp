@@ -1,11 +1,12 @@
 import PricingCard from '#/components/pricing/PricingCard'
 import type { PricingCardProps } from '#/components/pricing/PricingCard'
+import { QuickCheckoutSheet } from '#/components/billing/QuickCheckoutSheet'
 
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { getProductsByCategory } from '#/serverActions/products/product.api'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { seo } from '#/utils/seo'
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 
 export const Route = createFileRoute('/pricing/minecraft')({
   head: () => ({
@@ -22,7 +23,9 @@ export const Route = createFileRoute('/pricing/minecraft')({
 })
 
 function RouteComponent() {
-  const navigate = useNavigate()
+  const [selectedProduct, setSelectedProduct] = useState<any>(null)
+  const [sheetOpen, setSheetOpen] = useState(false)
+
   const { data } = useSuspenseQuery({
     queryKey: ['pricing-products', 'MINECRAFT'],
     queryFn: () =>
@@ -42,17 +45,25 @@ function RouteComponent() {
     buttonLabel: 'Order',
     productId: product.id,
     onSelectPlan: () => {
-      navigate({ to: '/billing/cart', search: { productId: product.id } })
+      setSelectedProduct(product)
+      setSheetOpen(true)
     },
   }))
 
   return (
-    <div className="grid grid-cols-1 gap-6 p-4 sm:p-6 md:grid-cols-2 lg:grid-cols-3 xl:gap-8">
-      <Suspense>
-        {plans.map((plan) => (
-          <PricingCard key={plan.planName} data={plan} />
-        ))}
-      </Suspense>
-    </div>
+    <>
+      <div className="grid grid-cols-1 gap-6 p-4 sm:p-6 md:grid-cols-2 lg:grid-cols-3 xl:gap-8">
+        <Suspense>
+          {plans.map((plan) => (
+            <PricingCard key={plan.planName} data={plan} />
+          ))}
+        </Suspense>
+      </div>
+      <QuickCheckoutSheet
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+        product={selectedProduct}
+      />
+    </>
   )
 }
