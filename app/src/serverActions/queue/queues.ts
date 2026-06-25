@@ -9,7 +9,10 @@ function initQueues() {
   if (emailQueue && deploymentQueue && expirationQueue) return
   
   const redis = getRedis()
-  if (!redis) return
+  if (!redis) {
+    console.warn('⚠️  Redis not available, queues will not be initialized')
+    return
+  }
 
   try {
     emailQueue = new Queue('email-notifications', {
@@ -40,12 +43,18 @@ function initQueues() {
         removeOnFail: { count: 50, age: 7 * 24 * 3600 },
       },
     })
-  } catch {
+    
+    console.log('✅ BullMQ queues initialized successfully')
+  } catch (error) {
+    console.error('❌ Failed to initialize queues:', error)
     emailQueue = null
     deploymentQueue = null
     expirationQueue = null
   }
 }
+
+// Initialize queues on module load
+initQueues()
 
 export { emailQueue, deploymentQueue, expirationQueue, initQueues }
 
@@ -106,8 +115,15 @@ export async function addEmailJob(data: EmailJobData) {
 export async function addDeploymentJob(data: DeploymentJobData) {
   initQueues()
   if (!deploymentQueue) {
-    console.warn('⚠️  Deployment queue unavailable - manual deployment required')
+    console.warn('⚠️  Deployment queue unavailable - returning null for fallback')
     return null
   }
-  return await deploymentQueue.add('deploy-server', data)
+  try {
+    const job = await deploymentQueue.add('deploy-server', data)
+    console.log(`✅ Deployment job added to queue: ${job.id}`)
+    return job
+  } catch (error) {
+    console.error('❌ Failed to add deployment job:', error)
+    return null
+  }
 }

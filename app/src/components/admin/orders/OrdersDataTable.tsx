@@ -38,6 +38,7 @@ import {
   Trash2,
   Download,
   FileSpreadsheet,
+  Rocket,
 } from 'lucide-react'
 import {
   DropdownMenu,
@@ -58,6 +59,7 @@ interface OrdersDataTableProps {
   onGeneratePaymentLink?: (orderId: string) => void
   onUpdateStatus?: (orderId: string, status: string) => void
   onDeleteOrder?: (orderId: string) => void
+  onDeploy?: (orderId: string) => void
   isGeneratingLink?: boolean
 }
 
@@ -92,6 +94,7 @@ export function OrdersDataTable({
   onGeneratePaymentLink,
   onUpdateStatus,
   onDeleteOrder,
+  onDeploy,
   isGeneratingLink,
 }: OrdersDataTableProps) {
   const qc = useQueryClient()
@@ -318,6 +321,15 @@ export function OrdersDataTable({
                           <LinkIcon className="w-4 h-4 mr-2" />
                         )}
                         Payment Link
+                      </DropdownMenuItem>
+                    )}
+
+                    {status === 'PAID' && (
+                      <DropdownMenuItem
+                        onClick={() => onDeploy?.(orderId)}
+                      >
+                        <Rocket className="w-4 h-4 mr-2" />
+                        Deploy
                       </DropdownMenuItem>
                     )}
 

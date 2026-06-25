@@ -4,9 +4,11 @@ import {
   getAllOrders, createManualOrder, generatePaymentLink,
   updateOrderStatus, getAllProducts,
   getPendingCustomOrders, deliverCustomOrder, deleteOrder,
+  deployOrder, deployCustomOrder,
 } from '@/serverActions/admin/orders.api'
 import { useState } from 'react'
 import { OrdersDataTable } from '@/components/admin/orders/OrdersDataTable'
+import { DeployOrderDialog } from '@/components/admin/orders/DeployOrderDialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -40,6 +42,7 @@ function OrdersPage() {
   const [copiedLink, setCopiedLink] = useState(false)
   const [deliverSheet, setDeliverSheet] = useState<string | null>(null) // orderId
   const [deliverForm, setDeliverForm] = useState({ serverName: '', ip: '', port: '', notes: '' })
+  const [deployDialog, setDeployDialog] = useState<string | null>(null) // orderId
 
   const [form, setForm] = useState({
     userEmail: '',
@@ -103,6 +106,33 @@ function OrdersPage() {
       toast.success('Order and associated servers deleted')
     },
     onError: (error: any) => toast.error(error?.message || 'Failed to delete order'),
+  })
+
+  const deployMutation = useMutation({
+    mutationFn: (orderId: string) => deployOrder({ data: { orderId } }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin-orders'] })
+      setDeployDialog(null)
+      toast.success('Deployment started via queue')
+    },
+    onError: (error: any) => toast.error(error?.message || 'Failed to deploy order'),
+  })
+
+  const deployCustomMutation = useMutation({
+    mutationFn: (data: {
+      orderId: string
+      serverName: string
+      panelUrl?: string
+      username?: string
+      password?: string
+      message: string
+    }) => deployCustomOrder({ data }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin-orders'] })
+      setDeployDialog(null)
+      toast.success('Order deployed successfully')
+    },
+    onError: (error: any) => toast.error(error?.message || 'Failed to deploy order'),
   })
 
   const handleCopyLink = () => {
@@ -267,6 +297,7 @@ function OrdersPage() {
                 deleteMutation.mutate(orderId)
               }
             }}
+            onDeploy={(orderId) => setDeployDialog(orderId)}
             isGeneratingLink={generateLinkMutation.isPending}
           />
         </div>
@@ -375,6 +406,15 @@ function OrdersPage() {
           </div>
         </div>
       )}
+
+      <DeployOrderDialog
+        open={!!deployDialog}
+        onOpenChange={(open) => !open && setDeployDialog(null)}
+        order={orders.find((o) => o.id === deployDialog) || null}
+        onDeployPterodactyl={(orderId) => deployMutation.mutate(orderId)}
+        onDeployCustom={(data) => deployCustomMutation.mutate(data)}
+        isDeploying={deployMutation.isPending || deployCustomMutation.isPending}
+      />
     </main>
   )
 }

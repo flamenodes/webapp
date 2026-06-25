@@ -300,6 +300,19 @@ const deleteOrderSchema = z.object({
   orderId: z.string(),
 })
 
+const deployOrderSchema = z.object({
+  orderId: z.string(),
+})
+
+const deployCustomOrderSchema = z.object({
+  orderId: z.string(),
+  serverName: z.string(),
+  panelUrl: z.string().optional(),
+  username: z.string().optional(),
+  password: z.string().optional(),
+  message: z.string(),
+})
+
 export const deleteOrder = createServerFn({ method: 'POST' })
   .inputValidator(deleteOrderSchema)
   .handler(async ({ data }) => {
@@ -346,4 +359,208 @@ export const deleteOrder = createServerFn({ method: 'POST' })
     await prisma.order.delete({ where: { id: data.orderId } })
 
     return wrapSuccess('Order and associated servers deleted successfully')
+  })
+
+export const deployOrder = createServerFn({ method: 'POST' })
+  .inputValidator(deployOrderSchema)
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const session = await auth.api.getSession({ headers })
+    if (!session?.user) return wrapError('Unauthorized')
+
+    const user = await prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } })
+    const role = user?.role?.toLowerCase()
+    if (role !== 'admin' && role !== 'owner') return wrapError('Forbidden')
+
+    const order = await prisma.order.findUnique({
+      where: { id: data.orderId },
+      include: {
+        items: { include: { product: true, server: true } },
+        user: true,
+      },
+    })
+
+    if (!order) return wrapError('Order not found')
+    if (order.status !== 'PAID') return wrapError('Order must be in PAID status to deploy')
+
+    const orderItem = order.items[0]
+    if (!orderItem) return wrapError('No items in order')
+
+    const product = orderItem.product
+    if (product.deployMode !== 'PTERODACTYL') {
+      return wrapError('Only PTERODACTYL deploy mode can be auto-deployed')
+    }
+
+    // Check if server already exists
+    if (orderItem.server) {
+      return wrapError('Server already exists for this order')
+    }
+
+    // Create server record
+    const productSpecs = product.specs as Record<string, any> ?? {}
+    const userConfig = (orderItem.configuration ?? {}) as Record<string, string>
+
+    let resolvedEgg = Number(productSpecs.egg ?? process.env.PTERO_DEFAULT_EGG ?? 1)
+    let resolvedNest = Number(productSpecs.nest ?? process.env.PTERO_DEFAULT_NEST ?? 1)
+    let extraEnv: Record<string, string> = {}
+
+    const configValueIds = Object.values(userConfig).filter(Boolean)
+    if (configValueIds.length > 0) {
+      const configValues = await prisma.configurationValue.findMany({
+        where: { value: { in: configValueIds } },
+      })
+      for (const cv of configValues) {
+        const meta = cv.metadata as Record<string, any> | null
+        if (!meta) continue
+        if (meta.eggId) resolvedEgg = Number(meta.eggId)
+        if (meta.nestId) resolvedNest = Number(meta.nestId)
+        if (meta.envVars && typeof meta.envVars === 'object') {
+          extraEnv = { ...extraEnv, ...meta.envVars }
+        }
+      }
+    }
+
+    const server = await prisma.server.create({
+      data: {
+        userId: order.userId,
+        orderItemId: orderItem.id,
+        name: product.planName,
+        type: product.category,
+        status: 'PROCESSING',
+        resources: productSpecs,
+        expiresAt: orderItem.expiresAt,
+      },
+    })
+
+    // Update order status
+    await prisma.order.update({
+      where: { id: order.id },
+      data: { status: 'PROCESSING' },
+    })
+
+    const deploymentData = {
+      orderId: order.id,
+      orderItemId: orderItem.id,
+      serverId: server.id,
+      name: product.planName,
+      user: Number(process.env.PTERO_DEFAULT_USER_ID ?? 1),
+      nest: resolvedNest,
+      egg: resolvedEgg,
+      extraEnv,
+      specs: {
+        cpu: Number(productSpecs.cpu ?? 0),
+        memory: Number(productSpecs.memory ?? 0),
+        swap: Number(productSpecs.swap ?? 0),
+        disk: Number(productSpecs.disk ?? 0),
+        database: Number(productSpecs.database ?? 0),
+        allocation: Number(productSpecs.allocation ?? 1),
+        backups: Number(productSpecs.backups ?? 0),
+      },
+      type: product.category,
+      userEmail: order.user.email,
+      userName: order.user.name,
+    }
+
+    // Try to add to deployment queue first
+    try {
+      const { addDeploymentJob } = await import('../queue/queues')
+      const job = await addDeploymentJob(deploymentData)
+
+      if (job) {
+        console.log('✅ Deployment job added to queue:', job.id)
+        return wrapSuccess('Deployment started via queue', { serverId: server.id, jobId: job.id })
+      }
+    } catch (error) {
+      console.warn('⚠️  Queue error:', error)
+    }
+
+    // Fallback: Deploy directly if queue fails
+    console.warn('⚠️  Queue unavailable, deploying directly...')
+    console.log('Deployment data:', JSON.stringify({
+      orderId: deploymentData.orderId,
+      serverId: deploymentData.serverId,
+      serverName: deploymentData.name,
+    }, null, 2))
+    
+    const { deployServerFn } = await import('../queue/deploy-functions')
+    
+    // Deploy in background (don't await to return quickly)
+    deployServerFn({ data: deploymentData }).catch((err) => {
+      console.error('❌ Direct deployment failed:', err)
+    })
+    
+    return wrapSuccess('Deployment started (direct mode)', { serverId: server.id })
+  })
+
+export const deployCustomOrder = createServerFn({ method: 'POST' })
+  .inputValidator(deployCustomOrderSchema)
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const session = await auth.api.getSession({ headers })
+    if (!session?.user) return wrapError('Unauthorized')
+
+    const user = await prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } })
+    const role = user?.role?.toLowerCase()
+    if (role !== 'admin' && role !== 'owner') return wrapError('Forbidden')
+
+    const order = await prisma.order.findUnique({
+      where: { id: data.orderId },
+      include: {
+        items: { include: { product: true, server: true } },
+        user: true,
+      },
+    })
+
+    if (!order) return wrapError('Order not found')
+    if (order.status !== 'PAID') return wrapError('Order must be in PAID status to deploy')
+
+    const orderItem = order.items[0]
+    if (!orderItem) return wrapError('No items in order')
+
+    const product = orderItem.product
+    if (product.deployMode !== 'CUSTOM') {
+      return wrapError('Only CUSTOM deploy mode can use manual deployment')
+    }
+
+    // Check if server already exists
+    if (orderItem.server) {
+      return wrapError('Server already exists for this order')
+    }
+
+    const productSpecs = product.specs as Record<string, any> ?? {}
+
+    // Create server record with provided details
+    const server = await prisma.server.create({
+      data: {
+        userId: order.userId,
+        orderItemId: orderItem.id,
+        name: data.serverName,
+        type: product.category,
+        status: 'ACTIVE',
+        resources: productSpecs,
+        expiresAt: orderItem.expiresAt,
+        pterodactylData: {
+          panelUrl: data.panelUrl,
+          username: data.username,
+          password: data.password,
+        },
+      },
+    })
+
+    // Update order with delivery message
+    await prisma.order.update({
+      where: { id: order.id },
+      data: {
+        status: 'DELIVERED',
+        deliveryMessage: data.message,
+        deliveryData: {
+          panelUrl: data.panelUrl,
+          username: data.username,
+          deployedAt: new Date().toISOString(),
+          deployedBy: session.user.id,
+        },
+      },
+    })
+
+    return wrapSuccess('Order deployed successfully', { serverId: server.id })
   })

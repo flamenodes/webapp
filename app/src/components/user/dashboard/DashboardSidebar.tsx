@@ -1,13 +1,26 @@
 import FlameNodesLogo from '#/components/blocks/FlameNodesLogo'
 import { Link, useRouterState } from '@tanstack/react-router'
-import { Plus, LayoutGrid, Server, ShoppingBag, Ticket, Settings, FileText } from 'lucide-react'
+import {
+  Plus,
+  LayoutGrid,
+  Server,
+  ShoppingBag,
+  Ticket,
+  Settings,
+  FileText,
+} from 'lucide-react'
 
 const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutGrid,  to: '/user/dashboard' },
-  { id: 'servers',   label: 'Servers',   icon: Server,      to: '/user/servers'   },
-  { id: 'orders',    label: 'Orders',    icon: ShoppingBag, to: '/user/orders'    },
-  { id: 'invoices',  label: 'Invoices',  icon: FileText,    to: '/user/invoices'  },
-  { id: 'tickets',   label: 'Tickets',   icon: Ticket,      to: '/user/tickets'   },
+  {
+    id: 'dashboard',
+    label: 'Dashboard',
+    icon: LayoutGrid,
+    to: '/user/dashboard',
+  },
+  { id: 'servers', label: 'Servers', icon: Server, to: '/user/servers' },
+  { id: 'orders', label: 'Orders', icon: ShoppingBag, to: '/user/orders' },
+  { id: 'invoices', label: 'Invoices', icon: FileText, to: '/user/invoices' },
+  { id: 'tickets', label: 'Tickets', icon: Ticket, to: '/user/tickets' },
 ]
 
 interface Props {
@@ -28,7 +41,6 @@ function itemClass(active: boolean) {
       : 'border-transparent text-muted-foreground hover:bg-accent hover:text-foreground',
   ].join(' ')
 }
-
 
 export function DashboardSidebar({ open, onClose }: Props) {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
@@ -57,8 +69,7 @@ export function DashboardSidebar({ open, onClose }: Props) {
 
         {/* Branding */}
         <div className="flex items-center gap-3 h-[64px] px-4 shrink-0 overflow-hidden border-b border-border">
-				<FlameNodesLogo textSize={20}/>
-        
+          <FlameNodesLogo textSize={20} />
         </div>
 
         {/* Navigation */}
@@ -72,7 +83,9 @@ export function DashboardSidebar({ open, onClose }: Props) {
                   strokeWidth={1.75}
                   className={`shrink-0 transition-transform duration-200 group-hover:scale-110 ${active ? 'text-primary' : ''}`}
                 />
-                <span className={`text-sm font-medium whitespace-nowrap ${active ? 'text-foreground' : ''}`}>
+                <span
+                  className={`text-sm font-medium whitespace-nowrap ${active ? 'text-foreground' : ''}`}
+                >
                   {label}
                 </span>
               </Link>
@@ -81,7 +94,9 @@ export function DashboardSidebar({ open, onClose }: Props) {
 
           {/* CTA */}
           <div className="mt-5">
-            <button className="
+            <Link to="/pricing">
+              <button
+                className="
               w-full h-11 rounded-xl flex items-center justify-center gap-2
               bg-primary text-primary-foreground font-semibold text-sm
               shadow-[0_0_20px_var(--primary)/30]
@@ -91,16 +106,21 @@ export function DashboardSidebar({ open, onClose }: Props) {
               transition-all duration-200
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
               md:w-full md:h-11 md:rounded-xl lg:w-full lg:h-11 lg:rounded-xl
-            ">
-              <Plus size={15} strokeWidth={2} className="shrink-0" />
-              <span>Order Server</span>
-            </button>
+              "
+              >
+                <Plus size={15} strokeWidth={2} className="shrink-0" />
+                <span>Order Server</span>
+              </button>
+            </Link>
           </div>
         </nav>
 
         {/* Footer */}
         <div className="px-3 pb-4 pt-3 border-t border-border shrink-0">
-          <Link to="/user/settings" className={itemClass(pathname === '/user/settings')}>
+          <Link
+            to="/user/settings"
+            className={itemClass(pathname === '/user/settings')}
+          >
             <Settings
               size={17}
               strokeWidth={1.75}
