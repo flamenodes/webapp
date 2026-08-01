@@ -168,7 +168,7 @@ function OrdersPage() {
               <SheetHeader>
                 <SheetTitle>Create Manual Order</SheetTitle>
               </SheetHeader>
-              <div className="space-y-4 mt-6">
+              <div className="space-y-4 mt-6 px-6">
                 <Field>
                   <FieldLabel>Customer Email <span className="text-destructive">*</span></FieldLabel>
                   <Input

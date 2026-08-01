@@ -163,7 +163,7 @@ function pricingLayout() {
   const currentGameServer = gameServerOptions.find(opt => opt.to === pathname)
 
   return (
-    <section className="flex flex-col items-center min-h-screen relative">
+    <section className="flex flex-col items-center min-h-screen relative overflow-x-hidden">
       <Spotlight />
       <div className="absolute bottom-0 right-0 bg-background bg-[radial-gradient(el)]"></div>
       <div className="mt-12 sm:mt-16 md:mt-20 flex flex-col justify-center items-center w-full h-full px-4">
@@ -196,7 +196,7 @@ function pricingLayout() {
         )}
         
         {/* Tabs with Game Servers Dropdown */}
-        <div className="flex justify-center items-center gap-0 w-full max-w-full">
+        <div className="flex justify-center items-center w-full px-2 sm:px-4 mb-6">
           <div className="flex items-center rounded-xl sm:rounded-2xl border border-white/[0.05] bg-[#09090D]/90 backdrop-blur-xl overflow-x-auto overflow-y-hidden shadow-[0_10px_40px_rgba(0,0,0,0.45)] scrollbar-hide max-w-full">
             {category.map((tab) => {
               const Icon = tab.icon

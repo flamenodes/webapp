@@ -34,7 +34,7 @@
   /* Light mode surfaces */
   --background: oklch(1 0 0);
   --foreground: oklch(0.1450 0 0);
-  --card: oklch(1 0 0);
+  --card: oklch(94.309% 0.00011 271.152);
   --card-foreground: oklch(0.1450 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.1450 0 0);

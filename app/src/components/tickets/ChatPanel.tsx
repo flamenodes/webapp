@@ -2,6 +2,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { ChatTopBar } from '@/components/tickets/ChatTopBar'
 import { ChatMessage } from '@/components/tickets/ChatMessage'
 import { ChatComposer } from '@/components/tickets/ChatComposer'
+import { Marker, MarkerContent } from '@/components/ui/marker'
 import {
   getTicket,
   sendTicketMessage,
@@ -288,13 +289,9 @@ export function ChatPanel({ ticketId, isStaffView = false }: ChatPanelProps) {
           })}
 
           {someoneTyping && (
-            <div className="flex gap-3 items-end">
-              <div className="flex gap-1 items-center rounded-2xl bg-muted px-4 py-3">
-                <span className="h-2 w-2 rounded-full bg-muted-foreground/60" style={{ animation: 'typing-bounce 1.2s ease-in-out infinite', animationDelay: '0ms' }} />
-                <span className="h-2 w-2 rounded-full bg-muted-foreground/60" style={{ animation: 'typing-bounce 1.2s ease-in-out infinite', animationDelay: '200ms' }} />
-                <span className="h-2 w-2 rounded-full bg-muted-foreground/60" style={{ animation: 'typing-bounce 1.2s ease-in-out infinite', animationDelay: '400ms' }} />
-              </div>
-            </div>
+            <Marker role="status">
+              <MarkerContent className="shimmer">typing...</MarkerContent>
+            </Marker>
           )}
         </div>
         <div ref={bottomRef}/>

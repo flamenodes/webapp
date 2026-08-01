@@ -122,7 +122,7 @@ const categories = [
     color: 'from-pink-500/20 to-rose-500/20',
     borderColor: 'border-pink-500/30',
     iconColor: 'text-pink-500',
-    to: '/pricing/minecraft', // Will add game server selection later
+    to: '/plans',
     features: [
       'Instant Deploy',
       'Multiple Games',

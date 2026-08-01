@@ -52,12 +52,14 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-6 p-4 sm:p-6 md:grid-cols-2 lg:grid-cols-3 xl:gap-8">
-        <Suspense>
-          {plans.map((plan) => (
-            <PricingCard key={plan.planName} data={plan} />
-          ))}
-        </Suspense>
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 pb-12">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-8">
+          <Suspense>
+            {plans.map((plan) => (
+              <PricingCard key={plan.planName} data={plan} />
+            ))}
+          </Suspense>
+        </div>
       </div>
       <QuickCheckoutSheet
         open={sheetOpen}

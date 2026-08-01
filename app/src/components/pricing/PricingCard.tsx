@@ -38,7 +38,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({ data }) => {
   } = data
 
   return (
-    <div className="w-full sm:w-72 md:w-80">
+    <div className="w-full">
       <div
         className="
           relative overflow-hidden rounded-2xl
