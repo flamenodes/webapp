@@ -59,7 +59,7 @@ export const getProducts = createServerFn({ method: 'GET' }).handler(async () =>
 })
 
 export const updateProductConfig = createServerFn({ method: 'POST' })
-  .inputValidator((data) => updateProductConfigSchema.parse(data))
+  .validator((data) => updateProductConfigSchema.parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
 
@@ -83,7 +83,7 @@ export const updateProductConfig = createServerFn({ method: 'POST' })
   })
 
 export const getProductConfig = createServerFn({ method: 'GET' })
-  .inputValidator((data) => z.object({ productId: z.string() }).parse(data))
+  .validator((data) => z.object({ productId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     const product = await prisma.product.findUnique({
       where: { id: data.productId },

@@ -1,4 +1,3 @@
-"use client";
 
 import { FaStar } from 'react-icons/fa';
 import { useState, useEffect } from 'react';

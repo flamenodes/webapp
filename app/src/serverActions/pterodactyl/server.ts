@@ -7,7 +7,7 @@ import { emitDevBroadcast } from '#/lib/server/socket-context'
 export const getAllPteroServers = createServerFn({
   method: 'GET',
 })
-  .inputValidator(
+  .validator(
     z.object({
       page: z.number(),
       perPage: z.number(),
@@ -25,7 +25,7 @@ export const getAllPteroServers = createServerFn({
   })
 
 export const createPteroServer = createServerFn({ method: 'POST' })
-  .inputValidator(pteroServerSchema)
+  .validator(pteroServerSchema)
   .handler(async ({ data }) => {
     try {
       const res = await ptero.post(

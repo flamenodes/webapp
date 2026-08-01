@@ -45,7 +45,7 @@ export const getRazorpayConfig = createServerFn({ method: 'GET' }).handler(
 )
 
 export const updateRazorpayConfig = createServerFn({ method: 'POST' })
-  .inputValidator((data) => razorpayConfigSchema.parse(data))
+  .validator((data) => razorpayConfigSchema.parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
     const { prisma } = await import('#/db')
@@ -120,7 +120,7 @@ export const getWebSettingsToggle = createServerFn({ method: 'GET' }).handler(
 )
 
 export const updateWebSettingsToggle = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => z.boolean().parse(data))
+  .validator((data: unknown) => z.boolean().parse(data))
   .handler(async ({ data: enabled }) => {
     await requireAdmin()
     const { prisma } = await import('#/db')

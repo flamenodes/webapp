@@ -28,7 +28,8 @@ export const BillingPeriod = {
   MONTHLY: 'MONTHLY',
   QUARTERLY: 'QUARTERLY',
   SEMIANNUALLY: 'SEMIANNUALLY',
-  YEARLY: 'YEARLY'
+  YEARLY: 'YEARLY',
+  CUSTOM: 'CUSTOM'
 } as const
 
 export type BillingPeriod = (typeof BillingPeriod)[keyof typeof BillingPeriod]

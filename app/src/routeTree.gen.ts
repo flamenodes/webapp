@@ -9,63 +9,71 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as StatusRouteImport } from './routes/status'
-import { Route as McpRouteImport } from './routes/mcp'
-import { Route as ProtectedRouteImport } from './routes/_protected'
-import { Route as AuthRouteImport } from './routes/_auth'
-import { Route as PricingRouteRouteImport } from './routes/pricing/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PricingIndexRouteImport } from './routes/pricing/index'
-import { Route as PricingWebhostRouteImport } from './routes/pricing/webhost'
-import { Route as PricingVpsRouteImport } from './routes/pricing/vps'
-import { Route as PricingVdsRouteImport } from './routes/pricing/vds'
-import { Route as PricingProtectionRouteImport } from './routes/pricing/protection'
-import { Route as PricingMinecraftRouteImport } from './routes/pricing/minecraft'
-import { Route as PricingDiscordBotRouteImport } from './routes/pricing/discord-bot'
-import { Route as PricingDedicatedRouteImport } from './routes/pricing/dedicated'
-import { Route as DocsSlugRouteImport } from './routes/docs/$slug'
-import { Route as DevTestRouteImport } from './routes/dev/test'
-import { Route as CheckoutPaymentRouteImport } from './routes/checkout/payment'
-import { Route as BillingConfigureRouteImport } from './routes/billing/configure'
-import { Route as BillingCheckoutRouteImport } from './routes/billing/checkout'
-import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
+import { Route as AuthRouteImport } from './routes/_auth'
+import { Route as ProtectedRouteImport } from './routes/_protected'
+import { Route as McpRouteImport } from './routes/mcp'
+import { Route as PricingRouteRouteImport } from './routes/pricing/route'
+import { Route as StatusRouteImport } from './routes/status'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
-import { Route as ProtectedUserRouteRouteImport } from './routes/_protected/user/route'
+import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as ProtectedAdminRouteRouteImport } from './routes/_protected/admin/route'
-import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
-import { Route as ProtectedUserTicketsRouteImport } from './routes/_protected/user/tickets'
-import { Route as ProtectedUserSettingsRouteImport } from './routes/_protected/user/settings'
-import { Route as ProtectedUserServersRouteImport } from './routes/_protected/user/servers'
-import { Route as ProtectedUserOrdersRouteImport } from './routes/_protected/user/orders'
-import { Route as ProtectedUserInvoicesRouteImport } from './routes/_protected/user/invoices'
-import { Route as ProtectedUserDashboardRouteImport } from './routes/_protected/user/dashboard'
-import { Route as ProtectedBillingSuccessRouteImport } from './routes/_protected/billing/success'
-import { Route as ProtectedBillingPaymentRouteImport } from './routes/_protected/billing/payment'
-import { Route as ProtectedBillingCartRouteImport } from './routes/_protected/billing/cart'
-import { Route as ProtectedBillingAddressRouteImport } from './routes/_protected/billing/address'
-import { Route as ProtectedAdminWebSettingsRouteImport } from './routes/_protected/admin/web-settings'
-import { Route as ProtectedAdminTicketsRouteImport } from './routes/_protected/admin/tickets'
-import { Route as ProtectedAdminStatusRouteImport } from './routes/_protected/admin/status'
-import { Route as ProtectedAdminSettingsRouteImport } from './routes/_protected/admin/settings'
-import { Route as ProtectedAdminServersRouteImport } from './routes/_protected/admin/servers'
-import { Route as ProtectedAdminRolesRouteImport } from './routes/_protected/admin/roles'
-import { Route as ProtectedAdminProductsRouteImport } from './routes/_protected/admin/products'
-import { Route as ProtectedAdminProductConfigRouteImport } from './routes/_protected/admin/product-config'
-import { Route as ProtectedAdminOrdersRouteImport } from './routes/_protected/admin/orders'
-import { Route as ProtectedAdminInvoicesRouteImport } from './routes/_protected/admin/invoices'
-import { Route as ProtectedAdminDocumentsRouteImport } from './routes/_protected/admin/documents'
-import { Route as ProtectedAdminDeployRouteImport } from './routes/_protected/admin/deploy'
-import { Route as ProtectedAdminDashboardRouteImport } from './routes/_protected/admin/dashboard'
-import { Route as ProtectedAdminCustomersRouteImport } from './routes/_protected/admin/customers'
-import { Route as ProtectedAdminConfigurationsRouteImport } from './routes/_protected/admin/configurations'
-import { Route as ProtectedAdminBillingPeriodsRouteImport } from './routes/_protected/admin/billing-periods'
+import { Route as ProtectedUserRouteRouteImport } from './routes/_protected/user/route'
+import { Route as BillingCheckoutRouteImport } from './routes/billing/checkout'
+import { Route as BillingConfigureRouteImport } from './routes/billing/configure'
+import { Route as CheckoutPaymentRouteImport } from './routes/checkout/payment'
+import { Route as DevTestRouteImport } from './routes/dev/test'
+import { Route as DocsSlugRouteImport } from './routes/docs/$slug'
+import { Route as PricingIndexRouteImport } from './routes/pricing/index'
+import { Route as PricingDedicatedRouteImport } from './routes/pricing/dedicated'
+import { Route as PricingDiscordBotRouteImport } from './routes/pricing/discord-bot'
+import { Route as PricingMinecraftRouteImport } from './routes/pricing/minecraft'
+import { Route as PricingProtectionRouteImport } from './routes/pricing/protection'
+import { Route as PricingVdsRouteImport } from './routes/pricing/vds'
+import { Route as PricingVpsRouteImport } from './routes/pricing/vps'
+import { Route as PricingWebhostRouteImport } from './routes/pricing/webhost'
 import { Route as ProtectedAdminAnnouncementsRouteImport } from './routes/_protected/admin/announcements'
+import { Route as ProtectedAdminBillingPeriodsRouteImport } from './routes/_protected/admin/billing-periods'
+import { Route as ProtectedAdminConfigurationsRouteImport } from './routes/_protected/admin/configurations'
+import { Route as ProtectedAdminCustomersRouteImport } from './routes/_protected/admin/customers'
+import { Route as ProtectedAdminDashboardRouteImport } from './routes/_protected/admin/dashboard'
+import { Route as ProtectedAdminDeployRouteImport } from './routes/_protected/admin/deploy'
+import { Route as ProtectedAdminDocumentsRouteImport } from './routes/_protected/admin/documents'
+import { Route as ProtectedAdminInvoicesRouteImport } from './routes/_protected/admin/invoices'
+import { Route as ProtectedAdminOrdersRouteImport } from './routes/_protected/admin/orders'
+import { Route as ProtectedAdminProductConfigRouteImport } from './routes/_protected/admin/product-config'
+import { Route as ProtectedAdminProductsRouteImport } from './routes/_protected/admin/products'
+import { Route as ProtectedAdminRolesRouteImport } from './routes/_protected/admin/roles'
+import { Route as ProtectedAdminServersRouteImport } from './routes/_protected/admin/servers'
+import { Route as ProtectedAdminSettingsRouteImport } from './routes/_protected/admin/settings'
+import { Route as ProtectedAdminStatusRouteImport } from './routes/_protected/admin/status'
+import { Route as ProtectedAdminTicketsRouteImport } from './routes/_protected/admin/tickets'
+import { Route as ProtectedAdminWebSettingsRouteImport } from './routes/_protected/admin/web-settings'
+import { Route as ProtectedBillingAddressRouteImport } from './routes/_protected/billing/address'
+import { Route as ProtectedBillingCartRouteImport } from './routes/_protected/billing/cart'
+import { Route as ProtectedBillingPaymentRouteImport } from './routes/_protected/billing/payment'
+import { Route as ProtectedBillingSuccessRouteImport } from './routes/_protected/billing/success'
+import { Route as ProtectedUserDashboardRouteImport } from './routes/_protected/user/dashboard'
+import { Route as ProtectedUserInvoicesRouteImport } from './routes/_protected/user/invoices'
+import { Route as ProtectedUserOrdersRouteImport } from './routes/_protected/user/orders'
+import { Route as ProtectedUserServersRouteImport } from './routes/_protected/user/servers'
+import { Route as ProtectedUserSettingsRouteImport } from './routes/_protected/user/settings'
+import { Route as ProtectedUserTicketsRouteImport } from './routes/_protected/user/tickets'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ProtectedAdminDocEditorSlugRouteImport } from './routes/_protected/admin/doc-editor.$slug'
 import { Route as ProtectedAdminDocumentsEditorIdRouteImport } from './routes/_protected/admin/documents.editor.$id'
 
-const StatusRoute = StatusRouteImport.update({
-  id: '/status',
-  path: '/status',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/_auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProtectedRoute = ProtectedRouteImport.update({
+  id: '/_protected',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -73,77 +81,39 @@ const McpRoute = McpRouteImport.update({
   path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProtectedRoute = ProtectedRouteImport.update({
-  id: '/_protected',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/_auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PricingRouteRoute = PricingRouteRouteImport.update({
   id: '/pricing',
   path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const StatusRoute = StatusRouteImport.update({
+  id: '/status',
+  path: '/status',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PricingIndexRoute = PricingIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PricingRouteRoute,
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AuthRoute,
 } as any)
-const PricingWebhostRoute = PricingWebhostRouteImport.update({
-  id: '/webhost',
-  path: '/webhost',
-  getParentRoute: () => PricingRouteRoute,
+const AuthSignupRoute = AuthSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => AuthRoute,
 } as any)
-const PricingVpsRoute = PricingVpsRouteImport.update({
-  id: '/vps',
-  path: '/vps',
-  getParentRoute: () => PricingRouteRoute,
+const ProtectedAdminRouteRoute = ProtectedAdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => ProtectedRoute,
 } as any)
-const PricingVdsRoute = PricingVdsRouteImport.update({
-  id: '/vds',
-  path: '/vds',
-  getParentRoute: () => PricingRouteRoute,
+const ProtectedUserRouteRoute = ProtectedUserRouteRouteImport.update({
+  id: '/user',
+  path: '/user',
+  getParentRoute: () => ProtectedRoute,
 } as any)
-const PricingProtectionRoute = PricingProtectionRouteImport.update({
-  id: '/protection',
-  path: '/protection',
-  getParentRoute: () => PricingRouteRoute,
-} as any)
-const PricingMinecraftRoute = PricingMinecraftRouteImport.update({
-  id: '/minecraft',
-  path: '/minecraft',
-  getParentRoute: () => PricingRouteRoute,
-} as any)
-const PricingDiscordBotRoute = PricingDiscordBotRouteImport.update({
-  id: '/discord-bot',
-  path: '/discord-bot',
-  getParentRoute: () => PricingRouteRoute,
-} as any)
-const PricingDedicatedRoute = PricingDedicatedRouteImport.update({
-  id: '/dedicated',
-  path: '/dedicated',
-  getParentRoute: () => PricingRouteRoute,
-} as any)
-const DocsSlugRoute = DocsSlugRouteImport.update({
-  id: '/docs/$slug',
-  path: '/docs/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DevTestRoute = DevTestRouteImport.update({
-  id: '/dev/test',
-  path: '/dev/test',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CheckoutPaymentRoute = CheckoutPaymentRouteImport.update({
-  id: '/checkout/payment',
-  path: '/checkout/payment',
+const BillingCheckoutRoute = BillingCheckoutRouteImport.update({
+  id: '/billing/checkout',
+  path: '/billing/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BillingConfigureRoute = BillingConfigureRouteImport.update({
@@ -151,162 +121,65 @@ const BillingConfigureRoute = BillingConfigureRouteImport.update({
   path: '/billing/configure',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BillingCheckoutRoute = BillingCheckoutRouteImport.update({
-  id: '/billing/checkout',
-  path: '/billing/checkout',
+const CheckoutPaymentRoute = CheckoutPaymentRouteImport.update({
+  id: '/checkout/payment',
+  path: '/checkout/payment',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthSignupRoute = AuthSignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthLoginRoute = AuthLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AuthRoute,
-} as any)
-const ProtectedUserRouteRoute = ProtectedUserRouteRouteImport.update({
-  id: '/user',
-  path: '/user',
-  getParentRoute: () => ProtectedRoute,
-} as any)
-const ProtectedAdminRouteRoute = ProtectedAdminRouteRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => ProtectedRoute,
-} as any)
-const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
-  id: '/api/auth/$',
-  path: '/api/auth/$',
+const DevTestRoute = DevTestRouteImport.update({
+  id: '/dev/test',
+  path: '/dev/test',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProtectedUserTicketsRoute = ProtectedUserTicketsRouteImport.update({
-  id: '/tickets',
-  path: '/tickets',
-  getParentRoute: () => ProtectedUserRouteRoute,
+const DocsSlugRoute = DocsSlugRouteImport.update({
+  id: '/docs/$slug',
+  path: '/docs/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const ProtectedUserSettingsRoute = ProtectedUserSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => ProtectedUserRouteRoute,
+const PricingIndexRoute = PricingIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PricingRouteRoute,
 } as any)
-const ProtectedUserServersRoute = ProtectedUserServersRouteImport.update({
-  id: '/servers',
-  path: '/servers',
-  getParentRoute: () => ProtectedUserRouteRoute,
+const PricingDedicatedRoute = PricingDedicatedRouteImport.update({
+  id: '/dedicated',
+  path: '/dedicated',
+  getParentRoute: () => PricingRouteRoute,
 } as any)
-const ProtectedUserOrdersRoute = ProtectedUserOrdersRouteImport.update({
-  id: '/orders',
-  path: '/orders',
-  getParentRoute: () => ProtectedUserRouteRoute,
+const PricingDiscordBotRoute = PricingDiscordBotRouteImport.update({
+  id: '/discord-bot',
+  path: '/discord-bot',
+  getParentRoute: () => PricingRouteRoute,
 } as any)
-const ProtectedUserInvoicesRoute = ProtectedUserInvoicesRouteImport.update({
-  id: '/invoices',
-  path: '/invoices',
-  getParentRoute: () => ProtectedUserRouteRoute,
+const PricingMinecraftRoute = PricingMinecraftRouteImport.update({
+  id: '/minecraft',
+  path: '/minecraft',
+  getParentRoute: () => PricingRouteRoute,
 } as any)
-const ProtectedUserDashboardRoute = ProtectedUserDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => ProtectedUserRouteRoute,
+const PricingProtectionRoute = PricingProtectionRouteImport.update({
+  id: '/protection',
+  path: '/protection',
+  getParentRoute: () => PricingRouteRoute,
 } as any)
-const ProtectedBillingSuccessRoute = ProtectedBillingSuccessRouteImport.update({
-  id: '/billing/success',
-  path: '/billing/success',
-  getParentRoute: () => ProtectedRoute,
+const PricingVdsRoute = PricingVdsRouteImport.update({
+  id: '/vds',
+  path: '/vds',
+  getParentRoute: () => PricingRouteRoute,
 } as any)
-const ProtectedBillingPaymentRoute = ProtectedBillingPaymentRouteImport.update({
-  id: '/billing/payment',
-  path: '/billing/payment',
-  getParentRoute: () => ProtectedRoute,
+const PricingVpsRoute = PricingVpsRouteImport.update({
+  id: '/vps',
+  path: '/vps',
+  getParentRoute: () => PricingRouteRoute,
 } as any)
-const ProtectedBillingCartRoute = ProtectedBillingCartRouteImport.update({
-  id: '/billing/cart',
-  path: '/billing/cart',
-  getParentRoute: () => ProtectedRoute,
+const PricingWebhostRoute = PricingWebhostRouteImport.update({
+  id: '/webhost',
+  path: '/webhost',
+  getParentRoute: () => PricingRouteRoute,
 } as any)
-const ProtectedBillingAddressRoute = ProtectedBillingAddressRouteImport.update({
-  id: '/billing/address',
-  path: '/billing/address',
-  getParentRoute: () => ProtectedRoute,
-} as any)
-const ProtectedAdminWebSettingsRoute =
-  ProtectedAdminWebSettingsRouteImport.update({
-    id: '/web-settings',
-    path: '/web-settings',
-    getParentRoute: () => ProtectedAdminRouteRoute,
-  } as any)
-const ProtectedAdminTicketsRoute = ProtectedAdminTicketsRouteImport.update({
-  id: '/tickets',
-  path: '/tickets',
-  getParentRoute: () => ProtectedAdminRouteRoute,
-} as any)
-const ProtectedAdminStatusRoute = ProtectedAdminStatusRouteImport.update({
-  id: '/status',
-  path: '/status',
-  getParentRoute: () => ProtectedAdminRouteRoute,
-} as any)
-const ProtectedAdminSettingsRoute = ProtectedAdminSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => ProtectedAdminRouteRoute,
-} as any)
-const ProtectedAdminServersRoute = ProtectedAdminServersRouteImport.update({
-  id: '/servers',
-  path: '/servers',
-  getParentRoute: () => ProtectedAdminRouteRoute,
-} as any)
-const ProtectedAdminRolesRoute = ProtectedAdminRolesRouteImport.update({
-  id: '/roles',
-  path: '/roles',
-  getParentRoute: () => ProtectedAdminRouteRoute,
-} as any)
-const ProtectedAdminProductsRoute = ProtectedAdminProductsRouteImport.update({
-  id: '/products',
-  path: '/products',
-  getParentRoute: () => ProtectedAdminRouteRoute,
-} as any)
-const ProtectedAdminProductConfigRoute =
-  ProtectedAdminProductConfigRouteImport.update({
-    id: '/product-config',
-    path: '/product-config',
-    getParentRoute: () => ProtectedAdminRouteRoute,
-  } as any)
-const ProtectedAdminOrdersRoute = ProtectedAdminOrdersRouteImport.update({
-  id: '/orders',
-  path: '/orders',
-  getParentRoute: () => ProtectedAdminRouteRoute,
-} as any)
-const ProtectedAdminInvoicesRoute = ProtectedAdminInvoicesRouteImport.update({
-  id: '/invoices',
-  path: '/invoices',
-  getParentRoute: () => ProtectedAdminRouteRoute,
-} as any)
-const ProtectedAdminDocumentsRoute = ProtectedAdminDocumentsRouteImport.update({
-  id: '/documents',
-  path: '/documents',
-  getParentRoute: () => ProtectedAdminRouteRoute,
-} as any)
-const ProtectedAdminDeployRoute = ProtectedAdminDeployRouteImport.update({
-  id: '/deploy',
-  path: '/deploy',
-  getParentRoute: () => ProtectedAdminRouteRoute,
-} as any)
-const ProtectedAdminDashboardRoute = ProtectedAdminDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => ProtectedAdminRouteRoute,
-} as any)
-const ProtectedAdminCustomersRoute = ProtectedAdminCustomersRouteImport.update({
-  id: '/customers',
-  path: '/customers',
-  getParentRoute: () => ProtectedAdminRouteRoute,
-} as any)
-const ProtectedAdminConfigurationsRoute =
-  ProtectedAdminConfigurationsRouteImport.update({
-    id: '/configurations',
-    path: '/configurations',
+const ProtectedAdminAnnouncementsRoute =
+  ProtectedAdminAnnouncementsRouteImport.update({
+    id: '/announcements',
+    path: '/announcements',
     getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
 const ProtectedAdminBillingPeriodsRoute =
@@ -315,12 +188,139 @@ const ProtectedAdminBillingPeriodsRoute =
     path: '/billing-periods',
     getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
-const ProtectedAdminAnnouncementsRoute =
-  ProtectedAdminAnnouncementsRouteImport.update({
-    id: '/announcements',
-    path: '/announcements',
+const ProtectedAdminConfigurationsRoute =
+  ProtectedAdminConfigurationsRouteImport.update({
+    id: '/configurations',
+    path: '/configurations',
     getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
+const ProtectedAdminCustomersRoute = ProtectedAdminCustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminDashboardRoute = ProtectedAdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminDeployRoute = ProtectedAdminDeployRouteImport.update({
+  id: '/deploy',
+  path: '/deploy',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminDocumentsRoute = ProtectedAdminDocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminInvoicesRoute = ProtectedAdminInvoicesRouteImport.update({
+  id: '/invoices',
+  path: '/invoices',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminOrdersRoute = ProtectedAdminOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminProductConfigRoute =
+  ProtectedAdminProductConfigRouteImport.update({
+    id: '/product-config',
+    path: '/product-config',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
+const ProtectedAdminProductsRoute = ProtectedAdminProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminRolesRoute = ProtectedAdminRolesRouteImport.update({
+  id: '/roles',
+  path: '/roles',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminServersRoute = ProtectedAdminServersRouteImport.update({
+  id: '/servers',
+  path: '/servers',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminSettingsRoute = ProtectedAdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminStatusRoute = ProtectedAdminStatusRouteImport.update({
+  id: '/status',
+  path: '/status',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminTicketsRoute = ProtectedAdminTicketsRouteImport.update({
+  id: '/tickets',
+  path: '/tickets',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
+const ProtectedAdminWebSettingsRoute =
+  ProtectedAdminWebSettingsRouteImport.update({
+    id: '/web-settings',
+    path: '/web-settings',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
+const ProtectedBillingAddressRoute = ProtectedBillingAddressRouteImport.update({
+  id: '/billing/address',
+  path: '/billing/address',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedBillingCartRoute = ProtectedBillingCartRouteImport.update({
+  id: '/billing/cart',
+  path: '/billing/cart',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedBillingPaymentRoute = ProtectedBillingPaymentRouteImport.update({
+  id: '/billing/payment',
+  path: '/billing/payment',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedBillingSuccessRoute = ProtectedBillingSuccessRouteImport.update({
+  id: '/billing/success',
+  path: '/billing/success',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedUserDashboardRoute = ProtectedUserDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => ProtectedUserRouteRoute,
+} as any)
+const ProtectedUserInvoicesRoute = ProtectedUserInvoicesRouteImport.update({
+  id: '/invoices',
+  path: '/invoices',
+  getParentRoute: () => ProtectedUserRouteRoute,
+} as any)
+const ProtectedUserOrdersRoute = ProtectedUserOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => ProtectedUserRouteRoute,
+} as any)
+const ProtectedUserServersRoute = ProtectedUserServersRouteImport.update({
+  id: '/servers',
+  path: '/servers',
+  getParentRoute: () => ProtectedUserRouteRoute,
+} as any)
+const ProtectedUserSettingsRoute = ProtectedUserSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ProtectedUserRouteRoute,
+} as any)
+const ProtectedUserTicketsRoute = ProtectedUserTicketsRouteImport.update({
+  id: '/tickets',
+  path: '/tickets',
+  getParentRoute: () => ProtectedUserRouteRoute,
+} as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProtectedAdminDocEditorSlugRoute =
   ProtectedAdminDocEditorSlugRouteImport.update({
     id: '/doc-editor/$slug',
@@ -675,25 +675,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/status': {
-      id: '/status'
-      path: '/status'
-      fullPath: '/status'
-      preLoaderRoute: typeof StatusRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mcp': {
-      id: '/mcp'
-      path: '/mcp'
-      fullPath: '/mcp'
-      preLoaderRoute: typeof McpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_protected': {
-      id: '/_protected'
-      path: ''
+    '/': {
+      id: '/'
+      path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof ProtectedRouteImport
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth': {
@@ -703,6 +689,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_protected': {
+      id: '/_protected'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ProtectedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pricing': {
       id: '/pricing'
       path: '/pricing'
@@ -710,88 +710,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PricingRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/status': {
+      id: '/status'
+      path: '/status'
+      fullPath: '/status'
+      preLoaderRoute: typeof StatusRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pricing/': {
-      id: '/pricing/'
-      path: '/'
-      fullPath: '/pricing/'
-      preLoaderRoute: typeof PricingIndexRouteImport
-      parentRoute: typeof PricingRouteRoute
+    '/_auth/login': {
+      id: '/_auth/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof AuthRoute
     }
-    '/pricing/webhost': {
-      id: '/pricing/webhost'
-      path: '/webhost'
-      fullPath: '/pricing/webhost'
-      preLoaderRoute: typeof PricingWebhostRouteImport
-      parentRoute: typeof PricingRouteRoute
+    '/_auth/signup': {
+      id: '/_auth/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof AuthSignupRouteImport
+      parentRoute: typeof AuthRoute
     }
-    '/pricing/vps': {
-      id: '/pricing/vps'
-      path: '/vps'
-      fullPath: '/pricing/vps'
-      preLoaderRoute: typeof PricingVpsRouteImport
-      parentRoute: typeof PricingRouteRoute
+    '/_protected/admin': {
+      id: '/_protected/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof ProtectedAdminRouteRouteImport
+      parentRoute: typeof ProtectedRoute
     }
-    '/pricing/vds': {
-      id: '/pricing/vds'
-      path: '/vds'
-      fullPath: '/pricing/vds'
-      preLoaderRoute: typeof PricingVdsRouteImport
-      parentRoute: typeof PricingRouteRoute
+    '/_protected/user': {
+      id: '/_protected/user'
+      path: '/user'
+      fullPath: '/user'
+      preLoaderRoute: typeof ProtectedUserRouteRouteImport
+      parentRoute: typeof ProtectedRoute
     }
-    '/pricing/protection': {
-      id: '/pricing/protection'
-      path: '/protection'
-      fullPath: '/pricing/protection'
-      preLoaderRoute: typeof PricingProtectionRouteImport
-      parentRoute: typeof PricingRouteRoute
-    }
-    '/pricing/minecraft': {
-      id: '/pricing/minecraft'
-      path: '/minecraft'
-      fullPath: '/pricing/minecraft'
-      preLoaderRoute: typeof PricingMinecraftRouteImport
-      parentRoute: typeof PricingRouteRoute
-    }
-    '/pricing/discord-bot': {
-      id: '/pricing/discord-bot'
-      path: '/discord-bot'
-      fullPath: '/pricing/discord-bot'
-      preLoaderRoute: typeof PricingDiscordBotRouteImport
-      parentRoute: typeof PricingRouteRoute
-    }
-    '/pricing/dedicated': {
-      id: '/pricing/dedicated'
-      path: '/dedicated'
-      fullPath: '/pricing/dedicated'
-      preLoaderRoute: typeof PricingDedicatedRouteImport
-      parentRoute: typeof PricingRouteRoute
-    }
-    '/docs/$slug': {
-      id: '/docs/$slug'
-      path: '/docs/$slug'
-      fullPath: '/docs/$slug'
-      preLoaderRoute: typeof DocsSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dev/test': {
-      id: '/dev/test'
-      path: '/dev/test'
-      fullPath: '/dev/test'
-      preLoaderRoute: typeof DevTestRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/checkout/payment': {
-      id: '/checkout/payment'
-      path: '/checkout/payment'
-      fullPath: '/checkout/payment'
-      preLoaderRoute: typeof CheckoutPaymentRouteImport
+    '/billing/checkout': {
+      id: '/billing/checkout'
+      path: '/billing/checkout'
+      fullPath: '/billing/checkout'
+      preLoaderRoute: typeof BillingCheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/billing/configure': {
@@ -801,221 +759,88 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BillingConfigureRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/billing/checkout': {
-      id: '/billing/checkout'
-      path: '/billing/checkout'
-      fullPath: '/billing/checkout'
-      preLoaderRoute: typeof BillingCheckoutRouteImport
+    '/checkout/payment': {
+      id: '/checkout/payment'
+      path: '/checkout/payment'
+      fullPath: '/checkout/payment'
+      preLoaderRoute: typeof CheckoutPaymentRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/signup': {
-      id: '/_auth/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof AuthSignupRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/login': {
-      id: '/_auth/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof AuthLoginRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_protected/user': {
-      id: '/_protected/user'
-      path: '/user'
-      fullPath: '/user'
-      preLoaderRoute: typeof ProtectedUserRouteRouteImport
-      parentRoute: typeof ProtectedRoute
-    }
-    '/_protected/admin': {
-      id: '/_protected/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof ProtectedAdminRouteRouteImport
-      parentRoute: typeof ProtectedRoute
-    }
-    '/api/auth/$': {
-      id: '/api/auth/$'
-      path: '/api/auth/$'
-      fullPath: '/api/auth/$'
-      preLoaderRoute: typeof ApiAuthSplatRouteImport
+    '/dev/test': {
+      id: '/dev/test'
+      path: '/dev/test'
+      fullPath: '/dev/test'
+      preLoaderRoute: typeof DevTestRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_protected/user/tickets': {
-      id: '/_protected/user/tickets'
-      path: '/tickets'
-      fullPath: '/user/tickets'
-      preLoaderRoute: typeof ProtectedUserTicketsRouteImport
-      parentRoute: typeof ProtectedUserRouteRoute
+    '/docs/$slug': {
+      id: '/docs/$slug'
+      path: '/docs/$slug'
+      fullPath: '/docs/$slug'
+      preLoaderRoute: typeof DocsSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_protected/user/settings': {
-      id: '/_protected/user/settings'
-      path: '/settings'
-      fullPath: '/user/settings'
-      preLoaderRoute: typeof ProtectedUserSettingsRouteImport
-      parentRoute: typeof ProtectedUserRouteRoute
+    '/pricing/': {
+      id: '/pricing/'
+      path: '/'
+      fullPath: '/pricing/'
+      preLoaderRoute: typeof PricingIndexRouteImport
+      parentRoute: typeof PricingRouteRoute
     }
-    '/_protected/user/servers': {
-      id: '/_protected/user/servers'
-      path: '/servers'
-      fullPath: '/user/servers'
-      preLoaderRoute: typeof ProtectedUserServersRouteImport
-      parentRoute: typeof ProtectedUserRouteRoute
+    '/pricing/dedicated': {
+      id: '/pricing/dedicated'
+      path: '/dedicated'
+      fullPath: '/pricing/dedicated'
+      preLoaderRoute: typeof PricingDedicatedRouteImport
+      parentRoute: typeof PricingRouteRoute
     }
-    '/_protected/user/orders': {
-      id: '/_protected/user/orders'
-      path: '/orders'
-      fullPath: '/user/orders'
-      preLoaderRoute: typeof ProtectedUserOrdersRouteImport
-      parentRoute: typeof ProtectedUserRouteRoute
+    '/pricing/discord-bot': {
+      id: '/pricing/discord-bot'
+      path: '/discord-bot'
+      fullPath: '/pricing/discord-bot'
+      preLoaderRoute: typeof PricingDiscordBotRouteImport
+      parentRoute: typeof PricingRouteRoute
     }
-    '/_protected/user/invoices': {
-      id: '/_protected/user/invoices'
-      path: '/invoices'
-      fullPath: '/user/invoices'
-      preLoaderRoute: typeof ProtectedUserInvoicesRouteImport
-      parentRoute: typeof ProtectedUserRouteRoute
+    '/pricing/minecraft': {
+      id: '/pricing/minecraft'
+      path: '/minecraft'
+      fullPath: '/pricing/minecraft'
+      preLoaderRoute: typeof PricingMinecraftRouteImport
+      parentRoute: typeof PricingRouteRoute
     }
-    '/_protected/user/dashboard': {
-      id: '/_protected/user/dashboard'
-      path: '/dashboard'
-      fullPath: '/user/dashboard'
-      preLoaderRoute: typeof ProtectedUserDashboardRouteImport
-      parentRoute: typeof ProtectedUserRouteRoute
+    '/pricing/protection': {
+      id: '/pricing/protection'
+      path: '/protection'
+      fullPath: '/pricing/protection'
+      preLoaderRoute: typeof PricingProtectionRouteImport
+      parentRoute: typeof PricingRouteRoute
     }
-    '/_protected/billing/success': {
-      id: '/_protected/billing/success'
-      path: '/billing/success'
-      fullPath: '/billing/success'
-      preLoaderRoute: typeof ProtectedBillingSuccessRouteImport
-      parentRoute: typeof ProtectedRoute
+    '/pricing/vds': {
+      id: '/pricing/vds'
+      path: '/vds'
+      fullPath: '/pricing/vds'
+      preLoaderRoute: typeof PricingVdsRouteImport
+      parentRoute: typeof PricingRouteRoute
     }
-    '/_protected/billing/payment': {
-      id: '/_protected/billing/payment'
-      path: '/billing/payment'
-      fullPath: '/billing/payment'
-      preLoaderRoute: typeof ProtectedBillingPaymentRouteImport
-      parentRoute: typeof ProtectedRoute
+    '/pricing/vps': {
+      id: '/pricing/vps'
+      path: '/vps'
+      fullPath: '/pricing/vps'
+      preLoaderRoute: typeof PricingVpsRouteImport
+      parentRoute: typeof PricingRouteRoute
     }
-    '/_protected/billing/cart': {
-      id: '/_protected/billing/cart'
-      path: '/billing/cart'
-      fullPath: '/billing/cart'
-      preLoaderRoute: typeof ProtectedBillingCartRouteImport
-      parentRoute: typeof ProtectedRoute
+    '/pricing/webhost': {
+      id: '/pricing/webhost'
+      path: '/webhost'
+      fullPath: '/pricing/webhost'
+      preLoaderRoute: typeof PricingWebhostRouteImport
+      parentRoute: typeof PricingRouteRoute
     }
-    '/_protected/billing/address': {
-      id: '/_protected/billing/address'
-      path: '/billing/address'
-      fullPath: '/billing/address'
-      preLoaderRoute: typeof ProtectedBillingAddressRouteImport
-      parentRoute: typeof ProtectedRoute
-    }
-    '/_protected/admin/web-settings': {
-      id: '/_protected/admin/web-settings'
-      path: '/web-settings'
-      fullPath: '/admin/web-settings'
-      preLoaderRoute: typeof ProtectedAdminWebSettingsRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/tickets': {
-      id: '/_protected/admin/tickets'
-      path: '/tickets'
-      fullPath: '/admin/tickets'
-      preLoaderRoute: typeof ProtectedAdminTicketsRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/status': {
-      id: '/_protected/admin/status'
-      path: '/status'
-      fullPath: '/admin/status'
-      preLoaderRoute: typeof ProtectedAdminStatusRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/settings': {
-      id: '/_protected/admin/settings'
-      path: '/settings'
-      fullPath: '/admin/settings'
-      preLoaderRoute: typeof ProtectedAdminSettingsRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/servers': {
-      id: '/_protected/admin/servers'
-      path: '/servers'
-      fullPath: '/admin/servers'
-      preLoaderRoute: typeof ProtectedAdminServersRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/roles': {
-      id: '/_protected/admin/roles'
-      path: '/roles'
-      fullPath: '/admin/roles'
-      preLoaderRoute: typeof ProtectedAdminRolesRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/products': {
-      id: '/_protected/admin/products'
-      path: '/products'
-      fullPath: '/admin/products'
-      preLoaderRoute: typeof ProtectedAdminProductsRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/product-config': {
-      id: '/_protected/admin/product-config'
-      path: '/product-config'
-      fullPath: '/admin/product-config'
-      preLoaderRoute: typeof ProtectedAdminProductConfigRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/orders': {
-      id: '/_protected/admin/orders'
-      path: '/orders'
-      fullPath: '/admin/orders'
-      preLoaderRoute: typeof ProtectedAdminOrdersRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/invoices': {
-      id: '/_protected/admin/invoices'
-      path: '/invoices'
-      fullPath: '/admin/invoices'
-      preLoaderRoute: typeof ProtectedAdminInvoicesRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/documents': {
-      id: '/_protected/admin/documents'
-      path: '/documents'
-      fullPath: '/admin/documents'
-      preLoaderRoute: typeof ProtectedAdminDocumentsRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/deploy': {
-      id: '/_protected/admin/deploy'
-      path: '/deploy'
-      fullPath: '/admin/deploy'
-      preLoaderRoute: typeof ProtectedAdminDeployRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/dashboard': {
-      id: '/_protected/admin/dashboard'
-      path: '/dashboard'
-      fullPath: '/admin/dashboard'
-      preLoaderRoute: typeof ProtectedAdminDashboardRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/customers': {
-      id: '/_protected/admin/customers'
-      path: '/customers'
-      fullPath: '/admin/customers'
-      preLoaderRoute: typeof ProtectedAdminCustomersRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/configurations': {
-      id: '/_protected/admin/configurations'
-      path: '/configurations'
-      fullPath: '/admin/configurations'
-      preLoaderRoute: typeof ProtectedAdminConfigurationsRouteImport
+    '/_protected/admin/announcements': {
+      id: '/_protected/admin/announcements'
+      path: '/announcements'
+      fullPath: '/admin/announcements'
+      preLoaderRoute: typeof ProtectedAdminAnnouncementsRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
     '/_protected/admin/billing-periods': {
@@ -1025,12 +850,187 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAdminBillingPeriodsRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
-    '/_protected/admin/announcements': {
-      id: '/_protected/admin/announcements'
-      path: '/announcements'
-      fullPath: '/admin/announcements'
-      preLoaderRoute: typeof ProtectedAdminAnnouncementsRouteImport
+    '/_protected/admin/configurations': {
+      id: '/_protected/admin/configurations'
+      path: '/configurations'
+      fullPath: '/admin/configurations'
+      preLoaderRoute: typeof ProtectedAdminConfigurationsRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/customers': {
+      id: '/_protected/admin/customers'
+      path: '/customers'
+      fullPath: '/admin/customers'
+      preLoaderRoute: typeof ProtectedAdminCustomersRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/dashboard': {
+      id: '/_protected/admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof ProtectedAdminDashboardRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/deploy': {
+      id: '/_protected/admin/deploy'
+      path: '/deploy'
+      fullPath: '/admin/deploy'
+      preLoaderRoute: typeof ProtectedAdminDeployRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/documents': {
+      id: '/_protected/admin/documents'
+      path: '/documents'
+      fullPath: '/admin/documents'
+      preLoaderRoute: typeof ProtectedAdminDocumentsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/invoices': {
+      id: '/_protected/admin/invoices'
+      path: '/invoices'
+      fullPath: '/admin/invoices'
+      preLoaderRoute: typeof ProtectedAdminInvoicesRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/orders': {
+      id: '/_protected/admin/orders'
+      path: '/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof ProtectedAdminOrdersRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/product-config': {
+      id: '/_protected/admin/product-config'
+      path: '/product-config'
+      fullPath: '/admin/product-config'
+      preLoaderRoute: typeof ProtectedAdminProductConfigRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/products': {
+      id: '/_protected/admin/products'
+      path: '/products'
+      fullPath: '/admin/products'
+      preLoaderRoute: typeof ProtectedAdminProductsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/roles': {
+      id: '/_protected/admin/roles'
+      path: '/roles'
+      fullPath: '/admin/roles'
+      preLoaderRoute: typeof ProtectedAdminRolesRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/servers': {
+      id: '/_protected/admin/servers'
+      path: '/servers'
+      fullPath: '/admin/servers'
+      preLoaderRoute: typeof ProtectedAdminServersRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/settings': {
+      id: '/_protected/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof ProtectedAdminSettingsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/status': {
+      id: '/_protected/admin/status'
+      path: '/status'
+      fullPath: '/admin/status'
+      preLoaderRoute: typeof ProtectedAdminStatusRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/tickets': {
+      id: '/_protected/admin/tickets'
+      path: '/tickets'
+      fullPath: '/admin/tickets'
+      preLoaderRoute: typeof ProtectedAdminTicketsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/web-settings': {
+      id: '/_protected/admin/web-settings'
+      path: '/web-settings'
+      fullPath: '/admin/web-settings'
+      preLoaderRoute: typeof ProtectedAdminWebSettingsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/billing/address': {
+      id: '/_protected/billing/address'
+      path: '/billing/address'
+      fullPath: '/billing/address'
+      preLoaderRoute: typeof ProtectedBillingAddressRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/billing/cart': {
+      id: '/_protected/billing/cart'
+      path: '/billing/cart'
+      fullPath: '/billing/cart'
+      preLoaderRoute: typeof ProtectedBillingCartRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/billing/payment': {
+      id: '/_protected/billing/payment'
+      path: '/billing/payment'
+      fullPath: '/billing/payment'
+      preLoaderRoute: typeof ProtectedBillingPaymentRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/billing/success': {
+      id: '/_protected/billing/success'
+      path: '/billing/success'
+      fullPath: '/billing/success'
+      preLoaderRoute: typeof ProtectedBillingSuccessRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/user/dashboard': {
+      id: '/_protected/user/dashboard'
+      path: '/dashboard'
+      fullPath: '/user/dashboard'
+      preLoaderRoute: typeof ProtectedUserDashboardRouteImport
+      parentRoute: typeof ProtectedUserRouteRoute
+    }
+    '/_protected/user/invoices': {
+      id: '/_protected/user/invoices'
+      path: '/invoices'
+      fullPath: '/user/invoices'
+      preLoaderRoute: typeof ProtectedUserInvoicesRouteImport
+      parentRoute: typeof ProtectedUserRouteRoute
+    }
+    '/_protected/user/orders': {
+      id: '/_protected/user/orders'
+      path: '/orders'
+      fullPath: '/user/orders'
+      preLoaderRoute: typeof ProtectedUserOrdersRouteImport
+      parentRoute: typeof ProtectedUserRouteRoute
+    }
+    '/_protected/user/servers': {
+      id: '/_protected/user/servers'
+      path: '/servers'
+      fullPath: '/user/servers'
+      preLoaderRoute: typeof ProtectedUserServersRouteImport
+      parentRoute: typeof ProtectedUserRouteRoute
+    }
+    '/_protected/user/settings': {
+      id: '/_protected/user/settings'
+      path: '/settings'
+      fullPath: '/user/settings'
+      preLoaderRoute: typeof ProtectedUserSettingsRouteImport
+      parentRoute: typeof ProtectedUserRouteRoute
+    }
+    '/_protected/user/tickets': {
+      id: '/_protected/user/tickets'
+      path: '/tickets'
+      fullPath: '/user/tickets'
+      preLoaderRoute: typeof ProtectedUserTicketsRouteImport
+      parentRoute: typeof ProtectedUserRouteRoute
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_protected/admin/doc-editor/$slug': {
       id: '/_protected/admin/doc-editor/$slug'

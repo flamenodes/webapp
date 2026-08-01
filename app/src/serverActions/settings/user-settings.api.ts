@@ -41,7 +41,7 @@ export const getUserProfile = createServerFn({ method: 'GET' }).handler(async ()
 })
 
 export const updateUserProfile = createServerFn({ method: 'POST' })
-  .inputValidator((data) => updateProfileSchema.parse(data))
+  .validator((data) => updateProfileSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })

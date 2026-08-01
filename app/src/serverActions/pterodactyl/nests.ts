@@ -11,7 +11,7 @@ export const getPteroNests = createServerFn({ method: 'GET' }).handler(async () 
 })
 
 export const getPteroEggs = createServerFn({ method: 'GET' })
-  .inputValidator((data: any) => ({ nestId: Number(data.nestId) }))
+  .validator((data: any) => ({ nestId: Number(data.nestId) }))
   .handler(async ({ data }) => {
     const res = await ptero.get(`/application/nests/${data.nestId}/eggs`, {
       params: { include: 'variables' },

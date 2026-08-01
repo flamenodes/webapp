@@ -4,5 +4,6 @@ export const ProductBillingOptionCreateResultSchema = z.object({
   productId: z.string(),
   product: z.unknown(),
   billingPeriod: z.unknown(),
-  price: z.number().int()
+  price: z.number().int(),
+  customDays: z.number().int().optional()
 });

@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { nitro } from 'nitro/vite'
 import path from 'node:path'
 
-const config = defineConfig({
+const config = defineConfig({ 
   resolve: {
     tsconfigPaths: true,
     dedupe: ['three'],
@@ -26,10 +26,14 @@ const config = defineConfig({
       '@react-three/drei',
       '@mr-fougere/react-trustpilot-widgets',
     ],
-    noExternal: ['bullmq', 'ioredis'],
+    noExternal: ['bullmq', 'ioredis', 'use-sync-external-store'],
   },
   optimizeDeps: {
     exclude: ['bullmq', 'ioredis'],
+    include: [
+      'use-sync-external-store/with-selector.js',
+      'use-sync-external-store/shim/with-selector.js',
+    ],
   },
   oxc: {
     exclude: ['**/Silk.tsx'],
@@ -55,9 +59,7 @@ const config = defineConfig({
       },
     },
     devtools(),
-    nitro({
-			preset: 'node-server',
-    }),
+    nitro({ rollupConfig: { external: [/^@sentry\//] } }),
     tailwindcss(),
     tanstackStart(),
     viteReact(),

@@ -53,7 +53,7 @@ export const getCart = createServerFn({ method: 'GET' }).handler(async () => {
 })
 
 export const addToCart = createServerFn({ method: 'POST' })
-  .inputValidator((data) => addToCartSchema.parse(data))
+  .validator((data) => addToCartSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -107,7 +107,7 @@ export const addToCart = createServerFn({ method: 'POST' })
   })
 
 export const updateCartItem = createServerFn({ method: 'POST' })
-  .inputValidator((data) => updateCartItemSchema.parse(data))
+  .validator((data) => updateCartItemSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -131,7 +131,7 @@ export const updateCartItem = createServerFn({ method: 'POST' })
   })
 
 export const removeFromCart = createServerFn({ method: 'POST' })
-  .inputValidator((data) => removeFromCartSchema.parse(data))
+  .validator((data) => removeFromCartSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })

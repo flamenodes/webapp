@@ -3,7 +3,7 @@ import { ptero } from './client'
 import z from 'zod'
 
 export const createPteroUser = createServerFn({ method: 'POST' })
-  .inputValidator(
+  .validator(
     z.object({
       email: z.email(),
       username: z.string(),
@@ -37,7 +37,7 @@ export const createPteroUser = createServerFn({ method: 'POST' })
   })
 
 export const updatePteroUser = createServerFn({ method: 'POST' })
-  .inputValidator(
+  .validator(
     z.object({
       id: z.number(),
       email: z.email(),

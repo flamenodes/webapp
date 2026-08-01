@@ -47,7 +47,7 @@ function calculateExpiryDate(billingPeriod: string): Date {
 
 
 export const createOrder = createServerFn({ method: "POST" })
-  .inputValidator(createOrderSchema)
+  .validator(createOrderSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });
@@ -131,7 +131,7 @@ export const getOrders = createServerFn({ method: "GET" }).handler(
 );
 
 export const getOrder = createServerFn({ method: "GET" })
-  .inputValidator(getOrderSchema)
+  .validator(getOrderSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });
@@ -149,7 +149,7 @@ export const getOrder = createServerFn({ method: "GET" })
   });
 
 export const updateOrderStatus = createServerFn({ method: "POST" })
-  .inputValidator(updateOrderStatusSchema)
+  .validator(updateOrderStatusSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });
@@ -337,7 +337,7 @@ const oldCheckoutSchema = z.object({
 })
 
 export const createOrderDirect = createServerFn({ method: "POST" })
-  .inputValidator(z.any())
+  .validator(z.any())
   .handler(async ({ data: rawData }) => {
     const data = checkoutSchema.parse(rawData)
     const headers = getRequestHeaders()
@@ -391,7 +391,7 @@ export const createOrderDirect = createServerFn({ method: "POST" })
   })
 
 export const checkoutProduct = createServerFn({ method: "POST" })
-  .inputValidator(oldCheckoutSchema)
+  .validator(oldCheckoutSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -475,7 +475,7 @@ export const checkoutProduct = createServerFn({ method: "POST" })
   })
 
 export const cancelOrder = createServerFn({ method: "POST" })
-  .inputValidator(cancelOrderSchema)
+  .validator(cancelOrderSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });

@@ -50,7 +50,7 @@ const createTicketSchema = z.object({
 })
 
 export const createTicket = createServerFn({ method: 'POST' })
-  .inputValidator((data) => createTicketSchema.parse(data))
+  .validator((data) => createTicketSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = requireSession(await auth.api.getSession({ headers }))
@@ -108,7 +108,7 @@ const listTicketsSchema = z.object({
 })
 
 export const listTickets = createServerFn({ method: 'POST' })
-  .inputValidator((data) => listTicketsSchema.parse(data))
+  .validator((data) => listTicketsSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = requireSession(await auth.api.getSession({ headers }))
@@ -156,7 +156,7 @@ const getTicketSchema = z.object({
 })
 
 export const getTicket = createServerFn({ method: 'POST' })
-  .inputValidator((data) => getTicketSchema.parse(data))
+  .validator((data) => getTicketSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = requireSession(await auth.api.getSession({ headers }))
@@ -200,7 +200,7 @@ const sendMessageSchema = z.object({
 })
 
 export const sendTicketMessage = createServerFn({ method: 'POST' })
-  .inputValidator((data) => sendMessageSchema.parse(data))
+  .validator((data) => sendMessageSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = requireSession(await auth.api.getSession({ headers }))
@@ -243,7 +243,7 @@ const updateTicketSchema = z.object({
 })
 
 export const updateTicket = createServerFn({ method: 'POST' })
-  .inputValidator((data) => updateTicketSchema.parse(data))
+  .validator((data) => updateTicketSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = requireSession(await auth.api.getSession({ headers }))
@@ -307,7 +307,7 @@ const listTagPresetsSchema = z.object({
 })
 
 export const listTicketTagPresets = createServerFn({ method: 'POST' })
-  .inputValidator((data) => listTagPresetsSchema.parse(data))
+  .validator((data) => listTagPresetsSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     requireSession(await auth.api.getSession({ headers }))
@@ -334,7 +334,7 @@ const upsertTagPresetSchema = z.object({
 })
 
 export const upsertTicketTagPreset = createServerFn({ method: 'POST' })
-  .inputValidator((data) => upsertTagPresetSchema.parse(data))
+  .validator((data) => upsertTagPresetSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = requireSession(await auth.api.getSession({ headers }))
@@ -358,7 +358,7 @@ const deleteTagPresetSchema = z.object({
 })
 
 export const deleteTicketTagPreset = createServerFn({ method: 'POST' })
-  .inputValidator((data) => deleteTagPresetSchema.parse(data))
+  .validator((data) => deleteTagPresetSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = requireSession(await auth.api.getSession({ headers }))
@@ -378,7 +378,7 @@ const deleteTicketSchema = z.object({
 
 /** Owner can delete a CLOSED ticket directly. Admin can request deletion (adds a system message). */
 export const deleteTicket = createServerFn({ method: 'POST' })
-  .inputValidator((data) => deleteTicketSchema.parse(data))
+  .validator((data) => deleteTicketSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = requireSession(await auth.api.getSession({ headers }))
@@ -425,7 +425,7 @@ const getUserProfileSchema = z.object({
 })
 
 export const getUserProfile = createServerFn({ method: 'POST' })
-  .inputValidator((data) => getUserProfileSchema.parse(data))
+  .validator((data) => getUserProfileSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = requireSession(await auth.api.getSession({ headers }))

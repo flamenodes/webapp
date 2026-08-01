@@ -7,7 +7,8 @@ const makeSchema = () => z.object({
   productId: z.boolean().optional(),
   product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
   billingPeriod: z.boolean().optional(),
-  price: z.boolean().optional()
+  price: z.boolean().optional(),
+  customDays: z.boolean().optional()
 }).strict();
 export const ProductBillingOptionSelectObjectSchema: z.ZodType<Prisma.ProductBillingOptionSelect> = makeSchema() as unknown as z.ZodType<Prisma.ProductBillingOptionSelect>;
 export const ProductBillingOptionSelectObjectZodSchema = makeSchema();

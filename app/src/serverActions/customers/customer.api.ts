@@ -37,7 +37,7 @@ const updateCustomerSchema = customerIdSchema.extend({
 })
 
 export const createCustomer = createServerFn({ method: 'POST' })
-  .inputValidator(createCustomerSchema)
+  .validator(createCustomerSchema)
   .handler(async ({ data }) => {
     const customer = await prisma.user.create({
       data: {
@@ -62,7 +62,7 @@ export const createCustomer = createServerFn({ method: 'POST' })
   })
 
 export const updateCustomer = createServerFn({ method: 'POST' })
-  .inputValidator(updateCustomerSchema)
+  .validator(updateCustomerSchema)
   .handler(async ({ data }) => {
     const updated = await prisma.user.update({
       where: { id: data.id },
@@ -91,7 +91,7 @@ export const updateCustomer = createServerFn({ method: 'POST' })
   })
 
 export const deleteCustomer = createServerFn({ method: 'POST' })
-  .inputValidator(customerIdSchema)
+  .validator(customerIdSchema)
   .handler(async ({ data }) => {
     const deleted = await prisma.user.delete({
       where: { id: data.id },

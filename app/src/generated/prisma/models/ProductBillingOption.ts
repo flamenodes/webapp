@@ -28,10 +28,12 @@ export type AggregateProductBillingOption = {
 
 export type ProductBillingOptionAvgAggregateOutputType = {
   price: number | null
+  customDays: number | null
 }
 
 export type ProductBillingOptionSumAggregateOutputType = {
   price: number | null
+  customDays: number | null
 }
 
 export type ProductBillingOptionMinAggregateOutputType = {
@@ -39,6 +41,7 @@ export type ProductBillingOptionMinAggregateOutputType = {
   productId: string | null
   billingPeriod: $Enums.BillingPeriod | null
   price: number | null
+  customDays: number | null
 }
 
 export type ProductBillingOptionMaxAggregateOutputType = {
@@ -46,6 +49,7 @@ export type ProductBillingOptionMaxAggregateOutputType = {
   productId: string | null
   billingPeriod: $Enums.BillingPeriod | null
   price: number | null
+  customDays: number | null
 }
 
 export type ProductBillingOptionCountAggregateOutputType = {
@@ -53,16 +57,19 @@ export type ProductBillingOptionCountAggregateOutputType = {
   productId: number
   billingPeriod: number
   price: number
+  customDays: number
   _all: number
 }
 
 
 export type ProductBillingOptionAvgAggregateInputType = {
   price?: true
+  customDays?: true
 }
 
 export type ProductBillingOptionSumAggregateInputType = {
   price?: true
+  customDays?: true
 }
 
 export type ProductBillingOptionMinAggregateInputType = {
@@ -70,6 +77,7 @@ export type ProductBillingOptionMinAggregateInputType = {
   productId?: true
   billingPeriod?: true
   price?: true
+  customDays?: true
 }
 
 export type ProductBillingOptionMaxAggregateInputType = {
@@ -77,6 +85,7 @@ export type ProductBillingOptionMaxAggregateInputType = {
   productId?: true
   billingPeriod?: true
   price?: true
+  customDays?: true
 }
 
 export type ProductBillingOptionCountAggregateInputType = {
@@ -84,6 +93,7 @@ export type ProductBillingOptionCountAggregateInputType = {
   productId?: true
   billingPeriod?: true
   price?: true
+  customDays?: true
   _all?: true
 }
 
@@ -178,6 +188,7 @@ export type ProductBillingOptionGroupByOutputType = {
   productId: string
   billingPeriod: $Enums.BillingPeriod
   price: number
+  customDays: number | null
   _count: ProductBillingOptionCountAggregateOutputType | null
   _avg: ProductBillingOptionAvgAggregateOutputType | null
   _sum: ProductBillingOptionSumAggregateOutputType | null
@@ -208,6 +219,7 @@ export type ProductBillingOptionWhereInput = {
   productId?: Prisma.StringFilter<"ProductBillingOption"> | string
   billingPeriod?: Prisma.EnumBillingPeriodFilter<"ProductBillingOption"> | $Enums.BillingPeriod
   price?: Prisma.IntFilter<"ProductBillingOption"> | number
+  customDays?: Prisma.IntNullableFilter<"ProductBillingOption"> | number | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }
 
@@ -216,6 +228,7 @@ export type ProductBillingOptionOrderByWithRelationInput = {
   productId?: Prisma.SortOrder
   billingPeriod?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  customDays?: Prisma.SortOrderInput | Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
 }
 
@@ -228,6 +241,7 @@ export type ProductBillingOptionWhereUniqueInput = Prisma.AtLeast<{
   productId?: Prisma.StringFilter<"ProductBillingOption"> | string
   billingPeriod?: Prisma.EnumBillingPeriodFilter<"ProductBillingOption"> | $Enums.BillingPeriod
   price?: Prisma.IntFilter<"ProductBillingOption"> | number
+  customDays?: Prisma.IntNullableFilter<"ProductBillingOption"> | number | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }, "id" | "productId_billingPeriod">
 
@@ -236,6 +250,7 @@ export type ProductBillingOptionOrderByWithAggregationInput = {
   productId?: Prisma.SortOrder
   billingPeriod?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  customDays?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ProductBillingOptionCountOrderByAggregateInput
   _avg?: Prisma.ProductBillingOptionAvgOrderByAggregateInput
   _max?: Prisma.ProductBillingOptionMaxOrderByAggregateInput
@@ -251,12 +266,14 @@ export type ProductBillingOptionScalarWhereWithAggregatesInput = {
   productId?: Prisma.StringWithAggregatesFilter<"ProductBillingOption"> | string
   billingPeriod?: Prisma.EnumBillingPeriodWithAggregatesFilter<"ProductBillingOption"> | $Enums.BillingPeriod
   price?: Prisma.IntWithAggregatesFilter<"ProductBillingOption"> | number
+  customDays?: Prisma.IntNullableWithAggregatesFilter<"ProductBillingOption"> | number | null
 }
 
 export type ProductBillingOptionCreateInput = {
   id?: string
   billingPeriod: $Enums.BillingPeriod
   price: number
+  customDays?: number | null
   product: Prisma.ProductCreateNestedOneWithoutBillingOptionsInput
 }
 
@@ -265,12 +282,14 @@ export type ProductBillingOptionUncheckedCreateInput = {
   productId: string
   billingPeriod: $Enums.BillingPeriod
   price: number
+  customDays?: number | null
 }
 
 export type ProductBillingOptionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
   price?: Prisma.IntFieldUpdateOperationsInput | number
+  customDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   product?: Prisma.ProductUpdateOneRequiredWithoutBillingOptionsNestedInput
 }
 
@@ -279,6 +298,7 @@ export type ProductBillingOptionUncheckedUpdateInput = {
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
   price?: Prisma.IntFieldUpdateOperationsInput | number
+  customDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ProductBillingOptionCreateManyInput = {
@@ -286,12 +306,14 @@ export type ProductBillingOptionCreateManyInput = {
   productId: string
   billingPeriod: $Enums.BillingPeriod
   price: number
+  customDays?: number | null
 }
 
 export type ProductBillingOptionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
   price?: Prisma.IntFieldUpdateOperationsInput | number
+  customDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ProductBillingOptionUncheckedUpdateManyInput = {
@@ -299,6 +321,7 @@ export type ProductBillingOptionUncheckedUpdateManyInput = {
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
   price?: Prisma.IntFieldUpdateOperationsInput | number
+  customDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ProductBillingOptionListRelationFilter = {
@@ -321,10 +344,12 @@ export type ProductBillingOptionCountOrderByAggregateInput = {
   productId?: Prisma.SortOrder
   billingPeriod?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  customDays?: Prisma.SortOrder
 }
 
 export type ProductBillingOptionAvgOrderByAggregateInput = {
   price?: Prisma.SortOrder
+  customDays?: Prisma.SortOrder
 }
 
 export type ProductBillingOptionMaxOrderByAggregateInput = {
@@ -332,6 +357,7 @@ export type ProductBillingOptionMaxOrderByAggregateInput = {
   productId?: Prisma.SortOrder
   billingPeriod?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  customDays?: Prisma.SortOrder
 }
 
 export type ProductBillingOptionMinOrderByAggregateInput = {
@@ -339,10 +365,12 @@ export type ProductBillingOptionMinOrderByAggregateInput = {
   productId?: Prisma.SortOrder
   billingPeriod?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  customDays?: Prisma.SortOrder
 }
 
 export type ProductBillingOptionSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
+  customDays?: Prisma.SortOrder
 }
 
 export type ProductBillingOptionCreateNestedManyWithoutProductInput = {
@@ -395,12 +423,14 @@ export type ProductBillingOptionCreateWithoutProductInput = {
   id?: string
   billingPeriod: $Enums.BillingPeriod
   price: number
+  customDays?: number | null
 }
 
 export type ProductBillingOptionUncheckedCreateWithoutProductInput = {
   id?: string
   billingPeriod: $Enums.BillingPeriod
   price: number
+  customDays?: number | null
 }
 
 export type ProductBillingOptionCreateOrConnectWithoutProductInput = {
@@ -437,30 +467,35 @@ export type ProductBillingOptionScalarWhereInput = {
   productId?: Prisma.StringFilter<"ProductBillingOption"> | string
   billingPeriod?: Prisma.EnumBillingPeriodFilter<"ProductBillingOption"> | $Enums.BillingPeriod
   price?: Prisma.IntFilter<"ProductBillingOption"> | number
+  customDays?: Prisma.IntNullableFilter<"ProductBillingOption"> | number | null
 }
 
 export type ProductBillingOptionCreateManyProductInput = {
   id?: string
   billingPeriod: $Enums.BillingPeriod
   price: number
+  customDays?: number | null
 }
 
 export type ProductBillingOptionUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
   price?: Prisma.IntFieldUpdateOperationsInput | number
+  customDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ProductBillingOptionUncheckedUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
   price?: Prisma.IntFieldUpdateOperationsInput | number
+  customDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ProductBillingOptionUncheckedUpdateManyWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
   price?: Prisma.IntFieldUpdateOperationsInput | number
+  customDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 
@@ -470,6 +505,7 @@ export type ProductBillingOptionSelect<ExtArgs extends runtime.Types.Extensions.
   productId?: boolean
   billingPeriod?: boolean
   price?: boolean
+  customDays?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productBillingOption"]>
 
@@ -478,6 +514,7 @@ export type ProductBillingOptionSelectCreateManyAndReturn<ExtArgs extends runtim
   productId?: boolean
   billingPeriod?: boolean
   price?: boolean
+  customDays?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productBillingOption"]>
 
@@ -486,6 +523,7 @@ export type ProductBillingOptionSelectUpdateManyAndReturn<ExtArgs extends runtim
   productId?: boolean
   billingPeriod?: boolean
   price?: boolean
+  customDays?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productBillingOption"]>
 
@@ -494,9 +532,10 @@ export type ProductBillingOptionSelectScalar = {
   productId?: boolean
   billingPeriod?: boolean
   price?: boolean
+  customDays?: boolean
 }
 
-export type ProductBillingOptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "billingPeriod" | "price", ExtArgs["result"]["productBillingOption"]>
+export type ProductBillingOptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "billingPeriod" | "price" | "customDays", ExtArgs["result"]["productBillingOption"]>
 export type ProductBillingOptionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
@@ -517,6 +556,7 @@ export type $ProductBillingOptionPayload<ExtArgs extends runtime.Types.Extension
     productId: string
     billingPeriod: $Enums.BillingPeriod
     price: number
+    customDays: number | null
   }, ExtArgs["result"]["productBillingOption"]>
   composites: {}
 }
@@ -945,6 +985,7 @@ export interface ProductBillingOptionFieldRefs {
   readonly productId: Prisma.FieldRef<"ProductBillingOption", 'String'>
   readonly billingPeriod: Prisma.FieldRef<"ProductBillingOption", 'BillingPeriod'>
   readonly price: Prisma.FieldRef<"ProductBillingOption", 'Int'>
+  readonly customDays: Prisma.FieldRef<"ProductBillingOption", 'Int'>
 }
     
 

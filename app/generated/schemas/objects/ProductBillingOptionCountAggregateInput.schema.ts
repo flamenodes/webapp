@@ -7,6 +7,7 @@ const makeSchema = () => z.object({
   productId: z.literal(true).optional(),
   billingPeriod: z.literal(true).optional(),
   price: z.literal(true).optional(),
+  customDays: z.literal(true).optional(),
   _all: z.literal(true).optional()
 }).strict();
 export const ProductBillingOptionCountAggregateInputObjectSchema: z.ZodType<Prisma.ProductBillingOptionCountAggregateInputType> = makeSchema() as unknown as z.ZodType<Prisma.ProductBillingOptionCountAggregateInputType>;

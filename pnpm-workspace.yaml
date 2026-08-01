@@ -6,3 +6,10 @@ allowBuilds:
   '@prisma/engines': true
   prisma: true
   esbuild: true
+  '@parcel/watcher': true
+  canvas: true
+  msgpackr-extract: true
+  msw: true
+  prisma-zod-generator: true
+  unrs-resolver: true
+  vue-demi: true

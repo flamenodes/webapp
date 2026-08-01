@@ -60,7 +60,7 @@ export const getUserServersWithDetails = createServerFn({ method: 'GET' }).handl
 })
 
 export const pingServer = createServerFn({ method: 'GET' })
-  .inputValidator((data: any) => z.object({ serverId: z.string() }).parse(data))
+  .validator((data: any) => z.object({ serverId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -87,7 +87,7 @@ export const pingServer = createServerFn({ method: 'GET' })
   })
 
 export const updateCustomServer = createServerFn({ method: 'POST' })
-  .inputValidator((data: any) =>
+  .validator((data: any) =>
     z.object({
       serverId: z.string(),
       ip: z.string().optional(),
@@ -127,7 +127,7 @@ export const updateCustomServer = createServerFn({ method: 'POST' })
   })
 
 export const getWebSocketToken = createServerFn({ method: 'GET' })
-  .inputValidator((data: any) => z.object({ serverId: z.string() }).parse(data))
+  .validator((data: any) => z.object({ serverId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -160,7 +160,7 @@ export const getWebSocketToken = createServerFn({ method: 'GET' })
   })
 
 export const renewServer = createServerFn({ method: 'POST' })
-  .inputValidator((data: any) => z.object({ serverId: z.string() }).parse(data))
+  .validator((data: any) => z.object({ serverId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -217,7 +217,7 @@ export const renewServer = createServerFn({ method: 'POST' })
   })
 
 export const reinstallServer = createServerFn({ method: 'POST' })
-  .inputValidator((data: any) => z.object({ serverId: z.string() }).parse(data))
+  .validator((data: any) => z.object({ serverId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -242,7 +242,7 @@ export const reinstallServer = createServerFn({ method: 'POST' })
   })
 
 export const getServerDetails = createServerFn({ method: 'GET' })
-  .inputValidator((data: any) => z.object({ serverId: z.string() }).parse(data))
+  .validator((data: any) => z.object({ serverId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })

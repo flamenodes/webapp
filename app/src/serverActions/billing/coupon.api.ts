@@ -34,7 +34,7 @@ const deleteCouponSchema = z.object({
 });
 
 export const createCoupon = createServerFn({ method: 'POST' })
-  .inputValidator(createCouponSchema)
+  .validator(createCouponSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });
@@ -52,7 +52,7 @@ export const getCoupons = createServerFn({ method: 'GET' }).handler(async () => 
 });
 
 export const getCoupon = createServerFn({ method: 'GET' })
-  .inputValidator(getCouponSchema)
+  .validator(getCouponSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });
@@ -64,7 +64,7 @@ export const getCoupon = createServerFn({ method: 'GET' })
   });
 
 export const validateCoupon = createServerFn({ method: 'POST' })
-  .inputValidator(validateCouponSchema)
+  .validator(validateCouponSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });
@@ -81,7 +81,7 @@ export const validateCoupon = createServerFn({ method: 'POST' })
   });
 
 export const updateCoupon = createServerFn({ method: 'POST' })
-  .inputValidator(updateCouponSchema)
+  .validator(updateCouponSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });
@@ -95,7 +95,7 @@ export const updateCoupon = createServerFn({ method: 'POST' })
   });
 
 export const deleteCoupon = createServerFn({ method: 'POST' })
-  .inputValidator(deleteCouponSchema)
+  .validator(deleteCouponSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });

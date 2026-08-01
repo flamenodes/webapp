@@ -3,7 +3,7 @@ import { emitDevBroadcast } from '#/lib/server/socket-context'
 import { z } from 'zod'
 
 export const broadcastDev = createServerFn({ method: 'POST' })
-  .inputValidator(z.object({ text: z.string() }))
+  .validator(z.object({ text: z.string() }))
   .handler(async ({ data }) => {
     const payload = {
       id: `${Date.now()}`,

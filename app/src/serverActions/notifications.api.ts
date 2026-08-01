@@ -56,7 +56,7 @@ const createAnnouncementSchema = z.object({
 })
 
 export const createAnnouncement = createServerFn({ method: 'POST' })
-  .inputValidator((data) => createAnnouncementSchema.parse(data))
+  .validator((data) => createAnnouncementSchema.parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
     const { prisma } = await import('#/db')
@@ -96,7 +96,7 @@ const updateAnnouncementSchema = z.object({
 })
 
 export const updateAnnouncement = createServerFn({ method: 'POST' })
-  .inputValidator((data) => updateAnnouncementSchema.parse(data))
+  .validator((data) => updateAnnouncementSchema.parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
     const { prisma } = await import('#/db')
@@ -115,7 +115,7 @@ export const updateAnnouncement = createServerFn({ method: 'POST' })
 
 // Delete announcement (admin only)
 export const deleteAnnouncement = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => z.object({ id: z.string() }).parse(data))
+  .validator((data: unknown) => z.object({ id: z.string() }).parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
     const { prisma } = await import('#/db')

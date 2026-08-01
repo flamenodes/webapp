@@ -1,7 +1,6 @@
 import { Button } from '../ui/button'
 import ShinyText from '../ShinyText'
 import ColorBends from '../ColorBends'
-import { ClientOnly } from '@tanstack/react-router'
 
 const HeroSection = () => {
   return (
@@ -45,34 +44,40 @@ const HeroSection = () => {
             >
               Get Started
             </Button>
-            <Button
-              variant="secondary"
-              size="great"
-              className="text-md py-6 px-5 bg-secondary/40 backdrop-blur-xl border-secondary font-bold "
+            <a href="mailto:support@flamenodes.cloud"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Contact Us
-            </Button>
+
+              <Button
+                variant="secondary"
+                size="great"
+                className="text-md py-6 px-5 bg-secondary/40 backdrop-blur-xl border-secondary font-bold "
+              >
+                Contact Us
+              </Button>
+            </a>
           </div>
         </div>
       </div>
-          <div className="absolute z-0 h-full w-full top-[0] ">
-            <ColorBends
-              rotation={90}
-              speed={0.2}
-              colors={['#ff2353']}
-              transparent
-              autoRotate={0}
-              scale={2}
-              frequency={1}
-              warpStrength={1}
-              mouseInfluence={1}
-              parallax={0.5}
-              noise={0.15}
-              iterations={1}
-              intensity={1.5}
-              bandWidth={6}
-            />
-          </div>
+      <div className="absolute z-0 h-full w-full top-[0] ">
+        <ColorBends
+          rotation={90}
+          speed={0.2}
+          colors={['#ff2353']}
+          transparent
+          autoRotate={0}
+          scale={2}
+          frequency={1}
+          warpStrength={1}
+          mouseInfluence={1}
+          parallax={0.5}
+          noise={0.15}
+          iterations={1}
+          intensity={1.5}
+          bandWidth={6}
+        />
+      </div>
 
     </section>
   )

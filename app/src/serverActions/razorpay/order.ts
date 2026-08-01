@@ -13,7 +13,7 @@ export const createOrderSchema = z.object({
 })
 
 export const createRazorOrderFn = createServerFn({ method: 'POST' })
-  .inputValidator(createOrderSchema)
+  .validator(createOrderSchema)
   .handler(async ({ data }) => {
     const res = razorpay.orders.create(data)
     return (res)
@@ -32,7 +32,7 @@ export const getAllRazorOrderFn = createServerFn({ method: 'GET' }).handler(
 )
 
 export const getRazorOrderByID = createServerFn({ method: 'GET' })
-  .inputValidator(z.object({ id: z.string() }))
+  .validator(z.object({ id: z.string() }))
   .handler(async ({ data }) => {
     try {
       const resData = await razorpay.orders.fetch(data.id)

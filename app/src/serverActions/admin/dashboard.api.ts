@@ -274,7 +274,7 @@ const requireAdmin = async () => {
 }
 
 export const deleteOrder = createServerFn({ method: 'POST' })
-  .inputValidator(
+  .validator(
     z.object({
       id: z.string(),
     }),
@@ -286,7 +286,7 @@ export const deleteOrder = createServerFn({ method: 'POST' })
   })
 
 export const deleteOrders = createServerFn({ method: 'POST' })
-  .inputValidator(
+  .validator(
     z.object({
       ids: z.array(z.string()),
     }),

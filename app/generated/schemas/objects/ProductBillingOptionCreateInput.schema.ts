@@ -7,6 +7,7 @@ const makeSchema = () => z.object({
   id: z.string().optional(),
   billingPeriod: BillingPeriodSchema,
   price: z.number().int(),
+  customDays: z.number().int().optional().nullable(),
   product: z.lazy(() => ProductCreateNestedOneWithoutBillingOptionsInputObjectSchema)
 }).strict();
 export const ProductBillingOptionCreateInputObjectSchema: z.ZodType<Prisma.ProductBillingOptionCreateInput> = makeSchema() as unknown as z.ZodType<Prisma.ProductBillingOptionCreateInput>;

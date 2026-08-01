@@ -100,7 +100,7 @@ const emailTemplates = {
 }
 
 export const sendEmailFn = createServerFn({ method: 'POST' })
-  .inputValidator((data) => sendEmailSchema.parse(data))
+  .validator((data) => sendEmailSchema.parse(data))
   .handler(async ({ data }) => {
     try {
       const { Resend } = await import('resend')
@@ -129,7 +129,7 @@ export const sendEmailFn = createServerFn({ method: 'POST' })
   })
 
 export const deployServerFn = createServerFn({ method: 'POST' })
-  .inputValidator((data) => deployServerSchema.parse(data))
+  .validator((data) => deployServerSchema.parse(data))
   .handler(async ({ data }) => {
     const { prisma } = await import('#/db')
     const { pteroServerData } = await import('../pterodactyl/configData')
@@ -263,7 +263,7 @@ export const deployServerFn = createServerFn({ method: 'POST' })
   })
 
 export const redeployServerFn = createServerFn({ method: 'POST' })
-  .inputValidator((data) => deployServerSchema.parse(data))
+  .validator((data) => deployServerSchema.parse(data))
   .handler(async ({ data }) => {
     const { prisma } = await import('#/db')
     const { pteroServerData } = await import('../pterodactyl/configData')

@@ -6,7 +6,8 @@ export const ProductBillingOptionModelSchema = z.object({
     productId: z.string(),
     product: z.unknown(),
     billingPeriod: BillingPeriodSchema,
-    price: z.number().int()
+    price: z.number().int(),
+    customDays: z.number().int().nullable()
 }).strict();
 
 export type ProductBillingOptionPureType = z.infer<typeof ProductBillingOptionModelSchema>;

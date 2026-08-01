@@ -72,7 +72,7 @@ async function requireAdmin() {
 }
 
 export const getConfigurationOptions = createServerFn({ method: 'GET' })
-  .inputValidator((data) => getConfigurationOptionsSchema.parse(data))
+  .validator((data) => getConfigurationOptionsSchema.parse(data))
   .handler(async ({ data }) => {
     const options = await prisma.configurationOption.findMany({
       where: { category: data.category },
@@ -103,7 +103,7 @@ export const getAllConfigurationOptions = createServerFn({ method: 'GET' }).hand
 })
 
 export const createConfigurationOption = createServerFn({ method: 'POST' })
-  .inputValidator((data) => createConfigurationOptionSchema.parse(data))
+  .validator((data) => createConfigurationOptionSchema.parse(data))
   .handler(async ({ data }): Promise<SuccessResponse<ConfigurationOption & { values: ConfigurationValue[] }>> => {
     await requireAdmin()
 
@@ -116,7 +116,7 @@ export const createConfigurationOption = createServerFn({ method: 'POST' })
   })
 
 export const updateConfigurationOption = createServerFn({ method: 'POST' })
-  .inputValidator((data) => updateConfigurationOptionSchema.parse(data))
+  .validator((data) => updateConfigurationOptionSchema.parse(data))
   .handler(async ({ data }): Promise<SuccessResponse<ConfigurationOption & { values: ConfigurationValue[] }>> => {
     await requireAdmin()
 
@@ -131,7 +131,7 @@ export const updateConfigurationOption = createServerFn({ method: 'POST' })
   })
 
 export const deleteConfigurationOption = createServerFn({ method: 'POST' })
-  .inputValidator((data) => deleteConfigurationOptionSchema.parse(data))
+  .validator((data) => deleteConfigurationOptionSchema.parse(data))
   .handler(async ({ data }): Promise<SuccessResponse> => {
     await requireAdmin()
 
@@ -143,7 +143,7 @@ export const deleteConfigurationOption = createServerFn({ method: 'POST' })
   })
 
 export const createConfigurationValue = createServerFn({ method: 'POST' })
-  .inputValidator((data) => createConfigurationValueSchema.parse(data))
+  .validator((data) => createConfigurationValueSchema.parse(data))
   .handler(async ({ data }): Promise<SuccessResponse<ConfigurationValue>> => {
     await requireAdmin()
 
@@ -155,7 +155,7 @@ export const createConfigurationValue = createServerFn({ method: 'POST' })
   })
 
 export const updateConfigurationValue = createServerFn({ method: 'POST' })
-  .inputValidator((data) => updateConfigurationValueSchema.parse(data))
+  .validator((data) => updateConfigurationValueSchema.parse(data))
   .handler(async ({ data }): Promise<SuccessResponse<ConfigurationValue>> => {
     await requireAdmin()
 
@@ -169,7 +169,7 @@ export const updateConfigurationValue = createServerFn({ method: 'POST' })
   })
 
 export const deleteConfigurationValue = createServerFn({ method: 'POST' })
-  .inputValidator((data) => deleteConfigurationValueSchema.parse(data))
+  .validator((data) => deleteConfigurationValueSchema.parse(data))
   .handler(async ({ data }): Promise<SuccessResponse> => {
     await requireAdmin()
 

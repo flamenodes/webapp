@@ -14,7 +14,7 @@ const deleteServerSchema = z.object({
 })
 
 export const createServer = createServerFn({ method: 'POST' })
-  .inputValidator(ServerSchema)
+  .validator(ServerSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -37,7 +37,7 @@ export const getServers = createServerFn({ method: 'GET' }).handler(
 )
 
 export const getServer = createServerFn({ method: 'GET' })
-  .inputValidator( getServerSchema)
+  .validator( getServerSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -52,7 +52,7 @@ export const getServer = createServerFn({ method: 'GET' })
   })
 
 export const updateServer = createServerFn({ method: 'POST' })
-  .inputValidator(ServerSchema)
+  .validator(ServerSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -66,7 +66,7 @@ export const updateServer = createServerFn({ method: 'POST' })
   })
 
 export const deleteServer = createServerFn({ method: 'POST' })
-  .inputValidator( deleteServerSchema)
+  .validator( deleteServerSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })

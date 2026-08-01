@@ -225,7 +225,7 @@ async function requireSessionUser() {
 export const createProduct = createServerFn({
   method: 'POST',
 })
-  .inputValidator(createProductSchema)
+  .validator(createProductSchema)
   .handler(async ({ data }) => {
     await requireSessionUser()
 
@@ -309,7 +309,7 @@ export const getProducts = createServerFn({
 export const getProductsByCategory = createServerFn({
   method: 'GET',
 })
-  .inputValidator(getProductsByCategorySchema)
+  .validator(getProductsByCategorySchema)
   .handler(async ({ data }) => {
     const products =
       await prisma.product.findMany({
@@ -329,7 +329,7 @@ export const getProductsByCategory = createServerFn({
 export const getProduct = createServerFn({
   method: 'GET',
 })
-  .inputValidator(getProductSchema)
+  .validator(getProductSchema)
   .handler(async ({ data }) => {
     const product =
       await prisma.product.findUnique({
@@ -347,7 +347,7 @@ export const getProduct = createServerFn({
 export const updateProduct = createServerFn({
   method: 'POST',
 })
-  .inputValidator(updateProductSchema)
+  .validator(updateProductSchema)
   .handler(async ({ data }) => {
     await requireSessionUser()
 
@@ -419,7 +419,7 @@ export const updateProduct = createServerFn({
 export const deleteProduct = createServerFn({
   method: 'POST',
 })
-  .inputValidator(deleteProductSchema)
+  .validator(deleteProductSchema)
   .handler(async ({ data }) => {
     await requireSessionUser()
 
@@ -438,7 +438,7 @@ export const deleteProduct = createServerFn({
 export const deleteProducts = createServerFn({
   method: 'POST',
 })
-  .inputValidator(deleteProductsSchema)
+  .validator(deleteProductsSchema)
   .handler(async ({ data }) => {
     await requireSessionUser()
 
@@ -462,7 +462,7 @@ export const deleteProducts = createServerFn({
 export const recreateProduct = createServerFn({
   method: 'POST',
 })
-  .inputValidator(recreateProductSchema)
+  .validator(recreateProductSchema)
   .handler(async ({ data }) => {
     await requireSessionUser()
 
@@ -574,7 +574,7 @@ export const recreateProduct = createServerFn({
 export const reorderProduct = createServerFn({
   method: 'POST',
 })
-  .inputValidator(reorderProductSchema)
+  .validator(reorderProductSchema)
   .handler(async ({ data }) => {
     await requireSessionUser()
 
@@ -639,7 +639,7 @@ export const reorderProduct = createServerFn({
 export const reorderProducts = createServerFn({
   method: 'POST',
 })
-  .inputValidator(reorderProductsSchema)
+  .validator(reorderProductsSchema)
   .handler(async ({ data }) => {
     await requireSessionUser()
 

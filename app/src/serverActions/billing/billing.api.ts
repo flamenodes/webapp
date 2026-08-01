@@ -55,7 +55,7 @@ export const getMyBillingInfo = createServerFn({ method: 'POST' })
 
 // Update current user's billing info
 export const updateMyBillingInfo = createServerFn({ method: 'POST' })
-  .inputValidator(BillingInfoSchema)
+  .validator(BillingInfoSchema)
   .handler(async ({ data }) => {
     const session = await getSession()
     if (!session?.user.id) {
@@ -142,7 +142,7 @@ export const getAllBillingInfo = createServerFn({ method: 'POST' })
 
 // Admin: Get specific user's billing info
 export const getUserBillingInfo = createServerFn({ method: 'POST' })
-  .inputValidator(z.object({ userId: z.string() }))
+  .validator(z.object({ userId: z.string() }))
   .handler(async ({ data }) => {
     const session = await getSession()
     if (!session?.user.id) {
@@ -195,7 +195,7 @@ export const getUserBillingInfo = createServerFn({ method: 'POST' })
 
 // Admin: Update user's billing info
 export const updateUserBillingInfo = createServerFn({ method: 'POST' })
-  .inputValidator(UpdateBillingSchema)
+  .validator(UpdateBillingSchema)
   .handler(async ({ data }) => {
     const session = await getSession()
     if (!session?.user.id) {
@@ -244,7 +244,7 @@ export const updateUserBillingInfo = createServerFn({ method: 'POST' })
 
 // Admin: Delete user's billing info (clear fields)
 export const deleteUserBillingInfo = createServerFn({ method: 'POST' })
-  .inputValidator(DeleteBillingSchema)
+  .validator(DeleteBillingSchema)
   .handler(async ({ data }) => {
     const session = await getSession()
     if (!session?.user.id) {

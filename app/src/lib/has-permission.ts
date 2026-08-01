@@ -26,7 +26,7 @@ const hasPermissionSchema = z.object({
   permissions: z.custom<Permissions>(),
 })
 export const hasPermissionFn = createServerFn({ method: 'POST' })
-  .inputValidator(hasPermissionSchema)
+  .validator(hasPermissionSchema)
   .handler(async ({ data }) => {
     const session = await getSession()
 

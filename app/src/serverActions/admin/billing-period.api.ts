@@ -14,7 +14,7 @@ async function requireAdmin() {
 }
 
 export const createCustomBillingPeriod = createServerFn({ method: 'POST' })
-  .inputValidator((data) => z.object({
+  .validator((data) => z.object({
     productId: z.string(),
     customDays: z.number().min(1),
     price: z.number().min(0),
@@ -33,7 +33,7 @@ export const createCustomBillingPeriod = createServerFn({ method: 'POST' })
   })
 
 export const updateCustomBillingPeriod = createServerFn({ method: 'POST' })
-  .inputValidator((data) => z.object({
+  .validator((data) => z.object({
     id: z.string(),
     customDays: z.number().min(1).optional(),
     price: z.number().min(0).optional(),
@@ -51,7 +51,7 @@ export const updateCustomBillingPeriod = createServerFn({ method: 'POST' })
   })
 
 export const deleteCustomBillingPeriod = createServerFn({ method: 'POST' })
-  .inputValidator((data) => z.object({ id: z.string() }).parse(data))
+  .validator((data) => z.object({ id: z.string() }).parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
     await prisma.productBillingOption.delete({

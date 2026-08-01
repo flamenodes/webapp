@@ -86,7 +86,7 @@ export const getCustomers = createServerFn({ method: 'GET' }).handler(async () =
 
 
 export const createCustomer = createServerFn({ method: 'POST' })
-  .inputValidator((data) => createCustomerSchema.parse(data))
+  .validator((data) => createCustomerSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -134,7 +134,7 @@ export const createCustomer = createServerFn({ method: 'POST' })
   })
 
 export const updateCustomer = createServerFn({ method: 'POST' })
-  .inputValidator((data) => updateCustomerSchema.parse(data))
+  .validator((data) => updateCustomerSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -160,7 +160,7 @@ export const updateCustomer = createServerFn({ method: 'POST' })
   })
 
 export const deleteCustomer = createServerFn({ method: 'POST' })
-  .inputValidator((data) => deleteCustomerSchema.parse(data))
+  .validator((data) => deleteCustomerSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -175,7 +175,7 @@ export const deleteCustomer = createServerFn({ method: 'POST' })
   })
 
 export const deleteCustomers = createServerFn({ method: 'POST' })
-  .inputValidator((data) => deleteCustomersSchema.parse(data))
+  .validator((data) => deleteCustomersSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })

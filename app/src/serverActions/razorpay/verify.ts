@@ -13,7 +13,7 @@ const verifyPaymentSchema = z.object({
 })
 
 export const verifyRazorpayPayment = createServerFn({ method: 'POST' })
-  .inputValidator(z.any())
+  .validator(z.any())
   .handler(async ({ data: rawData }) => {
     const data = verifyPaymentSchema.parse(rawData)
     const headers = getRequestHeaders()

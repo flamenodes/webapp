@@ -2649,7 +2649,8 @@ export const ProductBillingOptionScalarFieldEnum = {
   id: 'id',
   productId: 'productId',
   billingPeriod: 'billingPeriod',
-  price: 'price'
+  price: 'price',
+  customDays: 'customDays'
 } as const
 
 export type ProductBillingOptionScalarFieldEnum = (typeof ProductBillingOptionScalarFieldEnum)[keyof typeof ProductBillingOptionScalarFieldEnum]

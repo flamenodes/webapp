@@ -51,7 +51,7 @@ export const getAllOrders = createServerFn({ method: 'GET' }).handler(async () =
 })
 
 export const createManualOrder = createServerFn({ method: 'POST' })
-  .inputValidator(createManualOrderSchema)
+  .validator(createManualOrderSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -106,7 +106,7 @@ export const createManualOrder = createServerFn({ method: 'POST' })
   })
 
 export const generatePaymentLink = createServerFn({ method: 'POST' })
-  .inputValidator(generatePaymentLinkSchema)
+  .validator(generatePaymentLinkSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -168,7 +168,7 @@ export const generatePaymentLink = createServerFn({ method: 'POST' })
   })
 
 export const updateOrderStatus = createServerFn({ method: 'POST' })
-  .inputValidator(updateOrderStatusSchema)
+  .validator(updateOrderStatusSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -248,7 +248,7 @@ export const getPendingCustomOrders = createServerFn({ method: 'GET' }).handler(
 })
 
 export const deliverCustomOrder = createServerFn({ method: 'POST' })
-  .inputValidator(deliverCustomOrderSchema)
+  .validator(deliverCustomOrderSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -314,7 +314,7 @@ const deployCustomOrderSchema = z.object({
 })
 
 export const deleteOrder = createServerFn({ method: 'POST' })
-  .inputValidator(deleteOrderSchema)
+  .validator(deleteOrderSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -362,7 +362,7 @@ export const deleteOrder = createServerFn({ method: 'POST' })
   })
 
 export const deployOrder = createServerFn({ method: 'POST' })
-  .inputValidator(deployOrderSchema)
+  .validator(deployOrderSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -493,7 +493,7 @@ export const deployOrder = createServerFn({ method: 'POST' })
   })
 
 export const deployCustomOrder = createServerFn({ method: 'POST' })
-  .inputValidator(deployCustomOrderSchema)
+  .validator(deployCustomOrderSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })

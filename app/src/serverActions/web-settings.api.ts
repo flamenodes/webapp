@@ -28,7 +28,7 @@ export const isWebSettingsEnabled = createServerFn({ method: 'GET' }).handler(as
 
 // Toggle web settings feature (admin only)
 export const toggleWebSettings = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => z.object({ enabled: z.boolean() }).parse(data))
+  .validator((data: unknown) => z.object({ enabled: z.boolean() }).parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
     const { prisma } = await import('#/db')
@@ -126,7 +126,7 @@ const updateFooterSchema = z.object({
 })
 
 export const updateFooterSettings = createServerFn({ method: 'POST' })
-  .inputValidator((data) => updateFooterSchema.parse(data))
+  .validator((data) => updateFooterSchema.parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
     const { prisma } = await import('#/db')

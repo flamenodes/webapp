@@ -55,7 +55,7 @@ export const getUserStats = createServerFn({ method: 'GET' }).handler(async () =
 })
 
 export const markNotificationRead = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => z.object({ id: z.string() }).parse(data))
+  .validator((data: unknown) => z.object({ id: z.string() }).parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })

@@ -10,7 +10,7 @@ const retryDeploymentSchema = z.object({
 })
 
 export const retryServerDeployment = createServerFn({ method: 'POST' })
-  .inputValidator((data) => retryDeploymentSchema.parse(data))
+  .validator((data) => retryDeploymentSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })

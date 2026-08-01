@@ -82,7 +82,7 @@ export const getQueueStats = createServerFn({ method: 'GET' }).handler(async () 
 })
 
 export const retryFailedJobs = createServerFn({ method: 'POST' })
-  .inputValidator(queueNameSchema)
+  .validator(queueNameSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -99,7 +99,7 @@ export const retryFailedJobs = createServerFn({ method: 'POST' })
   })
 
 export const clearCompletedJobs = createServerFn({ method: 'POST' })
-  .inputValidator(queueNameSchema)
+  .validator(queueNameSchema)
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })

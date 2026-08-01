@@ -35,7 +35,7 @@ export const getAdminServers = createServerFn({ method: 'GET' }).handler(async (
 })
 
 export const fetchPteroServerData = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
+  .validator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
 
@@ -86,7 +86,7 @@ export const fetchPteroServerData = createServerFn({ method: 'POST' })
   })
 
 export const pingAdminServer = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
+  .validator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
 
@@ -106,7 +106,7 @@ export const pingAdminServer = createServerFn({ method: 'POST' })
   })
 
 export const updateAdminServer = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) =>
+  .validator((data: unknown) =>
     z.object({
       serverId: z.string(),
       ip: z.string().optional(),
@@ -160,7 +160,7 @@ export const updateAdminServer = createServerFn({ method: 'POST' })
   })
 
 export const deleteAdminServer = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
+  .validator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
 
@@ -185,7 +185,7 @@ export const deleteAdminServer = createServerFn({ method: 'POST' })
   })
 
 export const bulkDeleteServers = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => z.object({ serverIds: z.array(z.string()) }).parse(data))
+  .validator((data: unknown) => z.object({ serverIds: z.array(z.string()) }).parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
 
@@ -212,7 +212,7 @@ export const bulkDeleteServers = createServerFn({ method: 'POST' })
   })
 
 export const retryDeployment = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
+  .validator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
 
@@ -291,7 +291,7 @@ export const retryDeployment = createServerFn({ method: 'POST' })
   })
 
 export const redeployServer = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
+  .validator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
 

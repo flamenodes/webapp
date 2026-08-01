@@ -45,7 +45,7 @@ const updateUserRoleSchema = z.object({
 })
 
 export const updateUserRole = createServerFn({ method: 'POST' })
-  .inputValidator((data) => updateUserRoleSchema.parse(data))
+  .validator((data) => updateUserRoleSchema.parse(data))
   .handler(async ({ data }) => {
     await requireRolesPermission('update')
 
@@ -63,7 +63,7 @@ const updateUserPermissionsSchema = z.object({
 })
 
 export const updateUserPermissions = createServerFn({ method: 'POST' })
-  .inputValidator((data) => updateUserPermissionsSchema.parse(data))
+  .validator((data) => updateUserPermissionsSchema.parse(data))
   .handler(async ({ data }) => {
     await requireRolesPermission('update')
 
@@ -78,7 +78,7 @@ export const updateUserPermissions = createServerFn({ method: 'POST' })
   })
 
 export const getUserPermissions = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => z.object({ userId: z.string() }).parse(data))
+  .validator((data: unknown) => z.object({ userId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     await requireRolesPermission('read')
 

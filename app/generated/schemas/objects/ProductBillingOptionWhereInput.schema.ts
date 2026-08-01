@@ -4,6 +4,7 @@ import { StringFilterObjectSchema as StringFilterObjectSchema } from './StringFi
 import { EnumBillingPeriodFilterObjectSchema as EnumBillingPeriodFilterObjectSchema } from './EnumBillingPeriodFilter.schema';
 import { BillingPeriodSchema } from '../enums/BillingPeriod.schema';
 import { IntFilterObjectSchema as IntFilterObjectSchema } from './IntFilter.schema';
+import { IntNullableFilterObjectSchema as IntNullableFilterObjectSchema } from './IntNullableFilter.schema';
 import { ProductScalarRelationFilterObjectSchema as ProductScalarRelationFilterObjectSchema } from './ProductScalarRelationFilter.schema';
 import { ProductWhereInputObjectSchema as ProductWhereInputObjectSchema } from './ProductWhereInput.schema'
 
@@ -15,6 +16,7 @@ const productbillingoptionwhereinputSchema = z.object({
   productId: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
   billingPeriod: z.union([z.lazy(() => EnumBillingPeriodFilterObjectSchema), BillingPeriodSchema]).optional(),
   price: z.union([z.lazy(() => IntFilterObjectSchema), z.number().int()]).optional(),
+  customDays: z.union([z.lazy(() => IntNullableFilterObjectSchema), z.number().int()]).optional().nullable(),
   product: z.union([z.lazy(() => ProductScalarRelationFilterObjectSchema), z.lazy(() => ProductWhereInputObjectSchema)]).optional()
 }).strict();
 export const ProductBillingOptionWhereInputObjectSchema: z.ZodType<Prisma.ProductBillingOptionWhereInput> = productbillingoptionwhereinputSchema as unknown as z.ZodType<Prisma.ProductBillingOptionWhereInput>;

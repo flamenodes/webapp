@@ -53,7 +53,7 @@ export const getStatusNodes = createServerFn({ method: 'GET' }).handler(async ()
 })
 
 export const addStatusNode = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => addNodeSchema.parse(data))
+  .validator((data: unknown) => addNodeSchema.parse(data))
   .handler(async ({ data }) => {
     const session = await getSession()
     if (!session?.user) throw new Error('Unauthorized')
@@ -61,7 +61,7 @@ export const addStatusNode = createServerFn({ method: 'POST' })
   })
 
 export const deleteStatusNode = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => z.object({ id: z.string() }).parse(data))
+  .validator((data: unknown) => z.object({ id: z.string() }).parse(data))
   .handler(async ({ data }) => {
     const session = await getSession()
     if (!session?.user) throw new Error('Unauthorized')
@@ -93,7 +93,7 @@ export const pingAllNodes = createServerFn({ method: 'POST' }).handler(async () 
 })
 
 export const pingOneNode = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => z.object({ id: z.string() }).parse(data))
+  .validator((data: unknown) => z.object({ id: z.string() }).parse(data))
   .handler(async ({ data }) => {
     const node = await prisma.statusNode.findUniqueOrThrow({ where: { id: data.id } })
     const result = await pingNode(node)

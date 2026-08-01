@@ -14,7 +14,8 @@ export const ProductBillingOptionFindFirstOrThrowSelectSchema: z.ZodType<Prisma.
     productId: z.boolean().optional(),
     product: z.boolean().optional(),
     billingPeriod: z.boolean().optional(),
-    price: z.boolean().optional()
+    price: z.boolean().optional(),
+    customDays: z.boolean().optional()
   }).strict() as unknown as z.ZodType<Prisma.ProductBillingOptionSelect>;
 
 export const ProductBillingOptionFindFirstOrThrowSelectZodSchema = z.object({
@@ -22,7 +23,8 @@ export const ProductBillingOptionFindFirstOrThrowSelectZodSchema = z.object({
     productId: z.boolean().optional(),
     product: z.boolean().optional(),
     billingPeriod: z.boolean().optional(),
-    price: z.boolean().optional()
+    price: z.boolean().optional(),
+    customDays: z.boolean().optional()
   }).strict();
 
 export const ProductBillingOptionFindFirstOrThrowSchema: z.ZodType<Prisma.ProductBillingOptionFindFirstOrThrowArgs> = z.object({ select: ProductBillingOptionFindFirstOrThrowSelectSchema.optional(), include: z.lazy(() => ProductBillingOptionIncludeObjectSchema.optional()), orderBy: z.union([ProductBillingOptionOrderByWithRelationInputObjectSchema, ProductBillingOptionOrderByWithRelationInputObjectSchema.array()]).optional(), where: ProductBillingOptionWhereInputObjectSchema.optional(), cursor: ProductBillingOptionWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([ProductBillingOptionScalarFieldEnumSchema, ProductBillingOptionScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.ProductBillingOptionFindFirstOrThrowArgs>;

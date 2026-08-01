@@ -19,7 +19,7 @@ const getPageSchema = z.object({
 })
 
 export const createPageDocument = createServerFn({ method: 'POST' })
-  .inputValidator(createPageSchema)
+  .validator(createPageSchema)
   .handler(async ({ data }) => {
     try {
       const res = await prisma.pageDocument.create({ data })
@@ -32,7 +32,7 @@ export const createPageDocument = createServerFn({ method: 'POST' })
   })
 
 export const updatePageDocument = createServerFn({ method: 'POST' })
-  .inputValidator(updatePageSchema)
+  .validator(updatePageSchema)
   .handler(async ({ data }) => {
     try {
       const { id, ...updateData } = data
@@ -49,7 +49,7 @@ export const updatePageDocument = createServerFn({ method: 'POST' })
   })
 
 export const getPageDocument = createServerFn({ method: 'POST' })
-  .inputValidator(getPageSchema)
+  .validator(getPageSchema)
   .handler(async ({ data }) => {
     try {
       const resData = await prisma.pageDocument.findFirst({ where: { id: data.id } })
@@ -61,7 +61,7 @@ export const getPageDocument = createServerFn({ method: 'POST' })
   })
 
 export const getPageDocumentBySlug = createServerFn({ method: 'POST' })
-  .inputValidator(z.object({ slug: z.string() }))
+  .validator(z.object({ slug: z.string() }))
   .handler(async ({ data }) => {
     try {
       const resData = await prisma.pageDocument.findFirst({
@@ -73,7 +73,7 @@ export const getPageDocumentBySlug = createServerFn({ method: 'POST' })
       return { resData: null, success: false }
     }
   })
-export const getPageDocuments = createServerFn({ method: 'POST' }).inputValidator(z.object({
+export const getPageDocuments = createServerFn({ method: 'POST' }).validator(z.object({
 	pageCount: z.number().optional(),
 })).handler(async ({ data }) => {
   try {
@@ -87,7 +87,7 @@ export const getPageDocuments = createServerFn({ method: 'POST' }).inputValidato
 })
 
 export const deletePageDocumentbySlug = createServerFn({ method: 'POST' })
-  .inputValidator(z.object({ slug: z.string() }))
+  .validator(z.object({ slug: z.string() }))
   .handler(async ({ data }) => {
     try {
       const resData = await prisma.pageDocument.delete({
@@ -100,7 +100,7 @@ export const deletePageDocumentbySlug = createServerFn({ method: 'POST' })
   })
 
 export const deletePageDocumentbyId = createServerFn({ method: 'POST' })
-  .inputValidator(z.object({ id: z.string() }))
+  .validator(z.object({ id: z.string() }))
   .handler(async ({ data }) => {
     try {
       const resData = await prisma.pageDocument.delete({
@@ -113,7 +113,7 @@ export const deletePageDocumentbyId = createServerFn({ method: 'POST' })
   })
 
 export const deletePageDocuments = createServerFn({ method: 'POST' })
-  .inputValidator(z.object({ ids: z.array(z.string()) }))
+  .validator(z.object({ ids: z.array(z.string()) }))
   .handler(async ({ data }) => {
     try {
       const resData = await prisma.pageDocument.deleteMany({

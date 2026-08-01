@@ -28,7 +28,7 @@ const permission = await hasPermissionFn({ data: { permissions: { products: ['re
 }
 
 export const generateInvoice = createServerFn({ method: 'POST' })
-  .inputValidator((data) => generateInvoiceSchema.parse(data))
+  .validator((data) => generateInvoiceSchema.parse(data))
   .handler(async ({ data }) => {
     const session = await getSession()
     if (!session?.user) return wrapError('Unauthorized')
@@ -160,7 +160,7 @@ export const getInvoices = createServerFn({ method: 'GET' }).handler(
 )
 
 export const getInvoiceByOrderId = createServerFn({ method: 'GET' })
-  .inputValidator((data) => z.object({ orderId: z.string() }).parse(data))
+  .validator((data) => z.object({ orderId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     const session = await getSession()
     if (!session?.user) throw new Error('Unauthorized')
