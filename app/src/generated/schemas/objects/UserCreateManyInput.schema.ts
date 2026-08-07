@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 
 
 const makeSchema = () => z.object({
@@ -18,6 +18,7 @@ const makeSchema = () => z.object({
   username: z.string(),
   firstname: z.string(),
   lastname: z.string(),
+  pteroUserId: z.number().int().optional().nullable(),
   displayUsername: z.string().optional().nullable()
 }).strict();
 export const UserCreateManyInputObjectSchema: z.ZodType<Prisma.UserCreateManyInput> = makeSchema() as unknown as z.ZodType<Prisma.UserCreateManyInput>;

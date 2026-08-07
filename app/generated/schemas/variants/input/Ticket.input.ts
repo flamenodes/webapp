@@ -16,9 +16,9 @@ export const TicketInputSchema = z.object({
     channelName: z.string(),
     tags: z.array(z.string()),
     messages: z.array(z.unknown()),
-    createdAt: z.date(),
-    updatedAt: z.date(),
-    closedAt: z.date().optional().nullable()
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date(),
+    closedAt: z.coerce.date().optional().nullable()
 }).strict();
 
 export type TicketInputType = z.infer<typeof TicketInputSchema>;

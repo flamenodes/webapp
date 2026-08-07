@@ -17,11 +17,23 @@ export const UserAggregateResultSchema = z.object({  _count: z.object({
     username: z.number(),
     firstname: z.number(),
     lastname: z.number(),
+    pteroUserId: z.number(),
+    billingAddress: z.number(),
     servers: z.number(),
     cart: z.number(),
     orders: z.number(),
-    displayUsername: z.number()
+    displayUsername: z.number(),
+    tickets: z.number(),
+    assignedTickets: z.number(),
+    ticketMessages: z.number(),
+    notifications: z.number()
   }).optional(),
+  _sum: z.object({
+    pteroUserId: z.number().nullable()
+  }).nullable().optional(),
+  _avg: z.object({
+    pteroUserId: z.number().nullable()
+  }).nullable().optional(),
   _min: z.object({
     id: z.string().nullable(),
     clientId: z.string().nullable(),
@@ -36,6 +48,7 @@ export const UserAggregateResultSchema = z.object({  _count: z.object({
     username: z.string().nullable(),
     firstname: z.string().nullable(),
     lastname: z.string().nullable(),
+    pteroUserId: z.number().int().nullable(),
     displayUsername: z.string().nullable()
   }).nullable().optional(),
   _max: z.object({
@@ -52,5 +65,6 @@ export const UserAggregateResultSchema = z.object({  _count: z.object({
     username: z.string().nullable(),
     firstname: z.string().nullable(),
     lastname: z.string().nullable(),
+    pteroUserId: z.number().int().nullable(),
     displayUsername: z.string().nullable()
   }).nullable().optional()});

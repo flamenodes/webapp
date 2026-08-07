@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { ProductFeatureUpdateManyMutationInputObjectSchema as ProductFeatureUpdateManyMutationInputObjectSchema } from './objects/ProductFeatureUpdateManyMutationInput.schema';
 import { ProductFeatureWhereInputObjectSchema as ProductFeatureWhereInputObjectSchema } from './objects/ProductFeatureWhereInput.schema';

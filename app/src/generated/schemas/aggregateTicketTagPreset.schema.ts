@@ -1,0 +1,12 @@
+import type { Prisma } from '../prisma/browser';
+import * as z from 'zod';
+import { TicketTagPresetOrderByWithRelationInputObjectSchema as TicketTagPresetOrderByWithRelationInputObjectSchema } from './objects/TicketTagPresetOrderByWithRelationInput.schema';
+import { TicketTagPresetWhereInputObjectSchema as TicketTagPresetWhereInputObjectSchema } from './objects/TicketTagPresetWhereInput.schema';
+import { TicketTagPresetWhereUniqueInputObjectSchema as TicketTagPresetWhereUniqueInputObjectSchema } from './objects/TicketTagPresetWhereUniqueInput.schema';
+import { TicketTagPresetCountAggregateInputObjectSchema as TicketTagPresetCountAggregateInputObjectSchema } from './objects/TicketTagPresetCountAggregateInput.schema';
+import { TicketTagPresetMinAggregateInputObjectSchema as TicketTagPresetMinAggregateInputObjectSchema } from './objects/TicketTagPresetMinAggregateInput.schema';
+import { TicketTagPresetMaxAggregateInputObjectSchema as TicketTagPresetMaxAggregateInputObjectSchema } from './objects/TicketTagPresetMaxAggregateInput.schema';
+
+export const TicketTagPresetAggregateSchema: z.ZodType<Prisma.TicketTagPresetAggregateArgs> = z.object({ orderBy: z.union([TicketTagPresetOrderByWithRelationInputObjectSchema, TicketTagPresetOrderByWithRelationInputObjectSchema.array()]).optional(), where: TicketTagPresetWhereInputObjectSchema.optional(), cursor: TicketTagPresetWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), TicketTagPresetCountAggregateInputObjectSchema ]).optional(), _min: TicketTagPresetMinAggregateInputObjectSchema.optional(), _max: TicketTagPresetMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.TicketTagPresetAggregateArgs>;
+
+export const TicketTagPresetAggregateZodSchema = z.object({ orderBy: z.union([TicketTagPresetOrderByWithRelationInputObjectSchema, TicketTagPresetOrderByWithRelationInputObjectSchema.array()]).optional(), where: TicketTagPresetWhereInputObjectSchema.optional(), cursor: TicketTagPresetWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), TicketTagPresetCountAggregateInputObjectSchema ]).optional(), _min: TicketTagPresetMinAggregateInputObjectSchema.optional(), _max: TicketTagPresetMaxAggregateInputObjectSchema.optional() }).strict();

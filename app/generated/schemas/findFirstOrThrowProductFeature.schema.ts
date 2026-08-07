@@ -1,10 +1,11 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { ProductFeatureIncludeObjectSchema as ProductFeatureIncludeObjectSchema } from './objects/ProductFeatureInclude.schema';
 import { ProductFeatureOrderByWithRelationInputObjectSchema as ProductFeatureOrderByWithRelationInputObjectSchema } from './objects/ProductFeatureOrderByWithRelationInput.schema';
 import { ProductFeatureWhereInputObjectSchema as ProductFeatureWhereInputObjectSchema } from './objects/ProductFeatureWhereInput.schema';
 import { ProductFeatureWhereUniqueInputObjectSchema as ProductFeatureWhereUniqueInputObjectSchema } from './objects/ProductFeatureWhereUniqueInput.schema';
 import { ProductFeatureScalarFieldEnumSchema } from './enums/ProductFeatureScalarFieldEnum.schema';
+import { ProductArgsObjectSchema as ProductArgsObjectSchema } from './objects/ProductArgs.schema';
 
 // Select schema needs to be in file to prevent circular imports
 //------------------------------------------------------
@@ -12,7 +13,7 @@ import { ProductFeatureScalarFieldEnumSchema } from './enums/ProductFeatureScala
 export const ProductFeatureFindFirstOrThrowSelectSchema: z.ZodType<Prisma.ProductFeatureSelect> = z.object({
     id: z.boolean().optional(),
     productId: z.boolean().optional(),
-    product: z.boolean().optional(),
+    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
     label: z.boolean().optional(),
     sortOrder: z.boolean().optional()
   }).strict() as unknown as z.ZodType<Prisma.ProductFeatureSelect>;
@@ -20,7 +21,7 @@ export const ProductFeatureFindFirstOrThrowSelectSchema: z.ZodType<Prisma.Produc
 export const ProductFeatureFindFirstOrThrowSelectZodSchema = z.object({
     id: z.boolean().optional(),
     productId: z.boolean().optional(),
-    product: z.boolean().optional(),
+    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
     label: z.boolean().optional(),
     sortOrder: z.boolean().optional()
   }).strict();

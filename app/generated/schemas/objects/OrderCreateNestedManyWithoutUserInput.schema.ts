@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { OrderCreateWithoutUserInputObjectSchema as OrderCreateWithoutUserInputObjectSchema } from './OrderCreateWithoutUserInput.schema';
 import { OrderUncheckedCreateWithoutUserInputObjectSchema as OrderUncheckedCreateWithoutUserInputObjectSchema } from './OrderUncheckedCreateWithoutUserInput.schema';
 import { OrderCreateOrConnectWithoutUserInputObjectSchema as OrderCreateOrConnectWithoutUserInputObjectSchema } from './OrderCreateOrConnectWithoutUserInput.schema';

@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { OrderItemWhereUniqueInputObjectSchema as OrderItemWhereUniqueInputObjectSchema } from './OrderItemWhereUniqueInput.schema';
 import { OrderItemUpdateWithoutProductInputObjectSchema as OrderItemUpdateWithoutProductInputObjectSchema } from './OrderItemUpdateWithoutProductInput.schema';
 import { OrderItemUncheckedUpdateWithoutProductInputObjectSchema as OrderItemUncheckedUpdateWithoutProductInputObjectSchema } from './OrderItemUncheckedUpdateWithoutProductInput.schema'

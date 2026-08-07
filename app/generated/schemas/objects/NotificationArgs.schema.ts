@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
 import { NotificationSelectObjectSchema as NotificationSelectObjectSchema } from './NotificationSelect.schema';
 import { NotificationIncludeObjectSchema as NotificationIncludeObjectSchema } from './NotificationInclude.schema'
 

@@ -1,4 +1,4 @@
-import type { Prisma } from '../prisma/client';
+import type { Prisma } from '../prisma/browser';
 import * as z from 'zod';
 import { SessionSelectObjectSchema as SessionSelectObjectSchema } from './objects/SessionSelect.schema';
 import { SessionUpdateManyMutationInputObjectSchema as SessionUpdateManyMutationInputObjectSchema } from './objects/SessionUpdateManyMutationInput.schema';

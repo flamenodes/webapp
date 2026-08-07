@@ -30,7 +30,7 @@ const HARDCODED_CATEGORIES = [
   {
     title: 'SUPPORT',
     links: [
-      { label: 'Knowledgebase', url: '/docs' },
+      { label: 'Knowledgebase', url: '/docs/knowladgebase' },
       { label: 'Contact Support', url: '/docs/support' },
       { label: 'Billing', url: '/pricing' },
       { label: 'Terms of Service', url: '/docs/terms' },

@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { DiscountWhereInputObjectSchema as DiscountWhereInputObjectSchema } from './objects/DiscountWhereInput.schema';
 import { DiscountOrderByWithAggregationInputObjectSchema as DiscountOrderByWithAggregationInputObjectSchema } from './objects/DiscountOrderByWithAggregationInput.schema';

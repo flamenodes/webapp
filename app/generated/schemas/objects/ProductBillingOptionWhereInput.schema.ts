@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { StringFilterObjectSchema as StringFilterObjectSchema } from './StringFilter.schema';
 import { EnumBillingPeriodFilterObjectSchema as EnumBillingPeriodFilterObjectSchema } from './EnumBillingPeriodFilter.schema';
 import { BillingPeriodSchema } from '../enums/BillingPeriod.schema';

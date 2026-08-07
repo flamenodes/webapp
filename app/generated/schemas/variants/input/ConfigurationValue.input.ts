@@ -10,8 +10,8 @@ export const ConfigurationValueInputSchema = z.object({
     priceModifier: z.number().int(),
     metadata: z.unknown().optional().nullable(),
     sortOrder: z.number().int(),
-    createdAt: z.date(),
-    updatedAt: z.date()
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date()
 }).strict();
 
 export type ConfigurationValueInputType = z.infer<typeof ConfigurationValueInputSchema>;

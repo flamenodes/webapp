@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { ServerSelectObjectSchema as ServerSelectObjectSchema } from './objects/ServerSelect.schema';
 import { ServerIncludeObjectSchema as ServerIncludeObjectSchema } from './objects/ServerInclude.schema';

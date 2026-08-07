@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { StatusNodeOrderByWithRelationInputObjectSchema as StatusNodeOrderByWithRelationInputObjectSchema } from './objects/StatusNodeOrderByWithRelationInput.schema';
 import { StatusNodeWhereInputObjectSchema as StatusNodeWhereInputObjectSchema } from './objects/StatusNodeWhereInput.schema';

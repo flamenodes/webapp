@@ -8,7 +8,7 @@ export const ConfigurationOptionUpsertResultSchema = z.object({
   required: z.boolean(),
   category: z.unknown(),
   sortOrder: z.number().int(),
-  values: z.array(z.unknown()),
+  values: z.array(z.unknown()).optional(),
   createdAt: z.date(),
   updatedAt: z.date()
 });

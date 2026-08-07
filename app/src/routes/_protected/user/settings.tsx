@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useSuspenseQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { getUserProfile, updateUserProfile } from '@/serverActions/settings/user-settings.api'
+import { saveAddress } from '@/serverActions/address.api'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -22,17 +23,25 @@ function UserSettingsPage() {
   })
 
   const user = response?.data
+  const ba = user?.billingAddress
 
   const [form, setForm] = useState({
     firstname: user?.firstname || '',
     lastname: user?.lastname || '',
-    address: user?.address || '',
-    city: user?.city || '',
-    zip: user?.zip || '',
-    country: user?.country || 'India',
   })
 
-  const mutation = useMutation({
+  const [addressForm, setAddressForm] = useState({
+    firstName: ba?.firstName || '',
+    lastName: ba?.lastName || '',
+    phone: ba?.phone || '',
+    address: ba?.address || '',
+    city: ba?.city || '',
+    state: ba?.state || '',
+    zipCode: ba?.zip || '',
+    country: ba?.country || 'India',
+  })
+
+  const profileMutation = useMutation({
     mutationFn: () => updateUserProfile({ data: form }),
     onSuccess: (res) => {
       if (res.success) {
@@ -45,8 +54,21 @@ function UserSettingsPage() {
     onError: () => toast.error('Failed to update profile'),
   })
 
+  const addressMutation = useMutation({
+    mutationFn: () => saveAddress({ data: addressForm }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['user-profile'] })
+      toast.success('Billing address saved')
+    },
+    onError: () => toast.error('Failed to save billing address'),
+  })
+
   const handleInput = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((f) => ({ ...f, [key]: e.target.value }))
+  }
+
+  const handleAddressInput = (key: keyof typeof addressForm) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAddressForm((f) => ({ ...f, [key]: e.target.value }))
   }
 
   return (
@@ -99,7 +121,7 @@ function UserSettingsPage() {
               </div>
               <div>
                 <CardTitle className="text-base">Personal Details</CardTitle>
-                <CardDescription>Your name and contact information</CardDescription>
+                <CardDescription>Your name information</CardDescription>
               </div>
             </div>
           </CardHeader>
@@ -107,22 +129,18 @@ function UserSettingsPage() {
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
                 <Label htmlFor="firstname" className="text-xs text-muted-foreground">First Name</Label>
-                <Input
-                  id="firstname"
-                  placeholder="John"
-                  value={form.firstname}
-                  onChange={handleInput('firstname')}
-                />
+                <Input id="firstname" placeholder="John" value={form.firstname} onChange={handleInput('firstname')} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="lastname" className="text-xs text-muted-foreground">Last Name</Label>
-                <Input
-                  id="lastname"
-                  placeholder="Doe"
-                  value={form.lastname}
-                  onChange={handleInput('lastname')}
-                />
+                <Input id="lastname" placeholder="Doe" value={form.lastname} onChange={handleInput('lastname')} />
               </div>
+            </div>
+            <div className="flex justify-end">
+              <Button onClick={() => profileMutation.mutate()} disabled={profileMutation.isPending} className="min-w-[120px]">
+                {profileMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                Save
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -141,62 +159,52 @@ function UserSettingsPage() {
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <Label className="text-xs text-muted-foreground">First Name</Label>
+                <Input placeholder="John" value={addressForm.firstName} onChange={handleAddressInput('firstName')} />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs text-muted-foreground">Last Name</Label>
+                <Input placeholder="Doe" value={addressForm.lastName} onChange={handleAddressInput('lastName')} />
+              </div>
+            </div>
             <div className="space-y-2">
-              <Label htmlFor="address" className="text-xs text-muted-foreground">Street Address</Label>
-              <Input
-                id="address"
-                placeholder="123 Main Street, Apt 4B"
-                value={form.address}
-                onChange={handleInput('address')}
-              />
+              <Label className="text-xs text-muted-foreground">Phone</Label>
+              <Input placeholder="+91 1234567890" value={addressForm.phone} onChange={handleAddressInput('phone')} />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-xs text-muted-foreground">Street Address</Label>
+              <Input placeholder="123 Main Street, Apt 4B" value={addressForm.address} onChange={handleAddressInput('address')} />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
-                <Label htmlFor="city" className="text-xs text-muted-foreground">City</Label>
-                <Input
-                  id="city"
-                  placeholder="Mumbai"
-                  value={form.city}
-                  onChange={handleInput('city')}
-                />
+                <Label className="text-xs text-muted-foreground">City</Label>
+                <Input placeholder="Mumbai" value={addressForm.city} onChange={handleAddressInput('city')} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="zip" className="text-xs text-muted-foreground">ZIP / Pincode</Label>
-                <Input
-                  id="zip"
-                  placeholder="400001"
-                  value={form.zip}
-                  onChange={handleInput('zip')}
-                />
+                <Label className="text-xs text-muted-foreground">State</Label>
+                <Input placeholder="Maharashtra" value={addressForm.state} onChange={handleAddressInput('state')} />
               </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="country" className="text-xs text-muted-foreground">Country</Label>
-              <Input
-                id="country"
-                placeholder="India"
-                value={form.country}
-                onChange={handleInput('country')}
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <Label className="text-xs text-muted-foreground">ZIP / Pincode</Label>
+                <Input placeholder="400001" value={addressForm.zipCode} onChange={handleAddressInput('zipCode')} />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs text-muted-foreground">Country</Label>
+                <Input placeholder="India" value={addressForm.country} onChange={handleAddressInput('country')} />
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <Button onClick={() => addressMutation.mutate()} disabled={addressMutation.isPending} className="min-w-[120px]">
+                {addressMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                Save Address
+              </Button>
             </div>
           </CardContent>
         </Card>
-
-        {/* Save button */}
-        <div className="flex justify-end">
-          <Button
-            onClick={() => mutation.mutate()}
-            disabled={mutation.isPending}
-            className="min-w-[120px]"
-          >
-            {mutation.isPending ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4 mr-2" />
-            )}
-            Save Changes
-          </Button>
-        </div>
       </div>
     </main>
   )

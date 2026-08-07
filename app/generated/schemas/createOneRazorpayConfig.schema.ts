@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { RazorpayConfigSelectObjectSchema as RazorpayConfigSelectObjectSchema } from './objects/RazorpayConfigSelect.schema';
 import { RazorpayConfigCreateInputObjectSchema as RazorpayConfigCreateInputObjectSchema } from './objects/RazorpayConfigCreateInput.schema';

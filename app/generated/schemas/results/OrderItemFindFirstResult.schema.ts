@@ -11,8 +11,8 @@ export const OrderItemFindFirstResultSchema = z.nullable(z.object({
   specsSnapshot: z.unknown().optional(),
   configuration: z.unknown().optional(),
   expiresAt: z.date().optional(),
-  order: z.unknown(),
-  product: z.unknown(),
+  order: z.unknown().optional(),
+  product: z.unknown().optional(),
   server: z.unknown().optional(),
   createdAt: z.date()
 }));

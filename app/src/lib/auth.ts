@@ -14,7 +14,7 @@ import {
 } from './permissions'
 
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL!,
+  baseURL: process.env.CLIENT_URL!,
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),

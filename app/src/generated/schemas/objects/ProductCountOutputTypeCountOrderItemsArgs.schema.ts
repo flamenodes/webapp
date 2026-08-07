@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
 import { OrderItemWhereInputObjectSchema as OrderItemWhereInputObjectSchema } from './OrderItemWhereInput.schema'
 
 const makeSchema = () => z.object({

@@ -1,4 +1,4 @@
-import type { Prisma } from '../prisma/client';
+import type { Prisma } from '../prisma/browser';
 import * as z from 'zod';
 import { OrderOrderByWithRelationInputObjectSchema as OrderOrderByWithRelationInputObjectSchema } from './objects/OrderOrderByWithRelationInput.schema';
 import { OrderWhereInputObjectSchema as OrderWhereInputObjectSchema } from './objects/OrderWhereInput.schema';

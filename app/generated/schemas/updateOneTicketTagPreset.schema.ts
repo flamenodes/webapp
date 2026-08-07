@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { TicketTagPresetSelectObjectSchema as TicketTagPresetSelectObjectSchema } from './objects/TicketTagPresetSelect.schema';
 import { TicketTagPresetUpdateInputObjectSchema as TicketTagPresetUpdateInputObjectSchema } from './objects/TicketTagPresetUpdateInput.schema';

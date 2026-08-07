@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
 import { TicketTagPresetSelectObjectSchema as TicketTagPresetSelectObjectSchema } from './TicketTagPresetSelect.schema'
 
 const makeSchema = () => z.object({

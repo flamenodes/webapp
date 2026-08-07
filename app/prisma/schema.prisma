@@ -6,7 +6,7 @@ generator client {
 generator zod {
   provider = "prisma-zod-generator"
   output   = "../src/generated/"
-  config   = "./zod-generator.config.json"
+  config   = "./prisma/zod-generator.config.json"
 }
 
 datasource db {
@@ -35,11 +35,7 @@ model User {
   lastname      String
   pteroUserId   Int?
 
-  address String?
-  city    String?
-  zip     String?
-  country String? @default("India")
-  phone   String?
+  billingAddress BillingAddress?
 
   servers   Server[]
   cart      Cart?
@@ -55,6 +51,25 @@ model User {
   @@unique([email])
   @@unique([username])
   @@map("user")
+}
+
+model BillingAddress {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName String
+  lastName  String
+  phone     String
+  address   String
+  city      String
+  state     String   @default("")
+  zip       String
+  country   String   @default("India")
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("billing_address")
 }
 
 model Session {
@@ -563,6 +578,17 @@ model RazorpayConfig {
   pteroNodeId    Int?
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
+}
+
+model AiSupportConfig {
+  id           String   @id @default(uuid())
+  enabled      Boolean  @default(true)
+  systemPrompt String   @default("")
+  model        String   @default("gpt-4o-mini")
+  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now())
+
+  @@map("ai_support_config")
 }
 
 model WebSettings {

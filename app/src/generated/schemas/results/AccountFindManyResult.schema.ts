@@ -1,11 +1,12 @@
 import * as z from 'zod';
+import { UserSchema } from '../models/User.schema';
 export const AccountFindManyResultSchema = z.object({
   data: z.array(z.object({
   id: z.string(),
   accountId: z.string(),
   providerId: z.string(),
   userId: z.string(),
-  user: z.any(),
+  user: UserSchema.optional(),
   accessToken: z.string().optional(),
   refreshToken: z.string().optional(),
   idToken: z.string().optional(),

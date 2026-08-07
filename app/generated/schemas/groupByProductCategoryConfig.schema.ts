@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { ProductCategoryConfigWhereInputObjectSchema as ProductCategoryConfigWhereInputObjectSchema } from './objects/ProductCategoryConfigWhereInput.schema';
 import { ProductCategoryConfigOrderByWithAggregationInputObjectSchema as ProductCategoryConfigOrderByWithAggregationInputObjectSchema } from './objects/ProductCategoryConfigOrderByWithAggregationInput.schema';

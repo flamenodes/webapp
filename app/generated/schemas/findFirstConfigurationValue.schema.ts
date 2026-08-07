@@ -1,10 +1,11 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { ConfigurationValueIncludeObjectSchema as ConfigurationValueIncludeObjectSchema } from './objects/ConfigurationValueInclude.schema';
 import { ConfigurationValueOrderByWithRelationInputObjectSchema as ConfigurationValueOrderByWithRelationInputObjectSchema } from './objects/ConfigurationValueOrderByWithRelationInput.schema';
 import { ConfigurationValueWhereInputObjectSchema as ConfigurationValueWhereInputObjectSchema } from './objects/ConfigurationValueWhereInput.schema';
 import { ConfigurationValueWhereUniqueInputObjectSchema as ConfigurationValueWhereUniqueInputObjectSchema } from './objects/ConfigurationValueWhereUniqueInput.schema';
 import { ConfigurationValueScalarFieldEnumSchema } from './enums/ConfigurationValueScalarFieldEnum.schema';
+import { ConfigurationOptionArgsObjectSchema as ConfigurationOptionArgsObjectSchema } from './objects/ConfigurationOptionArgs.schema';
 
 // Select schema needs to be in file to prevent circular imports
 //------------------------------------------------------
@@ -12,7 +13,7 @@ import { ConfigurationValueScalarFieldEnumSchema } from './enums/ConfigurationVa
 export const ConfigurationValueFindFirstSelectSchema: z.ZodType<Prisma.ConfigurationValueSelect> = z.object({
     id: z.boolean().optional(),
     optionId: z.boolean().optional(),
-    option: z.boolean().optional(),
+    option: z.union([z.boolean(), z.lazy(() => ConfigurationOptionArgsObjectSchema)]).optional(),
     label: z.boolean().optional(),
     value: z.boolean().optional(),
     description: z.boolean().optional(),
@@ -26,7 +27,7 @@ export const ConfigurationValueFindFirstSelectSchema: z.ZodType<Prisma.Configura
 export const ConfigurationValueFindFirstSelectZodSchema = z.object({
     id: z.boolean().optional(),
     optionId: z.boolean().optional(),
-    option: z.boolean().optional(),
+    option: z.union([z.boolean(), z.lazy(() => ConfigurationOptionArgsObjectSchema)]).optional(),
     label: z.boolean().optional(),
     value: z.boolean().optional(),
     description: z.boolean().optional(),

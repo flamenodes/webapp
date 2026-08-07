@@ -1,0 +1,8 @@
+import * as z from 'zod';
+import { TicketWhereInputObjectSchema as TicketWhereInputObjectSchema } from './TicketWhereInput.schema'
+
+const makeSchema = () => z.object({
+  where: z.lazy(() => TicketWhereInputObjectSchema).optional()
+}).strict();
+export const UserCountOutputTypeCountAssignedTicketsArgsObjectSchema = makeSchema();
+export const UserCountOutputTypeCountAssignedTicketsArgsObjectZodSchema = makeSchema();

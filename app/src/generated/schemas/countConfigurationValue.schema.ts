@@ -1,0 +1,10 @@
+import type { Prisma } from '../prisma/browser';
+import * as z from 'zod';
+import { ConfigurationValueOrderByWithRelationInputObjectSchema as ConfigurationValueOrderByWithRelationInputObjectSchema } from './objects/ConfigurationValueOrderByWithRelationInput.schema';
+import { ConfigurationValueWhereInputObjectSchema as ConfigurationValueWhereInputObjectSchema } from './objects/ConfigurationValueWhereInput.schema';
+import { ConfigurationValueWhereUniqueInputObjectSchema as ConfigurationValueWhereUniqueInputObjectSchema } from './objects/ConfigurationValueWhereUniqueInput.schema';
+import { ConfigurationValueCountAggregateInputObjectSchema as ConfigurationValueCountAggregateInputObjectSchema } from './objects/ConfigurationValueCountAggregateInput.schema';
+
+export const ConfigurationValueCountSchema: z.ZodType<Prisma.ConfigurationValueCountArgs> = z.object({ orderBy: z.union([ConfigurationValueOrderByWithRelationInputObjectSchema, ConfigurationValueOrderByWithRelationInputObjectSchema.array()]).optional(), where: ConfigurationValueWhereInputObjectSchema.optional(), cursor: ConfigurationValueWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), select: z.union([ z.literal(true), ConfigurationValueCountAggregateInputObjectSchema ]).optional() }).strict() as unknown as z.ZodType<Prisma.ConfigurationValueCountArgs>;
+
+export const ConfigurationValueCountZodSchema = z.object({ orderBy: z.union([ConfigurationValueOrderByWithRelationInputObjectSchema, ConfigurationValueOrderByWithRelationInputObjectSchema.array()]).optional(), where: ConfigurationValueWhereInputObjectSchema.optional(), cursor: ConfigurationValueWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), select: z.union([ z.literal(true), ConfigurationValueCountAggregateInputObjectSchema ]).optional() }).strict();

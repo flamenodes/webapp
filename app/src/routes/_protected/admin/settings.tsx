@@ -1,16 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useSuspenseQuery, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { getRazorpayConfig, updateRazorpayConfig, getWebSettingsToggle, updateWebSettingsToggle } from '@/serverActions/settings/admin-settings.api'
+import { getAiSupportConfig, updateAiSupportConfig } from '@/serverActions/tickets/ai-support.api'
 import { getPteroNodes } from '@/serverActions/pterodactyl/nodes'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
 import {
   CreditCard, Eye, EyeOff, Save, Loader2,
-  Building2, MapPin, FlaskConical, Globe, Server, RefreshCw, Settings2
+  Building2, MapPin, FlaskConical, Globe, Server, RefreshCw, Settings2, Bot
 } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -206,6 +208,7 @@ function AdminSettingsPage() {
             </div>
 
             {/* Test Keys */}
+            {mode === 'test' && (
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <FlaskConical className="w-4 h-4 text-amber-500" />
@@ -244,8 +247,10 @@ function AdminSettingsPage() {
                 </div>
               </div>
             </div>
+            )}
 
             {/* Production Keys */}
+            {mode === 'production' && (
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <Globe className="w-4 h-4 text-emerald-500" />
@@ -284,6 +289,7 @@ function AdminSettingsPage() {
                 </div>
               </div>
             </div>
+            )}
 
             {/* GSTIN */}
             <div className="space-y-2 pt-2 border-t border-border">

@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { NotificationScalarWhereInputObjectSchema as NotificationScalarWhereInputObjectSchema } from './NotificationScalarWhereInput.schema';
 import { NotificationUpdateManyMutationInputObjectSchema as NotificationUpdateManyMutationInputObjectSchema } from './NotificationUpdateManyMutationInput.schema';
 import { NotificationUncheckedUpdateManyWithoutUserInputObjectSchema as NotificationUncheckedUpdateManyWithoutUserInputObjectSchema } from './NotificationUncheckedUpdateManyWithoutUserInput.schema'

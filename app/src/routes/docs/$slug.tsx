@@ -3,11 +3,8 @@ import '@/styles/markdown-styles.css'
 import { createFileRoute } from '@tanstack/react-router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { getPageDocumentBySlug } from '#/serverActions/admin/pagedocument.api'
-import MarkdownIt from 'markdown-it'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { seo } from '#/utils/seo'
-
-const mdParser = new MarkdownIt({ html: true })
 
 export const Route = createFileRoute('/docs/$slug')({
   head: () => ({
@@ -98,19 +95,20 @@ function RouteComponent() {
   
   const headings = useMemo(() => extractH1Headings(content), [content])
   
-  // Generate HTML with IDs for H1 headings
-  const htmlContent = useMemo(() => {
-    let html = mdParser.render(content)
-    
-    // Add IDs to H1 tags
-    headings.forEach(({ id, text }) => {
-      html = html.replace(
-        new RegExp(`<h1>\\s*${text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*</h1>`, 'i'),
-        `<h1 id="${id}">${text}</h1>`
-      )
+  const [htmlContent, setHtmlContent] = useState('')
+
+  useMemo(() => {
+    import('markdown-it').then(({ default: MarkdownIt }) => {
+      const md = new MarkdownIt({ html: true })
+      let html = md.render(content)
+      headings.forEach(({ id, text }) => {
+        html = html.replace(
+          new RegExp(`<h1>\\s*${text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*</h1>`, 'i'),
+          `<h1 id="${id}">${text}</h1>`
+        )
+      })
+      setHtmlContent(html)
     })
-    
-    return html
   }, [content, headings])
 
   return (

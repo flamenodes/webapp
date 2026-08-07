@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
 import { ProductCategoryConfigSelectObjectSchema as ProductCategoryConfigSelectObjectSchema } from './ProductCategoryConfigSelect.schema'
 
 const makeSchema = () => z.object({

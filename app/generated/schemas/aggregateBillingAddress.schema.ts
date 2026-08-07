@@ -1,0 +1,12 @@
+import type { Prisma } from '../../src/generated/prisma/browser';
+import * as z from 'zod';
+import { BillingAddressOrderByWithRelationInputObjectSchema as BillingAddressOrderByWithRelationInputObjectSchema } from './objects/BillingAddressOrderByWithRelationInput.schema';
+import { BillingAddressWhereInputObjectSchema as BillingAddressWhereInputObjectSchema } from './objects/BillingAddressWhereInput.schema';
+import { BillingAddressWhereUniqueInputObjectSchema as BillingAddressWhereUniqueInputObjectSchema } from './objects/BillingAddressWhereUniqueInput.schema';
+import { BillingAddressCountAggregateInputObjectSchema as BillingAddressCountAggregateInputObjectSchema } from './objects/BillingAddressCountAggregateInput.schema';
+import { BillingAddressMinAggregateInputObjectSchema as BillingAddressMinAggregateInputObjectSchema } from './objects/BillingAddressMinAggregateInput.schema';
+import { BillingAddressMaxAggregateInputObjectSchema as BillingAddressMaxAggregateInputObjectSchema } from './objects/BillingAddressMaxAggregateInput.schema';
+
+export const BillingAddressAggregateSchema: z.ZodType<Prisma.BillingAddressAggregateArgs> = z.object({ orderBy: z.union([BillingAddressOrderByWithRelationInputObjectSchema, BillingAddressOrderByWithRelationInputObjectSchema.array()]).optional(), where: BillingAddressWhereInputObjectSchema.optional(), cursor: BillingAddressWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), BillingAddressCountAggregateInputObjectSchema ]).optional(), _min: BillingAddressMinAggregateInputObjectSchema.optional(), _max: BillingAddressMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.BillingAddressAggregateArgs>;
+
+export const BillingAddressAggregateZodSchema = z.object({ orderBy: z.union([BillingAddressOrderByWithRelationInputObjectSchema, BillingAddressOrderByWithRelationInputObjectSchema.array()]).optional(), where: BillingAddressWhereInputObjectSchema.optional(), cursor: BillingAddressWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), BillingAddressCountAggregateInputObjectSchema ]).optional(), _min: BillingAddressMinAggregateInputObjectSchema.optional(), _max: BillingAddressMaxAggregateInputObjectSchema.optional() }).strict();

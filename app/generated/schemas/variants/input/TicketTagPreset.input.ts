@@ -3,7 +3,7 @@ import * as z from 'zod';
 export const TicketTagPresetInputSchema = z.object({
     id: z.string(),
     name: z.string(),
-    createdAt: z.date()
+    createdAt: z.coerce.date()
 }).strict();
 
 export type TicketTagPresetInputType = z.infer<typeof TicketTagPresetInputSchema>;

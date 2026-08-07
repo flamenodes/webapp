@@ -9,6 +9,7 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User.ts'
+export type * from './models/BillingAddress.ts'
 export type * from './models/Session.ts'
 export type * from './models/Account.ts'
 export type * from './models/Verification.ts'
@@ -35,5 +36,6 @@ export type * from './models/ConfigurationValue.ts'
 export type * from './models/Notification.ts'
 export type * from './models/Announcement.ts'
 export type * from './models/RazorpayConfig.ts'
+export type * from './models/AiSupportConfig.ts'
 export type * from './models/WebSettings.ts'
 export type * from './commonInputTypes.ts'

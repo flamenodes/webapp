@@ -1,10 +1,11 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 import { ProductCategorySchema } from '../enums/ProductCategory.schema';
 import { JsonNullValueInputSchema } from '../enums/JsonNullValueInput.schema';
 import { ProductFeatureCreateNestedManyWithoutProductInputObjectSchema as ProductFeatureCreateNestedManyWithoutProductInputObjectSchema } from './ProductFeatureCreateNestedManyWithoutProductInput.schema';
 import { DiscountCreateNestedOneWithoutProductInputObjectSchema as DiscountCreateNestedOneWithoutProductInputObjectSchema } from './DiscountCreateNestedOneWithoutProductInput.schema';
-import { OrderItemCreateNestedManyWithoutProductInputObjectSchema as OrderItemCreateNestedManyWithoutProductInputObjectSchema } from './OrderItemCreateNestedManyWithoutProductInput.schema'
+import { OrderItemCreateNestedManyWithoutProductInputObjectSchema as OrderItemCreateNestedManyWithoutProductInputObjectSchema } from './OrderItemCreateNestedManyWithoutProductInput.schema';
+import { ProductBillingOptionCreateNestedManyWithoutProductInputObjectSchema as ProductBillingOptionCreateNestedManyWithoutProductInputObjectSchema } from './ProductBillingOptionCreateNestedManyWithoutProductInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
@@ -24,7 +25,8 @@ const makeSchema = () => z.object({
   updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time").optional(),
   features: z.lazy(() => ProductFeatureCreateNestedManyWithoutProductInputObjectSchema).optional(),
   discount: z.lazy(() => DiscountCreateNestedOneWithoutProductInputObjectSchema).optional(),
-  orderItems: z.lazy(() => OrderItemCreateNestedManyWithoutProductInputObjectSchema).optional()
+  orderItems: z.lazy(() => OrderItemCreateNestedManyWithoutProductInputObjectSchema).optional(),
+  billingOptions: z.lazy(() => ProductBillingOptionCreateNestedManyWithoutProductInputObjectSchema).optional()
 }).strict();
 export const ProductCreateWithoutCartItemsInputObjectSchema: z.ZodType<Prisma.ProductCreateWithoutCartItemsInput> = makeSchema() as unknown as z.ZodType<Prisma.ProductCreateWithoutCartItemsInput>;
 export const ProductCreateWithoutCartItemsInputObjectZodSchema = makeSchema();

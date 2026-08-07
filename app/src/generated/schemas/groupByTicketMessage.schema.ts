@@ -1,0 +1,13 @@
+import type { Prisma } from '../prisma/browser';
+import * as z from 'zod';
+import { TicketMessageWhereInputObjectSchema as TicketMessageWhereInputObjectSchema } from './objects/TicketMessageWhereInput.schema';
+import { TicketMessageOrderByWithAggregationInputObjectSchema as TicketMessageOrderByWithAggregationInputObjectSchema } from './objects/TicketMessageOrderByWithAggregationInput.schema';
+import { TicketMessageScalarWhereWithAggregatesInputObjectSchema as TicketMessageScalarWhereWithAggregatesInputObjectSchema } from './objects/TicketMessageScalarWhereWithAggregatesInput.schema';
+import { TicketMessageScalarFieldEnumSchema } from './enums/TicketMessageScalarFieldEnum.schema';
+import { TicketMessageCountAggregateInputObjectSchema as TicketMessageCountAggregateInputObjectSchema } from './objects/TicketMessageCountAggregateInput.schema';
+import { TicketMessageMinAggregateInputObjectSchema as TicketMessageMinAggregateInputObjectSchema } from './objects/TicketMessageMinAggregateInput.schema';
+import { TicketMessageMaxAggregateInputObjectSchema as TicketMessageMaxAggregateInputObjectSchema } from './objects/TicketMessageMaxAggregateInput.schema';
+
+export const TicketMessageGroupBySchema: z.ZodType<Prisma.TicketMessageGroupByArgs> = z.object({ where: TicketMessageWhereInputObjectSchema.optional(), orderBy: z.union([TicketMessageOrderByWithAggregationInputObjectSchema, TicketMessageOrderByWithAggregationInputObjectSchema.array()]).optional(), having: TicketMessageScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(TicketMessageScalarFieldEnumSchema), _count: z.union([ z.literal(true), TicketMessageCountAggregateInputObjectSchema ]).optional(), _min: TicketMessageMinAggregateInputObjectSchema.optional(), _max: TicketMessageMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.TicketMessageGroupByArgs>;
+
+export const TicketMessageGroupByZodSchema = z.object({ where: TicketMessageWhereInputObjectSchema.optional(), orderBy: z.union([TicketMessageOrderByWithAggregationInputObjectSchema, TicketMessageOrderByWithAggregationInputObjectSchema.array()]).optional(), having: TicketMessageScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(TicketMessageScalarFieldEnumSchema), _count: z.union([ z.literal(true), TicketMessageCountAggregateInputObjectSchema ]).optional(), _min: TicketMessageMinAggregateInputObjectSchema.optional(), _max: TicketMessageMaxAggregateInputObjectSchema.optional() }).strict();

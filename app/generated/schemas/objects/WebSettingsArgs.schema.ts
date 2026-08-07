@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
 import { WebSettingsSelectObjectSchema as WebSettingsSelectObjectSchema } from './WebSettingsSelect.schema'
 
 const makeSchema = () => z.object({

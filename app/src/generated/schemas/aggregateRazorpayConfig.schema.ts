@@ -1,0 +1,14 @@
+import type { Prisma } from '../prisma/browser';
+import * as z from 'zod';
+import { RazorpayConfigOrderByWithRelationInputObjectSchema as RazorpayConfigOrderByWithRelationInputObjectSchema } from './objects/RazorpayConfigOrderByWithRelationInput.schema';
+import { RazorpayConfigWhereInputObjectSchema as RazorpayConfigWhereInputObjectSchema } from './objects/RazorpayConfigWhereInput.schema';
+import { RazorpayConfigWhereUniqueInputObjectSchema as RazorpayConfigWhereUniqueInputObjectSchema } from './objects/RazorpayConfigWhereUniqueInput.schema';
+import { RazorpayConfigCountAggregateInputObjectSchema as RazorpayConfigCountAggregateInputObjectSchema } from './objects/RazorpayConfigCountAggregateInput.schema';
+import { RazorpayConfigMinAggregateInputObjectSchema as RazorpayConfigMinAggregateInputObjectSchema } from './objects/RazorpayConfigMinAggregateInput.schema';
+import { RazorpayConfigMaxAggregateInputObjectSchema as RazorpayConfigMaxAggregateInputObjectSchema } from './objects/RazorpayConfigMaxAggregateInput.schema';
+import { RazorpayConfigAvgAggregateInputObjectSchema as RazorpayConfigAvgAggregateInputObjectSchema } from './objects/RazorpayConfigAvgAggregateInput.schema';
+import { RazorpayConfigSumAggregateInputObjectSchema as RazorpayConfigSumAggregateInputObjectSchema } from './objects/RazorpayConfigSumAggregateInput.schema';
+
+export const RazorpayConfigAggregateSchema: z.ZodType<Prisma.RazorpayConfigAggregateArgs> = z.object({ orderBy: z.union([RazorpayConfigOrderByWithRelationInputObjectSchema, RazorpayConfigOrderByWithRelationInputObjectSchema.array()]).optional(), where: RazorpayConfigWhereInputObjectSchema.optional(), cursor: RazorpayConfigWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), RazorpayConfigCountAggregateInputObjectSchema ]).optional(), _min: RazorpayConfigMinAggregateInputObjectSchema.optional(), _max: RazorpayConfigMaxAggregateInputObjectSchema.optional(), _avg: RazorpayConfigAvgAggregateInputObjectSchema.optional(), _sum: RazorpayConfigSumAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.RazorpayConfigAggregateArgs>;
+
+export const RazorpayConfigAggregateZodSchema = z.object({ orderBy: z.union([RazorpayConfigOrderByWithRelationInputObjectSchema, RazorpayConfigOrderByWithRelationInputObjectSchema.array()]).optional(), where: RazorpayConfigWhereInputObjectSchema.optional(), cursor: RazorpayConfigWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), RazorpayConfigCountAggregateInputObjectSchema ]).optional(), _min: RazorpayConfigMinAggregateInputObjectSchema.optional(), _max: RazorpayConfigMaxAggregateInputObjectSchema.optional(), _avg: RazorpayConfigAvgAggregateInputObjectSchema.optional(), _sum: RazorpayConfigSumAggregateInputObjectSchema.optional() }).strict();

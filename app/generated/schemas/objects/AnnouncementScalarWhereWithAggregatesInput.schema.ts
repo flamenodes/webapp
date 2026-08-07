@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { StringWithAggregatesFilterObjectSchema as StringWithAggregatesFilterObjectSchema } from './StringWithAggregatesFilter.schema';
 import { EnumAnnouncementTypeWithAggregatesFilterObjectSchema as EnumAnnouncementTypeWithAggregatesFilterObjectSchema } from './EnumAnnouncementTypeWithAggregatesFilter.schema';
 import { AnnouncementTypeSchema } from '../enums/AnnouncementType.schema';

@@ -18,7 +18,7 @@ export function ActiveServersCard() {
     queryFn: () => getUserServers(),
   })
 
-  const panelUrl = process.env.PTERO_URL || 'https://panel.flamenodes.cloud'
+  const panelUrl = process.env.PTERO_URL || 'https://gpanel.flamenodes.cloud'
 
   // Count servers that are not suspended or terminated
   const activeCount = servers.filter((s) => s.status !== 'SUSPENDED' && s.status !== 'TERMINATED').length

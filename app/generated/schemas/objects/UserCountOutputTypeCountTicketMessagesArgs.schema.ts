@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
 import { TicketMessageWhereInputObjectSchema as TicketMessageWhereInputObjectSchema } from './TicketMessageWhereInput.schema'
 
 const makeSchema = () => z.object({

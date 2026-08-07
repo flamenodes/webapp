@@ -1,23 +1,19 @@
-import ImageKit from 'imagekit'
+import ImageKit from "@imagekit/nodejs"
 
 const imagekit = new ImageKit({
-  publicKey: process.env.IMAGEKIT_PUBLIC_KEY || '',
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY || '',
-  urlEndpoint: process.env.IMAGEKIT_BASE_URL || '',
 })
 
 export async function uploadInvoicePDF(pdfBuffer: Buffer, fileName: string): Promise<string> {
-  try {
-    const result = await imagekit.upload({
-      file: pdfBuffer,
-      fileName: fileName,
-      folder: '/invoices',
-      useUniqueFileName: true,
-    })
+  const file = new File([new Uint8Array(pdfBuffer)], fileName, { type: 'application/pdf' })
 
-    return result.url
-  } catch (error) {
-    console.error('ImageKit upload error:', error)
-    throw new Error('Failed to upload invoice PDF')
-  }
+  const result = await imagekit.files.upload({
+    file,
+    fileName,
+    folder: '/invoices',
+    useUniqueFileName: true,
+  })
+
+  if (!result.url) throw new Error('ImageKit upload did not return a URL')
+  return result.url
 }

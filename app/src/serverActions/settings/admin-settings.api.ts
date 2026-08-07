@@ -40,7 +40,17 @@ export const getRazorpayConfig = createServerFn({ method: 'GET' }).handler(
     const { prisma } = await import('#/db')
 
     const config = await prisma.razorpayConfig.findFirst()
-    return wrapSuccess('Config fetched', config)
+
+    // Auto-populate from env if DB has no keys set
+    const merged = {
+      ...(config ?? {}),
+      testKeyId: config?.testKeyId || process.env.RAZORPAY_KEY_ID || '',
+      testKeySecret: config?.testKeySecret || process.env.RAZORPAY_KEY_SECRET || '',
+      prodKeyId: config?.prodKeyId || process.env.RAZORPAY_PROD_KEY_ID || '',
+      prodKeySecret: config?.prodKeySecret || process.env.RAZORPAY_PROD_KEY_SECRET || '',
+    }
+
+    return wrapSuccess('Config fetched', merged)
   },
 )
 

@@ -1,11 +1,12 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 import { SortOrderSchema } from '../enums/SortOrder.schema';
 import { SortOrderInputObjectSchema as SortOrderInputObjectSchema } from './SortOrderInput.schema';
 import { ProductFeatureOrderByRelationAggregateInputObjectSchema as ProductFeatureOrderByRelationAggregateInputObjectSchema } from './ProductFeatureOrderByRelationAggregateInput.schema';
 import { DiscountOrderByWithRelationInputObjectSchema as DiscountOrderByWithRelationInputObjectSchema } from './DiscountOrderByWithRelationInput.schema';
 import { CartItemOrderByRelationAggregateInputObjectSchema as CartItemOrderByRelationAggregateInputObjectSchema } from './CartItemOrderByRelationAggregateInput.schema';
-import { OrderItemOrderByRelationAggregateInputObjectSchema as OrderItemOrderByRelationAggregateInputObjectSchema } from './OrderItemOrderByRelationAggregateInput.schema'
+import { OrderItemOrderByRelationAggregateInputObjectSchema as OrderItemOrderByRelationAggregateInputObjectSchema } from './OrderItemOrderByRelationAggregateInput.schema';
+import { ProductBillingOptionOrderByRelationAggregateInputObjectSchema as ProductBillingOptionOrderByRelationAggregateInputObjectSchema } from './ProductBillingOptionOrderByRelationAggregateInput.schema'
 
 const makeSchema = () => z.object({
   id: SortOrderSchema.optional(),
@@ -25,7 +26,8 @@ const makeSchema = () => z.object({
   features: z.lazy(() => ProductFeatureOrderByRelationAggregateInputObjectSchema).optional(),
   discount: z.lazy(() => DiscountOrderByWithRelationInputObjectSchema).optional(),
   cartItems: z.lazy(() => CartItemOrderByRelationAggregateInputObjectSchema).optional(),
-  orderItems: z.lazy(() => OrderItemOrderByRelationAggregateInputObjectSchema).optional()
+  orderItems: z.lazy(() => OrderItemOrderByRelationAggregateInputObjectSchema).optional(),
+  billingOptions: z.lazy(() => ProductBillingOptionOrderByRelationAggregateInputObjectSchema).optional()
 }).strict();
 export const ProductOrderByWithRelationInputObjectSchema: z.ZodType<Prisma.ProductOrderByWithRelationInput> = makeSchema() as unknown as z.ZodType<Prisma.ProductOrderByWithRelationInput>;
 export const ProductOrderByWithRelationInputObjectZodSchema = makeSchema();

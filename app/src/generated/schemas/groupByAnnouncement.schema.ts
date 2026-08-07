@@ -1,0 +1,15 @@
+import type { Prisma } from '../prisma/browser';
+import * as z from 'zod';
+import { AnnouncementWhereInputObjectSchema as AnnouncementWhereInputObjectSchema } from './objects/AnnouncementWhereInput.schema';
+import { AnnouncementOrderByWithAggregationInputObjectSchema as AnnouncementOrderByWithAggregationInputObjectSchema } from './objects/AnnouncementOrderByWithAggregationInput.schema';
+import { AnnouncementScalarWhereWithAggregatesInputObjectSchema as AnnouncementScalarWhereWithAggregatesInputObjectSchema } from './objects/AnnouncementScalarWhereWithAggregatesInput.schema';
+import { AnnouncementScalarFieldEnumSchema } from './enums/AnnouncementScalarFieldEnum.schema';
+import { AnnouncementCountAggregateInputObjectSchema as AnnouncementCountAggregateInputObjectSchema } from './objects/AnnouncementCountAggregateInput.schema';
+import { AnnouncementMinAggregateInputObjectSchema as AnnouncementMinAggregateInputObjectSchema } from './objects/AnnouncementMinAggregateInput.schema';
+import { AnnouncementMaxAggregateInputObjectSchema as AnnouncementMaxAggregateInputObjectSchema } from './objects/AnnouncementMaxAggregateInput.schema';
+import { AnnouncementAvgAggregateInputObjectSchema as AnnouncementAvgAggregateInputObjectSchema } from './objects/AnnouncementAvgAggregateInput.schema';
+import { AnnouncementSumAggregateInputObjectSchema as AnnouncementSumAggregateInputObjectSchema } from './objects/AnnouncementSumAggregateInput.schema';
+
+export const AnnouncementGroupBySchema: z.ZodType<Prisma.AnnouncementGroupByArgs> = z.object({ where: AnnouncementWhereInputObjectSchema.optional(), orderBy: z.union([AnnouncementOrderByWithAggregationInputObjectSchema, AnnouncementOrderByWithAggregationInputObjectSchema.array()]).optional(), having: AnnouncementScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(AnnouncementScalarFieldEnumSchema), _count: z.union([ z.literal(true), AnnouncementCountAggregateInputObjectSchema ]).optional(), _min: AnnouncementMinAggregateInputObjectSchema.optional(), _max: AnnouncementMaxAggregateInputObjectSchema.optional(), _avg: AnnouncementAvgAggregateInputObjectSchema.optional(), _sum: AnnouncementSumAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.AnnouncementGroupByArgs>;
+
+export const AnnouncementGroupByZodSchema = z.object({ where: AnnouncementWhereInputObjectSchema.optional(), orderBy: z.union([AnnouncementOrderByWithAggregationInputObjectSchema, AnnouncementOrderByWithAggregationInputObjectSchema.array()]).optional(), having: AnnouncementScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(AnnouncementScalarFieldEnumSchema), _count: z.union([ z.literal(true), AnnouncementCountAggregateInputObjectSchema ]).optional(), _min: AnnouncementMinAggregateInputObjectSchema.optional(), _max: AnnouncementMaxAggregateInputObjectSchema.optional(), _avg: AnnouncementAvgAggregateInputObjectSchema.optional(), _sum: AnnouncementSumAggregateInputObjectSchema.optional() }).strict();

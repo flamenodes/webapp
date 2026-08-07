@@ -4,6 +4,7 @@ export const CartItemGroupByResultSchema = z.array(z.object({
   cartId: z.string(),
   productId: z.string(),
   quantity: z.number().int(),
+  configuration: z.any(),
   createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
   updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
   _count: z.object({
@@ -12,6 +13,7 @@ export const CartItemGroupByResultSchema = z.array(z.object({
     productId: z.number(),
     quantity: z.number(),
     billingPeriod: z.number(),
+    configuration: z.number(),
     cart: z.number(),
     product: z.number(),
     createdAt: z.number(),

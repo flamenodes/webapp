@@ -14,6 +14,8 @@ const config = defineConfig({
     dedupe: ['three'],
     alias: {
       'three/addons/inspector/Inspector.js': path.resolve(__dirname, 'src/stubs/three-inspector-stub.js'),
+      '@/generated/prisma/client': path.resolve(__dirname, 'src/generated/prisma/browser.ts'),
+      '#/generated/prisma/client': path.resolve(__dirname, 'src/generated/prisma/browser.ts'),
     },
   },
   ssr: {
@@ -25,11 +27,13 @@ const config = defineConfig({
       '@react-three/fiber',
       '@react-three/drei',
       '@mr-fougere/react-trustpilot-widgets',
+      'easyinvoice',
+      'pdfjs-dist',
     ],
     noExternal: ['bullmq', 'ioredis', 'use-sync-external-store'],
   },
   optimizeDeps: {
-    exclude: ['bullmq', 'ioredis'],
+    exclude: ['bullmq', 'ioredis', 'easyinvoice', 'pdfjs-dist'],
     include: [
       'use-sync-external-store/with-selector.js',
       'use-sync-external-store/shim/with-selector.js',

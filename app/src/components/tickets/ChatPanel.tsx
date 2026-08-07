@@ -9,6 +9,7 @@ import {
   updateTicket,
   deleteTicket,
 } from '@/serverActions/tickets/tickets.api'
+import { sendAiReply } from '@/serverActions/tickets/ai-support.api'
 import {
   useSuspenseQuery,
   useMutation,
@@ -120,6 +121,12 @@ export function ChatPanel({ ticketId, isStaffView = false }: ChatPanelProps) {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['ticket', ticketId] })
       queryClient.invalidateQueries({ queryKey: ['tickets'] })
+      // Trigger AI reply for user messages
+      if (!isStaffView) {
+        sendAiReply({ data: { ticketId } }).then(() => {
+          queryClient.invalidateQueries({ queryKey: ['ticket', ticketId] })
+        }).catch(() => {})
+      }
     },
   })
 

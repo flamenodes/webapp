@@ -2,7 +2,7 @@ import * as z from 'zod';
 export const NotificationUpsertResultSchema = z.object({
   id: z.string(),
   userId: z.string(),
-  user: z.unknown(),
+  user: z.unknown().optional(),
   type: z.string(),
   title: z.string(),
   message: z.string(),

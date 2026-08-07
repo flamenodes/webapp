@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { CartSelectObjectSchema as CartSelectObjectSchema } from './objects/CartSelect.schema';
 import { CartIncludeObjectSchema as CartIncludeObjectSchema } from './objects/CartInclude.schema';

@@ -1,15 +1,21 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 import { StringFieldUpdateOperationsInputObjectSchema as StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { BoolFieldUpdateOperationsInputObjectSchema as BoolFieldUpdateOperationsInputObjectSchema } from './BoolFieldUpdateOperationsInput.schema';
 import { NullableStringFieldUpdateOperationsInputObjectSchema as NullableStringFieldUpdateOperationsInputObjectSchema } from './NullableStringFieldUpdateOperationsInput.schema';
 import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
 import { NullableBoolFieldUpdateOperationsInputObjectSchema as NullableBoolFieldUpdateOperationsInputObjectSchema } from './NullableBoolFieldUpdateOperationsInput.schema';
 import { NullableDateTimeFieldUpdateOperationsInputObjectSchema as NullableDateTimeFieldUpdateOperationsInputObjectSchema } from './NullableDateTimeFieldUpdateOperationsInput.schema';
+import { NullableIntFieldUpdateOperationsInputObjectSchema as NullableIntFieldUpdateOperationsInputObjectSchema } from './NullableIntFieldUpdateOperationsInput.schema';
 import { SessionUncheckedUpdateManyWithoutUserNestedInputObjectSchema as SessionUncheckedUpdateManyWithoutUserNestedInputObjectSchema } from './SessionUncheckedUpdateManyWithoutUserNestedInput.schema';
 import { AccountUncheckedUpdateManyWithoutUserNestedInputObjectSchema as AccountUncheckedUpdateManyWithoutUserNestedInputObjectSchema } from './AccountUncheckedUpdateManyWithoutUserNestedInput.schema';
+import { BillingAddressUncheckedUpdateOneWithoutUserNestedInputObjectSchema as BillingAddressUncheckedUpdateOneWithoutUserNestedInputObjectSchema } from './BillingAddressUncheckedUpdateOneWithoutUserNestedInput.schema';
 import { ServerUncheckedUpdateManyWithoutUserNestedInputObjectSchema as ServerUncheckedUpdateManyWithoutUserNestedInputObjectSchema } from './ServerUncheckedUpdateManyWithoutUserNestedInput.schema';
-import { CartUncheckedUpdateOneWithoutUserNestedInputObjectSchema as CartUncheckedUpdateOneWithoutUserNestedInputObjectSchema } from './CartUncheckedUpdateOneWithoutUserNestedInput.schema'
+import { CartUncheckedUpdateOneWithoutUserNestedInputObjectSchema as CartUncheckedUpdateOneWithoutUserNestedInputObjectSchema } from './CartUncheckedUpdateOneWithoutUserNestedInput.schema';
+import { TicketUncheckedUpdateManyWithoutUserNestedInputObjectSchema as TicketUncheckedUpdateManyWithoutUserNestedInputObjectSchema } from './TicketUncheckedUpdateManyWithoutUserNestedInput.schema';
+import { TicketUncheckedUpdateManyWithoutAssignedToNestedInputObjectSchema as TicketUncheckedUpdateManyWithoutAssignedToNestedInputObjectSchema } from './TicketUncheckedUpdateManyWithoutAssignedToNestedInput.schema';
+import { TicketMessageUncheckedUpdateManyWithoutSenderNestedInputObjectSchema as TicketMessageUncheckedUpdateManyWithoutSenderNestedInputObjectSchema } from './TicketMessageUncheckedUpdateManyWithoutSenderNestedInput.schema';
+import { NotificationUncheckedUpdateManyWithoutUserNestedInputObjectSchema as NotificationUncheckedUpdateManyWithoutUserNestedInputObjectSchema } from './NotificationUncheckedUpdateManyWithoutUserNestedInput.schema'
 
 const makeSchema = () => z.object({
   id: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
@@ -27,11 +33,17 @@ const makeSchema = () => z.object({
   username: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
   firstname: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
   lastname: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
+  pteroUserId: z.union([z.number().int(), z.lazy(() => NullableIntFieldUpdateOperationsInputObjectSchema)]).optional().nullable(),
   displayUsername: z.union([z.string(), z.lazy(() => NullableStringFieldUpdateOperationsInputObjectSchema)]).optional().nullable(),
   sessions: z.lazy(() => SessionUncheckedUpdateManyWithoutUserNestedInputObjectSchema).optional(),
   accounts: z.lazy(() => AccountUncheckedUpdateManyWithoutUserNestedInputObjectSchema).optional(),
+  billingAddress: z.lazy(() => BillingAddressUncheckedUpdateOneWithoutUserNestedInputObjectSchema).optional(),
   servers: z.lazy(() => ServerUncheckedUpdateManyWithoutUserNestedInputObjectSchema).optional(),
-  cart: z.lazy(() => CartUncheckedUpdateOneWithoutUserNestedInputObjectSchema).optional()
+  cart: z.lazy(() => CartUncheckedUpdateOneWithoutUserNestedInputObjectSchema).optional(),
+  tickets: z.lazy(() => TicketUncheckedUpdateManyWithoutUserNestedInputObjectSchema).optional(),
+  assignedTickets: z.lazy(() => TicketUncheckedUpdateManyWithoutAssignedToNestedInputObjectSchema).optional(),
+  ticketMessages: z.lazy(() => TicketMessageUncheckedUpdateManyWithoutSenderNestedInputObjectSchema).optional(),
+  notifications: z.lazy(() => NotificationUncheckedUpdateManyWithoutUserNestedInputObjectSchema).optional()
 }).strict();
 export const UserUncheckedUpdateWithoutOrdersInputObjectSchema: z.ZodType<Prisma.UserUncheckedUpdateWithoutOrdersInput> = makeSchema() as unknown as z.ZodType<Prisma.UserUncheckedUpdateWithoutOrdersInput>;
 export const UserUncheckedUpdateWithoutOrdersInputObjectZodSchema = makeSchema();

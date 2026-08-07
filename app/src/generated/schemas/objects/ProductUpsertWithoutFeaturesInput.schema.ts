@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 import { ProductUpdateWithoutFeaturesInputObjectSchema as ProductUpdateWithoutFeaturesInputObjectSchema } from './ProductUpdateWithoutFeaturesInput.schema';
 import { ProductUncheckedUpdateWithoutFeaturesInputObjectSchema as ProductUncheckedUpdateWithoutFeaturesInputObjectSchema } from './ProductUncheckedUpdateWithoutFeaturesInput.schema';
 import { ProductCreateWithoutFeaturesInputObjectSchema as ProductCreateWithoutFeaturesInputObjectSchema } from './ProductCreateWithoutFeaturesInput.schema';

@@ -16,6 +16,7 @@ export const UserSchema = z.object({
   username: z.string(),
   firstname: z.string(),
   lastname: z.string(),
+  pteroUserId: z.number().int().nullish(),
   displayUsername: z.string().nullish(),
 });
 

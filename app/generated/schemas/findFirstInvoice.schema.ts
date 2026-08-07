@@ -1,10 +1,11 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { InvoiceIncludeObjectSchema as InvoiceIncludeObjectSchema } from './objects/InvoiceInclude.schema';
 import { InvoiceOrderByWithRelationInputObjectSchema as InvoiceOrderByWithRelationInputObjectSchema } from './objects/InvoiceOrderByWithRelationInput.schema';
 import { InvoiceWhereInputObjectSchema as InvoiceWhereInputObjectSchema } from './objects/InvoiceWhereInput.schema';
 import { InvoiceWhereUniqueInputObjectSchema as InvoiceWhereUniqueInputObjectSchema } from './objects/InvoiceWhereUniqueInput.schema';
 import { InvoiceScalarFieldEnumSchema } from './enums/InvoiceScalarFieldEnum.schema';
+import { OrderArgsObjectSchema as OrderArgsObjectSchema } from './objects/OrderArgs.schema';
 
 // Select schema needs to be in file to prevent circular imports
 //------------------------------------------------------
@@ -12,7 +13,7 @@ import { InvoiceScalarFieldEnumSchema } from './enums/InvoiceScalarFieldEnum.sch
 export const InvoiceFindFirstSelectSchema: z.ZodType<Prisma.InvoiceSelect> = z.object({
     id: z.boolean().optional(),
     orderId: z.boolean().optional(),
-    order: z.boolean().optional(),
+    order: z.union([z.boolean(), z.lazy(() => OrderArgsObjectSchema)]).optional(),
     invoiceNumber: z.boolean().optional(),
     pdfUrl: z.boolean().optional(),
     razorpayData: z.boolean().optional(),
@@ -22,7 +23,7 @@ export const InvoiceFindFirstSelectSchema: z.ZodType<Prisma.InvoiceSelect> = z.o
 export const InvoiceFindFirstSelectZodSchema = z.object({
     id: z.boolean().optional(),
     orderId: z.boolean().optional(),
-    order: z.boolean().optional(),
+    order: z.union([z.boolean(), z.lazy(() => OrderArgsObjectSchema)]).optional(),
     invoiceNumber: z.boolean().optional(),
     pdfUrl: z.boolean().optional(),
     razorpayData: z.boolean().optional(),

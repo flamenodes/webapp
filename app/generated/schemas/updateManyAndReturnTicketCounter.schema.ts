@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { TicketCounterSelectObjectSchema as TicketCounterSelectObjectSchema } from './objects/TicketCounterSelect.schema';
 import { TicketCounterUpdateManyMutationInputObjectSchema as TicketCounterUpdateManyMutationInputObjectSchema } from './objects/TicketCounterUpdateManyMutationInput.schema';

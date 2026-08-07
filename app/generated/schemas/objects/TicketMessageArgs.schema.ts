@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
 import { TicketMessageSelectObjectSchema as TicketMessageSelectObjectSchema } from './TicketMessageSelect.schema';
 import { TicketMessageIncludeObjectSchema as TicketMessageIncludeObjectSchema } from './TicketMessageInclude.schema'
 

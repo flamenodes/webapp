@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 import { SortOrderSchema } from '../enums/SortOrder.schema'
 
 const makeSchema = () => z.object({
@@ -12,6 +12,7 @@ const makeSchema = () => z.object({
   unitPrice: SortOrderSchema.optional(),
   totalPrice: SortOrderSchema.optional(),
   specsSnapshot: SortOrderSchema.optional(),
+  configuration: SortOrderSchema.optional(),
   expiresAt: SortOrderSchema.optional(),
   createdAt: SortOrderSchema.optional()
 }).strict();

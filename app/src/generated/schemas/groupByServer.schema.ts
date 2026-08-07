@@ -1,4 +1,4 @@
-import type { Prisma } from '../prisma/client';
+import type { Prisma } from '../prisma/browser';
 import * as z from 'zod';
 import { ServerWhereInputObjectSchema as ServerWhereInputObjectSchema } from './objects/ServerWhereInput.schema';
 import { ServerOrderByWithAggregationInputObjectSchema as ServerOrderByWithAggregationInputObjectSchema } from './objects/ServerOrderByWithAggregationInput.schema';

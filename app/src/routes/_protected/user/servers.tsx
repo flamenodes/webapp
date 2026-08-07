@@ -187,7 +187,7 @@ function ServerCard({ server }: { server: any }) {
   const isCustom = server.deployMode === 'CUSTOM'
   const usage = server.liveUsage
 
-  const panelUrl = process.env.PTERO_URL || 'https://panel.flamenodes.cloud'
+  const panelUrl = process.env.PTERO_URL || 'https://gpanel.flamenodes.cloud'
 
   // Check if billing cycle has ended
   const expiresAt = server.expiresAt ? new Date(server.expiresAt) : null

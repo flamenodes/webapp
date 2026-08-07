@@ -10,7 +10,7 @@ export const TicketMessageInputSchema = z.object({
     senderRole: SenderRoleSchema,
     content: z.string(),
     attachments: z.unknown().optional().nullable(),
-    createdAt: z.date()
+    createdAt: z.coerce.date()
 }).strict();
 
 export type TicketMessageInputType = z.infer<typeof TicketMessageInputSchema>;

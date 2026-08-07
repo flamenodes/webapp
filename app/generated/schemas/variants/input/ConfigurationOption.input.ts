@@ -12,8 +12,8 @@ export const ConfigurationOptionInputSchema = z.object({
     category: ProductCategorySchema,
     sortOrder: z.number().int(),
     values: z.array(z.unknown()),
-    createdAt: z.date(),
-    updatedAt: z.date()
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date()
 }).strict();
 
 export type ConfigurationOptionInputType = z.infer<typeof ConfigurationOptionInputSchema>;

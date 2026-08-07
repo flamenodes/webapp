@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { PageDocumentSelectObjectSchema as PageDocumentSelectObjectSchema } from './objects/PageDocumentSelect.schema';
 import { PageDocumentCreateManyInputObjectSchema as PageDocumentCreateManyInputObjectSchema } from './objects/PageDocumentCreateManyInput.schema';

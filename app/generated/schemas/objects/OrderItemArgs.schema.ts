@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
 import { OrderItemSelectObjectSchema as OrderItemSelectObjectSchema } from './OrderItemSelect.schema';
 import { OrderItemIncludeObjectSchema as OrderItemIncludeObjectSchema } from './OrderItemInclude.schema'
 

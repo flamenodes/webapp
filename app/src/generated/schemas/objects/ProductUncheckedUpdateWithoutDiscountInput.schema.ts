@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 import { StringFieldUpdateOperationsInputObjectSchema as StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { NullableStringFieldUpdateOperationsInputObjectSchema as NullableStringFieldUpdateOperationsInputObjectSchema } from './NullableStringFieldUpdateOperationsInput.schema';
 import { ProductCategorySchema } from '../enums/ProductCategory.schema';
@@ -10,7 +10,8 @@ import { JsonNullValueInputSchema } from '../enums/JsonNullValueInput.schema';
 import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
 import { ProductFeatureUncheckedUpdateManyWithoutProductNestedInputObjectSchema as ProductFeatureUncheckedUpdateManyWithoutProductNestedInputObjectSchema } from './ProductFeatureUncheckedUpdateManyWithoutProductNestedInput.schema';
 import { CartItemUncheckedUpdateManyWithoutProductNestedInputObjectSchema as CartItemUncheckedUpdateManyWithoutProductNestedInputObjectSchema } from './CartItemUncheckedUpdateManyWithoutProductNestedInput.schema';
-import { OrderItemUncheckedUpdateManyWithoutProductNestedInputObjectSchema as OrderItemUncheckedUpdateManyWithoutProductNestedInputObjectSchema } from './OrderItemUncheckedUpdateManyWithoutProductNestedInput.schema'
+import { OrderItemUncheckedUpdateManyWithoutProductNestedInputObjectSchema as OrderItemUncheckedUpdateManyWithoutProductNestedInputObjectSchema } from './OrderItemUncheckedUpdateManyWithoutProductNestedInput.schema';
+import { ProductBillingOptionUncheckedUpdateManyWithoutProductNestedInputObjectSchema as ProductBillingOptionUncheckedUpdateManyWithoutProductNestedInputObjectSchema } from './ProductBillingOptionUncheckedUpdateManyWithoutProductNestedInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
@@ -30,7 +31,8 @@ const makeSchema = () => z.object({
   updatedAt: z.union([z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time"), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
   features: z.lazy(() => ProductFeatureUncheckedUpdateManyWithoutProductNestedInputObjectSchema).optional(),
   cartItems: z.lazy(() => CartItemUncheckedUpdateManyWithoutProductNestedInputObjectSchema).optional(),
-  orderItems: z.lazy(() => OrderItemUncheckedUpdateManyWithoutProductNestedInputObjectSchema).optional()
+  orderItems: z.lazy(() => OrderItemUncheckedUpdateManyWithoutProductNestedInputObjectSchema).optional(),
+  billingOptions: z.lazy(() => ProductBillingOptionUncheckedUpdateManyWithoutProductNestedInputObjectSchema).optional()
 }).strict();
 export const ProductUncheckedUpdateWithoutDiscountInputObjectSchema: z.ZodType<Prisma.ProductUncheckedUpdateWithoutDiscountInput> = makeSchema() as unknown as z.ZodType<Prisma.ProductUncheckedUpdateWithoutDiscountInput>;
 export const ProductUncheckedUpdateWithoutDiscountInputObjectZodSchema = makeSchema();

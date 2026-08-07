@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { ProductCountOutputTypeCountFeaturesArgsObjectSchema as ProductCountOutputTypeCountFeaturesArgsObjectSchema } from './ProductCountOutputTypeCountFeaturesArgs.schema';
 import { ProductCountOutputTypeCountCartItemsArgsObjectSchema as ProductCountOutputTypeCountCartItemsArgsObjectSchema } from './ProductCountOutputTypeCountCartItemsArgs.schema';
 import { ProductCountOutputTypeCountOrderItemsArgsObjectSchema as ProductCountOutputTypeCountOrderItemsArgsObjectSchema } from './ProductCountOutputTypeCountOrderItemsArgs.schema';

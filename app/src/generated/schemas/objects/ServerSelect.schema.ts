@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 import { UserArgsObjectSchema as UserArgsObjectSchema } from './UserArgs.schema';
 import { OrderItemArgsObjectSchema as OrderItemArgsObjectSchema } from './OrderItemArgs.schema'
 
@@ -14,6 +14,7 @@ const makeSchema = () => z.object({
   status: z.boolean().optional(),
   ip: z.boolean().optional(),
   port: z.boolean().optional(),
+  pterodactylServerId: z.boolean().optional(),
   expiresAt: z.boolean().optional(),
   resources: z.boolean().optional(),
   pterodactylData: z.boolean().optional(),

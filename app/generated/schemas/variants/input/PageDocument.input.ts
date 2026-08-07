@@ -8,8 +8,8 @@ export const PageDocumentInputSchema = z.object({
     description: z.string(),
     content: z.string(),
     status: PageStatusSchema,
-    createdAt: z.date(),
-    updatedAt: z.date()
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date()
 }).strict();
 
 export type PageDocumentInputType = z.infer<typeof PageDocumentInputSchema>;

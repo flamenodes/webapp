@@ -15,8 +15,8 @@ export const RazorpayConfigInputSchema = z.object({
     companyCountry: z.string().optional().nullable(),
     pteroNodeMode: z.string().optional().nullable(),
     pteroNodeId: z.number().int().optional().nullable(),
-    updatedAt: z.date(),
-    createdAt: z.date()
+    updatedAt: z.coerce.date(),
+    createdAt: z.coerce.date()
 }).strict();
 
 export type RazorpayConfigInputType = z.infer<typeof RazorpayConfigInputSchema>;

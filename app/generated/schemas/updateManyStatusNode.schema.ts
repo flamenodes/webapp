@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { StatusNodeUpdateManyMutationInputObjectSchema as StatusNodeUpdateManyMutationInputObjectSchema } from './objects/StatusNodeUpdateManyMutationInput.schema';
 import { StatusNodeWhereInputObjectSchema as StatusNodeWhereInputObjectSchema } from './objects/StatusNodeWhereInput.schema';

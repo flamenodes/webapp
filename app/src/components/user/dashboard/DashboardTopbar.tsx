@@ -1,6 +1,7 @@
 import { Bell, CreditCard, Menu } from 'lucide-react'
 import { ThemeSwitch } from '#/components/theme/ThemeSwitch'
 import UserProfileDropdown from './UserProfileDropdown'
+import BillingAddressModal from './BillingAddressModal'
 
 interface Props {
   onMenuClick: () => void
@@ -26,10 +27,12 @@ export function DashboardTopbar({ onMenuClick }: Props) {
       </div>
 
       {/* Billing */}
-      <button className="flex items-center gap-1.5 h-9 px-3 rounded-full border border-border bg-card text-muted-foreground hover:text-foreground hover:border-primary/40 hover:shadow-[0_0_12px_var(--primary)/15] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-        <CreditCard size={15} strokeWidth={1.75} />
-        <span className="text-xs font-medium hidden sm:block">Billing</span>
-      </button>
+      <BillingAddressModal>
+        <button className="flex items-center gap-1.5 h-9 px-3 rounded-full border border-border bg-card text-muted-foreground hover:text-foreground hover:border-primary/40 hover:shadow-[0_0_12px_var(--primary)/15] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <CreditCard size={15} strokeWidth={1.75} />
+          <span className="text-xs font-medium hidden sm:block">Billing</span>
+        </button>
+      </BillingAddressModal>
 
       {/* Theme switch */}
       <div className="flex items-center justify-center w-9 h-9 rounded-full border border-border bg-card hover:border-primary/40 hover:shadow-[0_0_12px_var(--primary)/15] transition-all duration-200 [&>button]:border-0 [&>button]:bg-transparent [&>button]:shadow-none [&>button]:w-full [&>button]:h-full [&>button]:rounded-full">

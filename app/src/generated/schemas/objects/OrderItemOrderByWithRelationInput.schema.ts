@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 import { SortOrderSchema } from '../enums/SortOrder.schema';
 import { SortOrderInputObjectSchema as SortOrderInputObjectSchema } from './SortOrderInput.schema';
 import { OrderOrderByWithRelationInputObjectSchema as OrderOrderByWithRelationInputObjectSchema } from './OrderOrderByWithRelationInput.schema';
@@ -16,6 +16,7 @@ const makeSchema = () => z.object({
   unitPrice: SortOrderSchema.optional(),
   totalPrice: SortOrderSchema.optional(),
   specsSnapshot: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
+  configuration: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   expiresAt: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   createdAt: SortOrderSchema.optional(),
   order: z.lazy(() => OrderOrderByWithRelationInputObjectSchema).optional(),

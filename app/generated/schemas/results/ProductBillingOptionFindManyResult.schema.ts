@@ -3,7 +3,7 @@ export const ProductBillingOptionFindManyResultSchema = z.object({
   data: z.array(z.object({
   id: z.string(),
   productId: z.string(),
-  product: z.unknown(),
+  product: z.unknown().optional(),
   billingPeriod: z.unknown(),
   price: z.number().int(),
   customDays: z.number().int().optional()

@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { TicketMessageScalarWhereInputObjectSchema as TicketMessageScalarWhereInputObjectSchema } from './TicketMessageScalarWhereInput.schema';
 import { TicketMessageUpdateManyMutationInputObjectSchema as TicketMessageUpdateManyMutationInputObjectSchema } from './TicketMessageUpdateManyMutationInput.schema';
 import { TicketMessageUncheckedUpdateManyWithoutTicketInputObjectSchema as TicketMessageUncheckedUpdateManyWithoutTicketInputObjectSchema } from './TicketMessageUncheckedUpdateManyWithoutTicketInput.schema'

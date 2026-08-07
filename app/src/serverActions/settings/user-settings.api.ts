@@ -10,10 +10,6 @@ const wrapError = (message: string) => ({ success: false, message })
 const updateProfileSchema = z.object({
   firstname: z.string().min(1).optional(),
   lastname: z.string().min(1).optional(),
-  address: z.string().optional(),
-  city: z.string().optional(),
-  zip: z.string().optional(),
-  country: z.string().optional(),
 })
 
 export const getUserProfile = createServerFn({ method: 'GET' }).handler(async () => {
@@ -29,10 +25,7 @@ export const getUserProfile = createServerFn({ method: 'GET' }).handler(async ()
       email: true,
       firstname: true,
       lastname: true,
-      address: true,
-      city: true,
-      zip: true,
-      country: true,
+      billingAddress: true,
     },
   })
 

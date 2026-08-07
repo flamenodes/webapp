@@ -1,0 +1,13 @@
+import type { Prisma } from '../prisma/browser';
+import * as z from 'zod';
+import { BillingAddressWhereInputObjectSchema as BillingAddressWhereInputObjectSchema } from './objects/BillingAddressWhereInput.schema';
+import { BillingAddressOrderByWithAggregationInputObjectSchema as BillingAddressOrderByWithAggregationInputObjectSchema } from './objects/BillingAddressOrderByWithAggregationInput.schema';
+import { BillingAddressScalarWhereWithAggregatesInputObjectSchema as BillingAddressScalarWhereWithAggregatesInputObjectSchema } from './objects/BillingAddressScalarWhereWithAggregatesInput.schema';
+import { BillingAddressScalarFieldEnumSchema } from './enums/BillingAddressScalarFieldEnum.schema';
+import { BillingAddressCountAggregateInputObjectSchema as BillingAddressCountAggregateInputObjectSchema } from './objects/BillingAddressCountAggregateInput.schema';
+import { BillingAddressMinAggregateInputObjectSchema as BillingAddressMinAggregateInputObjectSchema } from './objects/BillingAddressMinAggregateInput.schema';
+import { BillingAddressMaxAggregateInputObjectSchema as BillingAddressMaxAggregateInputObjectSchema } from './objects/BillingAddressMaxAggregateInput.schema';
+
+export const BillingAddressGroupBySchema: z.ZodType<Prisma.BillingAddressGroupByArgs> = z.object({ where: BillingAddressWhereInputObjectSchema.optional(), orderBy: z.union([BillingAddressOrderByWithAggregationInputObjectSchema, BillingAddressOrderByWithAggregationInputObjectSchema.array()]).optional(), having: BillingAddressScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(BillingAddressScalarFieldEnumSchema), _count: z.union([ z.literal(true), BillingAddressCountAggregateInputObjectSchema ]).optional(), _min: BillingAddressMinAggregateInputObjectSchema.optional(), _max: BillingAddressMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.BillingAddressGroupByArgs>;
+
+export const BillingAddressGroupByZodSchema = z.object({ where: BillingAddressWhereInputObjectSchema.optional(), orderBy: z.union([BillingAddressOrderByWithAggregationInputObjectSchema, BillingAddressOrderByWithAggregationInputObjectSchema.array()]).optional(), having: BillingAddressScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(BillingAddressScalarFieldEnumSchema), _count: z.union([ z.literal(true), BillingAddressCountAggregateInputObjectSchema ]).optional(), _min: BillingAddressMinAggregateInputObjectSchema.optional(), _max: BillingAddressMaxAggregateInputObjectSchema.optional() }).strict();

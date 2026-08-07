@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { CartItemScalarWhereInputObjectSchema as CartItemScalarWhereInputObjectSchema } from './CartItemScalarWhereInput.schema';
 import { CartItemUpdateManyMutationInputObjectSchema as CartItemUpdateManyMutationInputObjectSchema } from './CartItemUpdateManyMutationInput.schema';
 import { CartItemUncheckedUpdateManyWithoutCartInputObjectSchema as CartItemUncheckedUpdateManyWithoutCartInputObjectSchema } from './CartItemUncheckedUpdateManyWithoutCartInput.schema'

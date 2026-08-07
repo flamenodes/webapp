@@ -79,6 +79,7 @@ export const getPageDocuments = createServerFn({ method: 'POST' }).validator(z.o
   try {
     const resData = await prisma.pageDocument.findMany({
       take: data.pageCount,
+      select: { id: true, slug: true, title: true, description: true, status: true, createdAt: true, updatedAt: true },
     })
     return { resData }
   } catch (err) {

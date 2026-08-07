@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { ConfigurationOptionUpdateManyMutationInputObjectSchema as ConfigurationOptionUpdateManyMutationInputObjectSchema } from './objects/ConfigurationOptionUpdateManyMutationInput.schema';
 import { ConfigurationOptionWhereInputObjectSchema as ConfigurationOptionWhereInputObjectSchema } from './objects/ConfigurationOptionWhereInput.schema';

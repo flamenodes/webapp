@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { ConfigurationValueFindManySchema as ConfigurationValueFindManySchema } from '../findManyConfigurationValue.schema';
 import { ConfigurationOptionCountOutputTypeArgsObjectSchema as ConfigurationOptionCountOutputTypeArgsObjectSchema } from './ConfigurationOptionCountOutputTypeArgs.schema'
 

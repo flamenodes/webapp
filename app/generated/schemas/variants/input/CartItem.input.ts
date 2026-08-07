@@ -10,8 +10,8 @@ export const CartItemInputSchema = z.object({
     configuration: z.unknown().optional().nullable(),
     cart: z.unknown(),
     product: z.unknown(),
-    createdAt: z.date(),
-    updatedAt: z.date()
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date()
 }).strict();
 
 export type CartItemInputType = z.infer<typeof CartItemInputSchema>;

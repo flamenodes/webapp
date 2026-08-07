@@ -3,7 +3,7 @@ export const InvoiceFindManyResultSchema = z.object({
   data: z.array(z.object({
   id: z.string(),
   orderId: z.string(),
-  order: z.unknown(),
+  order: z.unknown().optional(),
   invoiceNumber: z.string(),
   pdfUrl: z.string(),
   razorpayData: z.unknown().optional(),

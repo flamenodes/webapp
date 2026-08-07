@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { VerificationSelectObjectSchema as VerificationSelectObjectSchema } from './objects/VerificationSelect.schema';
 import { VerificationUpdateInputObjectSchema as VerificationUpdateInputObjectSchema } from './objects/VerificationUpdateInput.schema';

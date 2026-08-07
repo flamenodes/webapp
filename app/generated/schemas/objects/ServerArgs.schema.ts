@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
 import { ServerSelectObjectSchema as ServerSelectObjectSchema } from './ServerSelect.schema';
 import { ServerIncludeObjectSchema as ServerIncludeObjectSchema } from './ServerInclude.schema'
 

@@ -1,7 +1,8 @@
 import * as z from 'zod';
+import { ProductSchema } from '../models/Product.schema';
 export const DiscountDeleteResultSchema = z.nullable(z.object({
   id: z.string(),
   label: z.string(),
   percentage: z.number().int(),
-  product: z.array(z.any())
+  product: z.array(ProductSchema).optional()
 }));

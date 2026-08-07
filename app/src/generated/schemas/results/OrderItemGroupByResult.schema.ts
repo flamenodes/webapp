@@ -8,6 +8,7 @@ export const OrderItemGroupByResultSchema = z.array(z.object({
   unitPrice: z.number().int(),
   totalPrice: z.number().int(),
   specsSnapshot: z.any(),
+  configuration: z.any(),
   expiresAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
   createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
   _count: z.object({
@@ -20,6 +21,7 @@ export const OrderItemGroupByResultSchema = z.array(z.object({
     unitPrice: z.number(),
     totalPrice: z.number(),
     specsSnapshot: z.number(),
+    configuration: z.number(),
     expiresAt: z.number(),
     order: z.number(),
     product: z.number(),

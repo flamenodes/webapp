@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { ConfigurationValueWhereUniqueInputObjectSchema as ConfigurationValueWhereUniqueInputObjectSchema } from './ConfigurationValueWhereUniqueInput.schema';
 import { ConfigurationValueUpdateWithoutOptionInputObjectSchema as ConfigurationValueUpdateWithoutOptionInputObjectSchema } from './ConfigurationValueUpdateWithoutOptionInput.schema';
 import { ConfigurationValueUncheckedUpdateWithoutOptionInputObjectSchema as ConfigurationValueUncheckedUpdateWithoutOptionInputObjectSchema } from './ConfigurationValueUncheckedUpdateWithoutOptionInput.schema';

@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { TicketCreateManyUserInputObjectSchema as TicketCreateManyUserInputObjectSchema } from './TicketCreateManyUserInput.schema'
 
 const makeSchema = () => z.object({

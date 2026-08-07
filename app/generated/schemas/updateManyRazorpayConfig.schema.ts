@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { RazorpayConfigUpdateManyMutationInputObjectSchema as RazorpayConfigUpdateManyMutationInputObjectSchema } from './objects/RazorpayConfigUpdateManyMutationInput.schema';
 import { RazorpayConfigWhereInputObjectSchema as RazorpayConfigWhereInputObjectSchema } from './objects/RazorpayConfigWhereInput.schema';

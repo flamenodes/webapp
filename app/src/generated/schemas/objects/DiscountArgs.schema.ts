@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
 import { DiscountSelectObjectSchema as DiscountSelectObjectSchema } from './DiscountSelect.schema';
 import { DiscountIncludeObjectSchema as DiscountIncludeObjectSchema } from './DiscountInclude.schema'
 

@@ -1,0 +1,13 @@
+import type { Prisma } from '../prisma/browser';
+import * as z from 'zod';
+import { AiSupportConfigWhereInputObjectSchema as AiSupportConfigWhereInputObjectSchema } from './objects/AiSupportConfigWhereInput.schema';
+import { AiSupportConfigOrderByWithAggregationInputObjectSchema as AiSupportConfigOrderByWithAggregationInputObjectSchema } from './objects/AiSupportConfigOrderByWithAggregationInput.schema';
+import { AiSupportConfigScalarWhereWithAggregatesInputObjectSchema as AiSupportConfigScalarWhereWithAggregatesInputObjectSchema } from './objects/AiSupportConfigScalarWhereWithAggregatesInput.schema';
+import { AiSupportConfigScalarFieldEnumSchema } from './enums/AiSupportConfigScalarFieldEnum.schema';
+import { AiSupportConfigCountAggregateInputObjectSchema as AiSupportConfigCountAggregateInputObjectSchema } from './objects/AiSupportConfigCountAggregateInput.schema';
+import { AiSupportConfigMinAggregateInputObjectSchema as AiSupportConfigMinAggregateInputObjectSchema } from './objects/AiSupportConfigMinAggregateInput.schema';
+import { AiSupportConfigMaxAggregateInputObjectSchema as AiSupportConfigMaxAggregateInputObjectSchema } from './objects/AiSupportConfigMaxAggregateInput.schema';
+
+export const AiSupportConfigGroupBySchema: z.ZodType<Prisma.AiSupportConfigGroupByArgs> = z.object({ where: AiSupportConfigWhereInputObjectSchema.optional(), orderBy: z.union([AiSupportConfigOrderByWithAggregationInputObjectSchema, AiSupportConfigOrderByWithAggregationInputObjectSchema.array()]).optional(), having: AiSupportConfigScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(AiSupportConfigScalarFieldEnumSchema), _count: z.union([ z.literal(true), AiSupportConfigCountAggregateInputObjectSchema ]).optional(), _min: AiSupportConfigMinAggregateInputObjectSchema.optional(), _max: AiSupportConfigMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.AiSupportConfigGroupByArgs>;
+
+export const AiSupportConfigGroupByZodSchema = z.object({ where: AiSupportConfigWhereInputObjectSchema.optional(), orderBy: z.union([AiSupportConfigOrderByWithAggregationInputObjectSchema, AiSupportConfigOrderByWithAggregationInputObjectSchema.array()]).optional(), having: AiSupportConfigScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(AiSupportConfigScalarFieldEnumSchema), _count: z.union([ z.literal(true), AiSupportConfigCountAggregateInputObjectSchema ]).optional(), _min: AiSupportConfigMinAggregateInputObjectSchema.optional(), _max: AiSupportConfigMaxAggregateInputObjectSchema.optional() }).strict();

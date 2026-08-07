@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { AnnouncementUpdateManyMutationInputObjectSchema as AnnouncementUpdateManyMutationInputObjectSchema } from './objects/AnnouncementUpdateManyMutationInput.schema';
 import { AnnouncementWhereInputObjectSchema as AnnouncementWhereInputObjectSchema } from './objects/AnnouncementWhereInput.schema';

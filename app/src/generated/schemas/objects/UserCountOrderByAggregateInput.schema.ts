@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 import { SortOrderSchema } from '../enums/SortOrder.schema'
 
 const makeSchema = () => z.object({
@@ -18,6 +18,7 @@ const makeSchema = () => z.object({
   username: SortOrderSchema.optional(),
   firstname: SortOrderSchema.optional(),
   lastname: SortOrderSchema.optional(),
+  pteroUserId: SortOrderSchema.optional(),
   displayUsername: SortOrderSchema.optional()
 }).strict();
 export const UserCountOrderByAggregateInputObjectSchema: z.ZodType<Prisma.UserCountOrderByAggregateInput> = makeSchema() as unknown as z.ZodType<Prisma.UserCountOrderByAggregateInput>;

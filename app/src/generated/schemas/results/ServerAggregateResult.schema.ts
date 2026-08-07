@@ -10,6 +10,7 @@ export const ServerAggregateResultSchema = z.object({  _count: z.object({
     status: z.number(),
     ip: z.number(),
     port: z.number(),
+    pterodactylServerId: z.number(),
     expiresAt: z.number(),
     resources: z.number(),
     pterodactylData: z.number(),
@@ -18,10 +19,12 @@ export const ServerAggregateResultSchema = z.object({  _count: z.object({
     updatedAt: z.number()
   }).optional(),
   _sum: z.object({
-    port: z.number().nullable()
+    port: z.number().nullable(),
+    pterodactylServerId: z.number().nullable()
   }).nullable().optional(),
   _avg: z.object({
-    port: z.number().nullable()
+    port: z.number().nullable(),
+    pterodactylServerId: z.number().nullable()
   }).nullable().optional(),
   _min: z.object({
     id: z.string().nullable(),
@@ -32,6 +35,7 @@ export const ServerAggregateResultSchema = z.object({  _count: z.object({
     status: z.string().nullable(),
     ip: z.string().nullable(),
     port: z.number().int().nullable(),
+    pterodactylServerId: z.number().int().nullable(),
     expiresAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
     createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
     updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable()
@@ -45,6 +49,7 @@ export const ServerAggregateResultSchema = z.object({  _count: z.object({
     status: z.string().nullable(),
     ip: z.string().nullable(),
     port: z.number().int().nullable(),
+    pterodactylServerId: z.number().int().nullable(),
     expiresAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
     createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
     updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable()

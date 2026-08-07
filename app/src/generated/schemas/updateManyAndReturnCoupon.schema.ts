@@ -1,4 +1,4 @@
-import type { Prisma } from '../prisma/client';
+import type { Prisma } from '../prisma/browser';
 import * as z from 'zod';
 import { CouponSelectObjectSchema as CouponSelectObjectSchema } from './objects/CouponSelect.schema';
 import { CouponUpdateManyMutationInputObjectSchema as CouponUpdateManyMutationInputObjectSchema } from './objects/CouponUpdateManyMutationInput.schema';

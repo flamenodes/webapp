@@ -146,6 +146,22 @@ function CustomersDataTable({ data }: { data: CustomerRecord[] }) {
             header: 'Joined',
             cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString(),
           },
+          {
+            id: 'billingAddress',
+            header: 'Billing Address',
+            cell: ({ row }) => {
+              const ba = row.original.billingAddress
+              if (!ba) return <span className="text-xs text-muted-foreground">—</span>
+              return (
+                <div className="text-xs space-y-0.5">
+                  <div className="font-medium">{ba.firstName} {ba.lastName}</div>
+                  <div className="text-muted-foreground">{ba.address}, {ba.city}</div>
+                  <div className="text-muted-foreground">{ba.zip} · {ba.country}</div>
+                  {ba.phone && <div className="text-muted-foreground">{ba.phone}</div>}
+                </div>
+              )
+            },
+          },
         ]}
         data={customers}
         searchColumnId="name"

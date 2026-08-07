@@ -51,11 +51,6 @@ export type UserMinAggregateOutputType = {
   firstname: string | null
   lastname: string | null
   pteroUserId: number | null
-  address: string | null
-  city: string | null
-  zip: string | null
-  country: string | null
-  phone: string | null
   displayUsername: string | null
 }
 
@@ -76,11 +71,6 @@ export type UserMaxAggregateOutputType = {
   firstname: string | null
   lastname: string | null
   pteroUserId: number | null
-  address: string | null
-  city: string | null
-  zip: string | null
-  country: string | null
-  phone: string | null
   displayUsername: string | null
 }
 
@@ -101,11 +91,6 @@ export type UserCountAggregateOutputType = {
   firstname: number
   lastname: number
   pteroUserId: number
-  address: number
-  city: number
-  zip: number
-  country: number
-  phone: number
   displayUsername: number
   _all: number
 }
@@ -136,11 +121,6 @@ export type UserMinAggregateInputType = {
   firstname?: true
   lastname?: true
   pteroUserId?: true
-  address?: true
-  city?: true
-  zip?: true
-  country?: true
-  phone?: true
   displayUsername?: true
 }
 
@@ -161,11 +141,6 @@ export type UserMaxAggregateInputType = {
   firstname?: true
   lastname?: true
   pteroUserId?: true
-  address?: true
-  city?: true
-  zip?: true
-  country?: true
-  phone?: true
   displayUsername?: true
 }
 
@@ -186,11 +161,6 @@ export type UserCountAggregateInputType = {
   firstname?: true
   lastname?: true
   pteroUserId?: true
-  address?: true
-  city?: true
-  zip?: true
-  country?: true
-  phone?: true
   displayUsername?: true
   _all?: true
 }
@@ -298,11 +268,6 @@ export type UserGroupByOutputType = {
   firstname: string
   lastname: string
   pteroUserId: number | null
-  address: string | null
-  city: string | null
-  zip: string | null
-  country: string | null
-  phone: string | null
   displayUsername: string | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
@@ -346,14 +311,10 @@ export type UserWhereInput = {
   firstname?: Prisma.StringFilter<"User"> | string
   lastname?: Prisma.StringFilter<"User"> | string
   pteroUserId?: Prisma.IntNullableFilter<"User"> | number | null
-  address?: Prisma.StringNullableFilter<"User"> | string | null
-  city?: Prisma.StringNullableFilter<"User"> | string | null
-  zip?: Prisma.StringNullableFilter<"User"> | string | null
-  country?: Prisma.StringNullableFilter<"User"> | string | null
-  phone?: Prisma.StringNullableFilter<"User"> | string | null
   displayUsername?: Prisma.StringNullableFilter<"User"> | string | null
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
+  billingAddress?: Prisma.XOR<Prisma.BillingAddressNullableScalarRelationFilter, Prisma.BillingAddressWhereInput> | null
   servers?: Prisma.ServerListRelationFilter
   cart?: Prisma.XOR<Prisma.CartNullableScalarRelationFilter, Prisma.CartWhereInput> | null
   orders?: Prisma.OrderListRelationFilter
@@ -380,14 +341,10 @@ export type UserOrderByWithRelationInput = {
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   pteroUserId?: Prisma.SortOrderInput | Prisma.SortOrder
-  address?: Prisma.SortOrderInput | Prisma.SortOrder
-  city?: Prisma.SortOrderInput | Prisma.SortOrder
-  zip?: Prisma.SortOrderInput | Prisma.SortOrder
-  country?: Prisma.SortOrderInput | Prisma.SortOrder
-  phone?: Prisma.SortOrderInput | Prisma.SortOrder
   displayUsername?: Prisma.SortOrderInput | Prisma.SortOrder
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
+  billingAddress?: Prisma.BillingAddressOrderByWithRelationInput
   servers?: Prisma.ServerOrderByRelationAggregateInput
   cart?: Prisma.CartOrderByWithRelationInput
   orders?: Prisma.OrderOrderByRelationAggregateInput
@@ -417,14 +374,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   firstname?: Prisma.StringFilter<"User"> | string
   lastname?: Prisma.StringFilter<"User"> | string
   pteroUserId?: Prisma.IntNullableFilter<"User"> | number | null
-  address?: Prisma.StringNullableFilter<"User"> | string | null
-  city?: Prisma.StringNullableFilter<"User"> | string | null
-  zip?: Prisma.StringNullableFilter<"User"> | string | null
-  country?: Prisma.StringNullableFilter<"User"> | string | null
-  phone?: Prisma.StringNullableFilter<"User"> | string | null
   displayUsername?: Prisma.StringNullableFilter<"User"> | string | null
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
+  billingAddress?: Prisma.XOR<Prisma.BillingAddressNullableScalarRelationFilter, Prisma.BillingAddressWhereInput> | null
   servers?: Prisma.ServerListRelationFilter
   cart?: Prisma.XOR<Prisma.CartNullableScalarRelationFilter, Prisma.CartWhereInput> | null
   orders?: Prisma.OrderListRelationFilter
@@ -451,11 +404,6 @@ export type UserOrderByWithAggregationInput = {
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   pteroUserId?: Prisma.SortOrderInput | Prisma.SortOrder
-  address?: Prisma.SortOrderInput | Prisma.SortOrder
-  city?: Prisma.SortOrderInput | Prisma.SortOrder
-  zip?: Prisma.SortOrderInput | Prisma.SortOrder
-  country?: Prisma.SortOrderInput | Prisma.SortOrder
-  phone?: Prisma.SortOrderInput | Prisma.SortOrder
   displayUsername?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
@@ -484,11 +432,6 @@ export type UserScalarWhereWithAggregatesInput = {
   firstname?: Prisma.StringWithAggregatesFilter<"User"> | string
   lastname?: Prisma.StringWithAggregatesFilter<"User"> | string
   pteroUserId?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
-  address?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  city?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  zip?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  country?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   displayUsername?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
@@ -509,14 +452,10 @@ export type UserCreateInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerCreateNestedManyWithoutUserInput
   cart?: Prisma.CartCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
@@ -543,14 +482,10 @@ export type UserUncheckedCreateInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressUncheckedCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerUncheckedCreateNestedManyWithoutUserInput
   cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
@@ -577,14 +512,10 @@ export type UserUpdateInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
@@ -611,14 +542,10 @@ export type UserUncheckedUpdateInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUncheckedUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUncheckedUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -645,11 +572,6 @@ export type UserCreateManyInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
 }
 
@@ -670,11 +592,6 @@ export type UserUpdateManyMutationInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -695,11 +612,6 @@ export type UserUncheckedUpdateManyInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -720,11 +632,6 @@ export type UserCountOrderByAggregateInput = {
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   pteroUserId?: Prisma.SortOrder
-  address?: Prisma.SortOrder
-  city?: Prisma.SortOrder
-  zip?: Prisma.SortOrder
-  country?: Prisma.SortOrder
-  phone?: Prisma.SortOrder
   displayUsername?: Prisma.SortOrder
 }
 
@@ -749,11 +656,6 @@ export type UserMaxOrderByAggregateInput = {
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   pteroUserId?: Prisma.SortOrder
-  address?: Prisma.SortOrder
-  city?: Prisma.SortOrder
-  zip?: Prisma.SortOrder
-  country?: Prisma.SortOrder
-  phone?: Prisma.SortOrder
   displayUsername?: Prisma.SortOrder
 }
 
@@ -774,11 +676,6 @@ export type UserMinOrderByAggregateInput = {
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   pteroUserId?: Prisma.SortOrder
-  address?: Prisma.SortOrder
-  city?: Prisma.SortOrder
-  zip?: Prisma.SortOrder
-  country?: Prisma.SortOrder
-  phone?: Prisma.SortOrder
   displayUsername?: Prisma.SortOrder
 }
 
@@ -826,6 +723,20 @@ export type NullableIntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type UserCreateNestedOneWithoutBillingAddressInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBillingAddressInput, Prisma.UserUncheckedCreateWithoutBillingAddressInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBillingAddressInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutBillingAddressNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBillingAddressInput, Prisma.UserUncheckedCreateWithoutBillingAddressInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBillingAddressInput
+  upsert?: Prisma.UserUpsertWithoutBillingAddressInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBillingAddressInput, Prisma.UserUpdateWithoutBillingAddressInput>, Prisma.UserUncheckedUpdateWithoutBillingAddressInput>
 }
 
 export type UserCreateNestedOneWithoutSessionsInput = {
@@ -956,6 +867,138 @@ export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
 }
 
+export type UserCreateWithoutBillingAddressInput = {
+  id: string
+  clientId: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  username: string
+  firstname: string
+  lastname: string
+  pteroUserId?: number | null
+  displayUsername?: string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  servers?: Prisma.ServerCreateNestedManyWithoutUserInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutUserInput
+  assignedTickets?: Prisma.TicketCreateNestedManyWithoutAssignedToInput
+  ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutBillingAddressInput = {
+  id: string
+  clientId: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  username: string
+  firstname: string
+  lastname: string
+  pteroUserId?: number | null
+  displayUsername?: string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  servers?: Prisma.ServerUncheckedCreateNestedManyWithoutUserInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutUserInput
+  assignedTickets?: Prisma.TicketUncheckedCreateNestedManyWithoutAssignedToInput
+  ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutBillingAddressInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutBillingAddressInput, Prisma.UserUncheckedCreateWithoutBillingAddressInput>
+}
+
+export type UserUpsertWithoutBillingAddressInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutBillingAddressInput, Prisma.UserUncheckedUpdateWithoutBillingAddressInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutBillingAddressInput, Prisma.UserUncheckedCreateWithoutBillingAddressInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutBillingAddressInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutBillingAddressInput, Prisma.UserUncheckedUpdateWithoutBillingAddressInput>
+}
+
+export type UserUpdateWithoutBillingAddressInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  clientId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string
+  pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  servers?: Prisma.ServerUpdateManyWithoutUserNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutUserNestedInput
+  assignedTickets?: Prisma.TicketUpdateManyWithoutAssignedToNestedInput
+  ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutBillingAddressInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  clientId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string
+  pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  servers?: Prisma.ServerUncheckedUpdateManyWithoutUserNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutUserNestedInput
+  assignedTickets?: Prisma.TicketUncheckedUpdateManyWithoutAssignedToNestedInput
+  ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutSessionsInput = {
   id: string
   clientId: string
@@ -973,13 +1016,9 @@ export type UserCreateWithoutSessionsInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerCreateNestedManyWithoutUserInput
   cart?: Prisma.CartCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
@@ -1006,13 +1045,9 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressUncheckedCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerUncheckedCreateNestedManyWithoutUserInput
   cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
@@ -1055,13 +1090,9 @@ export type UserUpdateWithoutSessionsInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
@@ -1088,13 +1119,9 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUncheckedUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUncheckedUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -1121,13 +1148,9 @@ export type UserCreateWithoutAccountsInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerCreateNestedManyWithoutUserInput
   cart?: Prisma.CartCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
@@ -1154,13 +1177,9 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressUncheckedCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerUncheckedCreateNestedManyWithoutUserInput
   cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
@@ -1203,13 +1222,9 @@ export type UserUpdateWithoutAccountsInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
@@ -1236,13 +1251,9 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUncheckedUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUncheckedUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -1269,14 +1280,10 @@ export type UserCreateWithoutCartInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   tickets?: Prisma.TicketCreateNestedManyWithoutUserInput
@@ -1302,14 +1309,10 @@ export type UserUncheckedCreateWithoutCartInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressUncheckedCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutUserInput
@@ -1351,14 +1354,10 @@ export type UserUpdateWithoutCartInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutUserNestedInput
@@ -1384,14 +1383,10 @@ export type UserUncheckedUpdateWithoutCartInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUncheckedUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutUserNestedInput
@@ -1417,14 +1412,10 @@ export type UserCreateWithoutOrdersInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerCreateNestedManyWithoutUserInput
   cart?: Prisma.CartCreateNestedOneWithoutUserInput
   tickets?: Prisma.TicketCreateNestedManyWithoutUserInput
@@ -1450,14 +1441,10 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressUncheckedCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerUncheckedCreateNestedManyWithoutUserInput
   cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutUserInput
@@ -1499,14 +1486,10 @@ export type UserUpdateWithoutOrdersInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUpdateOneWithoutUserNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutUserNestedInput
@@ -1532,14 +1515,10 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUncheckedUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUncheckedUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutUserNestedInput
@@ -1565,14 +1544,10 @@ export type UserCreateWithoutServersInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressCreateNestedOneWithoutUserInput
   cart?: Prisma.CartCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   tickets?: Prisma.TicketCreateNestedManyWithoutUserInput
@@ -1598,14 +1573,10 @@ export type UserUncheckedCreateWithoutServersInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressUncheckedCreateNestedOneWithoutUserInput
   cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutUserInput
@@ -1647,14 +1618,10 @@ export type UserUpdateWithoutServersInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUpdateOneWithoutUserNestedInput
   cart?: Prisma.CartUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutUserNestedInput
@@ -1680,14 +1647,10 @@ export type UserUncheckedUpdateWithoutServersInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUncheckedUpdateOneWithoutUserNestedInput
   cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutUserNestedInput
@@ -1713,14 +1676,10 @@ export type UserCreateWithoutTicketsInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerCreateNestedManyWithoutUserInput
   cart?: Prisma.CartCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
@@ -1746,14 +1705,10 @@ export type UserUncheckedCreateWithoutTicketsInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressUncheckedCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerUncheckedCreateNestedManyWithoutUserInput
   cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
@@ -1784,14 +1739,10 @@ export type UserCreateWithoutAssignedTicketsInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerCreateNestedManyWithoutUserInput
   cart?: Prisma.CartCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
@@ -1817,14 +1768,10 @@ export type UserUncheckedCreateWithoutAssignedTicketsInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressUncheckedCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerUncheckedCreateNestedManyWithoutUserInput
   cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
@@ -1866,14 +1813,10 @@ export type UserUpdateWithoutTicketsInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
@@ -1899,14 +1842,10 @@ export type UserUncheckedUpdateWithoutTicketsInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUncheckedUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUncheckedUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -1943,14 +1882,10 @@ export type UserUpdateWithoutAssignedTicketsInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
@@ -1976,14 +1911,10 @@ export type UserUncheckedUpdateWithoutAssignedTicketsInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUncheckedUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUncheckedUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -2009,14 +1940,10 @@ export type UserCreateWithoutTicketMessagesInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerCreateNestedManyWithoutUserInput
   cart?: Prisma.CartCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
@@ -2042,14 +1969,10 @@ export type UserUncheckedCreateWithoutTicketMessagesInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressUncheckedCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerUncheckedCreateNestedManyWithoutUserInput
   cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
@@ -2091,14 +2014,10 @@ export type UserUpdateWithoutTicketMessagesInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
@@ -2124,14 +2043,10 @@ export type UserUncheckedUpdateWithoutTicketMessagesInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUncheckedUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUncheckedUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -2157,14 +2072,10 @@ export type UserCreateWithoutNotificationsInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerCreateNestedManyWithoutUserInput
   cart?: Prisma.CartCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
@@ -2190,14 +2101,10 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   firstname: string
   lastname: string
   pteroUserId?: number | null
-  address?: string | null
-  city?: string | null
-  zip?: string | null
-  country?: string | null
-  phone?: string | null
   displayUsername?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.BillingAddressUncheckedCreateNestedOneWithoutUserInput
   servers?: Prisma.ServerUncheckedCreateNestedManyWithoutUserInput
   cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
@@ -2239,14 +2146,10 @@ export type UserUpdateWithoutNotificationsInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
@@ -2272,14 +2175,10 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   pteroUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.BillingAddressUncheckedUpdateOneWithoutUserNestedInput
   servers?: Prisma.ServerUncheckedUpdateManyWithoutUserNestedInput
   cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -2399,14 +2298,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   firstname?: boolean
   lastname?: boolean
   pteroUserId?: boolean
-  address?: boolean
-  city?: boolean
-  zip?: boolean
-  country?: boolean
-  phone?: boolean
   displayUsername?: boolean
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
+  billingAddress?: boolean | Prisma.User$billingAddressArgs<ExtArgs>
   servers?: boolean | Prisma.User$serversArgs<ExtArgs>
   cart?: boolean | Prisma.User$cartArgs<ExtArgs>
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
@@ -2434,11 +2329,6 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   firstname?: boolean
   lastname?: boolean
   pteroUserId?: boolean
-  address?: boolean
-  city?: boolean
-  zip?: boolean
-  country?: boolean
-  phone?: boolean
   displayUsername?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -2459,11 +2349,6 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   firstname?: boolean
   lastname?: boolean
   pteroUserId?: boolean
-  address?: boolean
-  city?: boolean
-  zip?: boolean
-  country?: boolean
-  phone?: boolean
   displayUsername?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -2484,18 +2369,14 @@ export type UserSelectScalar = {
   firstname?: boolean
   lastname?: boolean
   pteroUserId?: boolean
-  address?: boolean
-  city?: boolean
-  zip?: boolean
-  country?: boolean
-  phone?: boolean
   displayUsername?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "clientId" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "role" | "banned" | "banReason" | "banExpires" | "username" | "firstname" | "lastname" | "pteroUserId" | "address" | "city" | "zip" | "country" | "phone" | "displayUsername", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "clientId" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "role" | "banned" | "banReason" | "banExpires" | "username" | "firstname" | "lastname" | "pteroUserId" | "displayUsername", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
+  billingAddress?: boolean | Prisma.User$billingAddressArgs<ExtArgs>
   servers?: boolean | Prisma.User$serversArgs<ExtArgs>
   cart?: boolean | Prisma.User$cartArgs<ExtArgs>
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
@@ -2513,6 +2394,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
+    billingAddress: Prisma.$BillingAddressPayload<ExtArgs> | null
     servers: Prisma.$ServerPayload<ExtArgs>[]
     cart: Prisma.$CartPayload<ExtArgs> | null
     orders: Prisma.$OrderPayload<ExtArgs>[]
@@ -2538,11 +2420,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     firstname: string
     lastname: string
     pteroUserId: number | null
-    address: string | null
-    city: string | null
-    zip: string | null
-    country: string | null
-    phone: string | null
     displayUsername: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
@@ -2940,6 +2817,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  billingAddress<T extends Prisma.User$billingAddressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$billingAddressArgs<ExtArgs>>): Prisma.Prisma__BillingAddressClient<runtime.Types.Result.GetResult<Prisma.$BillingAddressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   servers<T extends Prisma.User$serversArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$serversArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cart<T extends Prisma.User$cartArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cartArgs<ExtArgs>>): Prisma.Prisma__CartClient<runtime.Types.Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   orders<T extends Prisma.User$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2992,11 +2870,6 @@ export interface UserFieldRefs {
   readonly firstname: Prisma.FieldRef<"User", 'String'>
   readonly lastname: Prisma.FieldRef<"User", 'String'>
   readonly pteroUserId: Prisma.FieldRef<"User", 'Int'>
-  readonly address: Prisma.FieldRef<"User", 'String'>
-  readonly city: Prisma.FieldRef<"User", 'String'>
-  readonly zip: Prisma.FieldRef<"User", 'String'>
-  readonly country: Prisma.FieldRef<"User", 'String'>
-  readonly phone: Prisma.FieldRef<"User", 'String'>
   readonly displayUsername: Prisma.FieldRef<"User", 'String'>
 }
     
@@ -3436,6 +3309,25 @@ export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.AccountScalarFieldEnum | Prisma.AccountScalarFieldEnum[]
+}
+
+/**
+ * User.billingAddress
+ */
+export type User$billingAddressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BillingAddress
+   */
+  select?: Prisma.BillingAddressSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BillingAddress
+   */
+  omit?: Prisma.BillingAddressOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BillingAddressInclude<ExtArgs> | null
+  where?: Prisma.BillingAddressWhereInput
 }
 
 /**

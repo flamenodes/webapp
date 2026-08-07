@@ -3,9 +3,9 @@ export const ServerFindManyResultSchema = z.object({
   data: z.array(z.object({
   id: z.string(),
   userId: z.string(),
-  user: z.unknown(),
+  user: z.unknown().optional(),
   orderItemId: z.string(),
-  orderItem: z.unknown(),
+  orderItem: z.unknown().optional(),
   name: z.string(),
   type: z.string(),
   status: z.string(),

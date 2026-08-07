@@ -1,0 +1,10 @@
+import type { Prisma } from '../prisma/browser';
+import * as z from 'zod';
+import { AiSupportConfigOrderByWithRelationInputObjectSchema as AiSupportConfigOrderByWithRelationInputObjectSchema } from './objects/AiSupportConfigOrderByWithRelationInput.schema';
+import { AiSupportConfigWhereInputObjectSchema as AiSupportConfigWhereInputObjectSchema } from './objects/AiSupportConfigWhereInput.schema';
+import { AiSupportConfigWhereUniqueInputObjectSchema as AiSupportConfigWhereUniqueInputObjectSchema } from './objects/AiSupportConfigWhereUniqueInput.schema';
+import { AiSupportConfigCountAggregateInputObjectSchema as AiSupportConfigCountAggregateInputObjectSchema } from './objects/AiSupportConfigCountAggregateInput.schema';
+
+export const AiSupportConfigCountSchema: z.ZodType<Prisma.AiSupportConfigCountArgs> = z.object({ orderBy: z.union([AiSupportConfigOrderByWithRelationInputObjectSchema, AiSupportConfigOrderByWithRelationInputObjectSchema.array()]).optional(), where: AiSupportConfigWhereInputObjectSchema.optional(), cursor: AiSupportConfigWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), select: z.union([ z.literal(true), AiSupportConfigCountAggregateInputObjectSchema ]).optional() }).strict() as unknown as z.ZodType<Prisma.AiSupportConfigCountArgs>;
+
+export const AiSupportConfigCountZodSchema = z.object({ orderBy: z.union([AiSupportConfigOrderByWithRelationInputObjectSchema, AiSupportConfigOrderByWithRelationInputObjectSchema.array()]).optional(), where: AiSupportConfigWhereInputObjectSchema.optional(), cursor: AiSupportConfigWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), select: z.union([ z.literal(true), AiSupportConfigCountAggregateInputObjectSchema ]).optional() }).strict();

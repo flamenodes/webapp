@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { DiscountUpdateManyMutationInputObjectSchema as DiscountUpdateManyMutationInputObjectSchema } from './objects/DiscountUpdateManyMutationInput.schema';
 import { DiscountWhereInputObjectSchema as DiscountWhereInputObjectSchema } from './objects/DiscountWhereInput.schema';

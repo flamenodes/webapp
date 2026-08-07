@@ -10,12 +10,12 @@ export const StatusNodeInputSchema = z.object({
     protocol: z.string(),
     status: z.string(),
     latency: z.number().int().optional().nullable(),
-    lastChecked: z.date().optional().nullable(),
+    lastChecked: z.coerce.date().optional().nullable(),
     cpu: z.number().optional().nullable(),
     memory: z.number().int().optional().nullable(),
     disk: z.number().int().optional().nullable(),
-    createdAt: z.date(),
-    updatedAt: z.date()
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date()
 }).strict();
 
 export type StatusNodeInputType = z.infer<typeof StatusNodeInputSchema>;

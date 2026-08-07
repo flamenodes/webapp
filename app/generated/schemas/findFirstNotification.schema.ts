@@ -1,10 +1,11 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { NotificationIncludeObjectSchema as NotificationIncludeObjectSchema } from './objects/NotificationInclude.schema';
 import { NotificationOrderByWithRelationInputObjectSchema as NotificationOrderByWithRelationInputObjectSchema } from './objects/NotificationOrderByWithRelationInput.schema';
 import { NotificationWhereInputObjectSchema as NotificationWhereInputObjectSchema } from './objects/NotificationWhereInput.schema';
 import { NotificationWhereUniqueInputObjectSchema as NotificationWhereUniqueInputObjectSchema } from './objects/NotificationWhereUniqueInput.schema';
 import { NotificationScalarFieldEnumSchema } from './enums/NotificationScalarFieldEnum.schema';
+import { UserArgsObjectSchema as UserArgsObjectSchema } from './objects/UserArgs.schema';
 
 // Select schema needs to be in file to prevent circular imports
 //------------------------------------------------------
@@ -12,7 +13,7 @@ import { NotificationScalarFieldEnumSchema } from './enums/NotificationScalarFie
 export const NotificationFindFirstSelectSchema: z.ZodType<Prisma.NotificationSelect> = z.object({
     id: z.boolean().optional(),
     userId: z.boolean().optional(),
-    user: z.boolean().optional(),
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
     type: z.boolean().optional(),
     title: z.boolean().optional(),
     message: z.boolean().optional(),
@@ -25,7 +26,7 @@ export const NotificationFindFirstSelectSchema: z.ZodType<Prisma.NotificationSel
 export const NotificationFindFirstSelectZodSchema = z.object({
     id: z.boolean().optional(),
     userId: z.boolean().optional(),
-    user: z.boolean().optional(),
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
     type: z.boolean().optional(),
     title: z.boolean().optional(),
     message: z.boolean().optional(),

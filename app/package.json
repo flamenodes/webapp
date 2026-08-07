@@ -27,7 +27,7 @@
 	"dependencies": {
 		"@better-auth/prisma-adapter": "^1.6.10",
 		"@firecms/neat": "^0.8.0",
-		"@imagekit/nodejs": "^7.6.1",
+		"@imagekit/nodejs": "^7.10.0",
 		"@imagekit/react": "^5.0.2",
 		"@mdxeditor/editor": "^4.0.1",
 		"@modelcontextprotocol/sdk": "^1.27.1",
@@ -77,6 +77,7 @@
 		"nitropack": "^2.13.4",
 		"nprogress": "^0.2.0",
 		"ogl": "^1.0.11",
+		"openai": "^7.4.0",
 		"pg": "^8.20.0",
 		"postprocessing": "^6.36.0",
 		"prisma": "^7.8.0",

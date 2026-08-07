@@ -1,0 +1,10 @@
+import type { Prisma } from '../prisma/browser';
+import * as z from 'zod';
+import { TicketTagPresetOrderByWithRelationInputObjectSchema as TicketTagPresetOrderByWithRelationInputObjectSchema } from './objects/TicketTagPresetOrderByWithRelationInput.schema';
+import { TicketTagPresetWhereInputObjectSchema as TicketTagPresetWhereInputObjectSchema } from './objects/TicketTagPresetWhereInput.schema';
+import { TicketTagPresetWhereUniqueInputObjectSchema as TicketTagPresetWhereUniqueInputObjectSchema } from './objects/TicketTagPresetWhereUniqueInput.schema';
+import { TicketTagPresetCountAggregateInputObjectSchema as TicketTagPresetCountAggregateInputObjectSchema } from './objects/TicketTagPresetCountAggregateInput.schema';
+
+export const TicketTagPresetCountSchema: z.ZodType<Prisma.TicketTagPresetCountArgs> = z.object({ orderBy: z.union([TicketTagPresetOrderByWithRelationInputObjectSchema, TicketTagPresetOrderByWithRelationInputObjectSchema.array()]).optional(), where: TicketTagPresetWhereInputObjectSchema.optional(), cursor: TicketTagPresetWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), select: z.union([ z.literal(true), TicketTagPresetCountAggregateInputObjectSchema ]).optional() }).strict() as unknown as z.ZodType<Prisma.TicketTagPresetCountArgs>;
+
+export const TicketTagPresetCountZodSchema = z.object({ orderBy: z.union([TicketTagPresetOrderByWithRelationInputObjectSchema, TicketTagPresetOrderByWithRelationInputObjectSchema.array()]).optional(), where: TicketTagPresetWhereInputObjectSchema.optional(), cursor: TicketTagPresetWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), select: z.union([ z.literal(true), TicketTagPresetCountAggregateInputObjectSchema ]).optional() }).strict();

@@ -66,6 +66,7 @@ export const getCustomers = createServerFn({ method: 'GET' }).handler(async () =
         banExpires: true,
         createdAt: true,
         updatedAt: true,
+        billingAddress: true,
         _count: {
           select: {
             orders: true,

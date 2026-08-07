@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { CartCountOutputTypeCountItemsArgsObjectSchema as CartCountOutputTypeCountItemsArgsObjectSchema } from './CartCountOutputTypeCountItemsArgs.schema'
 
 const makeSchema = () => z.object({

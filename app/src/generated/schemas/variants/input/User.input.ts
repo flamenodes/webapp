@@ -18,10 +18,16 @@ export const UserInputSchema = z.object({
     username: z.string(),
     firstname: z.string(),
     lastname: z.string(),
+    pteroUserId: z.number().int().optional().nullable(),
+    billingAddress: z.any().optional().nullable(),
     servers: z.array(z.any()),
     cart: z.any().optional().nullable(),
     orders: z.array(z.any()),
-    displayUsername: z.string().optional().nullable()
+    displayUsername: z.string().optional().nullable(),
+    tickets: z.array(z.any()),
+    assignedTickets: z.array(z.any()),
+    ticketMessages: z.array(z.any()),
+    notifications: z.array(z.any())
 }).strict();
 
 export type UserInputType = z.infer<typeof UserInputSchema>;

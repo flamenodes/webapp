@@ -7,7 +7,7 @@ export const InvoiceInputSchema = z.object({
     invoiceNumber: z.string(),
     pdfUrl: z.string(),
     razorpayData: z.unknown().optional().nullable(),
-    createdAt: z.date()
+    createdAt: z.coerce.date()
 }).strict();
 
 export type InvoiceInputType = z.infer<typeof InvoiceInputSchema>;

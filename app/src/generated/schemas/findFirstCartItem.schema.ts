@@ -1,10 +1,12 @@
-import type { Prisma } from '../prisma/client';
+import type { Prisma } from '../prisma/browser';
 import * as z from 'zod';
 import { CartItemIncludeObjectSchema as CartItemIncludeObjectSchema } from './objects/CartItemInclude.schema';
 import { CartItemOrderByWithRelationInputObjectSchema as CartItemOrderByWithRelationInputObjectSchema } from './objects/CartItemOrderByWithRelationInput.schema';
 import { CartItemWhereInputObjectSchema as CartItemWhereInputObjectSchema } from './objects/CartItemWhereInput.schema';
 import { CartItemWhereUniqueInputObjectSchema as CartItemWhereUniqueInputObjectSchema } from './objects/CartItemWhereUniqueInput.schema';
 import { CartItemScalarFieldEnumSchema } from './enums/CartItemScalarFieldEnum.schema';
+import { CartArgsObjectSchema as CartArgsObjectSchema } from './objects/CartArgs.schema';
+import { ProductArgsObjectSchema as ProductArgsObjectSchema } from './objects/ProductArgs.schema';
 
 // Select schema needs to be in file to prevent circular imports
 //------------------------------------------------------
@@ -15,8 +17,9 @@ export const CartItemFindFirstSelectSchema: z.ZodType<Prisma.CartItemSelect> = z
     productId: z.boolean().optional(),
     quantity: z.boolean().optional(),
     billingPeriod: z.boolean().optional(),
-    cart: z.boolean().optional(),
-    product: z.boolean().optional(),
+    configuration: z.boolean().optional(),
+    cart: z.union([z.boolean(), z.lazy(() => CartArgsObjectSchema)]).optional(),
+    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
     createdAt: z.boolean().optional(),
     updatedAt: z.boolean().optional()
   }).strict() as unknown as z.ZodType<Prisma.CartItemSelect>;
@@ -27,8 +30,9 @@ export const CartItemFindFirstSelectZodSchema = z.object({
     productId: z.boolean().optional(),
     quantity: z.boolean().optional(),
     billingPeriod: z.boolean().optional(),
-    cart: z.boolean().optional(),
-    product: z.boolean().optional(),
+    configuration: z.boolean().optional(),
+    cart: z.union([z.boolean(), z.lazy(() => CartArgsObjectSchema)]).optional(),
+    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
     createdAt: z.boolean().optional(),
     updatedAt: z.boolean().optional()
   }).strict();

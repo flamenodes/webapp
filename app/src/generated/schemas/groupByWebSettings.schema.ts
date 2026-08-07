@@ -1,0 +1,13 @@
+import type { Prisma } from '../prisma/browser';
+import * as z from 'zod';
+import { WebSettingsWhereInputObjectSchema as WebSettingsWhereInputObjectSchema } from './objects/WebSettingsWhereInput.schema';
+import { WebSettingsOrderByWithAggregationInputObjectSchema as WebSettingsOrderByWithAggregationInputObjectSchema } from './objects/WebSettingsOrderByWithAggregationInput.schema';
+import { WebSettingsScalarWhereWithAggregatesInputObjectSchema as WebSettingsScalarWhereWithAggregatesInputObjectSchema } from './objects/WebSettingsScalarWhereWithAggregatesInput.schema';
+import { WebSettingsScalarFieldEnumSchema } from './enums/WebSettingsScalarFieldEnum.schema';
+import { WebSettingsCountAggregateInputObjectSchema as WebSettingsCountAggregateInputObjectSchema } from './objects/WebSettingsCountAggregateInput.schema';
+import { WebSettingsMinAggregateInputObjectSchema as WebSettingsMinAggregateInputObjectSchema } from './objects/WebSettingsMinAggregateInput.schema';
+import { WebSettingsMaxAggregateInputObjectSchema as WebSettingsMaxAggregateInputObjectSchema } from './objects/WebSettingsMaxAggregateInput.schema';
+
+export const WebSettingsGroupBySchema: z.ZodType<Prisma.WebSettingsGroupByArgs> = z.object({ where: WebSettingsWhereInputObjectSchema.optional(), orderBy: z.union([WebSettingsOrderByWithAggregationInputObjectSchema, WebSettingsOrderByWithAggregationInputObjectSchema.array()]).optional(), having: WebSettingsScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(WebSettingsScalarFieldEnumSchema), _count: z.union([ z.literal(true), WebSettingsCountAggregateInputObjectSchema ]).optional(), _min: WebSettingsMinAggregateInputObjectSchema.optional(), _max: WebSettingsMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.WebSettingsGroupByArgs>;
+
+export const WebSettingsGroupByZodSchema = z.object({ where: WebSettingsWhereInputObjectSchema.optional(), orderBy: z.union([WebSettingsOrderByWithAggregationInputObjectSchema, WebSettingsOrderByWithAggregationInputObjectSchema.array()]).optional(), having: WebSettingsScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(WebSettingsScalarFieldEnumSchema), _count: z.union([ z.literal(true), WebSettingsCountAggregateInputObjectSchema ]).optional(), _min: WebSettingsMinAggregateInputObjectSchema.optional(), _max: WebSettingsMaxAggregateInputObjectSchema.optional() }).strict();

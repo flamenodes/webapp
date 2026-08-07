@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { TicketArgsObjectSchema as TicketArgsObjectSchema } from './TicketArgs.schema';
 import { UserArgsObjectSchema as UserArgsObjectSchema } from './UserArgs.schema'
 

@@ -1,8 +1,11 @@
 import * as z from 'zod';
+import { UserSchema } from '../models/User.schema';
+import { OrderItemSchema } from '../models/OrderItem.schema';
+import { InvoiceSchema } from '../models/Invoice.schema';
 export const OrderUpsertResultSchema = z.object({
   id: z.string(),
   userId: z.string(),
-  user: z.any(),
+  user: UserSchema.optional(),
   status: z.any(),
   subtotalAmount: z.number().int(),
   discountAmount: z.number().int(),
@@ -10,7 +13,8 @@ export const OrderUpsertResultSchema = z.object({
   couponCode: z.string().optional(),
   deliveryMessage: z.string().optional(),
   deliveryData: z.any().optional(),
-  items: z.array(z.any()),
+  items: z.array(OrderItemSchema).optional(),
+  invoice: InvoiceSchema.optional(),
   createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
   updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime")
 });

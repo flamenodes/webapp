@@ -12,12 +12,12 @@ export const ServerInputSchema = z.object({
     ip: z.string().optional().nullable(),
     port: z.number().int().optional().nullable(),
     pterodactylServerId: z.number().int().optional().nullable(),
-    expiresAt: z.date().optional().nullable(),
+    expiresAt: z.coerce.date().optional().nullable(),
     resources: z.unknown().optional().nullable(),
     pterodactylData: z.unknown().optional().nullable(),
     suspended: z.boolean(),
-    createdAt: z.date(),
-    updatedAt: z.date()
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date()
 }).strict();
 
 export type ServerInputType = z.infer<typeof ServerInputSchema>;

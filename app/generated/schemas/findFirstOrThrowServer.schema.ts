@@ -1,10 +1,12 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { ServerIncludeObjectSchema as ServerIncludeObjectSchema } from './objects/ServerInclude.schema';
 import { ServerOrderByWithRelationInputObjectSchema as ServerOrderByWithRelationInputObjectSchema } from './objects/ServerOrderByWithRelationInput.schema';
 import { ServerWhereInputObjectSchema as ServerWhereInputObjectSchema } from './objects/ServerWhereInput.schema';
 import { ServerWhereUniqueInputObjectSchema as ServerWhereUniqueInputObjectSchema } from './objects/ServerWhereUniqueInput.schema';
 import { ServerScalarFieldEnumSchema } from './enums/ServerScalarFieldEnum.schema';
+import { UserArgsObjectSchema as UserArgsObjectSchema } from './objects/UserArgs.schema';
+import { OrderItemArgsObjectSchema as OrderItemArgsObjectSchema } from './objects/OrderItemArgs.schema';
 
 // Select schema needs to be in file to prevent circular imports
 //------------------------------------------------------
@@ -12,9 +14,9 @@ import { ServerScalarFieldEnumSchema } from './enums/ServerScalarFieldEnum.schem
 export const ServerFindFirstOrThrowSelectSchema: z.ZodType<Prisma.ServerSelect> = z.object({
     id: z.boolean().optional(),
     userId: z.boolean().optional(),
-    user: z.boolean().optional(),
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
     orderItemId: z.boolean().optional(),
-    orderItem: z.boolean().optional(),
+    orderItem: z.union([z.boolean(), z.lazy(() => OrderItemArgsObjectSchema)]).optional(),
     name: z.boolean().optional(),
     type: z.boolean().optional(),
     status: z.boolean().optional(),
@@ -32,9 +34,9 @@ export const ServerFindFirstOrThrowSelectSchema: z.ZodType<Prisma.ServerSelect> 
 export const ServerFindFirstOrThrowSelectZodSchema = z.object({
     id: z.boolean().optional(),
     userId: z.boolean().optional(),
-    user: z.boolean().optional(),
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
     orderItemId: z.boolean().optional(),
-    orderItem: z.boolean().optional(),
+    orderItem: z.union([z.boolean(), z.lazy(() => OrderItemArgsObjectSchema)]).optional(),
     name: z.boolean().optional(),
     type: z.boolean().optional(),
     status: z.boolean().optional(),

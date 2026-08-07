@@ -19,8 +19,8 @@ export const ProductInputSchema = z.object({
     cartItems: z.array(z.unknown()),
     orderItems: z.array(z.unknown()),
     billingOptions: z.array(z.unknown()),
-    createdAt: z.date(),
-    updatedAt: z.date()
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date()
 }).strict();
 
 export type ProductInputType = z.infer<typeof ProductInputSchema>;

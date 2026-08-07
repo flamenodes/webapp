@@ -13,6 +13,7 @@ export const OrderModelSchema = z.object({
     deliveryMessage: z.string().nullable(),
     deliveryData: z.any().nullable(),
     items: z.array(z.any()),
+    invoice: z.any().nullable(),
     createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
     updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime")
 }).strict();

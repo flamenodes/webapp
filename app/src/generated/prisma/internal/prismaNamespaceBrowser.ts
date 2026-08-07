@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  BillingAddress: 'BillingAddress',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
@@ -78,6 +79,7 @@ export const ModelName = {
   Notification: 'Notification',
   Announcement: 'Announcement',
   RazorpayConfig: 'RazorpayConfig',
+  AiSupportConfig: 'AiSupportConfig',
   WebSettings: 'WebSettings'
 } as const
 
@@ -114,15 +116,28 @@ export const UserScalarFieldEnum = {
   firstname: 'firstname',
   lastname: 'lastname',
   pteroUserId: 'pteroUserId',
-  address: 'address',
-  city: 'city',
-  zip: 'zip',
-  country: 'country',
-  phone: 'phone',
   displayUsername: 'displayUsername'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const BillingAddressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  phone: 'phone',
+  address: 'address',
+  city: 'city',
+  state: 'state',
+  zip: 'zip',
+  country: 'country',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type BillingAddressScalarFieldEnum = (typeof BillingAddressScalarFieldEnum)[keyof typeof BillingAddressScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {
@@ -509,6 +524,18 @@ export const RazorpayConfigScalarFieldEnum = {
 } as const
 
 export type RazorpayConfigScalarFieldEnum = (typeof RazorpayConfigScalarFieldEnum)[keyof typeof RazorpayConfigScalarFieldEnum]
+
+
+export const AiSupportConfigScalarFieldEnum = {
+  id: 'id',
+  enabled: 'enabled',
+  systemPrompt: 'systemPrompt',
+  model: 'model',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type AiSupportConfigScalarFieldEnum = (typeof AiSupportConfigScalarFieldEnum)[keyof typeof AiSupportConfigScalarFieldEnum]
 
 
 export const WebSettingsScalarFieldEnum = {

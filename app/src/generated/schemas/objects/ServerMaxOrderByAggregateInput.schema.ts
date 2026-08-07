@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 import { SortOrderSchema } from '../enums/SortOrder.schema'
 
 const makeSchema = () => z.object({
@@ -11,6 +11,7 @@ const makeSchema = () => z.object({
   status: SortOrderSchema.optional(),
   ip: SortOrderSchema.optional(),
   port: SortOrderSchema.optional(),
+  pterodactylServerId: SortOrderSchema.optional(),
   expiresAt: SortOrderSchema.optional(),
   suspended: SortOrderSchema.optional(),
   createdAt: SortOrderSchema.optional(),

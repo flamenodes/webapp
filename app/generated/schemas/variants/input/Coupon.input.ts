@@ -8,11 +8,11 @@ export const CouponInputSchema = z.object({
     amount: z.number().int(),
     description: z.string().optional().nullable(),
     active: z.boolean(),
-    expiresAt: z.date().optional().nullable(),
+    expiresAt: z.coerce.date().optional().nullable(),
     maxUses: z.number().int().optional().nullable(),
     usedCount: z.number().int(),
-    createdAt: z.date(),
-    updatedAt: z.date()
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date()
 }).strict();
 
 export type CouponInputType = z.infer<typeof CouponInputSchema>;

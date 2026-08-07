@@ -6,8 +6,8 @@ export const CartItemUpdateResultSchema = z.nullable(z.object({
   quantity: z.number().int(),
   billingPeriod: z.unknown(),
   configuration: z.unknown().optional(),
-  cart: z.unknown(),
-  product: z.unknown(),
+  cart: z.unknown().optional(),
+  product: z.unknown().optional(),
   createdAt: z.date(),
   updatedAt: z.date()
 }));

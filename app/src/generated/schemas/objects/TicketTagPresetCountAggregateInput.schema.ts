@@ -1,0 +1,12 @@
+import * as z from 'zod';
+import type { Prisma } from '../../prisma/browser';
+
+
+const makeSchema = () => z.object({
+  id: z.literal(true).optional(),
+  name: z.literal(true).optional(),
+  createdAt: z.literal(true).optional(),
+  _all: z.literal(true).optional()
+}).strict();
+export const TicketTagPresetCountAggregateInputObjectSchema: z.ZodType<Prisma.TicketTagPresetCountAggregateInputType> = makeSchema() as unknown as z.ZodType<Prisma.TicketTagPresetCountAggregateInputType>;
+export const TicketTagPresetCountAggregateInputObjectZodSchema = makeSchema();

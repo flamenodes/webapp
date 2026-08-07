@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { InvoiceWhereInputObjectSchema as InvoiceWhereInputObjectSchema } from './objects/InvoiceWhereInput.schema';
 import { InvoiceOrderByWithAggregationInputObjectSchema as InvoiceOrderByWithAggregationInputObjectSchema } from './objects/InvoiceOrderByWithAggregationInput.schema';

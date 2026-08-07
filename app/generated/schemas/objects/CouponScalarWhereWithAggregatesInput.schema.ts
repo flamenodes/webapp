@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { StringWithAggregatesFilterObjectSchema as StringWithAggregatesFilterObjectSchema } from './StringWithAggregatesFilter.schema';
 import { EnumCouponTypeWithAggregatesFilterObjectSchema as EnumCouponTypeWithAggregatesFilterObjectSchema } from './EnumCouponTypeWithAggregatesFilter.schema';
 import { CouponTypeSchema } from '../enums/CouponType.schema';

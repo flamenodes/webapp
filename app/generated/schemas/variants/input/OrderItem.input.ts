@@ -12,11 +12,11 @@ export const OrderItemInputSchema = z.object({
     totalPrice: z.number().int(),
     specsSnapshot: z.unknown().optional().nullable(),
     configuration: z.unknown().optional().nullable(),
-    expiresAt: z.date().optional().nullable(),
+    expiresAt: z.coerce.date().optional().nullable(),
     order: z.unknown(),
     product: z.unknown(),
     server: z.unknown().optional().nullable(),
-    createdAt: z.date()
+    createdAt: z.coerce.date()
 }).strict();
 
 export type OrderItemInputType = z.infer<typeof OrderItemInputSchema>;

@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 
 
 const makeSchema = () => z.object({
@@ -18,6 +18,7 @@ const makeSchema = () => z.object({
   username: z.literal(true).optional(),
   firstname: z.literal(true).optional(),
   lastname: z.literal(true).optional(),
+  pteroUserId: z.literal(true).optional(),
   displayUsername: z.literal(true).optional(),
   _all: z.literal(true).optional()
 }).strict();

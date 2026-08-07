@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 import { BillingPeriodSchema } from '../enums/BillingPeriod.schema';
 import { NestedEnumBillingPeriodWithAggregatesFilterObjectSchema as NestedEnumBillingPeriodWithAggregatesFilterObjectSchema } from './NestedEnumBillingPeriodWithAggregatesFilter.schema';
 import { NestedIntFilterObjectSchema as NestedIntFilterObjectSchema } from './NestedIntFilter.schema';

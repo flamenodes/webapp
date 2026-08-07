@@ -9,9 +9,9 @@ export const AnnouncementInputSchema = z.object({
     active: z.boolean(),
     priority: z.number().int(),
     link: z.string().optional().nullable(),
-    expiresAt: z.date().optional().nullable(),
-    createdAt: z.date(),
-    updatedAt: z.date()
+    expiresAt: z.coerce.date().optional().nullable(),
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date()
 }).strict();
 
 export type AnnouncementInputType = z.infer<typeof AnnouncementInputSchema>;

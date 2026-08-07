@@ -18,10 +18,16 @@ export const UserResultSchema = z.object({
     username: z.string(),
     firstname: z.string(),
     lastname: z.string(),
+    pteroUserId: z.number().int().nullable(),
+    billingAddress: z.any().nullable(),
     servers: z.array(z.any()),
     cart: z.any().nullable(),
     orders: z.array(z.any()),
-    displayUsername: z.string().nullable()
+    displayUsername: z.string().nullable(),
+    tickets: z.array(z.any()),
+    assignedTickets: z.array(z.any()),
+    ticketMessages: z.array(z.any()),
+    notifications: z.array(z.any())
 }).strict();
 
 export type UserResultType = z.infer<typeof UserResultSchema>;

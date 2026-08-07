@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 import { StringFilterObjectSchema as StringFilterObjectSchema } from './StringFilter.schema';
 import { StringNullableFilterObjectSchema as StringNullableFilterObjectSchema } from './StringNullableFilter.schema';
 import { EnumProductCategoryFilterObjectSchema as EnumProductCategoryFilterObjectSchema } from './EnumProductCategoryFilter.schema';
@@ -12,7 +12,8 @@ import { ProductFeatureListRelationFilterObjectSchema as ProductFeatureListRelat
 import { DiscountNullableScalarRelationFilterObjectSchema as DiscountNullableScalarRelationFilterObjectSchema } from './DiscountNullableScalarRelationFilter.schema';
 import { DiscountWhereInputObjectSchema as DiscountWhereInputObjectSchema } from './DiscountWhereInput.schema';
 import { CartItemListRelationFilterObjectSchema as CartItemListRelationFilterObjectSchema } from './CartItemListRelationFilter.schema';
-import { OrderItemListRelationFilterObjectSchema as OrderItemListRelationFilterObjectSchema } from './OrderItemListRelationFilter.schema'
+import { OrderItemListRelationFilterObjectSchema as OrderItemListRelationFilterObjectSchema } from './OrderItemListRelationFilter.schema';
+import { ProductBillingOptionListRelationFilterObjectSchema as ProductBillingOptionListRelationFilterObjectSchema } from './ProductBillingOptionListRelationFilter.schema'
 
 const productwhereinputSchema = z.object({
   AND: z.union([z.lazy(() => ProductWhereInputObjectSchema), z.lazy(() => ProductWhereInputObjectSchema).array()]).optional(),
@@ -35,7 +36,8 @@ const productwhereinputSchema = z.object({
   features: z.lazy(() => ProductFeatureListRelationFilterObjectSchema).optional(),
   discount: z.union([z.lazy(() => DiscountNullableScalarRelationFilterObjectSchema), z.lazy(() => DiscountWhereInputObjectSchema)]).optional(),
   cartItems: z.lazy(() => CartItemListRelationFilterObjectSchema).optional(),
-  orderItems: z.lazy(() => OrderItemListRelationFilterObjectSchema).optional()
+  orderItems: z.lazy(() => OrderItemListRelationFilterObjectSchema).optional(),
+  billingOptions: z.lazy(() => ProductBillingOptionListRelationFilterObjectSchema).optional()
 }).strict();
 export const ProductWhereInputObjectSchema: z.ZodType<Prisma.ProductWhereInput> = productwhereinputSchema as unknown as z.ZodType<Prisma.ProductWhereInput>;
 export const ProductWhereInputObjectZodSchema = productwhereinputSchema;

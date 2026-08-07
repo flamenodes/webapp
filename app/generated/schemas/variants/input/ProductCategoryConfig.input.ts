@@ -6,8 +6,8 @@ export const ProductCategoryConfigInputSchema = z.object({
     id: z.string(),
     category: ProductCategorySchema,
     billingPeriods: BillingPeriodSchema.array(),
-    createdAt: z.date(),
-    updatedAt: z.date()
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date()
 }).strict();
 
 export type ProductCategoryConfigInputType = z.infer<typeof ProductCategoryConfigInputSchema>;

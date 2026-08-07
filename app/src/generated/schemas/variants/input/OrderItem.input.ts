@@ -11,6 +11,7 @@ export const OrderItemInputSchema = z.object({
     unitPrice: z.number().int(),
     totalPrice: z.number().int(),
     specsSnapshot: z.any().optional().nullable(),
+    configuration: z.any().optional().nullable(),
     expiresAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").optional().nullable(),
     order: z.any(),
     product: z.any(),

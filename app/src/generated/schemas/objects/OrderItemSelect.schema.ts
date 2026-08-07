@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 import { OrderArgsObjectSchema as OrderArgsObjectSchema } from './OrderArgs.schema';
 import { ProductArgsObjectSchema as ProductArgsObjectSchema } from './ProductArgs.schema';
 import { ServerArgsObjectSchema as ServerArgsObjectSchema } from './ServerArgs.schema'
@@ -14,6 +14,7 @@ const makeSchema = () => z.object({
   unitPrice: z.boolean().optional(),
   totalPrice: z.boolean().optional(),
   specsSnapshot: z.boolean().optional(),
+  configuration: z.boolean().optional(),
   expiresAt: z.boolean().optional(),
   order: z.union([z.boolean(), z.lazy(() => OrderArgsObjectSchema)]).optional(),
   product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),

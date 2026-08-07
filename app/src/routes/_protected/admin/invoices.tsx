@@ -1,11 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useSuspenseQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { getAllInvoices, generateInvoice } from '@/serverActions/invoice/invoice.api'
+import {
+  getAllInvoices,
+  adminGenerateInvoice,
+  regenerateAllInvoices,
+  getOrdersWithoutInvoice,
+} from '@/serverActions/invoice/invoice.api'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { FileText, Download, Search, RefreshCw, Loader2 } from 'lucide-react'
+import { FileText, Download, Search, RefreshCw, Loader2, Plus, AlertCircle } from 'lucide-react'
 import { formatDistanceToNow } from '@/lib/date-utils'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -21,18 +26,38 @@ function AdminInvoicesPage() {
     queryKey: ['admin-invoices'],
     queryFn: () => getAllInvoices(),
   })
+  const { data: missingResponse } = useSuspenseQuery({
+    queryKey: ['orders-without-invoice'],
+    queryFn: () => getOrdersWithoutInvoice(),
+  })
 
   const invoices = response.data || []
+  const ordersWithoutInvoice = missingResponse.data || []
 
   const [searchQuery, setSearchQuery] = useState('')
+  const [generatingId, setGeneratingId] = useState<string | null>(null)
 
-  const regenerateInvoiceMutation = useMutation({
-    mutationFn: (orderId: string) => generateInvoice({ data: { orderId } }),
-    onSuccess: () => {
+  const generateMutation = useMutation({
+    mutationFn: (orderId: string) => adminGenerateInvoice({ data: { orderId } }),
+    onMutate: (orderId) => setGeneratingId(orderId),
+    onSettled: () => setGeneratingId(null),
+    onSuccess: (res) => {
       qc.invalidateQueries({ queryKey: ['admin-invoices'] })
-      toast.success('Invoice regenerated successfully')
+      qc.invalidateQueries({ queryKey: ['orders-without-invoice'] })
+      if (res.success) toast.success('Invoice generated successfully')
+      else toast.error(res.message)
     },
-    onError: () => toast.error('Failed to regenerate invoice'),
+    onError: () => toast.error('Failed to generate invoice'),
+  })
+
+  const regenerateAllMutation = useMutation({
+    mutationFn: () => regenerateAllInvoices(),
+    onSuccess: (res) => {
+      qc.invalidateQueries({ queryKey: ['admin-invoices'] })
+      qc.invalidateQueries({ queryKey: ['orders-without-invoice'] })
+      toast.success(res.message)
+    },
+    onError: () => toast.error('Failed to regenerate invoices'),
   })
 
   const filteredInvoices = invoices.filter((invoice) => {
@@ -56,10 +81,73 @@ function AdminInvoicesPage() {
               View and manage all customer invoices
             </p>
           </div>
-          <Badge variant="outline" className="text-xs">
-            {invoices.length} Total Invoices
-          </Badge>
+          <div className="flex items-center gap-2">
+            <Badge variant="outline" className="text-xs">
+              {invoices.length} Total Invoices
+            </Badge>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => {
+                if (confirm('Regenerate ALL invoices for paid/delivered orders? This may take a while.')) {
+                  regenerateAllMutation.mutate()
+                }
+              }}
+              disabled={regenerateAllMutation.isPending}
+            >
+              {regenerateAllMutation.isPending ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <RefreshCw className="w-4 h-4 mr-2" />
+              )}
+              Regenerate All
+            </Button>
+          </div>
         </div>
+
+        {/* Orders missing invoices */}
+        {ordersWithoutInvoice.length > 0 && (
+          <Card className="border-yellow-500/30 bg-yellow-500/5">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-yellow-500" />
+                Orders Without Invoices
+                <Badge className="bg-yellow-500/15 text-yellow-500 border-yellow-500/20 ml-1">
+                  {ordersWithoutInvoice.length}
+                </Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {ordersWithoutInvoice.map((order: any) => (
+                <div
+                  key={order.id}
+                  className="flex items-center justify-between p-3 rounded-lg border bg-background"
+                >
+                  <div>
+                    <p className="font-medium text-sm">
+                      {order.user.name || order.user.email}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Order #{order.id.slice(0, 8).toUpperCase()} · ₹{order.totalAmount.toLocaleString()}
+                    </p>
+                  </div>
+                  <Button
+                    size="sm"
+                    onClick={() => generateMutation.mutate(order.id)}
+                    disabled={generatingId === order.id}
+                  >
+                    {generatingId === order.id ? (
+                      <Loader2 className="w-3 h-3 mr-1.5 animate-spin" />
+                    ) : (
+                      <Plus className="w-3 h-3 mr-1.5" />
+                    )}
+                    Generate
+                  </Button>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Search */}
         <div className="flex items-center gap-3">
@@ -154,14 +242,15 @@ function AdminInvoicesPage() {
                               size="sm"
                               variant="ghost"
                               className="h-8 w-8 p-0"
+                              title="Regenerate invoice"
                               onClick={() => {
                                 if (confirm('Regenerate this invoice? The old invoice will be replaced.')) {
-                                  regenerateInvoiceMutation.mutate(invoice.orderId)
+                                  generateMutation.mutate(invoice.orderId)
                                 }
                               }}
-                              disabled={regenerateInvoiceMutation.isPending}
+                              disabled={generatingId === invoice.orderId}
                             >
-                              {regenerateInvoiceMutation.isPending ? (
+                              {generatingId === invoice.orderId ? (
                                 <Loader2 className="w-3 h-3 animate-spin" />
                               ) : (
                                 <RefreshCw className="w-3 h-3" />

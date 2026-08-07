@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
 import { ProductBillingOptionSelectObjectSchema as ProductBillingOptionSelectObjectSchema } from './ProductBillingOptionSelect.schema';
 import { ProductBillingOptionIncludeObjectSchema as ProductBillingOptionIncludeObjectSchema } from './ProductBillingOptionInclude.schema'
 

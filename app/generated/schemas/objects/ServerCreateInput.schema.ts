@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
 import { UserCreateNestedOneWithoutServersInputObjectSchema as UserCreateNestedOneWithoutServersInputObjectSchema } from './UserCreateNestedOneWithoutServersInput.schema';
 import { OrderItemCreateNestedOneWithoutServerInputObjectSchema as OrderItemCreateNestedOneWithoutServerInputObjectSchema } from './OrderItemCreateNestedOneWithoutServerInput.schema'

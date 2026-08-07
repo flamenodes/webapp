@@ -193,5 +193,17 @@ export const verifyRazorpayPayment = createServerFn({ method: 'POST' })
       console.error('Provisioning error after payment:', deployError)
     }
 
+    // Auto-generate invoice after successful payment
+    try {
+      const { buildAndSaveInvoice } = await import('../invoice/invoice.api')
+      await buildAndSaveInvoice(orderId, {
+        razorpay_order_id,
+        razorpay_payment_id,
+        razorpay_signature,
+      })
+    } catch (invoiceError) {
+      console.error('Invoice generation error after payment:', invoiceError)
+    }
+
     return { success: true, message: 'Payment verified successfully', data: order }
   })

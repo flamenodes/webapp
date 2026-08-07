@@ -1,10 +1,13 @@
-import type { Prisma } from '../prisma/client';
+import type { Prisma } from '../prisma/browser';
 import * as z from 'zod';
 import { OrderItemIncludeObjectSchema as OrderItemIncludeObjectSchema } from './objects/OrderItemInclude.schema';
 import { OrderItemOrderByWithRelationInputObjectSchema as OrderItemOrderByWithRelationInputObjectSchema } from './objects/OrderItemOrderByWithRelationInput.schema';
 import { OrderItemWhereInputObjectSchema as OrderItemWhereInputObjectSchema } from './objects/OrderItemWhereInput.schema';
 import { OrderItemWhereUniqueInputObjectSchema as OrderItemWhereUniqueInputObjectSchema } from './objects/OrderItemWhereUniqueInput.schema';
 import { OrderItemScalarFieldEnumSchema } from './enums/OrderItemScalarFieldEnum.schema';
+import { OrderArgsObjectSchema as OrderArgsObjectSchema } from './objects/OrderArgs.schema';
+import { ProductArgsObjectSchema as ProductArgsObjectSchema } from './objects/ProductArgs.schema';
+import { ServerArgsObjectSchema as ServerArgsObjectSchema } from './objects/ServerArgs.schema';
 
 // Select schema needs to be in file to prevent circular imports
 //------------------------------------------------------
@@ -19,10 +22,11 @@ export const OrderItemFindManySelectSchema: z.ZodType<Prisma.OrderItemSelect> = 
     unitPrice: z.boolean().optional(),
     totalPrice: z.boolean().optional(),
     specsSnapshot: z.boolean().optional(),
+    configuration: z.boolean().optional(),
     expiresAt: z.boolean().optional(),
-    order: z.boolean().optional(),
-    product: z.boolean().optional(),
-    server: z.boolean().optional(),
+    order: z.union([z.boolean(), z.lazy(() => OrderArgsObjectSchema)]).optional(),
+    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
+    server: z.union([z.boolean(), z.lazy(() => ServerArgsObjectSchema)]).optional(),
     createdAt: z.boolean().optional()
   }).strict() as unknown as z.ZodType<Prisma.OrderItemSelect>;
 
@@ -36,10 +40,11 @@ export const OrderItemFindManySelectZodSchema = z.object({
     unitPrice: z.boolean().optional(),
     totalPrice: z.boolean().optional(),
     specsSnapshot: z.boolean().optional(),
+    configuration: z.boolean().optional(),
     expiresAt: z.boolean().optional(),
-    order: z.boolean().optional(),
-    product: z.boolean().optional(),
-    server: z.boolean().optional(),
+    order: z.union([z.boolean(), z.lazy(() => OrderArgsObjectSchema)]).optional(),
+    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
+    server: z.union([z.boolean(), z.lazy(() => ServerArgsObjectSchema)]).optional(),
     createdAt: z.boolean().optional()
   }).strict();
 

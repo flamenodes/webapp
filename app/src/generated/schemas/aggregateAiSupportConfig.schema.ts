@@ -1,0 +1,12 @@
+import type { Prisma } from '../prisma/browser';
+import * as z from 'zod';
+import { AiSupportConfigOrderByWithRelationInputObjectSchema as AiSupportConfigOrderByWithRelationInputObjectSchema } from './objects/AiSupportConfigOrderByWithRelationInput.schema';
+import { AiSupportConfigWhereInputObjectSchema as AiSupportConfigWhereInputObjectSchema } from './objects/AiSupportConfigWhereInput.schema';
+import { AiSupportConfigWhereUniqueInputObjectSchema as AiSupportConfigWhereUniqueInputObjectSchema } from './objects/AiSupportConfigWhereUniqueInput.schema';
+import { AiSupportConfigCountAggregateInputObjectSchema as AiSupportConfigCountAggregateInputObjectSchema } from './objects/AiSupportConfigCountAggregateInput.schema';
+import { AiSupportConfigMinAggregateInputObjectSchema as AiSupportConfigMinAggregateInputObjectSchema } from './objects/AiSupportConfigMinAggregateInput.schema';
+import { AiSupportConfigMaxAggregateInputObjectSchema as AiSupportConfigMaxAggregateInputObjectSchema } from './objects/AiSupportConfigMaxAggregateInput.schema';
+
+export const AiSupportConfigAggregateSchema: z.ZodType<Prisma.AiSupportConfigAggregateArgs> = z.object({ orderBy: z.union([AiSupportConfigOrderByWithRelationInputObjectSchema, AiSupportConfigOrderByWithRelationInputObjectSchema.array()]).optional(), where: AiSupportConfigWhereInputObjectSchema.optional(), cursor: AiSupportConfigWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), AiSupportConfigCountAggregateInputObjectSchema ]).optional(), _min: AiSupportConfigMinAggregateInputObjectSchema.optional(), _max: AiSupportConfigMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.AiSupportConfigAggregateArgs>;
+
+export const AiSupportConfigAggregateZodSchema = z.object({ orderBy: z.union([AiSupportConfigOrderByWithRelationInputObjectSchema, AiSupportConfigOrderByWithRelationInputObjectSchema.array()]).optional(), where: AiSupportConfigWhereInputObjectSchema.optional(), cursor: AiSupportConfigWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), AiSupportConfigCountAggregateInputObjectSchema ]).optional(), _min: AiSupportConfigMinAggregateInputObjectSchema.optional(), _max: AiSupportConfigMaxAggregateInputObjectSchema.optional() }).strict();

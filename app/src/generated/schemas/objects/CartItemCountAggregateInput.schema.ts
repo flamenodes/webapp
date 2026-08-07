@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 
 
 const makeSchema = () => z.object({
@@ -8,6 +8,7 @@ const makeSchema = () => z.object({
   productId: z.literal(true).optional(),
   quantity: z.literal(true).optional(),
   billingPeriod: z.literal(true).optional(),
+  configuration: z.literal(true).optional(),
   createdAt: z.literal(true).optional(),
   updatedAt: z.literal(true).optional(),
   _all: z.literal(true).optional()

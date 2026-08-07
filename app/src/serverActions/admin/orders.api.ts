@@ -154,7 +154,7 @@ export const generatePaymentLink = createServerFn({ method: 'POST' })
         },
       })
 
-      const paymentLink = `${process.env.VITE_BETTER_AUTH_URL || process.env.BETTER_AUTH_URL || 'http://localhost:3000'}/checkout/payment?orderId=${order.id}&razorpayOrderId=${razorpayOrder.id}`
+      const paymentLink = `${process.env.VITE_CLIENT_URL || process.env.CLIENT_URL || 'http://localhost:3000'}/checkout/payment?orderId=${order.id}&razorpayOrderId=${razorpayOrder.id}`
 
       return wrapSuccess('Payment link generated successfully', {
         orderId: order.id,

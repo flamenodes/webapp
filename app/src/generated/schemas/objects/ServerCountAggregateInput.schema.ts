@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 
 
 const makeSchema = () => z.object({
@@ -11,6 +11,7 @@ const makeSchema = () => z.object({
   status: z.literal(true).optional(),
   ip: z.literal(true).optional(),
   port: z.literal(true).optional(),
+  pterodactylServerId: z.literal(true).optional(),
   expiresAt: z.literal(true).optional(),
   resources: z.literal(true).optional(),
   pterodactylData: z.literal(true).optional(),

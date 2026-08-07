@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
 import { ServerWhereInputObjectSchema as ServerWhereInputObjectSchema } from './ServerWhereInput.schema'
 
 const makeSchema = () => z.object({

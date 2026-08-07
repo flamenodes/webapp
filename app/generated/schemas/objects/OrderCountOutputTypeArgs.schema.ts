@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
 import { OrderCountOutputTypeSelectObjectSchema as OrderCountOutputTypeSelectObjectSchema } from './OrderCountOutputTypeSelect.schema'
 
 const makeSchema = () => z.object({

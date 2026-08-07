@@ -2,7 +2,7 @@ import * as z from 'zod';
 export const ConfigurationValueUpdateResultSchema = z.nullable(z.object({
   id: z.string(),
   optionId: z.string(),
-  option: z.unknown(),
+  option: z.unknown().optional(),
   label: z.string(),
   value: z.string(),
   description: z.string().optional(),

@@ -6,8 +6,8 @@ export const CartInputSchema = z.object({
     user: z.unknown(),
     items: z.array(z.unknown()),
     couponCode: z.string().optional().nullable(),
-    createdAt: z.date(),
-    updatedAt: z.date()
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date()
 }).strict();
 
 export type CartInputType = z.infer<typeof CartInputSchema>;

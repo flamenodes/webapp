@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../../src/generated/prisma/client';
+import type { Prisma } from '../../../src/generated/prisma/browser';
 import { ProductFeatureFindManySchema as ProductFeatureFindManySchema } from '../findManyProductFeature.schema';
 import { DiscountArgsObjectSchema as DiscountArgsObjectSchema } from './DiscountArgs.schema';
 import { CartItemFindManySchema as CartItemFindManySchema } from '../findManyCartItem.schema';

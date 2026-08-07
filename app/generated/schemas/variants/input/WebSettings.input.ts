@@ -4,8 +4,8 @@ export const WebSettingsInputSchema = z.object({
     id: z.string(),
     key: z.string(),
     value: z.unknown(),
-    updatedAt: z.date(),
-    createdAt: z.date()
+    updatedAt: z.coerce.date(),
+    createdAt: z.coerce.date()
 }).strict();
 
 export type WebSettingsInputType = z.infer<typeof WebSettingsInputSchema>;

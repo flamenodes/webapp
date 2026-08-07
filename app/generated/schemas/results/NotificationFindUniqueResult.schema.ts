@@ -2,7 +2,7 @@ import * as z from 'zod';
 export const NotificationFindUniqueResultSchema = z.nullable(z.object({
   id: z.string(),
   userId: z.string(),
-  user: z.unknown(),
+  user: z.unknown().optional(),
   type: z.string(),
   title: z.string(),
   message: z.string(),

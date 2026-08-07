@@ -1,4 +1,4 @@
-import type { Prisma } from '../../src/generated/prisma/client';
+import type { Prisma } from '../../src/generated/prisma/browser';
 import * as z from 'zod';
 import { TicketMessageWhereInputObjectSchema as TicketMessageWhereInputObjectSchema } from './objects/TicketMessageWhereInput.schema';
 import { TicketMessageOrderByWithAggregationInputObjectSchema as TicketMessageOrderByWithAggregationInputObjectSchema } from './objects/TicketMessageOrderByWithAggregationInput.schema';

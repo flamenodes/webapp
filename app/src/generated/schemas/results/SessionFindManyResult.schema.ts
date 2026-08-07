@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import { UserSchema } from '../models/User.schema';
 export const SessionFindManyResultSchema = z.object({
   data: z.array(z.object({
   id: z.string(),
@@ -9,7 +10,7 @@ export const SessionFindManyResultSchema = z.object({
   ipAddress: z.string().optional(),
   userAgent: z.string().optional(),
   userId: z.string(),
-  user: z.any(),
+  user: UserSchema.optional(),
   impersonatedBy: z.string().optional()
 })),
   pagination: z.object({

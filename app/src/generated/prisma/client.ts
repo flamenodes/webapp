@@ -47,6 +47,11 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
+ * Model BillingAddress
+ * 
+ */
+export type BillingAddress = Prisma.BillingAddressModel
+/**
  * Model Session
  * 
  */
@@ -176,6 +181,11 @@ export type Announcement = Prisma.AnnouncementModel
  * 
  */
 export type RazorpayConfig = Prisma.RazorpayConfigModel
+/**
+ * Model AiSupportConfig
+ * 
+ */
+export type AiSupportConfig = Prisma.AiSupportConfigModel
 /**
  * Model WebSettings
  * 

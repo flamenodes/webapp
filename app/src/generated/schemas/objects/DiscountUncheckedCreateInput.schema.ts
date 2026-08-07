@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import type { Prisma } from '../../prisma/client';
+import type { Prisma } from '../../prisma/browser';
 import { ProductUncheckedCreateNestedManyWithoutDiscountInputObjectSchema as ProductUncheckedCreateNestedManyWithoutDiscountInputObjectSchema } from './ProductUncheckedCreateNestedManyWithoutDiscountInput.schema'
 
 const makeSchema = () => z.object({

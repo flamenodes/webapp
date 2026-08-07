@@ -11,6 +11,7 @@ export const ServerInputSchema = z.object({
     status: z.string(),
     ip: z.string().optional().nullable(),
     port: z.number().int().optional().nullable(),
+    pterodactylServerId: z.number().int().optional().nullable(),
     expiresAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").optional().nullable(),
     resources: z.any().optional().nullable(),
     pterodactylData: z.any().optional().nullable(),

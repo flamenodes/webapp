@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { DashboardSidebar } from '#/components/user/dashboard/DashboardSidebar'
 import { DashboardTopbar } from '#/components/user/dashboard/DashboardTopbar'
-import { Outlet, createFileRoute } from '@tanstack/react-router'
+import { TicketFloatingWidget } from '#/components/tickets/TicketFloatingWidget'
+import { Outlet, createFileRoute, useRouterState } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_protected/user')({
   component: UserLayout,
@@ -9,6 +10,8 @@ export const Route = createFileRoute('/_protected/user')({
 
 function UserLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const pathname = useRouterState({ select: (s) => s.location.pathname })
+  const isTicketsPage = pathname.startsWith('/user/tickets')
 
   useEffect(() => {
     const media = window.matchMedia('(min-width: 1024px)')
@@ -40,6 +43,8 @@ function UserLayout() {
           <Outlet />
         </main>
       </div>
+
+      {!isTicketsPage && <TicketFloatingWidget />}
     </div>
   )
 }
