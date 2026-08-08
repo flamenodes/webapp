@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { z } from "zod";
 import type { OrderStatus } from "@/generated/prisma/client";
 import { calculateExpiryDate } from "./expiry";
+import { suspendServersForOrder } from "./suspend-order-servers";
 
 const createOrderSchema = z.object({
   cartId: z.string().optional(),
@@ -357,6 +358,9 @@ export const cancelOrder = createServerFn({ method: "POST" })
     });
 
     if (!order) return wrapError("Order not found.");
+
+    // Cancelling stops + suspends the servers and marks them Expired.
+    await suspendServersForOrder(data.orderId);
 
     const cancelled = await prisma.order.update({
       where: { id: data.orderId },

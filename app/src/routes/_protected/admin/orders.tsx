@@ -352,13 +352,15 @@ function OrdersPage() {
                 <Field>
                   <FieldLabel>Pterodactyl Server ID <span className="text-destructive">*</span></FieldLabel>
                   <Input
-                    type="number"
-                    min="1"
-                    placeholder="e.g. 42"
+                    type="text"
+                    placeholder="e.g. 42 or 2ca5cc0b or UUID"
                     value={form.pteroServerId}
                     onChange={(e) => setForm((f) => ({ ...f, pteroServerId: e.target.value }))}
                   />
-                  <FieldDescription>Numeric ID of the already-provisioned server on the panel.</FieldDescription>
+                  <FieldDescription>
+                    Server from the panel — paste the numeric ID, the short identifier (e.g.{' '}
+                    2ca5cc0b), or the full UUID. It's resolved automatically.
+                  </FieldDescription>
                 </Field>
 
                 <Field>

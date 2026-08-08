@@ -2,7 +2,8 @@ import * as LucideIcons from 'lucide-react'
 import { ExternalLink, Server, Loader2 } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { getUserServers } from '@/serverActions/user/dashboard.api'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
+import { getServerConnectionString } from '@/lib/server-address'
 
 const statusConfig = {
   ACTIVE:      { dot: 'bg-success shadow-[0_0_6px_var(--success)]',        text: 'text-success',     label: 'Active'      },
@@ -18,6 +19,7 @@ export function ActiveServersCard() {
     queryFn: () => getUserServers(),
   })
 
+  const navigate = useNavigate()
   const panelUrl = process.env.PTERO_URL || 'https://gpanel.flamenodes.cloud'
 
   // Count servers that are not suspended or terminated
@@ -91,11 +93,14 @@ export function ActiveServersCard() {
                 const displayStatus = getDisplayStatus(server)
                 const pteroData = server.pterodactylData as any || {}
                 const isPtero = server.deployMode === 'PTERODACTYL'
+                const connection = getServerConnectionString(server)
                 const Icon = LucideIcons.Server
                 return (
                   <tr
                     key={server.id}
-                    className={`transition-colors hover:bg-muted/30 ${i < servers.length - 1 ? 'border-b border-border' : ''}`}
+                    onClick={() => navigate({ to: '/user/servers' })}
+                    title="Open My Servers"
+                    className={`transition-colors cursor-pointer hover:bg-muted/30 ${i < servers.length - 1 ? 'border-b border-border' : ''}`}
                   >
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-3 justify-between">
@@ -105,8 +110,8 @@ export function ActiveServersCard() {
                           </div>
                           <div className="min-w-0">
                             <p className="text-sm font-semibold leading-tight truncate">{server.name}</p>
-                            <p className="text-xs text-muted-foreground truncate">
-                              {server.pterodactylServerId ? `ID: ${server.pterodactylServerId}` : (server.status === 'ACTIVE' ? 'Active' : 'Deploying...')}
+                            <p className="text-xs text-muted-foreground truncate font-mono">
+                              {connection || (server.status === 'ACTIVE' ? 'Active' : 'Deploying...')}
                             </p>
                           </div>
                         </div>
@@ -115,6 +120,7 @@ export function ActiveServersCard() {
                             href={`${panelUrl}/server/${pteroData.identifier}`}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
                             className="ml-2 p-1 hover:bg-muted rounded transition-colors"
                           >
                             <ExternalLink size={14} className="text-muted-foreground hover:text-primary" strokeWidth={1.75} />

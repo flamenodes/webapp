@@ -1,5 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
+import { calculateExpiryDate } from '../billing/expiry'
 
 const sendEmailSchema = z.object({
   type: z.enum(['order-confirmation', 'server-processing', 'server-ready', 'payment-failed', 'server-renewed']),
@@ -29,6 +30,8 @@ const deployServerSchema = z.object({
   type: z.string(),
   userEmail: z.string(),
   userName: z.string(),
+  billingPeriod: z.string().optional(),
+  customDays: z.number().optional(),
 })
 
 const emailTemplates = {
@@ -210,6 +213,8 @@ export const deployServerFn = createServerFn({ method: 'POST' })
               pterodactylServerId,
               ip: ip,
               port: port,
+              // Billing cycle starts on delivery, not on order creation.
+              expiresAt: calculateExpiryDate(data.billingPeriod ?? 'MONTHLY', data.customDays),
             },
           })
 

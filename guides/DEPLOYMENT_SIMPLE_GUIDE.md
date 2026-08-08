@@ -164,6 +164,8 @@ Make sure these are set in your `.env`:
 # Pterodactyl
 PTERODACTYL_URL=https://your-panel.com
 PTERODACTYL_API_KEY=ptla_your_api_key_here
+# Fallback owner (numeric Pterodactyl user id) when the customer has no panel account.
+# Deployments auto-assign the server to the Pterodactyl user matching the customer's email.
 PTERO_DEFAULT_USER_ID=1
 PTERO_DEFAULT_NEST=1
 PTERO_DEFAULT_EGG=1

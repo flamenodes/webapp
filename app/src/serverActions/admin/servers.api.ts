@@ -78,6 +78,7 @@ export const fetchPteroServerData = createServerFn({ method: 'POST' })
       description: details?.description ?? null,
       identifier: pteroData.identifier,
       ip: allocationData?.ip ?? null,
+      ipAlias: allocationData?.ip_alias ?? null,
       port: allocationData?.port ?? null,
       allocationId: allocationId ?? null,
       nodeId: nodeData?.id ?? null,

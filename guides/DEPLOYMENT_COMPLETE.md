@@ -158,6 +158,8 @@ Required in `.env`:
 ```env
 PTERODACTYL_URL=https://panel.example.com
 PTERODACTYL_API_KEY=ptla_xxxxx
+# Fallback owner (numeric Pterodactyl user id) when the customer has no panel account.
+# Deployments auto-assign the server to the Pterodactyl user matching the customer's email.
 PTERO_DEFAULT_USER_ID=1
 PTERO_DEFAULT_NEST=1
 PTERO_DEFAULT_EGG=1

@@ -99,6 +99,10 @@ export interface DeploymentJobData {
   type: string
   userEmail: string
   userName: string
+  // Billing period of the order item — used to set the server expiry from the
+  // moment it is actually delivered (not when the order was created).
+  billingPeriod?: string
+  customDays?: number
 }
 
 export async function addEmailJob(data: EmailJobData) {

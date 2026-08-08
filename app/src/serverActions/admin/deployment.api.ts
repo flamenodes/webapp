@@ -3,6 +3,7 @@ import { getRequestHeaders } from '@tanstack/react-start/server'
 import { auth } from '@/lib/auth'
 import { hasPermissionFn } from '@/lib/has-permission'
 import { prisma } from '#/db'
+import { resolveDeployOwnerId } from '../pterodactyl/user-resolver'
 import { z } from 'zod'
 
 const retryDeploymentSchema = z.object({
@@ -79,13 +80,19 @@ export const retryServerDeployment = createServerFn({ method: 'POST' })
 
     // Trigger deployment
     const { deployServerFn } = await import('../queue/deploy-functions')
+
+    const pteroOwnerId = await resolveDeployOwnerId({
+      customerEmail: billingDetails?.billingDetails?.email || user.email,
+      defaultUserId: Number(process.env.PTERO_DEFAULT_USER_ID ?? 1),
+    })
+
     deployServerFn({
       data: {
         orderId: orderItem.orderId,
         orderItemId: orderItem.id,
         serverId: server.id,
         name,
-        user: Number(process.env.PTERO_DEFAULT_USER_ID ?? 1),
+        user: pteroOwnerId,
         nest: resolvedNest,
         egg: resolvedEgg,
         extraEnv,
@@ -139,4 +146,58 @@ export const getStuckServers = createServerFn({ method: 'GET' }).handler(async (
   })
 
   return servers
+})
+
+export const getDeploymentQueueLogs = createServerFn({ method: 'GET' }).handler(async () => {
+  const headers = getRequestHeaders()
+  const session = await auth.api.getSession({ headers })
+  if (!session?.user) throw new Error('Unauthorized')
+
+  const hasAccess = await hasPermissionFn({
+    data: { permissions: { dashboard: ['admin'] } },
+  })
+  if (!hasAccess) throw new Error('Forbidden')
+
+  // Queues only exist when Redis is configured; otherwise report the section
+  // as unavailable instead of throwing on an uninitialized queue.
+  const { deploymentQueue } = await import('../queue/queues')
+  if (!deploymentQueue) {
+    return { available: false, logs: [] }
+  }
+
+  const jobs = await deploymentQueue.getCompleted(0, 50)
+  const logs = jobs
+    .map((job: any) => {
+      const data = (job.data ?? {}) as Record<string, any>
+      const result = (job.returnvalue ?? {}) as Record<string, any>
+      const createdAt = job.timestamp
+        ? new Date(Number(job.timestamp)).toISOString()
+        : null
+      const completedAt = job.finishedOn
+        ? new Date(Number(job.finishedOn)).toISOString()
+        : null
+      const durationMs =
+        job.finishedOn && job.processedOn
+          ? Math.max(Number(job.finishedOn) - Number(job.processedOn), 0)
+          : null
+
+      return {
+        id: String(job.id ?? ''),
+        serverName: data.name ?? '',
+        serverId: data.serverId ?? '',
+        orderId: data.orderId ?? '',
+        userEmail: data.userEmail ?? '',
+        attemptsMade: Number(job.attemptsMade ?? 1),
+        createdAt,
+        completedAt,
+        durationMs,
+        ip: result.ip ?? null,
+        port: result.port ?? null,
+      }
+    })
+    .sort((a: any, b: any) =>
+      (b.completedAt ?? '').localeCompare(a.completedAt ?? ''),
+    )
+
+  return { available: true, logs }
 })

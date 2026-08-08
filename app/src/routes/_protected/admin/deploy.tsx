@@ -3,7 +3,7 @@ import { useSuspenseQuery, useMutation, useQueryClient } from '@tanstack/react-q
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
 import { Badge } from '#/components/ui/badge'
-import { getStuckServers, retryServerDeployment } from '#/serverActions/admin/deployment.api'
+import { getStuckServers, getDeploymentQueueLogs, retryServerDeployment } from '#/serverActions/admin/deployment.api'
 import { Loader2, RefreshCw, CheckCircle, XCircle, Clock, Zap, Server, RotateCw } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -12,11 +12,29 @@ export const Route = createFileRoute('/_protected/admin/deploy')({
   component: DeployPage,
 })
 
+function formatDuration(ms: number) {
+  const totalSeconds = Math.round(ms / 1000)
+  if (totalSeconds < 60) return `${totalSeconds}s`
+  const minutes = Math.floor(totalSeconds / 60)
+  const seconds = totalSeconds % 60
+  if (minutes < 60) {
+    return seconds ? `${minutes}m ${seconds}s` : `${minutes}m`
+  }
+  const hours = Math.floor(minutes / 60)
+  return `${hours}h ${minutes % 60}m`
+}
+
 function DeployPage() {
   const qc = useQueryClient()
   const { data: stuckServers, refetch } = useSuspenseQuery({
     queryKey: ['stuck-servers'],
     queryFn: getStuckServers,
+    refetchInterval: 10000,
+  })
+
+  const { data: queueLogs } = useSuspenseQuery({
+    queryKey: ['deployment-queue-logs'],
+    queryFn: getDeploymentQueueLogs,
     refetchInterval: 10000,
   })
 
@@ -214,6 +232,75 @@ function DeployPage() {
             )}
           </>
         )}
+
+        {/* Completed Deployments */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-emerald-500" />
+              <CardTitle>
+                Completed Deployments
+                {queueLogs.available && queueLogs.logs.length > 0
+                  ? ` (${queueLogs.logs.length})`
+                  : ''}
+              </CardTitle>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Recently finished server deployments from the queue
+            </p>
+          </CardHeader>
+          <CardContent>
+            {!queueLogs.available ? (
+              <p className="text-sm text-muted-foreground">
+                BullMQ queue is unavailable (Redis not configured) — completed deployment logs
+                cannot be shown.
+              </p>
+            ) : queueLogs.logs.length === 0 ? (
+              <p className="text-sm text-muted-foreground">
+                No completed deployments yet.
+              </p>
+            ) : (
+              <div className="space-y-3">
+                {queueLogs.logs.map((log) => (
+                  <div
+                    key={log.id}
+                    className="flex items-center justify-between p-4 rounded-lg border bg-card"
+                  >
+                    <div className="flex items-center gap-4 flex-1 min-w-0">
+                      <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium truncate">{log.serverName || 'Unnamed server'}</p>
+                        <div className="flex items-center gap-3 text-xs text-muted-foreground mt-1">
+                          <span className="truncate">User: {log.userEmail || '—'}</span>
+                          <span>•</span>
+                          <span>
+                            Completed:{' '}
+                            {log.completedAt
+                              ? new Date(log.completedAt).toLocaleString()
+                              : '—'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0 ml-2">
+                      {log.ip && log.port !== null && (
+                        <Badge variant="secondary" className="text-xs font-mono">
+                          {log.ip}:{log.port}
+                        </Badge>
+                      )}
+                      <Badge variant="outline" className="text-xs">
+                        <Clock className="w-3 h-3 mr-1" />
+                        {log.durationMs !== null
+                          ? formatDuration(log.durationMs)
+                          : '—'}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         {/* System Info */}
         <Card>

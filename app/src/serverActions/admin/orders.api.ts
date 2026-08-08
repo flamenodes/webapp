@@ -5,7 +5,10 @@ import { auth } from '@/lib/auth'
 import { z } from 'zod'
 import { razorpay } from '../razorpay/instance'
 import { ptero } from '../pterodactyl/client'
+import { resolvePteroServerId } from '../pterodactyl/server-resolver'
+import { resolveDeployOwnerId } from '../pterodactyl/user-resolver'
 import { calculateExpiryDate } from '../billing/expiry'
+import { suspendServersForOrder } from '../billing/suspend-order-servers'
 
 const wrapSuccess = <T>(message: string, data?: T) => ({ success: true, message, data })
 const wrapError = (message: string) => ({ success: false, message })
@@ -20,7 +23,7 @@ const createManualOrderSchema = z.object({
   category: z.enum(['VPS', 'VDS', 'WEBHOST', 'DISCORD', 'DDOS_PROT', 'DEDICATED', 'MINECRAFT']).optional(),
   billingPeriod: z.enum(['HOURLY', 'DAILY', 'MONTHLY', 'QUARTERLY', 'SEMIANNUALLY', 'YEARLY', 'CUSTOM']).default('MONTHLY'),
   customDays: z.string().optional().transform((v) => (v ? parseInt(v, 10) : undefined)),
-  pteroServerId: z.number().int().positive(),
+  pteroServerId: z.union([z.number().int().positive(), z.string().min(1)]),
   linkDirectly: z.boolean().default(false),
 })
 
@@ -124,14 +127,22 @@ export const createManualOrder = createServerFn({ method: 'POST' })
     const totalPrice = unitPrice * data.quantity
     const expiresAt = calculateExpiryDate(data.billingPeriod, data.customDays)
 
+    // Resolve the identifier (numeric id, short uuid, or full uuid) to the numeric server id.
+    let pteroServerId: number
+    try {
+      pteroServerId = await resolvePteroServerId(data.pteroServerId)
+    } catch (error: any) {
+      return wrapError(error?.message || 'Invalid Pterodactyl server id')
+    }
+
     // Fetch the existing Pterodactyl server to link against
     let pteroAttributes: any
     try {
-      const res = await ptero.get(`/application/servers/${data.pteroServerId}`)
+      const res = await ptero.get(`/application/servers/${pteroServerId}`)
       pteroAttributes = res.data?.attributes
       if (!pteroAttributes) throw new Error('No attributes returned from Pterodactyl')
     } catch (error: any) {
-      return wrapError(`Could not fetch Pterodactyl server ${data.pteroServerId}: ${error?.message || 'not found'}`)
+      return wrapError(`Could not fetch Pterodactyl server ${pteroServerId}: ${error?.message || 'not found'}`)
     }
 
     const allocations = pteroAttributes?.relationships?.allocations?.data ?? []
@@ -152,7 +163,7 @@ export const createManualOrder = createServerFn({ method: 'POST' })
         discountAmount: 0,
         totalAmount: totalPrice,
         deliveryData: {
-          pteroServerId: data.pteroServerId,
+          pteroServerId,
           pteroAttributes,
           billingPeriod: data.billingPeriod,
           customDays: data.customDays ?? null,
@@ -185,7 +196,7 @@ export const createManualOrder = createServerFn({ method: 'POST' })
           status: 'ACTIVE',
           ip,
           port,
-          pterodactylServerId: data.pteroServerId,
+          pterodactylServerId: pteroServerId,
           pterodactylData: pteroAttributes,
           expiresAt,
         },
@@ -195,7 +206,7 @@ export const createManualOrder = createServerFn({ method: 'POST' })
         where: { id: order.id },
         data: {
           status: 'DELIVERED',
-          deliveryMessage: `Linked to existing Pterodactyl server ${data.pteroServerId}`,
+          deliveryMessage: `Linked to existing Pterodactyl server ${pteroServerId}`,
         },
       })
 
@@ -326,6 +337,11 @@ export const updateOrderStatus = createServerFn({ method: 'POST' })
 
     if (!order) return wrapError('Order not found')
 
+    // Cancelling stops + suspends the servers and marks them Expired.
+    if (data.status === 'CANCELLED') {
+      await suspendServersForOrder(data.orderId)
+    }
+
     const updatedOrder = await prisma.order.update({
       where: { id: data.orderId },
       data: { status: data.status as any },
@@ -410,6 +426,11 @@ export const deliverCustomOrder = createServerFn({ method: 'POST' })
 
     if (!pendingServer) return wrapError('No pending manual server found for this order')
 
+    // Billing cycle starts on delivery, not on order creation.
+    const item = order.items[0]
+    const deliveryData = (order.deliveryData ?? {}) as any
+    const deliveredAt = calculateExpiryDate(item?.billingPeriod ?? 'MONTHLY', deliveryData?.customDays ?? undefined)
+
     // Update the server with the delivery info
     const updatedServer = await prisma.server.update({
       where: { id: pendingServer.id },
@@ -418,6 +439,7 @@ export const deliverCustomOrder = createServerFn({ method: 'POST' })
         ip: data.ip || null,
         port: data.port || null,
         status: 'ACTIVE',
+        expiresAt: deliveredAt,
         pterodactylData: data.notes ? { notes: data.notes } : undefined,
       },
     })
@@ -576,12 +598,17 @@ export const deployOrder = createServerFn({ method: 'POST' })
       data: { status: 'PROCESSING' },
     })
 
+    const pteroOwnerId = await resolveDeployOwnerId({
+      customerEmail: order.user.email,
+      defaultUserId: Number(process.env.PTERO_DEFAULT_USER_ID ?? 1),
+    })
+
     const deploymentData = {
       orderId: order.id,
       orderItemId: orderItem.id,
       serverId: server.id,
       name: product.planName,
-      user: Number(process.env.PTERO_DEFAULT_USER_ID ?? 1),
+      user: pteroOwnerId,
       nest: resolvedNest,
       egg: resolvedEgg,
       extraEnv,
@@ -597,6 +624,8 @@ export const deployOrder = createServerFn({ method: 'POST' })
       type: product.category,
       userEmail: order.user.email,
       userName: order.user.name,
+      billingPeriod: orderItem.billingPeriod,
+      customDays: (order.deliveryData as any)?.customDays ?? undefined,
     }
 
     // Try to add to deployment queue first
@@ -667,7 +696,12 @@ export const deployCustomOrder = createServerFn({ method: 'POST' })
 
     const productSpecs = product.specs as Record<string, any> ?? {}
 
-    // Create server record with provided details
+    // Create server record with provided details.
+    // Billing cycle starts on delivery, not on order creation.
+    const deliveredCustomExpiry = calculateExpiryDate(
+      orderItem.billingPeriod,
+      (order.deliveryData as any)?.customDays ?? undefined,
+    )
     const server = await prisma.server.create({
       data: {
         userId: order.userId,
@@ -676,7 +710,7 @@ export const deployCustomOrder = createServerFn({ method: 'POST' })
         type: product.category,
         status: 'ACTIVE',
         resources: productSpecs,
-        expiresAt: orderItem.expiresAt,
+        expiresAt: deliveredCustomExpiry,
         pterodactylData: {
           panelUrl: data.panelUrl,
           username: data.username,

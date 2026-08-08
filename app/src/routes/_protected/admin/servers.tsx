@@ -24,6 +24,7 @@ import {
   Ban, Play, Trash2, RotateCw,
 } from 'lucide-react'
 import { toast } from 'sonner'
+import { getServerConnectionString, getServerPanelUrl } from '@/lib/server-address'
 
 export const Route = createFileRoute('/_protected/admin/servers')({
   head: () => ({ meta: [{ title: 'Servers | Flame Nodes Admin' }] }),
@@ -92,12 +93,19 @@ function PteroDetails({ serverId }: { serverId: string }) {
       <div className="rounded-lg border border-border bg-muted/30 p-3 space-y-2">
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Server Connection</p>
         <div className="grid grid-cols-2 gap-2 text-xs">
-          {data.ip && (
+          {data.ipAlias ? (
+            <div className="col-span-2">
+              <p className="text-muted-foreground">Connection Address (ip_alias)</p>
+              <p className="font-mono text-sm font-semibold">
+                {data.ipAlias}{data.port ? `:${data.port}` : ''}
+              </p>
+            </div>
+          ) : data.ip ? (
             <div>
               <p className="text-muted-foreground">IP Address</p>
               <p className="font-mono text-sm font-semibold">{data.ip}</p>
             </div>
-          )}
+          ) : null}
           {data.port && (
             <div>
               <p className="text-muted-foreground">Port</p>
@@ -557,6 +565,8 @@ function ServersPage() {
               filtered.map((server) => {
                 const sc = statusConfig[server.status] ?? { label: server.status, dot: 'bg-muted-foreground', badge: 'outline' as const }
                 const showRetry = server.status === 'FAILED' && server.deployMode === 'PTERODACTYL'
+                const connection = getServerConnectionString(server)
+                const panelUrl = getServerPanelUrl(server)
                 return (
                   <tr key={server.id} className="hover:bg-muted/30 transition-colors">
                     <td className="px-4 py-3">
@@ -587,7 +597,7 @@ function ServersPage() {
                       <Badge variant="outline" className="text-xs">{server.deployMode}</Badge>
                     </td>
                     <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
-                      {server.ip ? `${server.ip}:${server.port}` : '—'}
+                      {connection ?? '—'}
                     </td>
                     <td className="px-4 py-3 text-muted-foreground text-xs max-w-[120px] truncate">
                       {server.productName}
@@ -596,14 +606,27 @@ function ServersPage() {
                       {server.expiresAt ? new Date(server.expiresAt).toLocaleDateString() : '—'}
                     </td>
                     <td className="px-4 py-3">
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        className="h-7 w-7"
-                        onClick={() => setSelected(server)}
-                      >
-                        <Settings className="w-3.5 h-3.5" />
-                      </Button>
+                      <div className="flex items-center gap-1">
+                        {panelUrl && (
+                          <a
+                            href={panelUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Open in Pterodactyl Panel"
+                            className="inline-flex items-center justify-center h-7 w-7 rounded-md text-muted-foreground hover:text-primary hover:bg-muted transition-colors"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                          </a>
+                        )}
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="h-7 w-7"
+                          onClick={() => setSelected(server)}
+                        >
+                          <Settings className="w-3.5 h-3.5" />
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 )

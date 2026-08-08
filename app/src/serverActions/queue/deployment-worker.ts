@@ -4,6 +4,7 @@ import { prisma } from '#/db'
 import { pteroServerData } from '../pterodactyl/configData'
 import { ptero } from '../pterodactyl/client'
 import { addEmailJob } from './queues'
+import { calculateExpiryDate } from '../billing/expiry'
 import { Worker } from 'bullmq'
 
 async function processPteroDeployment(job: DeploymentJobData) {
@@ -54,6 +55,8 @@ async function processPteroDeployment(job: DeploymentJobData) {
           pterodactylData: attributes,
           ip: ip,
           port: port,
+          // Billing cycle starts on delivery, not on order creation.
+          expiresAt: calculateExpiryDate(job.billingPeriod ?? 'MONTHLY', job.customDays),
         },
       })
 

@@ -13,6 +13,7 @@ import {
   Wifi, WifiOff, Settings, Activity, Network, Database, Clock, ExternalLinkIcon
 } from 'lucide-react'
 import { formatDistanceToNow } from '@/lib/date-utils'
+import { getServerConnectionString } from '@/lib/server-address'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { differenceInDays, isPast } from 'date-fns'
@@ -188,6 +189,7 @@ function ServerCard({ server }: { server: any }) {
   const isPtero = server.deployMode === 'PTERODACTYL'
   const isCustom = server.deployMode === 'CUSTOM'
   const usage = server.liveUsage
+  const connection = getServerConnectionString(server)
 
   const panelUrl = process.env.PTERO_URL || 'https://gpanel.flamenodes.cloud'
 
@@ -252,13 +254,11 @@ function ServerCard({ server }: { server: any }) {
         </CardHeader>
 
         <CardContent className="space-y-3 pb-4">
-          {/* IP/Port for custom or active ptero */}
-          {(server.ip || server.port) && (
+          {/* Connection address — prefers Pterodactyl ip_alias */}
+          {connection && (
             <div className="flex items-center gap-2 text-xs bg-muted/50 rounded px-2.5 py-1.5">
               <Network className="w-3 h-3 text-muted-foreground shrink-0" />
-              <code className="font-mono">
-                {server.ip}{server.port ? `:${server.port}` : ''}
-              </code>
+              <code className="font-mono">{connection}</code>
             </div>
           )}
 

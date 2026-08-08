@@ -1,5 +1,6 @@
 import { prisma } from '#/db'
 import { ptero } from '../pterodactyl/client'
+import { resolveDeployOwnerId } from '../pterodactyl/user-resolver'
 import { calculateExpiryDate } from './expiry'
 import { extractPteroSpecsFromProduct } from '../pterodactyl/configData'
 
@@ -122,7 +123,8 @@ async function fulfillManualPteroLink(
         port,
         pterodactylServerId: deliveryData.pteroServerId,
         pterodactylData: attrs ?? deliveryData,
-        expiresAt: item.expiresAt,
+        // Billing cycle starts on delivery, not on order creation.
+        expiresAt: calculateExpiryDate(item.billingPeriod, deliveryData.customDays ?? undefined),
       },
     })
   }
@@ -141,6 +143,7 @@ async function fulfillManualPteroLink(
 /** Normal purchase: provision CUSTOM (pending manual) + PTERODACTYL (create + deploy) servers. */
 async function provisionNewServers(order: NonNullable<OrderWithRelations>) {
   const billingDetails = ((order.deliveryData ?? {}) as any)?.billingDetails ?? {}
+  const deliveryData = (order.deliveryData ?? {}) as { customDays?: number }
   const pteroItems = order.items.filter((i) => i.product.deployMode === 'PTERODACTYL')
   const customItems = order.items.filter((i) => i.product.deployMode === 'CUSTOM')
 
@@ -159,7 +162,8 @@ async function provisionNewServers(order: NonNullable<OrderWithRelations>) {
           name: `${item.productName}-${item.id.slice(0, 8)}`,
           type: item.product.category,
           status: 'PENDING_MANUAL',
-          expiresAt: item.expiresAt,
+          // Billing cycle starts when the admin actually delivers the server.
+          expiresAt: null,
         },
       })
     }),
@@ -210,12 +214,17 @@ async function provisionNewServers(order: NonNullable<OrderWithRelations>) {
         },
       })
 
+      const ownerId = await resolveDeployOwnerId({
+        customerEmail: billingDetails.email || order.user.email,
+        defaultUserId: Number(process.env.PTERO_DEFAULT_USER_ID ?? 1),
+      })
+
       const deploymentData = {
         orderId: order.id,
         orderItemId: item.id,
         serverId: server.id,
         name,
-        user: Number(process.env.PTERO_DEFAULT_USER_ID ?? 1),
+        user: ownerId,
         nest: resolvedNest,
         egg: resolvedEgg,
         extraEnv,
@@ -223,6 +232,8 @@ async function provisionNewServers(order: NonNullable<OrderWithRelations>) {
         type: item.product.category,
         userEmail: billingDetails.email || order.user.email,
         userName: billingDetails.firstName || order.user.name,
+        billingPeriod: item.billingPeriod,
+        customDays: deliveryData.customDays ?? undefined,
       }
 
       // Prefer the deployment queue, fall back to direct deployment
