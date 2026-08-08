@@ -15,7 +15,6 @@ export const AccountFindFirstOrThrowSelectSchema: z.ZodType<Prisma.AccountSelect
     accountId: z.boolean().optional(),
     providerId: z.boolean().optional(),
     userId: z.boolean().optional(),
-    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
     accessToken: z.boolean().optional(),
     refreshToken: z.boolean().optional(),
     idToken: z.boolean().optional(),
@@ -24,7 +23,8 @@ export const AccountFindFirstOrThrowSelectSchema: z.ZodType<Prisma.AccountSelect
     scope: z.boolean().optional(),
     password: z.boolean().optional(),
     createdAt: z.boolean().optional(),
-    updatedAt: z.boolean().optional()
+    updatedAt: z.boolean().optional(),
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional()
   }).strict() as unknown as z.ZodType<Prisma.AccountSelect>;
 
 export const AccountFindFirstOrThrowSelectZodSchema = z.object({
@@ -32,7 +32,6 @@ export const AccountFindFirstOrThrowSelectZodSchema = z.object({
     accountId: z.boolean().optional(),
     providerId: z.boolean().optional(),
     userId: z.boolean().optional(),
-    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
     accessToken: z.boolean().optional(),
     refreshToken: z.boolean().optional(),
     idToken: z.boolean().optional(),
@@ -41,7 +40,8 @@ export const AccountFindFirstOrThrowSelectZodSchema = z.object({
     scope: z.boolean().optional(),
     password: z.boolean().optional(),
     createdAt: z.boolean().optional(),
-    updatedAt: z.boolean().optional()
+    updatedAt: z.boolean().optional(),
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional()
   }).strict();
 
 export const AccountFindFirstOrThrowSchema: z.ZodType<Prisma.AccountFindFirstOrThrowArgs> = z.object({ select: AccountFindFirstOrThrowSelectSchema.optional(), include: z.lazy(() => AccountIncludeObjectSchema.optional()), orderBy: z.union([AccountOrderByWithRelationInputObjectSchema, AccountOrderByWithRelationInputObjectSchema.array()]).optional(), where: AccountWhereInputObjectSchema.optional(), cursor: AccountWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([AccountScalarFieldEnumSchema, AccountScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.AccountFindFirstOrThrowArgs>;

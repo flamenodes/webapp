@@ -11,11 +11,11 @@ const makeSchema = () => z.object({
   status: SortOrderSchema.optional(),
   ip: SortOrderSchema.optional(),
   port: SortOrderSchema.optional(),
-  pterodactylServerId: SortOrderSchema.optional(),
   expiresAt: SortOrderSchema.optional(),
   suspended: SortOrderSchema.optional(),
   createdAt: SortOrderSchema.optional(),
-  updatedAt: SortOrderSchema.optional()
+  updatedAt: SortOrderSchema.optional(),
+  pterodactylServerId: SortOrderSchema.optional()
 }).strict();
 export const ServerMinOrderByAggregateInputObjectSchema: z.ZodType<Prisma.ServerMinOrderByAggregateInput> = makeSchema() as unknown as z.ZodType<Prisma.ServerMinOrderByAggregateInput>;
 export const ServerMinOrderByAggregateInputObjectZodSchema = makeSchema();

@@ -52,7 +52,7 @@ const HeroSection = () => {
               <Button
                 variant="secondary"
                 size="great"
-                className="text-md py-6 px-5 bg-secondary/40 backdrop-blur-xl border-secondary font-bold "
+                className="text-md py-6 px-5 backdrop-blur-xl border-secondary font-bold dark:bg-gray-900/60"
               >
                 Contact Us
               </Button>

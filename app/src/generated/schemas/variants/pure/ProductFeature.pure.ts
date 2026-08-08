@@ -3,9 +3,9 @@ import * as z from 'zod';
 export const ProductFeatureModelSchema = z.object({
     id: z.string(),
     productId: z.string(),
-    product: z.any(),
     label: z.string(),
-    sortOrder: z.number().int()
+    sortOrder: z.number().int(),
+    product: z.any()
 }).strict();
 
 export type ProductFeaturePureType = z.infer<typeof ProductFeatureModelSchema>;

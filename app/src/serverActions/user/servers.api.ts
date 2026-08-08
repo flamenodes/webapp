@@ -5,6 +5,7 @@ import { auth } from '@/lib/auth'
 import { ptero } from '../pterodactyl/client'
 import { z } from 'zod'
 import net from 'net'
+import { calculateExpiryDate } from '../billing/expiry'
 
 const wrapSuccess = <T>(message: string, data?: T) => ({ success: true, message, data })
 const wrapError = (message: string) => ({ success: false, message })
@@ -17,7 +18,7 @@ export const getUserServersWithDetails = createServerFn({ method: 'GET' }).handl
   const servers = await prisma.server.findMany({
     where: { userId: session.user.id },
     include: {
-      orderItem: { include: { product: true } },
+      orderItem: { include: { product: { include: { billingOptions: true } } } },
     },
     orderBy: { createdAt: 'desc' },
   })
@@ -159,8 +160,14 @@ export const getWebSocketToken = createServerFn({ method: 'GET' })
     }
   })
 
-export const renewServer = createServerFn({ method: 'POST' })
-  .validator((data: any) => z.object({ serverId: z.string() }).parse(data))
+const createRenewalOrderSchema = z.object({
+  serverId: z.string(),
+  billingPeriod: z.enum(['HOURLY', 'DAILY', 'MONTHLY', 'QUARTERLY', 'SEMIANNUALLY', 'YEARLY', 'CUSTOM']),
+  customDays: z.number().int().positive().optional(),
+})
+
+export const createRenewalOrder = createServerFn({ method: 'POST' })
+  .validator((data: any) => createRenewalOrderSchema.parse(data))
   .handler(async ({ data }) => {
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
@@ -171,48 +178,101 @@ export const renewServer = createServerFn({ method: 'POST' })
       include: {
         orderItem: {
           include: {
-            product: true,
-            order: true
-          }
-        }
+            product: { include: { billingOptions: true } },
+          },
+        },
       },
     })
     if (!server) return wrapError('Server not found')
-
-    // Check if server is expired
-    if (!server.expiresAt || new Date(server.expiresAt) > new Date()) {
-      return wrapError('Server has not expired yet')
+    if (server.status === 'TERMINATED') {
+      return wrapError('Terminated servers cannot be renewed')
     }
 
-    // Create a new order for renewal
-    const orderItem = server.orderItem
-    const product = orderItem.product
+    const product = server.orderItem?.product
+    if (!product) return wrapError('Product not found for this server')
 
-    const newOrder = await prisma.order.create({
+    // Resolve unit price from the product's billing options, fall back to base price
+    let unitPrice = product.price
+    if (product.billingOptions?.length) {
+      const opt = product.billingOptions.find(
+        (o) => o.billingPeriod === data.billingPeriod,
+      )
+      if (opt) unitPrice = opt.price
+    }
+
+    const expiresAt = calculateExpiryDate(data.billingPeriod, data.customDays)
+
+    // Create a PENDING renewal order flagged with the server it extends
+    const order = await prisma.order.create({
       data: {
         userId: session.user.id,
         status: 'PENDING',
-        subtotalAmount: orderItem.unitPrice,
-        totalAmount: orderItem.unitPrice,
+        subtotalAmount: unitPrice,
+        discountAmount: 0,
+        totalAmount: unitPrice,
+        renewalForServerId: server.id,
         items: {
           create: {
             productId: product.id,
             productName: product.planName,
             quantity: 1,
-            billingPeriod: orderItem.billingPeriod,
-            unitPrice: orderItem.unitPrice,
-            totalPrice: orderItem.unitPrice,
-            specsSnapshot: orderItem.specsSnapshot,
-            configuration: orderItem.configuration,
+            billingPeriod: data.billingPeriod as any,
+            unitPrice,
+            totalPrice: unitPrice,
+            specsSnapshot: server.resources ?? product.specs ?? {},
+            expiresAt,
           },
+        },
+        deliveryData: {
+          billingPeriod: data.billingPeriod,
+          customDays: data.customDays ?? null,
+          renewalServerId: server.id,
         },
       },
       include: { items: true },
     })
 
+    // Create a Razorpay order server-side so the public payment page can be reused
+    let razorpayOrderId: string | null = null
+    try {
+      const { razorpay } = await import('../razorpay/instance')
+      const rzpOrder = await razorpay.orders.create({
+        amount: unitPrice * 100,
+        currency: 'INR',
+        receipt: `ren_${order.id.slice(0, 32)}`,
+        notes: {
+          orderId: order.id,
+          renewalServerId: server.id,
+          userId: session.user.id,
+        },
+      })
+      razorpayOrderId = rzpOrder.id
+
+      await prisma.order.update({
+        where: { id: order.id },
+        data: {
+          deliveryData: {
+            ...(order.deliveryData as any),
+            razorpayOrderId: rzpOrder.id,
+            razorpayAmount: rzpOrder.amount,
+          },
+        },
+      })
+    } catch (error: any) {
+      console.error('Razorpay order creation failed for renewal:', error)
+    }
+
+    if (!razorpayOrderId) {
+      return wrapError('Failed to create payment session. Please try again.')
+    }
+
+    const redirectUrl = `/checkout/payment?orderId=${order.id}&razorpayOrderId=${razorpayOrderId}`
+
     return wrapSuccess('Renewal order created. Please complete payment.', {
-      orderId: newOrder.id,
-      redirectUrl: `/checkout?orderId=${newOrder.id}`
+      orderId: order.id,
+      razorpayOrderId,
+      redirectUrl,
+      totalAmount: unitPrice,
     })
   })
 

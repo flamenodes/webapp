@@ -20,9 +20,9 @@ export const ConfigurationOptionFindFirstSelectSchema: z.ZodType<Prisma.Configur
     required: z.boolean().optional(),
     category: z.boolean().optional(),
     sortOrder: z.boolean().optional(),
-    values: z.union([z.boolean(), z.lazy(() => ConfigurationValueFindManySchema)]).optional(),
     createdAt: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
+    values: z.union([z.boolean(), z.lazy(() => ConfigurationValueFindManySchema)]).optional(),
     _count: z.union([z.boolean(), z.lazy(() => ConfigurationOptionCountOutputTypeArgsObjectSchema)]).optional()
   }).strict() as unknown as z.ZodType<Prisma.ConfigurationOptionSelect>;
 
@@ -35,9 +35,9 @@ export const ConfigurationOptionFindFirstSelectZodSchema = z.object({
     required: z.boolean().optional(),
     category: z.boolean().optional(),
     sortOrder: z.boolean().optional(),
-    values: z.union([z.boolean(), z.lazy(() => ConfigurationValueFindManySchema)]).optional(),
     createdAt: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
+    values: z.union([z.boolean(), z.lazy(() => ConfigurationValueFindManySchema)]).optional(),
     _count: z.union([z.boolean(), z.lazy(() => ConfigurationOptionCountOutputTypeArgsObjectSchema)]).optional()
   }).strict();
 

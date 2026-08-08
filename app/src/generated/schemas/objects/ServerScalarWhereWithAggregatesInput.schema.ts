@@ -20,13 +20,13 @@ const serverscalarwherewithaggregatesinputSchema = z.object({
   status: z.union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()]).optional(),
   ip: z.union([z.lazy(() => StringNullableWithAggregatesFilterObjectSchema), z.string()]).optional().nullable(),
   port: z.union([z.lazy(() => IntNullableWithAggregatesFilterObjectSchema), z.number().int()]).optional().nullable(),
-  pterodactylServerId: z.union([z.lazy(() => IntNullableWithAggregatesFilterObjectSchema), z.number().int()]).optional().nullable(),
   expiresAt: z.union([z.lazy(() => DateTimeNullableWithAggregatesFilterObjectSchema), z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time")]).optional().nullable(),
   resources: z.lazy(() => JsonNullableWithAggregatesFilterObjectSchema).optional(),
   pterodactylData: z.lazy(() => JsonNullableWithAggregatesFilterObjectSchema).optional(),
   suspended: z.union([z.lazy(() => BoolWithAggregatesFilterObjectSchema), z.boolean()]).optional(),
   createdAt: z.union([z.lazy(() => DateTimeWithAggregatesFilterObjectSchema), z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time")]).optional(),
-  updatedAt: z.union([z.lazy(() => DateTimeWithAggregatesFilterObjectSchema), z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time")]).optional()
+  updatedAt: z.union([z.lazy(() => DateTimeWithAggregatesFilterObjectSchema), z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time")]).optional(),
+  pterodactylServerId: z.union([z.lazy(() => IntNullableWithAggregatesFilterObjectSchema), z.number().int()]).optional().nullable()
 }).strict();
 export const ServerScalarWhereWithAggregatesInputObjectSchema: z.ZodType<Prisma.ServerScalarWhereWithAggregatesInput> = serverscalarwherewithaggregatesinputSchema as unknown as z.ZodType<Prisma.ServerScalarWhereWithAggregatesInput>;
 export const ServerScalarWhereWithAggregatesInputObjectZodSchema = serverscalarwherewithaggregatesinputSchema;

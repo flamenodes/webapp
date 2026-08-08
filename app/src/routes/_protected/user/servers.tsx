@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useSuspenseQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { getUserServersWithDetails, pingServer, updateCustomServer, renewServer, reinstallServer } from '@/serverActions/user/servers.api'
+import { getUserServersWithDetails, pingServer, updateCustomServer, reinstallServer } from '@/serverActions/user/servers.api'
+import { RenewServerDialog } from '@/components/billing/RenewServerDialog'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -181,6 +182,7 @@ function EditCustomServerSheet({
 function ServerCard({ server }: { server: any }) {
   const navigate = useNavigate()
   const [editOpen, setEditOpen] = useState(false)
+  const [renewOpen, setRenewOpen] = useState(false)
   const resources = server.resources || {}
   const pteroData = server.pterodactylData || {}
   const isPtero = server.deployMode === 'PTERODACTYL'
@@ -194,18 +196,8 @@ function ServerCard({ server }: { server: any }) {
   const isExpired = expiresAt ? isPast(expiresAt) : false
   const daysUntilExpiry = expiresAt && !isExpired ? differenceInDays(expiresAt, new Date()) : null
 
-  const renewMutation = useMutation({
-    mutationFn: () => renewServer({ data: { serverId: server.id } }),
-    onSuccess: (res) => {
-      if (res.success && res.data?.redirectUrl) {
-        toast.success('Redirecting to checkout...')
-        navigate({ to: res.data.redirectUrl as any })
-      } else {
-        toast.error(res.message || 'Failed to create renewal order')
-      }
-    },
-    onError: () => toast.error('Failed to renew server'),
-  })
+  // Renewal is available for active + suspended (expired) servers
+  const canRenew = server.status === 'ACTIVE' || server.status === 'SUSPENDED'
 
   // Determine display status based on server state
   const getDisplayStatus = () => {
@@ -339,20 +331,15 @@ function ServerCard({ server }: { server: any }) {
 
           {/* Actions */}
           <div className="flex items-center gap-2 pt-1 flex-wrap">
-            {isExpired && server.status !== 'TERMINATED' && (
+            {canRenew && (
               <Button
                 size="sm"
-                className="h-7 text-xs flex-1"
-                variant="default"
-                onClick={() => renewMutation.mutate()}
-                disabled={renewMutation.isPending}
+                className="h-7 text-xs"
+                variant={isExpired ? 'default' : 'outline'}
+                onClick={() => setRenewOpen(true)}
               >
-                {renewMutation.isPending ? (
-                  <RefreshCw className="w-3 h-3 mr-1.5 animate-spin" />
-                ) : (
-                  <RefreshCw className="w-3 h-3 mr-1.5" />
-                )}
-                Renew Server
+                <RefreshCw className="w-3 h-3 mr-1.5" />
+                {isExpired ? 'Renew Server' : 'Renew'}
               </Button>
             )}
 
@@ -430,6 +417,8 @@ function ServerCard({ server }: { server: any }) {
       {isCustom && (
         <EditCustomServerSheet server={server} open={editOpen} onClose={() => setEditOpen(false)} />
       )}
+
+      <RenewServerDialog server={server} open={renewOpen} onOpenChange={setRenewOpen} />
     </>
   )
 }

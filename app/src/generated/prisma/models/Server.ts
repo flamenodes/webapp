@@ -45,11 +45,11 @@ export type ServerMinAggregateOutputType = {
   status: string | null
   ip: string | null
   port: number | null
-  pterodactylServerId: number | null
   expiresAt: Date | null
   suspended: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  pterodactylServerId: number | null
 }
 
 export type ServerMaxAggregateOutputType = {
@@ -61,11 +61,11 @@ export type ServerMaxAggregateOutputType = {
   status: string | null
   ip: string | null
   port: number | null
-  pterodactylServerId: number | null
   expiresAt: Date | null
   suspended: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  pterodactylServerId: number | null
 }
 
 export type ServerCountAggregateOutputType = {
@@ -77,13 +77,13 @@ export type ServerCountAggregateOutputType = {
   status: number
   ip: number
   port: number
-  pterodactylServerId: number
   expiresAt: number
   resources: number
   pterodactylData: number
   suspended: number
   createdAt: number
   updatedAt: number
+  pterodactylServerId: number
   _all: number
 }
 
@@ -107,11 +107,11 @@ export type ServerMinAggregateInputType = {
   status?: true
   ip?: true
   port?: true
-  pterodactylServerId?: true
   expiresAt?: true
   suspended?: true
   createdAt?: true
   updatedAt?: true
+  pterodactylServerId?: true
 }
 
 export type ServerMaxAggregateInputType = {
@@ -123,11 +123,11 @@ export type ServerMaxAggregateInputType = {
   status?: true
   ip?: true
   port?: true
-  pterodactylServerId?: true
   expiresAt?: true
   suspended?: true
   createdAt?: true
   updatedAt?: true
+  pterodactylServerId?: true
 }
 
 export type ServerCountAggregateInputType = {
@@ -139,13 +139,13 @@ export type ServerCountAggregateInputType = {
   status?: true
   ip?: true
   port?: true
-  pterodactylServerId?: true
   expiresAt?: true
   resources?: true
   pterodactylData?: true
   suspended?: true
   createdAt?: true
   updatedAt?: true
+  pterodactylServerId?: true
   _all?: true
 }
 
@@ -244,13 +244,13 @@ export type ServerGroupByOutputType = {
   status: string
   ip: string | null
   port: number | null
-  pterodactylServerId: number | null
   expiresAt: Date | null
   resources: runtime.JsonValue | null
   pterodactylData: runtime.JsonValue | null
   suspended: boolean
   createdAt: Date
   updatedAt: Date
+  pterodactylServerId: number | null
   _count: ServerCountAggregateOutputType | null
   _avg: ServerAvgAggregateOutputType | null
   _sum: ServerSumAggregateOutputType | null
@@ -285,15 +285,16 @@ export type ServerWhereInput = {
   status?: Prisma.StringFilter<"Server"> | string
   ip?: Prisma.StringNullableFilter<"Server"> | string | null
   port?: Prisma.IntNullableFilter<"Server"> | number | null
-  pterodactylServerId?: Prisma.IntNullableFilter<"Server"> | number | null
   expiresAt?: Prisma.DateTimeNullableFilter<"Server"> | Date | string | null
   resources?: Prisma.JsonNullableFilter<"Server">
   pterodactylData?: Prisma.JsonNullableFilter<"Server">
   suspended?: Prisma.BoolFilter<"Server"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Server"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Server"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  pterodactylServerId?: Prisma.IntNullableFilter<"Server"> | number | null
   orderItem?: Prisma.XOR<Prisma.OrderItemScalarRelationFilter, Prisma.OrderItemWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  renewals?: Prisma.OrderListRelationFilter
 }
 
 export type ServerOrderByWithRelationInput = {
@@ -305,15 +306,16 @@ export type ServerOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   ip?: Prisma.SortOrderInput | Prisma.SortOrder
   port?: Prisma.SortOrderInput | Prisma.SortOrder
-  pterodactylServerId?: Prisma.SortOrderInput | Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   resources?: Prisma.SortOrderInput | Prisma.SortOrder
   pterodactylData?: Prisma.SortOrderInput | Prisma.SortOrder
   suspended?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
+  pterodactylServerId?: Prisma.SortOrderInput | Prisma.SortOrder
   orderItem?: Prisma.OrderItemOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
+  renewals?: Prisma.OrderOrderByRelationAggregateInput
 }
 
 export type ServerWhereUniqueInput = Prisma.AtLeast<{
@@ -328,15 +330,16 @@ export type ServerWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.StringFilter<"Server"> | string
   ip?: Prisma.StringNullableFilter<"Server"> | string | null
   port?: Prisma.IntNullableFilter<"Server"> | number | null
-  pterodactylServerId?: Prisma.IntNullableFilter<"Server"> | number | null
   expiresAt?: Prisma.DateTimeNullableFilter<"Server"> | Date | string | null
   resources?: Prisma.JsonNullableFilter<"Server">
   pterodactylData?: Prisma.JsonNullableFilter<"Server">
   suspended?: Prisma.BoolFilter<"Server"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Server"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Server"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  pterodactylServerId?: Prisma.IntNullableFilter<"Server"> | number | null
   orderItem?: Prisma.XOR<Prisma.OrderItemScalarRelationFilter, Prisma.OrderItemWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  renewals?: Prisma.OrderListRelationFilter
 }, "id" | "orderItemId">
 
 export type ServerOrderByWithAggregationInput = {
@@ -348,13 +351,13 @@ export type ServerOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   ip?: Prisma.SortOrderInput | Prisma.SortOrder
   port?: Prisma.SortOrderInput | Prisma.SortOrder
-  pterodactylServerId?: Prisma.SortOrderInput | Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   resources?: Prisma.SortOrderInput | Prisma.SortOrder
   pterodactylData?: Prisma.SortOrderInput | Prisma.SortOrder
   suspended?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  pterodactylServerId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ServerCountOrderByAggregateInput
   _avg?: Prisma.ServerAvgOrderByAggregateInput
   _max?: Prisma.ServerMaxOrderByAggregateInput
@@ -374,13 +377,13 @@ export type ServerScalarWhereWithAggregatesInput = {
   status?: Prisma.StringWithAggregatesFilter<"Server"> | string
   ip?: Prisma.StringNullableWithAggregatesFilter<"Server"> | string | null
   port?: Prisma.IntNullableWithAggregatesFilter<"Server"> | number | null
-  pterodactylServerId?: Prisma.IntNullableWithAggregatesFilter<"Server"> | number | null
   expiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Server"> | Date | string | null
   resources?: Prisma.JsonNullableWithAggregatesFilter<"Server">
   pterodactylData?: Prisma.JsonNullableWithAggregatesFilter<"Server">
   suspended?: Prisma.BoolWithAggregatesFilter<"Server"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Server"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Server"> | Date | string
+  pterodactylServerId?: Prisma.IntNullableWithAggregatesFilter<"Server"> | number | null
 }
 
 export type ServerCreateInput = {
@@ -390,15 +393,16 @@ export type ServerCreateInput = {
   status: string
   ip?: string | null
   port?: number | null
-  pterodactylServerId?: number | null
   expiresAt?: Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutServersInput
+  pterodactylServerId?: number | null
   orderItem: Prisma.OrderItemCreateNestedOneWithoutServerInput
+  user: Prisma.UserCreateNestedOneWithoutServersInput
+  renewals?: Prisma.OrderCreateNestedManyWithoutRenewalForServerInput
 }
 
 export type ServerUncheckedCreateInput = {
@@ -410,13 +414,14 @@ export type ServerUncheckedCreateInput = {
   status: string
   ip?: string | null
   port?: number | null
-  pterodactylServerId?: number | null
   expiresAt?: Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  pterodactylServerId?: number | null
+  renewals?: Prisma.OrderUncheckedCreateNestedManyWithoutRenewalForServerInput
 }
 
 export type ServerUpdateInput = {
@@ -426,15 +431,16 @@ export type ServerUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   port?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutServersNestedInput
+  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   orderItem?: Prisma.OrderItemUpdateOneRequiredWithoutServerNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutServersNestedInput
+  renewals?: Prisma.OrderUpdateManyWithoutRenewalForServerNestedInput
 }
 
 export type ServerUncheckedUpdateInput = {
@@ -446,13 +452,14 @@ export type ServerUncheckedUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   port?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  renewals?: Prisma.OrderUncheckedUpdateManyWithoutRenewalForServerNestedInput
 }
 
 export type ServerCreateManyInput = {
@@ -464,13 +471,13 @@ export type ServerCreateManyInput = {
   status: string
   ip?: string | null
   port?: number | null
-  pterodactylServerId?: number | null
   expiresAt?: Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  pterodactylServerId?: number | null
 }
 
 export type ServerUpdateManyMutationInput = {
@@ -480,13 +487,13 @@ export type ServerUpdateManyMutationInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   port?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ServerUncheckedUpdateManyInput = {
@@ -498,13 +505,13 @@ export type ServerUncheckedUpdateManyInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   port?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ServerListRelationFilter = {
@@ -531,13 +538,13 @@ export type ServerCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   ip?: Prisma.SortOrder
   port?: Prisma.SortOrder
-  pterodactylServerId?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   resources?: Prisma.SortOrder
   pterodactylData?: Prisma.SortOrder
   suspended?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  pterodactylServerId?: Prisma.SortOrder
 }
 
 export type ServerAvgOrderByAggregateInput = {
@@ -554,11 +561,11 @@ export type ServerMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   ip?: Prisma.SortOrder
   port?: Prisma.SortOrder
-  pterodactylServerId?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   suspended?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  pterodactylServerId?: Prisma.SortOrder
 }
 
 export type ServerMinOrderByAggregateInput = {
@@ -570,11 +577,11 @@ export type ServerMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   ip?: Prisma.SortOrder
   port?: Prisma.SortOrder
-  pterodactylServerId?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   suspended?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  pterodactylServerId?: Prisma.SortOrder
 }
 
 export type ServerSumOrderByAggregateInput = {
@@ -624,6 +631,22 @@ export type ServerUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.ServerScalarWhereInput | Prisma.ServerScalarWhereInput[]
 }
 
+export type ServerCreateNestedOneWithoutRenewalsInput = {
+  create?: Prisma.XOR<Prisma.ServerCreateWithoutRenewalsInput, Prisma.ServerUncheckedCreateWithoutRenewalsInput>
+  connectOrCreate?: Prisma.ServerCreateOrConnectWithoutRenewalsInput
+  connect?: Prisma.ServerWhereUniqueInput
+}
+
+export type ServerUpdateOneWithoutRenewalsNestedInput = {
+  create?: Prisma.XOR<Prisma.ServerCreateWithoutRenewalsInput, Prisma.ServerUncheckedCreateWithoutRenewalsInput>
+  connectOrCreate?: Prisma.ServerCreateOrConnectWithoutRenewalsInput
+  upsert?: Prisma.ServerUpsertWithoutRenewalsInput
+  disconnect?: Prisma.ServerWhereInput | boolean
+  delete?: Prisma.ServerWhereInput | boolean
+  connect?: Prisma.ServerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ServerUpdateToOneWithWhereWithoutRenewalsInput, Prisma.ServerUpdateWithoutRenewalsInput>, Prisma.ServerUncheckedUpdateWithoutRenewalsInput>
+}
+
 export type ServerCreateNestedOneWithoutOrderItemInput = {
   create?: Prisma.XOR<Prisma.ServerCreateWithoutOrderItemInput, Prisma.ServerUncheckedCreateWithoutOrderItemInput>
   connectOrCreate?: Prisma.ServerCreateOrConnectWithoutOrderItemInput
@@ -663,14 +686,15 @@ export type ServerCreateWithoutUserInput = {
   status: string
   ip?: string | null
   port?: number | null
-  pterodactylServerId?: number | null
   expiresAt?: Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  pterodactylServerId?: number | null
   orderItem: Prisma.OrderItemCreateNestedOneWithoutServerInput
+  renewals?: Prisma.OrderCreateNestedManyWithoutRenewalForServerInput
 }
 
 export type ServerUncheckedCreateWithoutUserInput = {
@@ -681,13 +705,14 @@ export type ServerUncheckedCreateWithoutUserInput = {
   status: string
   ip?: string | null
   port?: number | null
-  pterodactylServerId?: number | null
   expiresAt?: Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  pterodactylServerId?: number | null
+  renewals?: Prisma.OrderUncheckedCreateNestedManyWithoutRenewalForServerInput
 }
 
 export type ServerCreateOrConnectWithoutUserInput = {
@@ -728,13 +753,101 @@ export type ServerScalarWhereInput = {
   status?: Prisma.StringFilter<"Server"> | string
   ip?: Prisma.StringNullableFilter<"Server"> | string | null
   port?: Prisma.IntNullableFilter<"Server"> | number | null
-  pterodactylServerId?: Prisma.IntNullableFilter<"Server"> | number | null
   expiresAt?: Prisma.DateTimeNullableFilter<"Server"> | Date | string | null
   resources?: Prisma.JsonNullableFilter<"Server">
   pterodactylData?: Prisma.JsonNullableFilter<"Server">
   suspended?: Prisma.BoolFilter<"Server"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Server"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Server"> | Date | string
+  pterodactylServerId?: Prisma.IntNullableFilter<"Server"> | number | null
+}
+
+export type ServerCreateWithoutRenewalsInput = {
+  id?: string
+  name: string
+  type: string
+  status: string
+  ip?: string | null
+  port?: number | null
+  expiresAt?: Date | string | null
+  resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suspended?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  pterodactylServerId?: number | null
+  orderItem: Prisma.OrderItemCreateNestedOneWithoutServerInput
+  user: Prisma.UserCreateNestedOneWithoutServersInput
+}
+
+export type ServerUncheckedCreateWithoutRenewalsInput = {
+  id?: string
+  userId: string
+  orderItemId: string
+  name: string
+  type: string
+  status: string
+  ip?: string | null
+  port?: number | null
+  expiresAt?: Date | string | null
+  resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suspended?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  pterodactylServerId?: number | null
+}
+
+export type ServerCreateOrConnectWithoutRenewalsInput = {
+  where: Prisma.ServerWhereUniqueInput
+  create: Prisma.XOR<Prisma.ServerCreateWithoutRenewalsInput, Prisma.ServerUncheckedCreateWithoutRenewalsInput>
+}
+
+export type ServerUpsertWithoutRenewalsInput = {
+  update: Prisma.XOR<Prisma.ServerUpdateWithoutRenewalsInput, Prisma.ServerUncheckedUpdateWithoutRenewalsInput>
+  create: Prisma.XOR<Prisma.ServerCreateWithoutRenewalsInput, Prisma.ServerUncheckedCreateWithoutRenewalsInput>
+  where?: Prisma.ServerWhereInput
+}
+
+export type ServerUpdateToOneWithWhereWithoutRenewalsInput = {
+  where?: Prisma.ServerWhereInput
+  data: Prisma.XOR<Prisma.ServerUpdateWithoutRenewalsInput, Prisma.ServerUncheckedUpdateWithoutRenewalsInput>
+}
+
+export type ServerUpdateWithoutRenewalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  port?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  orderItem?: Prisma.OrderItemUpdateOneRequiredWithoutServerNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutServersNestedInput
+}
+
+export type ServerUncheckedUpdateWithoutRenewalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  orderItemId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  port?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  suspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ServerCreateWithoutOrderItemInput = {
@@ -744,14 +857,15 @@ export type ServerCreateWithoutOrderItemInput = {
   status: string
   ip?: string | null
   port?: number | null
-  pterodactylServerId?: number | null
   expiresAt?: Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  pterodactylServerId?: number | null
   user: Prisma.UserCreateNestedOneWithoutServersInput
+  renewals?: Prisma.OrderCreateNestedManyWithoutRenewalForServerInput
 }
 
 export type ServerUncheckedCreateWithoutOrderItemInput = {
@@ -762,13 +876,14 @@ export type ServerUncheckedCreateWithoutOrderItemInput = {
   status: string
   ip?: string | null
   port?: number | null
-  pterodactylServerId?: number | null
   expiresAt?: Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  pterodactylServerId?: number | null
+  renewals?: Prisma.OrderUncheckedCreateNestedManyWithoutRenewalForServerInput
 }
 
 export type ServerCreateOrConnectWithoutOrderItemInput = {
@@ -794,14 +909,15 @@ export type ServerUpdateWithoutOrderItemInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   port?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user?: Prisma.UserUpdateOneRequiredWithoutServersNestedInput
+  renewals?: Prisma.OrderUpdateManyWithoutRenewalForServerNestedInput
 }
 
 export type ServerUncheckedUpdateWithoutOrderItemInput = {
@@ -812,13 +928,14 @@ export type ServerUncheckedUpdateWithoutOrderItemInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   port?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  renewals?: Prisma.OrderUncheckedUpdateManyWithoutRenewalForServerNestedInput
 }
 
 export type ServerCreateManyUserInput = {
@@ -829,13 +946,13 @@ export type ServerCreateManyUserInput = {
   status: string
   ip?: string | null
   port?: number | null
-  pterodactylServerId?: number | null
   expiresAt?: Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  pterodactylServerId?: number | null
 }
 
 export type ServerUpdateWithoutUserInput = {
@@ -845,14 +962,15 @@ export type ServerUpdateWithoutUserInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   port?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   orderItem?: Prisma.OrderItemUpdateOneRequiredWithoutServerNestedInput
+  renewals?: Prisma.OrderUpdateManyWithoutRenewalForServerNestedInput
 }
 
 export type ServerUncheckedUpdateWithoutUserInput = {
@@ -863,13 +981,14 @@ export type ServerUncheckedUpdateWithoutUserInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   port?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  renewals?: Prisma.OrderUncheckedUpdateManyWithoutRenewalForServerNestedInput
 }
 
 export type ServerUncheckedUpdateManyWithoutUserInput = {
@@ -880,15 +999,44 @@ export type ServerUncheckedUpdateManyWithoutUserInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   port?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   pterodactylData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   suspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pterodactylServerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
+
+/**
+ * Count Type ServerCountOutputType
+ */
+
+export type ServerCountOutputType = {
+  renewals: number
+}
+
+export type ServerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  renewals?: boolean | ServerCountOutputTypeCountRenewalsArgs
+}
+
+/**
+ * ServerCountOutputType without action
+ */
+export type ServerCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServerCountOutputType
+   */
+  select?: Prisma.ServerCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ServerCountOutputType without action
+ */
+export type ServerCountOutputTypeCountRenewalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrderWhereInput
+}
 
 
 export type ServerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -900,15 +1048,17 @@ export type ServerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   status?: boolean
   ip?: boolean
   port?: boolean
-  pterodactylServerId?: boolean
   expiresAt?: boolean
   resources?: boolean
   pterodactylData?: boolean
   suspended?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  pterodactylServerId?: boolean
   orderItem?: boolean | Prisma.OrderItemDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  renewals?: boolean | Prisma.Server$renewalsArgs<ExtArgs>
+  _count?: boolean | Prisma.ServerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["server"]>
 
 export type ServerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -920,15 +1070,15 @@ export type ServerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   status?: boolean
   ip?: boolean
   port?: boolean
-  pterodactylServerId?: boolean
   expiresAt?: boolean
   resources?: boolean
   pterodactylData?: boolean
   suspended?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  pterodactylServerId?: boolean
   orderItem?: boolean | Prisma.OrderItemDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["server"]>
 
 export type ServerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -940,15 +1090,15 @@ export type ServerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   status?: boolean
   ip?: boolean
   port?: boolean
-  pterodactylServerId?: boolean
   expiresAt?: boolean
   resources?: boolean
   pterodactylData?: boolean
   suspended?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  pterodactylServerId?: boolean
   orderItem?: boolean | Prisma.OrderItemDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["server"]>
 
 export type ServerSelectScalar = {
@@ -960,34 +1110,37 @@ export type ServerSelectScalar = {
   status?: boolean
   ip?: boolean
   port?: boolean
-  pterodactylServerId?: boolean
   expiresAt?: boolean
   resources?: boolean
   pterodactylData?: boolean
   suspended?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  pterodactylServerId?: boolean
 }
 
-export type ServerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "orderItemId" | "name" | "type" | "status" | "ip" | "port" | "pterodactylServerId" | "expiresAt" | "resources" | "pterodactylData" | "suspended" | "createdAt" | "updatedAt", ExtArgs["result"]["server"]>
+export type ServerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "orderItemId" | "name" | "type" | "status" | "ip" | "port" | "expiresAt" | "resources" | "pterodactylData" | "suspended" | "createdAt" | "updatedAt" | "pterodactylServerId", ExtArgs["result"]["server"]>
 export type ServerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   orderItem?: boolean | Prisma.OrderItemDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  renewals?: boolean | Prisma.Server$renewalsArgs<ExtArgs>
+  _count?: boolean | Prisma.ServerCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ServerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   orderItem?: boolean | Prisma.OrderItemDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type ServerIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   orderItem?: boolean | Prisma.OrderItemDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $ServerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Server"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
     orderItem: Prisma.$OrderItemPayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs>
+    renewals: Prisma.$OrderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -998,13 +1151,13 @@ export type $ServerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     status: string
     ip: string | null
     port: number | null
-    pterodactylServerId: number | null
     expiresAt: Date | null
     resources: runtime.JsonValue | null
     pterodactylData: runtime.JsonValue | null
     suspended: boolean
     createdAt: Date
     updatedAt: Date
+    pterodactylServerId: number | null
   }, ExtArgs["result"]["server"]>
   composites: {}
 }
@@ -1399,8 +1552,9 @@ readonly fields: ServerFieldRefs;
  */
 export interface Prisma__ServerClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   orderItem<T extends Prisma.OrderItemDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderItemDefaultArgs<ExtArgs>>): Prisma.Prisma__OrderItemClient<runtime.Types.Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  renewals<T extends Prisma.Server$renewalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Server$renewalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1438,13 +1592,13 @@ export interface ServerFieldRefs {
   readonly status: Prisma.FieldRef<"Server", 'String'>
   readonly ip: Prisma.FieldRef<"Server", 'String'>
   readonly port: Prisma.FieldRef<"Server", 'Int'>
-  readonly pterodactylServerId: Prisma.FieldRef<"Server", 'Int'>
   readonly expiresAt: Prisma.FieldRef<"Server", 'DateTime'>
   readonly resources: Prisma.FieldRef<"Server", 'Json'>
   readonly pterodactylData: Prisma.FieldRef<"Server", 'Json'>
   readonly suspended: Prisma.FieldRef<"Server", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Server", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Server", 'DateTime'>
+  readonly pterodactylServerId: Prisma.FieldRef<"Server", 'Int'>
 }
     
 
@@ -1843,6 +1997,30 @@ export type ServerDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Servers to delete.
    */
   limit?: number
+}
+
+/**
+ * Server.renewals
+ */
+export type Server$renewalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Order
+   */
+  select?: Prisma.OrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Order
+   */
+  omit?: Prisma.OrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
+  where?: Prisma.OrderWhereInput
+  orderBy?: Prisma.OrderOrderByWithRelationInput | Prisma.OrderOrderByWithRelationInput[]
+  cursor?: Prisma.OrderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[]
 }
 
 /**

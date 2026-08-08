@@ -12,15 +12,15 @@ const makeSchema = () => z.object({
   status: z.boolean().optional(),
   priority: z.boolean().optional(),
   userId: z.boolean().optional(),
-  user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
   assignedToId: z.boolean().optional(),
-  assignedTo: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
   channelName: z.boolean().optional(),
   tags: z.boolean().optional(),
-  messages: z.union([z.boolean(), z.lazy(() => TicketMessageFindManySchema)]).optional(),
   createdAt: z.boolean().optional(),
   updatedAt: z.boolean().optional(),
   closedAt: z.boolean().optional(),
+  assignedTo: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
+  user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
+  messages: z.union([z.boolean(), z.lazy(() => TicketMessageFindManySchema)]).optional(),
   _count: z.union([z.boolean(), z.lazy(() => TicketCountOutputTypeArgsObjectSchema)]).optional()
 }).strict();
 export const TicketSelectObjectSchema: z.ZodType<Prisma.TicketSelect> = makeSchema() as unknown as z.ZodType<Prisma.TicketSelect>;

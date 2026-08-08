@@ -30,16 +30,16 @@ export type StatusNodeAvgAggregateOutputType = {
   port: number | null
   latency: number | null
   cpu: number | null
-  memory: number | null
   disk: number | null
+  memory: number | null
 }
 
 export type StatusNodeSumAggregateOutputType = {
   port: number | null
   latency: number | null
   cpu: number | null
-  memory: number | null
   disk: number | null
+  memory: number | null
 }
 
 export type StatusNodeMinAggregateOutputType = {
@@ -53,11 +53,11 @@ export type StatusNodeMinAggregateOutputType = {
   status: string | null
   latency: number | null
   lastChecked: Date | null
-  cpu: number | null
-  memory: number | null
-  disk: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  cpu: number | null
+  disk: number | null
+  memory: number | null
 }
 
 export type StatusNodeMaxAggregateOutputType = {
@@ -71,11 +71,11 @@ export type StatusNodeMaxAggregateOutputType = {
   status: string | null
   latency: number | null
   lastChecked: Date | null
-  cpu: number | null
-  memory: number | null
-  disk: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  cpu: number | null
+  disk: number | null
+  memory: number | null
 }
 
 export type StatusNodeCountAggregateOutputType = {
@@ -89,11 +89,11 @@ export type StatusNodeCountAggregateOutputType = {
   status: number
   latency: number
   lastChecked: number
-  cpu: number
-  memory: number
-  disk: number
   createdAt: number
   updatedAt: number
+  cpu: number
+  disk: number
+  memory: number
   _all: number
 }
 
@@ -102,16 +102,16 @@ export type StatusNodeAvgAggregateInputType = {
   port?: true
   latency?: true
   cpu?: true
-  memory?: true
   disk?: true
+  memory?: true
 }
 
 export type StatusNodeSumAggregateInputType = {
   port?: true
   latency?: true
   cpu?: true
-  memory?: true
   disk?: true
+  memory?: true
 }
 
 export type StatusNodeMinAggregateInputType = {
@@ -125,11 +125,11 @@ export type StatusNodeMinAggregateInputType = {
   status?: true
   latency?: true
   lastChecked?: true
-  cpu?: true
-  memory?: true
-  disk?: true
   createdAt?: true
   updatedAt?: true
+  cpu?: true
+  disk?: true
+  memory?: true
 }
 
 export type StatusNodeMaxAggregateInputType = {
@@ -143,11 +143,11 @@ export type StatusNodeMaxAggregateInputType = {
   status?: true
   latency?: true
   lastChecked?: true
-  cpu?: true
-  memory?: true
-  disk?: true
   createdAt?: true
   updatedAt?: true
+  cpu?: true
+  disk?: true
+  memory?: true
 }
 
 export type StatusNodeCountAggregateInputType = {
@@ -161,11 +161,11 @@ export type StatusNodeCountAggregateInputType = {
   status?: true
   latency?: true
   lastChecked?: true
-  cpu?: true
-  memory?: true
-  disk?: true
   createdAt?: true
   updatedAt?: true
+  cpu?: true
+  disk?: true
+  memory?: true
   _all?: true
 }
 
@@ -266,11 +266,11 @@ export type StatusNodeGroupByOutputType = {
   status: string
   latency: number | null
   lastChecked: Date | null
-  cpu: number | null
-  memory: number | null
-  disk: number | null
   createdAt: Date
   updatedAt: Date
+  cpu: number | null
+  disk: number | null
+  memory: number | null
   _count: StatusNodeCountAggregateOutputType | null
   _avg: StatusNodeAvgAggregateOutputType | null
   _sum: StatusNodeSumAggregateOutputType | null
@@ -307,11 +307,11 @@ export type StatusNodeWhereInput = {
   status?: Prisma.StringFilter<"StatusNode"> | string
   latency?: Prisma.IntNullableFilter<"StatusNode"> | number | null
   lastChecked?: Prisma.DateTimeNullableFilter<"StatusNode"> | Date | string | null
-  cpu?: Prisma.FloatNullableFilter<"StatusNode"> | number | null
-  memory?: Prisma.IntNullableFilter<"StatusNode"> | number | null
-  disk?: Prisma.IntNullableFilter<"StatusNode"> | number | null
   createdAt?: Prisma.DateTimeFilter<"StatusNode"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StatusNode"> | Date | string
+  cpu?: Prisma.FloatNullableFilter<"StatusNode"> | number | null
+  disk?: Prisma.IntNullableFilter<"StatusNode"> | number | null
+  memory?: Prisma.IntNullableFilter<"StatusNode"> | number | null
 }
 
 export type StatusNodeOrderByWithRelationInput = {
@@ -325,11 +325,11 @@ export type StatusNodeOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   latency?: Prisma.SortOrderInput | Prisma.SortOrder
   lastChecked?: Prisma.SortOrderInput | Prisma.SortOrder
-  cpu?: Prisma.SortOrderInput | Prisma.SortOrder
-  memory?: Prisma.SortOrderInput | Prisma.SortOrder
-  disk?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  cpu?: Prisma.SortOrderInput | Prisma.SortOrder
+  disk?: Prisma.SortOrderInput | Prisma.SortOrder
+  memory?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type StatusNodeWhereUniqueInput = Prisma.AtLeast<{
@@ -346,11 +346,11 @@ export type StatusNodeWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.StringFilter<"StatusNode"> | string
   latency?: Prisma.IntNullableFilter<"StatusNode"> | number | null
   lastChecked?: Prisma.DateTimeNullableFilter<"StatusNode"> | Date | string | null
-  cpu?: Prisma.FloatNullableFilter<"StatusNode"> | number | null
-  memory?: Prisma.IntNullableFilter<"StatusNode"> | number | null
-  disk?: Prisma.IntNullableFilter<"StatusNode"> | number | null
   createdAt?: Prisma.DateTimeFilter<"StatusNode"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StatusNode"> | Date | string
+  cpu?: Prisma.FloatNullableFilter<"StatusNode"> | number | null
+  disk?: Prisma.IntNullableFilter<"StatusNode"> | number | null
+  memory?: Prisma.IntNullableFilter<"StatusNode"> | number | null
 }, "id">
 
 export type StatusNodeOrderByWithAggregationInput = {
@@ -364,11 +364,11 @@ export type StatusNodeOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   latency?: Prisma.SortOrderInput | Prisma.SortOrder
   lastChecked?: Prisma.SortOrderInput | Prisma.SortOrder
-  cpu?: Prisma.SortOrderInput | Prisma.SortOrder
-  memory?: Prisma.SortOrderInput | Prisma.SortOrder
-  disk?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  cpu?: Prisma.SortOrderInput | Prisma.SortOrder
+  disk?: Prisma.SortOrderInput | Prisma.SortOrder
+  memory?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.StatusNodeCountOrderByAggregateInput
   _avg?: Prisma.StatusNodeAvgOrderByAggregateInput
   _max?: Prisma.StatusNodeMaxOrderByAggregateInput
@@ -390,11 +390,11 @@ export type StatusNodeScalarWhereWithAggregatesInput = {
   status?: Prisma.StringWithAggregatesFilter<"StatusNode"> | string
   latency?: Prisma.IntNullableWithAggregatesFilter<"StatusNode"> | number | null
   lastChecked?: Prisma.DateTimeNullableWithAggregatesFilter<"StatusNode"> | Date | string | null
-  cpu?: Prisma.FloatNullableWithAggregatesFilter<"StatusNode"> | number | null
-  memory?: Prisma.IntNullableWithAggregatesFilter<"StatusNode"> | number | null
-  disk?: Prisma.IntNullableWithAggregatesFilter<"StatusNode"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"StatusNode"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"StatusNode"> | Date | string
+  cpu?: Prisma.FloatNullableWithAggregatesFilter<"StatusNode"> | number | null
+  disk?: Prisma.IntNullableWithAggregatesFilter<"StatusNode"> | number | null
+  memory?: Prisma.IntNullableWithAggregatesFilter<"StatusNode"> | number | null
 }
 
 export type StatusNodeCreateInput = {
@@ -408,11 +408,11 @@ export type StatusNodeCreateInput = {
   status?: string
   latency?: number | null
   lastChecked?: Date | string | null
-  cpu?: number | null
-  memory?: number | null
-  disk?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  cpu?: number | null
+  disk?: number | null
+  memory?: number | null
 }
 
 export type StatusNodeUncheckedCreateInput = {
@@ -426,11 +426,11 @@ export type StatusNodeUncheckedCreateInput = {
   status?: string
   latency?: number | null
   lastChecked?: Date | string | null
-  cpu?: number | null
-  memory?: number | null
-  disk?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  cpu?: number | null
+  disk?: number | null
+  memory?: number | null
 }
 
 export type StatusNodeUpdateInput = {
@@ -444,11 +444,11 @@ export type StatusNodeUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   latency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cpu?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  memory?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  disk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cpu?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  disk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  memory?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type StatusNodeUncheckedUpdateInput = {
@@ -462,11 +462,11 @@ export type StatusNodeUncheckedUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   latency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cpu?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  memory?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  disk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cpu?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  disk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  memory?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type StatusNodeCreateManyInput = {
@@ -480,11 +480,11 @@ export type StatusNodeCreateManyInput = {
   status?: string
   latency?: number | null
   lastChecked?: Date | string | null
-  cpu?: number | null
-  memory?: number | null
-  disk?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  cpu?: number | null
+  disk?: number | null
+  memory?: number | null
 }
 
 export type StatusNodeUpdateManyMutationInput = {
@@ -498,11 +498,11 @@ export type StatusNodeUpdateManyMutationInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   latency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cpu?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  memory?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  disk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cpu?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  disk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  memory?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type StatusNodeUncheckedUpdateManyInput = {
@@ -516,11 +516,11 @@ export type StatusNodeUncheckedUpdateManyInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   latency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cpu?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  memory?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  disk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cpu?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  disk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  memory?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type StatusNodeCountOrderByAggregateInput = {
@@ -534,19 +534,19 @@ export type StatusNodeCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   latency?: Prisma.SortOrder
   lastChecked?: Prisma.SortOrder
-  cpu?: Prisma.SortOrder
-  memory?: Prisma.SortOrder
-  disk?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  cpu?: Prisma.SortOrder
+  disk?: Prisma.SortOrder
+  memory?: Prisma.SortOrder
 }
 
 export type StatusNodeAvgOrderByAggregateInput = {
   port?: Prisma.SortOrder
   latency?: Prisma.SortOrder
   cpu?: Prisma.SortOrder
-  memory?: Prisma.SortOrder
   disk?: Prisma.SortOrder
+  memory?: Prisma.SortOrder
 }
 
 export type StatusNodeMaxOrderByAggregateInput = {
@@ -560,11 +560,11 @@ export type StatusNodeMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   latency?: Prisma.SortOrder
   lastChecked?: Prisma.SortOrder
-  cpu?: Prisma.SortOrder
-  memory?: Prisma.SortOrder
-  disk?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  cpu?: Prisma.SortOrder
+  disk?: Prisma.SortOrder
+  memory?: Prisma.SortOrder
 }
 
 export type StatusNodeMinOrderByAggregateInput = {
@@ -578,19 +578,19 @@ export type StatusNodeMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   latency?: Prisma.SortOrder
   lastChecked?: Prisma.SortOrder
-  cpu?: Prisma.SortOrder
-  memory?: Prisma.SortOrder
-  disk?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  cpu?: Prisma.SortOrder
+  disk?: Prisma.SortOrder
+  memory?: Prisma.SortOrder
 }
 
 export type StatusNodeSumOrderByAggregateInput = {
   port?: Prisma.SortOrder
   latency?: Prisma.SortOrder
   cpu?: Prisma.SortOrder
-  memory?: Prisma.SortOrder
   disk?: Prisma.SortOrder
+  memory?: Prisma.SortOrder
 }
 
 export type NullableFloatFieldUpdateOperationsInput = {
@@ -614,11 +614,11 @@ export type StatusNodeSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   status?: boolean
   latency?: boolean
   lastChecked?: boolean
-  cpu?: boolean
-  memory?: boolean
-  disk?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  cpu?: boolean
+  disk?: boolean
+  memory?: boolean
 }, ExtArgs["result"]["statusNode"]>
 
 export type StatusNodeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -632,11 +632,11 @@ export type StatusNodeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   status?: boolean
   latency?: boolean
   lastChecked?: boolean
-  cpu?: boolean
-  memory?: boolean
-  disk?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  cpu?: boolean
+  disk?: boolean
+  memory?: boolean
 }, ExtArgs["result"]["statusNode"]>
 
 export type StatusNodeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -650,11 +650,11 @@ export type StatusNodeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   status?: boolean
   latency?: boolean
   lastChecked?: boolean
-  cpu?: boolean
-  memory?: boolean
-  disk?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  cpu?: boolean
+  disk?: boolean
+  memory?: boolean
 }, ExtArgs["result"]["statusNode"]>
 
 export type StatusNodeSelectScalar = {
@@ -668,14 +668,14 @@ export type StatusNodeSelectScalar = {
   status?: boolean
   latency?: boolean
   lastChecked?: boolean
-  cpu?: boolean
-  memory?: boolean
-  disk?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  cpu?: boolean
+  disk?: boolean
+  memory?: boolean
 }
 
-export type StatusNodeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "ip" | "location" | "type" | "port" | "protocol" | "status" | "latency" | "lastChecked" | "cpu" | "memory" | "disk" | "createdAt" | "updatedAt", ExtArgs["result"]["statusNode"]>
+export type StatusNodeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "ip" | "location" | "type" | "port" | "protocol" | "status" | "latency" | "lastChecked" | "createdAt" | "updatedAt" | "cpu" | "disk" | "memory", ExtArgs["result"]["statusNode"]>
 
 export type $StatusNodePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "StatusNode"
@@ -691,11 +691,11 @@ export type $StatusNodePayload<ExtArgs extends runtime.Types.Extensions.Internal
     status: string
     latency: number | null
     lastChecked: Date | null
-    cpu: number | null
-    memory: number | null
-    disk: number | null
     createdAt: Date
     updatedAt: Date
+    cpu: number | null
+    disk: number | null
+    memory: number | null
   }, ExtArgs["result"]["statusNode"]>
   composites: {}
 }
@@ -1129,11 +1129,11 @@ export interface StatusNodeFieldRefs {
   readonly status: Prisma.FieldRef<"StatusNode", 'String'>
   readonly latency: Prisma.FieldRef<"StatusNode", 'Int'>
   readonly lastChecked: Prisma.FieldRef<"StatusNode", 'DateTime'>
-  readonly cpu: Prisma.FieldRef<"StatusNode", 'Float'>
-  readonly memory: Prisma.FieldRef<"StatusNode", 'Int'>
-  readonly disk: Prisma.FieldRef<"StatusNode", 'Int'>
   readonly createdAt: Prisma.FieldRef<"StatusNode", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"StatusNode", 'DateTime'>
+  readonly cpu: Prisma.FieldRef<"StatusNode", 'Float'>
+  readonly disk: Prisma.FieldRef<"StatusNode", 'Int'>
+  readonly memory: Prisma.FieldRef<"StatusNode", 'Int'>
 }
     
 

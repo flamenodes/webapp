@@ -314,13 +314,13 @@ export type BillingAddressScalarWhereWithAggregatesInput = {
 
 export type BillingAddressCreateInput = {
   id?: string
-  firstName: string
-  lastName: string
-  phone: string
-  address: string
-  city: string
+  firstName?: string
+  lastName?: string
+  phone?: string
+  address?: string
+  city?: string
   state?: string
-  zip: string
+  zip?: string
   country?: string
   updatedAt?: Date | string
   createdAt?: Date | string
@@ -330,13 +330,13 @@ export type BillingAddressCreateInput = {
 export type BillingAddressUncheckedCreateInput = {
   id?: string
   userId: string
-  firstName: string
-  lastName: string
-  phone: string
-  address: string
-  city: string
+  firstName?: string
+  lastName?: string
+  phone?: string
+  address?: string
+  city?: string
   state?: string
-  zip: string
+  zip?: string
   country?: string
   updatedAt?: Date | string
   createdAt?: Date | string
@@ -375,13 +375,13 @@ export type BillingAddressUncheckedUpdateInput = {
 export type BillingAddressCreateManyInput = {
   id?: string
   userId: string
-  firstName: string
-  lastName: string
-  phone: string
-  address: string
-  city: string
+  firstName?: string
+  lastName?: string
+  phone?: string
+  address?: string
+  city?: string
   state?: string
-  zip: string
+  zip?: string
   country?: string
   updatedAt?: Date | string
   createdAt?: Date | string
@@ -500,13 +500,13 @@ export type BillingAddressUncheckedUpdateOneWithoutUserNestedInput = {
 
 export type BillingAddressCreateWithoutUserInput = {
   id?: string
-  firstName: string
-  lastName: string
-  phone: string
-  address: string
-  city: string
+  firstName?: string
+  lastName?: string
+  phone?: string
+  address?: string
+  city?: string
   state?: string
-  zip: string
+  zip?: string
   country?: string
   updatedAt?: Date | string
   createdAt?: Date | string
@@ -514,13 +514,13 @@ export type BillingAddressCreateWithoutUserInput = {
 
 export type BillingAddressUncheckedCreateWithoutUserInput = {
   id?: string
-  firstName: string
-  lastName: string
-  phone: string
-  address: string
-  city: string
+  firstName?: string
+  lastName?: string
+  phone?: string
+  address?: string
+  city?: string
   state?: string
-  zip: string
+  zip?: string
   country?: string
   updatedAt?: Date | string
   createdAt?: Date | string

@@ -9,11 +9,11 @@ export const InvoiceGroupByResultSchema = z.array(z.object({
   _count: z.object({
     id: z.number(),
     orderId: z.number(),
-    order: z.number(),
     invoiceNumber: z.number(),
     pdfUrl: z.number(),
     razorpayData: z.number(),
-    createdAt: z.number()
+    createdAt: z.number(),
+    order: z.number()
   }).optional(),
   _min: z.object({
     id: z.string().nullable(),

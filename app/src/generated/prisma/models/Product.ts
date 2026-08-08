@@ -38,51 +38,51 @@ export type ProductSumAggregateOutputType = {
 
 export type ProductMinAggregateOutputType = {
   id: string | null
-  planName: string | null
-  icon: string | null
-  badge: string | null
-  category: $Enums.ProductCategory | null
-  price: number | null
-  sortOrder: number | null
-  featureCategory: string | null
-  inStock: boolean | null
-  discountId: string | null
   deployMode: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  category: $Enums.ProductCategory | null
+  icon: string | null
+  inStock: boolean | null
+  planName: string | null
+  price: number | null
+  discountId: string | null
+  featureCategory: string | null
+  badge: string | null
+  sortOrder: number | null
 }
 
 export type ProductMaxAggregateOutputType = {
   id: string | null
-  planName: string | null
-  icon: string | null
-  badge: string | null
-  category: $Enums.ProductCategory | null
-  price: number | null
-  sortOrder: number | null
-  featureCategory: string | null
-  inStock: boolean | null
-  discountId: string | null
   deployMode: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  category: $Enums.ProductCategory | null
+  icon: string | null
+  inStock: boolean | null
+  planName: string | null
+  price: number | null
+  discountId: string | null
+  featureCategory: string | null
+  badge: string | null
+  sortOrder: number | null
 }
 
 export type ProductCountAggregateOutputType = {
   id: number
-  planName: number
-  icon: number
-  badge: number
-  category: number
-  price: number
-  sortOrder: number
-  featureCategory: number
-  inStock: number
-  discountId: number
-  specs: number
   deployMode: number
+  specs: number
   createdAt: number
   updatedAt: number
+  category: number
+  icon: number
+  inStock: number
+  planName: number
+  price: number
+  discountId: number
+  featureCategory: number
+  badge: number
+  sortOrder: number
   _all: number
 }
 
@@ -99,51 +99,51 @@ export type ProductSumAggregateInputType = {
 
 export type ProductMinAggregateInputType = {
   id?: true
-  planName?: true
-  icon?: true
-  badge?: true
-  category?: true
-  price?: true
-  sortOrder?: true
-  featureCategory?: true
-  inStock?: true
-  discountId?: true
   deployMode?: true
   createdAt?: true
   updatedAt?: true
+  category?: true
+  icon?: true
+  inStock?: true
+  planName?: true
+  price?: true
+  discountId?: true
+  featureCategory?: true
+  badge?: true
+  sortOrder?: true
 }
 
 export type ProductMaxAggregateInputType = {
   id?: true
-  planName?: true
-  icon?: true
-  badge?: true
-  category?: true
-  price?: true
-  sortOrder?: true
-  featureCategory?: true
-  inStock?: true
-  discountId?: true
   deployMode?: true
   createdAt?: true
   updatedAt?: true
+  category?: true
+  icon?: true
+  inStock?: true
+  planName?: true
+  price?: true
+  discountId?: true
+  featureCategory?: true
+  badge?: true
+  sortOrder?: true
 }
 
 export type ProductCountAggregateInputType = {
   id?: true
-  planName?: true
-  icon?: true
-  badge?: true
-  category?: true
-  price?: true
-  sortOrder?: true
-  featureCategory?: true
-  inStock?: true
-  discountId?: true
-  specs?: true
   deployMode?: true
+  specs?: true
   createdAt?: true
   updatedAt?: true
+  category?: true
+  icon?: true
+  inStock?: true
+  planName?: true
+  price?: true
+  discountId?: true
+  featureCategory?: true
+  badge?: true
+  sortOrder?: true
   _all?: true
 }
 
@@ -235,19 +235,19 @@ export type ProductGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type ProductGroupByOutputType = {
   id: string
-  planName: string
-  icon: string | null
-  badge: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder: number
-  featureCategory: string
-  inStock: boolean
-  discountId: string | null
-  specs: runtime.JsonValue
   deployMode: string
+  specs: runtime.JsonValue
   createdAt: Date
   updatedAt: Date
+  category: $Enums.ProductCategory
+  icon: string | null
+  inStock: boolean
+  planName: string
+  price: number
+  discountId: string | null
+  featureCategory: string
+  badge: string | null
+  sortOrder: number
   _count: ProductCountAggregateOutputType | null
   _avg: ProductAvgAggregateOutputType | null
   _sum: ProductSumAggregateOutputType | null
@@ -275,46 +275,46 @@ export type ProductWhereInput = {
   OR?: Prisma.ProductWhereInput[]
   NOT?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[]
   id?: Prisma.StringFilter<"Product"> | string
-  planName?: Prisma.StringFilter<"Product"> | string
-  icon?: Prisma.StringNullableFilter<"Product"> | string | null
-  badge?: Prisma.StringNullableFilter<"Product"> | string | null
-  category?: Prisma.EnumProductCategoryFilter<"Product"> | $Enums.ProductCategory
-  price?: Prisma.IntFilter<"Product"> | number
-  sortOrder?: Prisma.IntFilter<"Product"> | number
-  featureCategory?: Prisma.StringFilter<"Product"> | string
-  inStock?: Prisma.BoolFilter<"Product"> | boolean
-  discountId?: Prisma.StringNullableFilter<"Product"> | string | null
-  specs?: Prisma.JsonFilter<"Product">
   deployMode?: Prisma.StringFilter<"Product"> | string
+  specs?: Prisma.JsonFilter<"Product">
   createdAt?: Prisma.DateTimeFilter<"Product"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Product"> | Date | string
-  features?: Prisma.ProductFeatureListRelationFilter
-  discount?: Prisma.XOR<Prisma.DiscountNullableScalarRelationFilter, Prisma.DiscountWhereInput> | null
+  category?: Prisma.EnumProductCategoryFilter<"Product"> | $Enums.ProductCategory
+  icon?: Prisma.StringNullableFilter<"Product"> | string | null
+  inStock?: Prisma.BoolFilter<"Product"> | boolean
+  planName?: Prisma.StringFilter<"Product"> | string
+  price?: Prisma.IntFilter<"Product"> | number
+  discountId?: Prisma.StringNullableFilter<"Product"> | string | null
+  featureCategory?: Prisma.StringFilter<"Product"> | string
+  badge?: Prisma.StringNullableFilter<"Product"> | string | null
+  sortOrder?: Prisma.IntFilter<"Product"> | number
   cartItems?: Prisma.CartItemListRelationFilter
   orderItems?: Prisma.OrderItemListRelationFilter
+  discount?: Prisma.XOR<Prisma.DiscountNullableScalarRelationFilter, Prisma.DiscountWhereInput> | null
   billingOptions?: Prisma.ProductBillingOptionListRelationFilter
+  features?: Prisma.ProductFeatureListRelationFilter
 }
 
 export type ProductOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  planName?: Prisma.SortOrder
-  icon?: Prisma.SortOrderInput | Prisma.SortOrder
-  badge?: Prisma.SortOrderInput | Prisma.SortOrder
-  category?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  sortOrder?: Prisma.SortOrder
-  featureCategory?: Prisma.SortOrder
-  inStock?: Prisma.SortOrder
-  discountId?: Prisma.SortOrderInput | Prisma.SortOrder
-  specs?: Prisma.SortOrder
   deployMode?: Prisma.SortOrder
+  specs?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  features?: Prisma.ProductFeatureOrderByRelationAggregateInput
-  discount?: Prisma.DiscountOrderByWithRelationInput
+  category?: Prisma.SortOrder
+  icon?: Prisma.SortOrderInput | Prisma.SortOrder
+  inStock?: Prisma.SortOrder
+  planName?: Prisma.SortOrder
+  price?: Prisma.SortOrder
+  discountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  featureCategory?: Prisma.SortOrder
+  badge?: Prisma.SortOrderInput | Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   cartItems?: Prisma.CartItemOrderByRelationAggregateInput
   orderItems?: Prisma.OrderItemOrderByRelationAggregateInput
+  discount?: Prisma.DiscountOrderByWithRelationInput
   billingOptions?: Prisma.ProductBillingOptionOrderByRelationAggregateInput
+  features?: Prisma.ProductFeatureOrderByRelationAggregateInput
 }
 
 export type ProductWhereUniqueInput = Prisma.AtLeast<{
@@ -322,41 +322,41 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[]
   OR?: Prisma.ProductWhereInput[]
   NOT?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[]
-  planName?: Prisma.StringFilter<"Product"> | string
-  icon?: Prisma.StringNullableFilter<"Product"> | string | null
-  badge?: Prisma.StringNullableFilter<"Product"> | string | null
-  category?: Prisma.EnumProductCategoryFilter<"Product"> | $Enums.ProductCategory
-  price?: Prisma.IntFilter<"Product"> | number
-  sortOrder?: Prisma.IntFilter<"Product"> | number
-  featureCategory?: Prisma.StringFilter<"Product"> | string
-  inStock?: Prisma.BoolFilter<"Product"> | boolean
-  discountId?: Prisma.StringNullableFilter<"Product"> | string | null
-  specs?: Prisma.JsonFilter<"Product">
   deployMode?: Prisma.StringFilter<"Product"> | string
+  specs?: Prisma.JsonFilter<"Product">
   createdAt?: Prisma.DateTimeFilter<"Product"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Product"> | Date | string
-  features?: Prisma.ProductFeatureListRelationFilter
-  discount?: Prisma.XOR<Prisma.DiscountNullableScalarRelationFilter, Prisma.DiscountWhereInput> | null
+  category?: Prisma.EnumProductCategoryFilter<"Product"> | $Enums.ProductCategory
+  icon?: Prisma.StringNullableFilter<"Product"> | string | null
+  inStock?: Prisma.BoolFilter<"Product"> | boolean
+  planName?: Prisma.StringFilter<"Product"> | string
+  price?: Prisma.IntFilter<"Product"> | number
+  discountId?: Prisma.StringNullableFilter<"Product"> | string | null
+  featureCategory?: Prisma.StringFilter<"Product"> | string
+  badge?: Prisma.StringNullableFilter<"Product"> | string | null
+  sortOrder?: Prisma.IntFilter<"Product"> | number
   cartItems?: Prisma.CartItemListRelationFilter
   orderItems?: Prisma.OrderItemListRelationFilter
+  discount?: Prisma.XOR<Prisma.DiscountNullableScalarRelationFilter, Prisma.DiscountWhereInput> | null
   billingOptions?: Prisma.ProductBillingOptionListRelationFilter
+  features?: Prisma.ProductFeatureListRelationFilter
 }, "id">
 
 export type ProductOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  planName?: Prisma.SortOrder
-  icon?: Prisma.SortOrderInput | Prisma.SortOrder
-  badge?: Prisma.SortOrderInput | Prisma.SortOrder
-  category?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  sortOrder?: Prisma.SortOrder
-  featureCategory?: Prisma.SortOrder
-  inStock?: Prisma.SortOrder
-  discountId?: Prisma.SortOrderInput | Prisma.SortOrder
-  specs?: Prisma.SortOrder
   deployMode?: Prisma.SortOrder
+  specs?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  icon?: Prisma.SortOrderInput | Prisma.SortOrder
+  inStock?: Prisma.SortOrder
+  planName?: Prisma.SortOrder
+  price?: Prisma.SortOrder
+  discountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  featureCategory?: Prisma.SortOrder
+  badge?: Prisma.SortOrderInput | Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   _count?: Prisma.ProductCountOrderByAggregateInput
   _avg?: Prisma.ProductAvgOrderByAggregateInput
   _max?: Prisma.ProductMaxOrderByAggregateInput
@@ -369,153 +369,153 @@ export type ProductScalarWhereWithAggregatesInput = {
   OR?: Prisma.ProductScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ProductScalarWhereWithAggregatesInput | Prisma.ProductScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Product"> | string
-  planName?: Prisma.StringWithAggregatesFilter<"Product"> | string
-  icon?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
-  badge?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
-  category?: Prisma.EnumProductCategoryWithAggregatesFilter<"Product"> | $Enums.ProductCategory
-  price?: Prisma.IntWithAggregatesFilter<"Product"> | number
-  sortOrder?: Prisma.IntWithAggregatesFilter<"Product"> | number
-  featureCategory?: Prisma.StringWithAggregatesFilter<"Product"> | string
-  inStock?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean
-  discountId?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
-  specs?: Prisma.JsonWithAggregatesFilter<"Product">
   deployMode?: Prisma.StringWithAggregatesFilter<"Product"> | string
+  specs?: Prisma.JsonWithAggregatesFilter<"Product">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Product"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Product"> | Date | string
+  category?: Prisma.EnumProductCategoryWithAggregatesFilter<"Product"> | $Enums.ProductCategory
+  icon?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
+  inStock?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean
+  planName?: Prisma.StringWithAggregatesFilter<"Product"> | string
+  price?: Prisma.IntWithAggregatesFilter<"Product"> | number
+  discountId?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
+  featureCategory?: Prisma.StringWithAggregatesFilter<"Product"> | string
+  badge?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
+  sortOrder?: Prisma.IntWithAggregatesFilter<"Product"> | number
 }
 
 export type ProductCreateInput = {
   id?: string
-  planName: string
-  icon?: string | null
-  badge?: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder?: number
-  featureCategory?: string
-  inStock?: boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
-  discount?: Prisma.DiscountCreateNestedOneWithoutProductInput
+  category: $Enums.ProductCategory
+  icon?: string | null
+  inStock?: boolean
+  planName: string
+  price: number
+  featureCategory?: string
+  badge?: string | null
+  sortOrder?: number
   cartItems?: Prisma.CartItemCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput
+  discount?: Prisma.DiscountCreateNestedOneWithoutProductInput
   billingOptions?: Prisma.ProductBillingOptionCreateNestedManyWithoutProductInput
+  features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateInput = {
   id?: string
-  planName: string
-  icon?: string | null
-  badge?: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder?: number
-  featureCategory?: string
-  inStock?: boolean
-  discountId?: string | null
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
+  category: $Enums.ProductCategory
+  icon?: string | null
+  inStock?: boolean
+  planName: string
+  price: number
+  discountId?: string | null
+  featureCategory?: string
+  badge?: string | null
+  sortOrder?: number
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput
   billingOptions?: Prisma.ProductBillingOptionUncheckedCreateNestedManyWithoutProductInput
+  features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
-  discount?: Prisma.DiscountUpdateOneWithoutProductNestedInput
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   cartItems?: Prisma.CartItemUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput
+  discount?: Prisma.DiscountUpdateOneWithoutProductNestedInput
   billingOptions?: Prisma.ProductBillingOptionUpdateManyWithoutProductNestedInput
+  features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  discountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  discountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput
   billingOptions?: Prisma.ProductBillingOptionUncheckedUpdateManyWithoutProductNestedInput
+  features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateManyInput = {
   id?: string
-  planName: string
-  icon?: string | null
-  badge?: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder?: number
-  featureCategory?: string
-  inStock?: boolean
-  discountId?: string | null
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  category: $Enums.ProductCategory
+  icon?: string | null
+  inStock?: boolean
+  planName: string
+  price: number
+  discountId?: string | null
+  featureCategory?: string
+  badge?: string | null
+  sortOrder?: number
 }
 
 export type ProductUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ProductUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  discountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  discountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ProductListRelationFilter = {
@@ -530,19 +530,19 @@ export type ProductOrderByRelationAggregateInput = {
 
 export type ProductCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  planName?: Prisma.SortOrder
-  icon?: Prisma.SortOrder
-  badge?: Prisma.SortOrder
-  category?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  sortOrder?: Prisma.SortOrder
-  featureCategory?: Prisma.SortOrder
-  inStock?: Prisma.SortOrder
-  discountId?: Prisma.SortOrder
-  specs?: Prisma.SortOrder
   deployMode?: Prisma.SortOrder
+  specs?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  icon?: Prisma.SortOrder
+  inStock?: Prisma.SortOrder
+  planName?: Prisma.SortOrder
+  price?: Prisma.SortOrder
+  discountId?: Prisma.SortOrder
+  featureCategory?: Prisma.SortOrder
+  badge?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
 }
 
 export type ProductAvgOrderByAggregateInput = {
@@ -552,34 +552,34 @@ export type ProductAvgOrderByAggregateInput = {
 
 export type ProductMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  planName?: Prisma.SortOrder
-  icon?: Prisma.SortOrder
-  badge?: Prisma.SortOrder
-  category?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  sortOrder?: Prisma.SortOrder
-  featureCategory?: Prisma.SortOrder
-  inStock?: Prisma.SortOrder
-  discountId?: Prisma.SortOrder
   deployMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  icon?: Prisma.SortOrder
+  inStock?: Prisma.SortOrder
+  planName?: Prisma.SortOrder
+  price?: Prisma.SortOrder
+  discountId?: Prisma.SortOrder
+  featureCategory?: Prisma.SortOrder
+  badge?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
 }
 
 export type ProductMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  planName?: Prisma.SortOrder
-  icon?: Prisma.SortOrder
-  badge?: Prisma.SortOrder
-  category?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  sortOrder?: Prisma.SortOrder
-  featureCategory?: Prisma.SortOrder
-  inStock?: Prisma.SortOrder
-  discountId?: Prisma.SortOrder
   deployMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  icon?: Prisma.SortOrder
+  inStock?: Prisma.SortOrder
+  planName?: Prisma.SortOrder
+  price?: Prisma.SortOrder
+  discountId?: Prisma.SortOrder
+  featureCategory?: Prisma.SortOrder
+  badge?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
 }
 
 export type ProductSumOrderByAggregateInput = {
@@ -696,42 +696,42 @@ export type ProductUpdateOneRequiredWithoutOrderItemsNestedInput = {
 
 export type ProductCreateWithoutDiscountInput = {
   id?: string
-  planName: string
-  icon?: string | null
-  badge?: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder?: number
-  featureCategory?: string
-  inStock?: boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
+  category: $Enums.ProductCategory
+  icon?: string | null
+  inStock?: boolean
+  planName: string
+  price: number
+  featureCategory?: string
+  badge?: string | null
+  sortOrder?: number
   cartItems?: Prisma.CartItemCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput
   billingOptions?: Prisma.ProductBillingOptionCreateNestedManyWithoutProductInput
+  features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutDiscountInput = {
   id?: string
-  planName: string
-  icon?: string | null
-  badge?: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder?: number
-  featureCategory?: string
-  inStock?: boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
+  category: $Enums.ProductCategory
+  icon?: string | null
+  inStock?: boolean
+  planName: string
+  price: number
+  featureCategory?: string
+  badge?: string | null
+  sortOrder?: number
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput
   billingOptions?: Prisma.ProductBillingOptionUncheckedCreateNestedManyWithoutProductInput
+  features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutDiscountInput = {
@@ -765,59 +765,59 @@ export type ProductScalarWhereInput = {
   OR?: Prisma.ProductScalarWhereInput[]
   NOT?: Prisma.ProductScalarWhereInput | Prisma.ProductScalarWhereInput[]
   id?: Prisma.StringFilter<"Product"> | string
-  planName?: Prisma.StringFilter<"Product"> | string
-  icon?: Prisma.StringNullableFilter<"Product"> | string | null
-  badge?: Prisma.StringNullableFilter<"Product"> | string | null
-  category?: Prisma.EnumProductCategoryFilter<"Product"> | $Enums.ProductCategory
-  price?: Prisma.IntFilter<"Product"> | number
-  sortOrder?: Prisma.IntFilter<"Product"> | number
-  featureCategory?: Prisma.StringFilter<"Product"> | string
-  inStock?: Prisma.BoolFilter<"Product"> | boolean
-  discountId?: Prisma.StringNullableFilter<"Product"> | string | null
-  specs?: Prisma.JsonFilter<"Product">
   deployMode?: Prisma.StringFilter<"Product"> | string
+  specs?: Prisma.JsonFilter<"Product">
   createdAt?: Prisma.DateTimeFilter<"Product"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Product"> | Date | string
+  category?: Prisma.EnumProductCategoryFilter<"Product"> | $Enums.ProductCategory
+  icon?: Prisma.StringNullableFilter<"Product"> | string | null
+  inStock?: Prisma.BoolFilter<"Product"> | boolean
+  planName?: Prisma.StringFilter<"Product"> | string
+  price?: Prisma.IntFilter<"Product"> | number
+  discountId?: Prisma.StringNullableFilter<"Product"> | string | null
+  featureCategory?: Prisma.StringFilter<"Product"> | string
+  badge?: Prisma.StringNullableFilter<"Product"> | string | null
+  sortOrder?: Prisma.IntFilter<"Product"> | number
 }
 
 export type ProductCreateWithoutBillingOptionsInput = {
   id?: string
-  planName: string
-  icon?: string | null
-  badge?: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder?: number
-  featureCategory?: string
-  inStock?: boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
-  discount?: Prisma.DiscountCreateNestedOneWithoutProductInput
+  category: $Enums.ProductCategory
+  icon?: string | null
+  inStock?: boolean
+  planName: string
+  price: number
+  featureCategory?: string
+  badge?: string | null
+  sortOrder?: number
   cartItems?: Prisma.CartItemCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput
+  discount?: Prisma.DiscountCreateNestedOneWithoutProductInput
+  features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutBillingOptionsInput = {
   id?: string
-  planName: string
-  icon?: string | null
-  badge?: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder?: number
-  featureCategory?: string
-  inStock?: boolean
-  discountId?: string | null
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
+  category: $Enums.ProductCategory
+  icon?: string | null
+  inStock?: boolean
+  planName: string
+  price: number
+  discountId?: string | null
+  featureCategory?: string
+  badge?: string | null
+  sortOrder?: number
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput
+  features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutBillingOptionsInput = {
@@ -838,79 +838,79 @@ export type ProductUpdateToOneWithWhereWithoutBillingOptionsInput = {
 
 export type ProductUpdateWithoutBillingOptionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
-  discount?: Prisma.DiscountUpdateOneWithoutProductNestedInput
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   cartItems?: Prisma.CartItemUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput
+  discount?: Prisma.DiscountUpdateOneWithoutProductNestedInput
+  features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutBillingOptionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  discountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  discountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput
+  features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateWithoutFeaturesInput = {
   id?: string
-  planName: string
-  icon?: string | null
-  badge?: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder?: number
-  featureCategory?: string
-  inStock?: boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  discount?: Prisma.DiscountCreateNestedOneWithoutProductInput
+  category: $Enums.ProductCategory
+  icon?: string | null
+  inStock?: boolean
+  planName: string
+  price: number
+  featureCategory?: string
+  badge?: string | null
+  sortOrder?: number
   cartItems?: Prisma.CartItemCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput
+  discount?: Prisma.DiscountCreateNestedOneWithoutProductInput
   billingOptions?: Prisma.ProductBillingOptionCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutFeaturesInput = {
   id?: string
-  planName: string
-  icon?: string | null
-  badge?: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder?: number
-  featureCategory?: string
-  inStock?: boolean
-  discountId?: string | null
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  category: $Enums.ProductCategory
+  icon?: string | null
+  inStock?: boolean
+  planName: string
+  price: number
+  discountId?: string | null
+  featureCategory?: string
+  badge?: string | null
+  sortOrder?: number
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput
   billingOptions?: Prisma.ProductBillingOptionUncheckedCreateNestedManyWithoutProductInput
@@ -934,39 +934,39 @@ export type ProductUpdateToOneWithWhereWithoutFeaturesInput = {
 
 export type ProductUpdateWithoutFeaturesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  discount?: Prisma.DiscountUpdateOneWithoutProductNestedInput
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   cartItems?: Prisma.CartItemUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput
+  discount?: Prisma.DiscountUpdateOneWithoutProductNestedInput
   billingOptions?: Prisma.ProductBillingOptionUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutFeaturesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  discountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  discountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput
   billingOptions?: Prisma.ProductBillingOptionUncheckedUpdateManyWithoutProductNestedInput
@@ -974,42 +974,42 @@ export type ProductUncheckedUpdateWithoutFeaturesInput = {
 
 export type ProductCreateWithoutCartItemsInput = {
   id?: string
-  planName: string
-  icon?: string | null
-  badge?: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder?: number
-  featureCategory?: string
-  inStock?: boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
-  discount?: Prisma.DiscountCreateNestedOneWithoutProductInput
+  category: $Enums.ProductCategory
+  icon?: string | null
+  inStock?: boolean
+  planName: string
+  price: number
+  featureCategory?: string
+  badge?: string | null
+  sortOrder?: number
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput
+  discount?: Prisma.DiscountCreateNestedOneWithoutProductInput
   billingOptions?: Prisma.ProductBillingOptionCreateNestedManyWithoutProductInput
+  features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutCartItemsInput = {
   id?: string
-  planName: string
-  icon?: string | null
-  badge?: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder?: number
-  featureCategory?: string
-  inStock?: boolean
-  discountId?: string | null
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
+  category: $Enums.ProductCategory
+  icon?: string | null
+  inStock?: boolean
+  planName: string
+  price: number
+  discountId?: string | null
+  featureCategory?: string
+  badge?: string | null
+  sortOrder?: number
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput
   billingOptions?: Prisma.ProductBillingOptionUncheckedCreateNestedManyWithoutProductInput
+  features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutCartItemsInput = {
@@ -1030,82 +1030,82 @@ export type ProductUpdateToOneWithWhereWithoutCartItemsInput = {
 
 export type ProductUpdateWithoutCartItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
-  discount?: Prisma.DiscountUpdateOneWithoutProductNestedInput
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput
+  discount?: Prisma.DiscountUpdateOneWithoutProductNestedInput
   billingOptions?: Prisma.ProductBillingOptionUpdateManyWithoutProductNestedInput
+  features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutCartItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  discountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  discountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput
   billingOptions?: Prisma.ProductBillingOptionUncheckedUpdateManyWithoutProductNestedInput
+  features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateWithoutOrderItemsInput = {
   id?: string
-  planName: string
-  icon?: string | null
-  badge?: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder?: number
-  featureCategory?: string
-  inStock?: boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
-  discount?: Prisma.DiscountCreateNestedOneWithoutProductInput
+  category: $Enums.ProductCategory
+  icon?: string | null
+  inStock?: boolean
+  planName: string
+  price: number
+  featureCategory?: string
+  badge?: string | null
+  sortOrder?: number
   cartItems?: Prisma.CartItemCreateNestedManyWithoutProductInput
+  discount?: Prisma.DiscountCreateNestedOneWithoutProductInput
   billingOptions?: Prisma.ProductBillingOptionCreateNestedManyWithoutProductInput
+  features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutOrderItemsInput = {
   id?: string
-  planName: string
-  icon?: string | null
-  badge?: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder?: number
-  featureCategory?: string
-  inStock?: boolean
-  discountId?: string | null
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
+  category: $Enums.ProductCategory
+  icon?: string | null
+  inStock?: boolean
+  planName: string
+  price: number
+  discountId?: string | null
+  featureCategory?: string
+  badge?: string | null
+  sortOrder?: number
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutProductInput
   billingOptions?: Prisma.ProductBillingOptionUncheckedCreateNestedManyWithoutProductInput
+  features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutOrderItemsInput = {
@@ -1126,114 +1126,114 @@ export type ProductUpdateToOneWithWhereWithoutOrderItemsInput = {
 
 export type ProductUpdateWithoutOrderItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
-  discount?: Prisma.DiscountUpdateOneWithoutProductNestedInput
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   cartItems?: Prisma.CartItemUpdateManyWithoutProductNestedInput
+  discount?: Prisma.DiscountUpdateOneWithoutProductNestedInput
   billingOptions?: Prisma.ProductBillingOptionUpdateManyWithoutProductNestedInput
+  features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutOrderItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  discountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  discountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutProductNestedInput
   billingOptions?: Prisma.ProductBillingOptionUncheckedUpdateManyWithoutProductNestedInput
+  features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateManyDiscountInput = {
   id?: string
-  planName: string
-  icon?: string | null
-  badge?: string | null
-  category: $Enums.ProductCategory
-  price: number
-  sortOrder?: number
-  featureCategory?: string
-  inStock?: boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  category: $Enums.ProductCategory
+  icon?: string | null
+  inStock?: boolean
+  planName: string
+  price: number
+  featureCategory?: string
+  badge?: string | null
+  sortOrder?: number
 }
 
 export type ProductUpdateWithoutDiscountInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   cartItems?: Prisma.CartItemUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput
   billingOptions?: Prisma.ProductBillingOptionUpdateManyWithoutProductNestedInput
+  features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutDiscountInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput
   billingOptions?: Prisma.ProductBillingOptionUncheckedUpdateManyWithoutProductNestedInput
+  features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateManyWithoutDiscountInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  planName?: Prisma.StringFieldUpdateOperationsInput | string
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
-  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   deployMode?: Prisma.StringFieldUpdateOperationsInput | string
+  specs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inStock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planName?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  featureCategory?: Prisma.StringFieldUpdateOperationsInput | string
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -1242,17 +1242,17 @@ export type ProductUncheckedUpdateManyWithoutDiscountInput = {
  */
 
 export type ProductCountOutputType = {
-  features: number
   cartItems: number
   orderItems: number
   billingOptions: number
+  features: number
 }
 
 export type ProductCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  features?: boolean | ProductCountOutputTypeCountFeaturesArgs
   cartItems?: boolean | ProductCountOutputTypeCountCartItemsArgs
   orderItems?: boolean | ProductCountOutputTypeCountOrderItemsArgs
   billingOptions?: boolean | ProductCountOutputTypeCountBillingOptionsArgs
+  features?: boolean | ProductCountOutputTypeCountFeaturesArgs
 }
 
 /**
@@ -1263,13 +1263,6 @@ export type ProductCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
    * Select specific fields to fetch from the ProductCountOutputType
    */
   select?: Prisma.ProductCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * ProductCountOutputType without action
- */
-export type ProductCountOutputTypeCountFeaturesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ProductFeatureWhereInput
 }
 
 /**
@@ -1293,90 +1286,97 @@ export type ProductCountOutputTypeCountBillingOptionsArgs<ExtArgs extends runtim
   where?: Prisma.ProductBillingOptionWhereInput
 }
 
+/**
+ * ProductCountOutputType without action
+ */
+export type ProductCountOutputTypeCountFeaturesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProductFeatureWhereInput
+}
+
 
 export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  planName?: boolean
-  icon?: boolean
-  badge?: boolean
-  category?: boolean
-  price?: boolean
-  sortOrder?: boolean
-  featureCategory?: boolean
-  inStock?: boolean
-  discountId?: boolean
-  specs?: boolean
   deployMode?: boolean
+  specs?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  features?: boolean | Prisma.Product$featuresArgs<ExtArgs>
-  discount?: boolean | Prisma.Product$discountArgs<ExtArgs>
+  category?: boolean
+  icon?: boolean
+  inStock?: boolean
+  planName?: boolean
+  price?: boolean
+  discountId?: boolean
+  featureCategory?: boolean
+  badge?: boolean
+  sortOrder?: boolean
   cartItems?: boolean | Prisma.Product$cartItemsArgs<ExtArgs>
   orderItems?: boolean | Prisma.Product$orderItemsArgs<ExtArgs>
+  discount?: boolean | Prisma.Product$discountArgs<ExtArgs>
   billingOptions?: boolean | Prisma.Product$billingOptionsArgs<ExtArgs>
+  features?: boolean | Prisma.Product$featuresArgs<ExtArgs>
   _count?: boolean | Prisma.ProductCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["product"]>
 
 export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  planName?: boolean
-  icon?: boolean
-  badge?: boolean
-  category?: boolean
-  price?: boolean
-  sortOrder?: boolean
-  featureCategory?: boolean
-  inStock?: boolean
-  discountId?: boolean
-  specs?: boolean
   deployMode?: boolean
+  specs?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  category?: boolean
+  icon?: boolean
+  inStock?: boolean
+  planName?: boolean
+  price?: boolean
+  discountId?: boolean
+  featureCategory?: boolean
+  badge?: boolean
+  sortOrder?: boolean
   discount?: boolean | Prisma.Product$discountArgs<ExtArgs>
 }, ExtArgs["result"]["product"]>
 
 export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  planName?: boolean
-  icon?: boolean
-  badge?: boolean
-  category?: boolean
-  price?: boolean
-  sortOrder?: boolean
-  featureCategory?: boolean
-  inStock?: boolean
-  discountId?: boolean
-  specs?: boolean
   deployMode?: boolean
+  specs?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  category?: boolean
+  icon?: boolean
+  inStock?: boolean
+  planName?: boolean
+  price?: boolean
+  discountId?: boolean
+  featureCategory?: boolean
+  badge?: boolean
+  sortOrder?: boolean
   discount?: boolean | Prisma.Product$discountArgs<ExtArgs>
 }, ExtArgs["result"]["product"]>
 
 export type ProductSelectScalar = {
   id?: boolean
-  planName?: boolean
-  icon?: boolean
-  badge?: boolean
-  category?: boolean
-  price?: boolean
-  sortOrder?: boolean
-  featureCategory?: boolean
-  inStock?: boolean
-  discountId?: boolean
-  specs?: boolean
   deployMode?: boolean
+  specs?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  category?: boolean
+  icon?: boolean
+  inStock?: boolean
+  planName?: boolean
+  price?: boolean
+  discountId?: boolean
+  featureCategory?: boolean
+  badge?: boolean
+  sortOrder?: boolean
 }
 
-export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "planName" | "icon" | "badge" | "category" | "price" | "sortOrder" | "featureCategory" | "inStock" | "discountId" | "specs" | "deployMode" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "deployMode" | "specs" | "createdAt" | "updatedAt" | "category" | "icon" | "inStock" | "planName" | "price" | "discountId" | "featureCategory" | "badge" | "sortOrder", ExtArgs["result"]["product"]>
 export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  features?: boolean | Prisma.Product$featuresArgs<ExtArgs>
-  discount?: boolean | Prisma.Product$discountArgs<ExtArgs>
   cartItems?: boolean | Prisma.Product$cartItemsArgs<ExtArgs>
   orderItems?: boolean | Prisma.Product$orderItemsArgs<ExtArgs>
+  discount?: boolean | Prisma.Product$discountArgs<ExtArgs>
   billingOptions?: boolean | Prisma.Product$billingOptionsArgs<ExtArgs>
+  features?: boolean | Prisma.Product$featuresArgs<ExtArgs>
   _count?: boolean | Prisma.ProductCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProductIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1389,27 +1389,27 @@ export type ProductIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Product"
   objects: {
-    features: Prisma.$ProductFeaturePayload<ExtArgs>[]
-    discount: Prisma.$DiscountPayload<ExtArgs> | null
     cartItems: Prisma.$CartItemPayload<ExtArgs>[]
     orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
+    discount: Prisma.$DiscountPayload<ExtArgs> | null
     billingOptions: Prisma.$ProductBillingOptionPayload<ExtArgs>[]
+    features: Prisma.$ProductFeaturePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    planName: string
-    icon: string | null
-    badge: string | null
-    category: $Enums.ProductCategory
-    price: number
-    sortOrder: number
-    featureCategory: string
-    inStock: boolean
-    discountId: string | null
-    specs: runtime.JsonValue
     deployMode: string
+    specs: runtime.JsonValue
     createdAt: Date
     updatedAt: Date
+    category: $Enums.ProductCategory
+    icon: string | null
+    inStock: boolean
+    planName: string
+    price: number
+    discountId: string | null
+    featureCategory: string
+    badge: string | null
+    sortOrder: number
   }, ExtArgs["result"]["product"]>
   composites: {}
 }
@@ -1804,11 +1804,11 @@ readonly fields: ProductFieldRefs;
  */
 export interface Prisma__ProductClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  features<T extends Prisma.Product$featuresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$featuresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductFeaturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  discount<T extends Prisma.Product$discountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$discountArgs<ExtArgs>>): Prisma.Prisma__DiscountClient<runtime.Types.Result.GetResult<Prisma.$DiscountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   cartItems<T extends Prisma.Product$cartItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$cartItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   orderItems<T extends Prisma.Product$orderItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  discount<T extends Prisma.Product$discountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$discountArgs<ExtArgs>>): Prisma.Prisma__DiscountClient<runtime.Types.Result.GetResult<Prisma.$DiscountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   billingOptions<T extends Prisma.Product$billingOptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$billingOptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductBillingOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  features<T extends Prisma.Product$featuresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$featuresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductFeaturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1839,19 +1839,19 @@ export interface Prisma__ProductClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface ProductFieldRefs {
   readonly id: Prisma.FieldRef<"Product", 'String'>
-  readonly planName: Prisma.FieldRef<"Product", 'String'>
-  readonly icon: Prisma.FieldRef<"Product", 'String'>
-  readonly badge: Prisma.FieldRef<"Product", 'String'>
-  readonly category: Prisma.FieldRef<"Product", 'ProductCategory'>
-  readonly price: Prisma.FieldRef<"Product", 'Int'>
-  readonly sortOrder: Prisma.FieldRef<"Product", 'Int'>
-  readonly featureCategory: Prisma.FieldRef<"Product", 'String'>
-  readonly inStock: Prisma.FieldRef<"Product", 'Boolean'>
-  readonly discountId: Prisma.FieldRef<"Product", 'String'>
-  readonly specs: Prisma.FieldRef<"Product", 'Json'>
   readonly deployMode: Prisma.FieldRef<"Product", 'String'>
+  readonly specs: Prisma.FieldRef<"Product", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Product", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Product", 'DateTime'>
+  readonly category: Prisma.FieldRef<"Product", 'ProductCategory'>
+  readonly icon: Prisma.FieldRef<"Product", 'String'>
+  readonly inStock: Prisma.FieldRef<"Product", 'Boolean'>
+  readonly planName: Prisma.FieldRef<"Product", 'String'>
+  readonly price: Prisma.FieldRef<"Product", 'Int'>
+  readonly discountId: Prisma.FieldRef<"Product", 'String'>
+  readonly featureCategory: Prisma.FieldRef<"Product", 'String'>
+  readonly badge: Prisma.FieldRef<"Product", 'String'>
+  readonly sortOrder: Prisma.FieldRef<"Product", 'Int'>
 }
     
 
@@ -2253,49 +2253,6 @@ export type ProductDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * Product.features
- */
-export type Product$featuresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ProductFeature
-   */
-  select?: Prisma.ProductFeatureSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ProductFeature
-   */
-  omit?: Prisma.ProductFeatureOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProductFeatureInclude<ExtArgs> | null
-  where?: Prisma.ProductFeatureWhereInput
-  orderBy?: Prisma.ProductFeatureOrderByWithRelationInput | Prisma.ProductFeatureOrderByWithRelationInput[]
-  cursor?: Prisma.ProductFeatureWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ProductFeatureScalarFieldEnum | Prisma.ProductFeatureScalarFieldEnum[]
-}
-
-/**
- * Product.discount
- */
-export type Product$discountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Discount
-   */
-  select?: Prisma.DiscountSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Discount
-   */
-  omit?: Prisma.DiscountOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DiscountInclude<ExtArgs> | null
-  where?: Prisma.DiscountWhereInput
-}
-
-/**
  * Product.cartItems
  */
 export type Product$cartItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2344,6 +2301,25 @@ export type Product$orderItemsArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
+ * Product.discount
+ */
+export type Product$discountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Discount
+   */
+  select?: Prisma.DiscountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Discount
+   */
+  omit?: Prisma.DiscountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DiscountInclude<ExtArgs> | null
+  where?: Prisma.DiscountWhereInput
+}
+
+/**
  * Product.billingOptions
  */
 export type Product$billingOptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2365,6 +2341,30 @@ export type Product$billingOptionsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.ProductBillingOptionScalarFieldEnum | Prisma.ProductBillingOptionScalarFieldEnum[]
+}
+
+/**
+ * Product.features
+ */
+export type Product$featuresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProductFeature
+   */
+  select?: Prisma.ProductFeatureSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProductFeature
+   */
+  omit?: Prisma.ProductFeatureOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductFeatureInclude<ExtArgs> | null
+  where?: Prisma.ProductFeatureWhereInput
+  orderBy?: Prisma.ProductFeatureOrderByWithRelationInput | Prisma.ProductFeatureOrderByWithRelationInput[]
+  cursor?: Prisma.ProductFeatureWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProductFeatureScalarFieldEnum | Prisma.ProductFeatureScalarFieldEnum[]
 }
 
 /**

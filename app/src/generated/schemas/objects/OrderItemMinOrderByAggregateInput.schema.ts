@@ -6,13 +6,13 @@ const makeSchema = () => z.object({
   id: SortOrderSchema.optional(),
   orderId: SortOrderSchema.optional(),
   productId: SortOrderSchema.optional(),
-  productName: SortOrderSchema.optional(),
   quantity: SortOrderSchema.optional(),
-  billingPeriod: SortOrderSchema.optional(),
-  unitPrice: SortOrderSchema.optional(),
-  totalPrice: SortOrderSchema.optional(),
   expiresAt: SortOrderSchema.optional(),
-  createdAt: SortOrderSchema.optional()
+  billingPeriod: SortOrderSchema.optional(),
+  createdAt: SortOrderSchema.optional(),
+  productName: SortOrderSchema.optional(),
+  totalPrice: SortOrderSchema.optional(),
+  unitPrice: SortOrderSchema.optional()
 }).strict();
 export const OrderItemMinOrderByAggregateInputObjectSchema: z.ZodType<Prisma.OrderItemMinOrderByAggregateInput> = makeSchema() as unknown as z.ZodType<Prisma.OrderItemMinOrderByAggregateInput>;
 export const OrderItemMinOrderByAggregateInputObjectZodSchema = makeSchema();

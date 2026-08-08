@@ -11,11 +11,11 @@ const makeSchema = () => z.object({
   status: z.literal(true).optional(),
   ip: z.literal(true).optional(),
   port: z.literal(true).optional(),
-  pterodactylServerId: z.literal(true).optional(),
   expiresAt: z.literal(true).optional(),
   suspended: z.literal(true).optional(),
   createdAt: z.literal(true).optional(),
-  updatedAt: z.literal(true).optional()
+  updatedAt: z.literal(true).optional(),
+  pterodactylServerId: z.literal(true).optional()
 }).strict();
 export const ServerMaxAggregateInputObjectSchema: z.ZodType<Prisma.ServerMaxAggregateInputType> = makeSchema() as unknown as z.ZodType<Prisma.ServerMaxAggregateInputType>;
 export const ServerMaxAggregateInputObjectZodSchema = makeSchema();

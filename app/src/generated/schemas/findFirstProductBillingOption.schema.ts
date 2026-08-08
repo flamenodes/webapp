@@ -13,19 +13,19 @@ import { ProductArgsObjectSchema as ProductArgsObjectSchema } from './objects/Pr
 export const ProductBillingOptionFindFirstSelectSchema: z.ZodType<Prisma.ProductBillingOptionSelect> = z.object({
     id: z.boolean().optional(),
     productId: z.boolean().optional(),
-    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
     billingPeriod: z.boolean().optional(),
     price: z.boolean().optional(),
-    customDays: z.boolean().optional()
+    customDays: z.boolean().optional(),
+    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional()
   }).strict() as unknown as z.ZodType<Prisma.ProductBillingOptionSelect>;
 
 export const ProductBillingOptionFindFirstSelectZodSchema = z.object({
     id: z.boolean().optional(),
     productId: z.boolean().optional(),
-    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
     billingPeriod: z.boolean().optional(),
     price: z.boolean().optional(),
-    customDays: z.boolean().optional()
+    customDays: z.boolean().optional(),
+    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional()
   }).strict();
 
 export const ProductBillingOptionFindFirstSchema: z.ZodType<Prisma.ProductBillingOptionFindFirstArgs> = z.object({ select: ProductBillingOptionFindFirstSelectSchema.optional(), include: z.lazy(() => ProductBillingOptionIncludeObjectSchema.optional()), orderBy: z.union([ProductBillingOptionOrderByWithRelationInputObjectSchema, ProductBillingOptionOrderByWithRelationInputObjectSchema.array()]).optional(), where: ProductBillingOptionWhereInputObjectSchema.optional(), cursor: ProductBillingOptionWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([ProductBillingOptionScalarFieldEnumSchema, ProductBillingOptionScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.ProductBillingOptionFindFirstArgs>;

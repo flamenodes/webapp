@@ -7,10 +7,10 @@ export const ProductBillingOptionGroupByResultSchema = z.array(z.object({
   _count: z.object({
     id: z.number(),
     productId: z.number(),
-    product: z.number(),
     billingPeriod: z.number(),
     price: z.number(),
-    customDays: z.number()
+    customDays: z.number(),
+    product: z.number()
   }).optional(),
   _sum: z.object({
     price: z.number().nullable(),

@@ -4,9 +4,9 @@ export const ProductFeatureFindManyResultSchema = z.object({
   data: z.array(z.object({
   id: z.string(),
   productId: z.string(),
-  product: ProductSchema.optional(),
   label: z.string(),
-  sortOrder: z.number().int()
+  sortOrder: z.number().int(),
+  product: ProductSchema.optional()
 })),
   pagination: z.object({
   page: z.number().int().min(1),

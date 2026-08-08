@@ -20,6 +20,7 @@ import { toast } from 'sonner'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 export const Route = createFileRoute('/_protected/admin/orders')({
   head: () => ({ meta: [{ title: 'Orders | Flame Nodes Admin' }] }),
@@ -46,18 +47,43 @@ function OrdersPage() {
 
   const [form, setForm] = useState({
     userEmail: '',
+    orderType: 'EXISTING' as 'EXISTING' | 'CUSTOM',
     productId: '',
+    planName: '',
+    price: '',
+    category: 'MINECRAFT' as 'VPS' | 'VDS' | 'WEBHOST' | 'DISCORD' | 'DDOS_PROT' | 'DEDICATED' | 'MINECRAFT',
     quantity: '1',
-    billingPeriod: 'MONTHLY' as 'MONTHLY' | 'QUARTERLY' | 'YEARLY',
+    billingPeriod: 'MONTHLY' as 'HOURLY' | 'DAILY' | 'MONTHLY' | 'QUARTERLY' | 'SEMIANNUALLY' | 'YEARLY' | 'CUSTOM',
+    customDays: '',
+    pteroServerId: '',
+    linkDirectly: false,
   })
+
+  const resetForm = () =>
+    setForm({
+      userEmail: '',
+      orderType: 'EXISTING',
+      productId: '',
+      planName: '',
+      price: '',
+      category: 'MINECRAFT',
+      quantity: '1',
+      billingPeriod: 'MONTHLY',
+      customDays: '',
+      pteroServerId: '',
+      linkDirectly: false,
+    })
 
   const createOrderMutation = useMutation({
     mutationFn: (data: typeof form) => createManualOrder({ data }),
-    onSuccess: () => {
+    onSuccess: (result) => {
       qc.invalidateQueries({ queryKey: ['admin-orders'] })
+      if (result.success && result.data?.paymentLink) {
+        setPaymentLinkModal({ orderId: result.data.orderId, link: result.data.paymentLink })
+      }
+      toast.success(result.message || 'Order created successfully')
       setOpen(false)
-      setForm({ userEmail: '', productId: '', quantity: '1', billingPeriod: 'MONTHLY' })
-      toast.success('Order created successfully')
+      resetForm()
     },
     onError: (error: any) => toast.error(error.message || 'Failed to create order'),
   })
@@ -164,7 +190,7 @@ function OrdersPage() {
                 Create Order
               </Button>
             </SheetTrigger>
-            <SheetContent>
+            <SheetContent className="overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>Create Manual Order</SheetTitle>
               </SheetHeader>
@@ -181,53 +207,203 @@ function OrdersPage() {
                 </Field>
 
                 <Field>
-                  <FieldLabel>Product <span className="text-destructive">*</span></FieldLabel>
-                  <Select value={form.productId} onValueChange={(v) => setForm((f) => ({ ...f, productId: v }))}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a product" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {products.map((product) => (
-                        <SelectItem key={product.id} value={product.id}>
-                          {product.planName} - ₹{product.price}/mo
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FieldDescription>Product to include in the order.</FieldDescription>
-                </Field>
-
-                <Field>
-                  <FieldLabel>Billing Period</FieldLabel>
-                  <Select
-                    value={form.billingPeriod}
-                    onValueChange={(v) => setForm((f) => ({ ...f, billingPeriod: v as any }))}
+                  <FieldLabel>Product</FieldLabel>
+                  <RadioGroup
+                    value={form.orderType}
+                    onValueChange={(v) => setForm((f) => ({ ...f, orderType: v as any }))}
+                    className="grid grid-cols-2 gap-2"
                   >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="MONTHLY">Monthly</SelectItem>
-                      <SelectItem value="QUARTERLY">Quarterly</SelectItem>
-                      <SelectItem value="YEARLY">Yearly</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    <label
+                      className={`flex items-start gap-2 rounded-lg border p-3 cursor-pointer transition-colors ${
+                        form.orderType === 'EXISTING'
+                          ? 'border-primary/50 bg-primary/5'
+                          : 'hover:border-border'
+                      }`}
+                    >
+                      <RadioGroupItem value="EXISTING" id="existing-product" className="mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium">Existing product</p>
+                        <p className="text-xs text-muted-foreground">Pick a template from the catalog — recommended</p>
+                      </div>
+                    </label>
+                    <label
+                      className={`flex items-start gap-2 rounded-lg border p-3 cursor-pointer transition-colors ${
+                        form.orderType === 'CUSTOM'
+                          ? 'border-warning/50 bg-warning/5'
+                          : 'hover:border-border'
+                      }`}
+                    >
+                      <RadioGroupItem value="CUSTOM" id="custom-product" className="mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium">Custom</p>
+                        <p className="text-xs text-muted-foreground">One-off name &amp; price — not recommended</p>
+                      </div>
+                    </label>
+                  </RadioGroup>
                 </Field>
 
+                {form.orderType === 'EXISTING' ? (
+                  <Field>
+                    <FieldLabel>Product <span className="text-destructive">*</span></FieldLabel>
+                    <Select value={form.productId} onValueChange={(v) => setForm((f) => ({ ...f, productId: v }))}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a product" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {products.map((product) => (
+                          <SelectItem key={product.id} value={product.id}>
+                            {product.planName} - ₹{product.price}/mo
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FieldDescription>Product template to include in the order.</FieldDescription>
+                  </Field>
+                ) : (
+                  <>
+                    <Field>
+                      <FieldLabel>Plan Name <span className="text-destructive">*</span></FieldLabel>
+                      <Input
+                        placeholder="e.g. Custom Minecraft 4GB"
+                        value={form.planName}
+                        onChange={(e) => setForm((f) => ({ ...f, planName: e.target.value }))}
+                      />
+                    </Field>
+                    <div className="grid grid-cols-2 gap-3">
+                      <Field>
+                        <FieldLabel>Price (₹) <span className="text-destructive">*</span></FieldLabel>
+                        <Input
+                          type="number"
+                          min="0"
+                          placeholder="e.g. 499"
+                          value={form.price}
+                          onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
+                        />
+                      </Field>
+                      <Field>
+                        <FieldLabel>Category <span className="text-destructive">*</span></FieldLabel>
+                        <Select
+                          value={form.category}
+                          onValueChange={(v) => setForm((f) => ({ ...f, category: v as any }))}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="MINECRAFT">Minecraft</SelectItem>
+                            <SelectItem value="VPS">VPS</SelectItem>
+                            <SelectItem value="VDS">VDS</SelectItem>
+                            <SelectItem value="DEDICATED">Dedicated</SelectItem>
+                            <SelectItem value="WEBHOST">Web Hosting</SelectItem>
+                            <SelectItem value="DISCORD">Discord Bot</SelectItem>
+                            <SelectItem value="DDOS_PROT">DDoS Protection</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </Field>
+                    </div>
+                  </>
+                )}
+
+                <div className="grid grid-cols-2 gap-3">
+                  <Field>
+                    <FieldLabel>Billing Period</FieldLabel>
+                    <Select
+                      value={form.billingPeriod}
+                      onValueChange={(v) => setForm((f) => ({ ...f, billingPeriod: v as any }))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="HOURLY">Hourly</SelectItem>
+                        <SelectItem value="DAILY">Daily</SelectItem>
+                        <SelectItem value="MONTHLY">Monthly</SelectItem>
+                        <SelectItem value="QUARTERLY">Quarterly</SelectItem>
+                        <SelectItem value="SEMIANNUALLY">Semi-annually</SelectItem>
+                        <SelectItem value="YEARLY">Yearly</SelectItem>
+                        <SelectItem value="CUSTOM">Custom days</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </Field>
+                  <Field>
+                    <FieldLabel>Quantity</FieldLabel>
+                    <Input
+                      type="number"
+                      min="1"
+                      value={form.quantity}
+                      onChange={(e) => setForm((f) => ({ ...f, quantity: e.target.value }))}
+                    />
+                  </Field>
+                </div>
+
+                {form.billingPeriod === 'CUSTOM' && (
+                  <Field>
+                    <FieldLabel>Custom Days <span className="text-destructive">*</span></FieldLabel>
+                    <Input
+                      type="number"
+                      min="1"
+                      placeholder="e.g. 45"
+                      value={form.customDays}
+                      onChange={(e) => setForm((f) => ({ ...f, customDays: e.target.value }))}
+                    />
+                  </Field>
+                )}
+
                 <Field>
-                  <FieldLabel>Quantity</FieldLabel>
+                  <FieldLabel>Pterodactyl Server ID <span className="text-destructive">*</span></FieldLabel>
                   <Input
                     type="number"
                     min="1"
-                    value={form.quantity}
-                    onChange={(e) => setForm((f) => ({ ...f, quantity: e.target.value }))}
+                    placeholder="e.g. 42"
+                    value={form.pteroServerId}
+                    onChange={(e) => setForm((f) => ({ ...f, pteroServerId: e.target.value }))}
                   />
+                  <FieldDescription>Numeric ID of the already-provisioned server on the panel.</FieldDescription>
+                </Field>
+
+                <Field>
+                  <FieldLabel>Delivery Mode</FieldLabel>
+                  <RadioGroup
+                    value={form.linkDirectly ? 'direct' : 'pending'}
+                    onValueChange={(v) => setForm((f) => ({ ...f, linkDirectly: v === 'direct' }))}
+                    className="grid grid-cols-2 gap-2"
+                  >
+                    <label
+                      className={`flex items-start gap-2 rounded-lg border p-3 cursor-pointer transition-colors ${
+                        form.linkDirectly ? 'border-primary/50 bg-primary/5' : 'hover:border-border'
+                      }`}
+                    >
+                      <RadioGroupItem value="direct" id="deliver-now" className="mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium">Deliver now</p>
+                        <p className="text-xs text-muted-foreground">Server exists — link &amp; mark delivered</p>
+                      </div>
+                    </label>
+                    <label
+                      className={`flex items-start gap-2 rounded-lg border p-3 cursor-pointer transition-colors ${
+                        !form.linkDirectly ? 'border-primary/50 bg-primary/5' : 'hover:border-border'
+                      }`}
+                    >
+                      <RadioGroupItem value="pending" id="pending-link" className="mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium">Pending + payment link</p>
+                        <p className="text-xs text-muted-foreground">Customer pays first, then server is linked</p>
+                      </div>
+                    </label>
+                  </RadioGroup>
                 </Field>
 
                 <Button
                   className="w-full mt-2"
                   onClick={() => createOrderMutation.mutate(form)}
-                  disabled={createOrderMutation.isPending || !form.userEmail || !form.productId}
+                  disabled={
+                    createOrderMutation.isPending ||
+                    !form.userEmail ||
+                    !form.pteroServerId ||
+                    (form.orderType === 'EXISTING' && !form.productId) ||
+                    (form.orderType === 'CUSTOM' && (!form.planName || !form.price)) ||
+                    (form.billingPeriod === 'CUSTOM' && !form.customDays)
+                  }
                 >
                   {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                   Create Order

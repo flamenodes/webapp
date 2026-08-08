@@ -6,8 +6,8 @@ const makeSchema = () => z.object({
   port: SortOrderSchema.optional(),
   latency: SortOrderSchema.optional(),
   cpu: SortOrderSchema.optional(),
-  memory: SortOrderSchema.optional(),
-  disk: SortOrderSchema.optional()
+  disk: SortOrderSchema.optional(),
+  memory: SortOrderSchema.optional()
 }).strict();
 export const StatusNodeSumOrderByAggregateInputObjectSchema: z.ZodType<Prisma.StatusNodeSumOrderByAggregateInput> = makeSchema() as unknown as z.ZodType<Prisma.StatusNodeSumOrderByAggregateInput>;
 export const StatusNodeSumOrderByAggregateInputObjectZodSchema = makeSchema();

@@ -3,7 +3,6 @@ import { UserSchema } from '../models/User.schema';
 export const BillingAddressFindUniqueResultSchema = z.nullable(z.object({
   id: z.string(),
   userId: z.string(),
-  user: UserSchema.optional(),
   firstName: z.string(),
   lastName: z.string(),
   phone: z.string(),
@@ -13,5 +12,6 @@ export const BillingAddressFindUniqueResultSchema = z.nullable(z.object({
   zip: z.string(),
   country: z.string(),
   updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
-  createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime")
+  createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
+  user: UserSchema.optional()
 }));

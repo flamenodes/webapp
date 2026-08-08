@@ -4,8 +4,8 @@ import { CartItemUncheckedCreateNestedManyWithoutCartInputObjectSchema as CartIt
 
 const makeSchema = () => z.object({
   id: z.string().optional(),
-  couponCode: z.string().optional().nullable(),
   createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time").optional(),
+  couponCode: z.string().optional().nullable(),
   updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time").optional(),
   items: z.lazy(() => CartItemUncheckedCreateNestedManyWithoutCartInputObjectSchema).optional()
 }).strict();

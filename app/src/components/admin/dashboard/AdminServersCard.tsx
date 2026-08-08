@@ -1,7 +1,8 @@
-import { ExternalLink, Server, Loader2 } from 'lucide-react'
-import { useQuery } from '@tanstack/react-query'
-import { getAdminServers } from '@/serverActions/admin/servers.api'
+import { ExternalLink, Server, Loader2, PauseCircle, PlayCircle } from 'lucide-react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { getAdminServers, updateAdminServer } from '@/serverActions/admin/servers.api'
 import { Link } from '@tanstack/react-router'
+import { toast } from 'sonner'
 
 const statusConfig = {
   ACTIVE:         { dot: 'bg-success shadow-[0_0_6px_var(--success)]',         text: 'text-success',          label: 'Active'    },
@@ -12,6 +13,7 @@ const statusConfig = {
 }
 
 export function AdminServersCard() {
+  const qc = useQueryClient()
   const { data: servers = [], isLoading } = useQuery({
     queryKey: ['admin-servers'],
     queryFn: () => getAdminServers(),
@@ -19,6 +21,16 @@ export function AdminServersCard() {
 
   const activeCount = servers.filter((s) => s.status === 'ACTIVE').length
   const suspendedCount = servers.filter((s) => s.status === 'SUSPENDED').length
+
+  const statusMutation = useMutation({
+    mutationFn: ({ serverId, status }: { serverId: string; status: 'ACTIVE' | 'SUSPENDED' }) =>
+      updateAdminServer({ data: { serverId, status, syncToPanel: true } }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin-servers'] })
+      toast.success('Server status updated')
+    },
+    onError: () => toast.error('Failed to update server status'),
+  })
 
   return (
     <div className="flex flex-col rounded-2xl border border-border bg-card overflow-hidden">
@@ -74,7 +86,30 @@ export function AdminServersCard() {
                       </p>
                     </div>
                   </div>
-                  <span className={`text-xs font-medium shrink-0 ${sc.text}`}>{sc.label}</span>
+                  <div className="flex items-center gap-2 shrink-0">
+                    {(server.status === 'ACTIVE' || server.status === 'SUSPENDED') && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          statusMutation.mutate({
+                            serverId: server.id,
+                            status: server.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE',
+                          })
+                        }
+                        disabled={statusMutation.isPending}
+                        className="flex items-center gap-1 text-xs font-medium px-2 h-7 rounded-lg border border-border hover:border-primary/40 hover:text-foreground transition-colors disabled:opacity-50"
+                        title={server.status === 'ACTIVE' ? 'Suspend server' : 'Unsuspend server'}
+                      >
+                        {server.status === 'ACTIVE' ? (
+                          <PauseCircle size={12} strokeWidth={1.75} className="text-warning" />
+                        ) : (
+                          <PlayCircle size={12} strokeWidth={1.75} className="text-success" />
+                        )}
+                        {server.status === 'ACTIVE' ? 'Suspend' : 'Unsuspend'}
+                      </button>
+                    )}
+                    <span className={`text-xs font-medium ${sc.text}`}>{sc.label}</span>
+                  </div>
                 </div>
               )
             })}

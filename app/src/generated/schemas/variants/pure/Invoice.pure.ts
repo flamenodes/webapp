@@ -3,11 +3,11 @@ import * as z from 'zod';
 export const InvoiceModelSchema = z.object({
     id: z.string(),
     orderId: z.string(),
-    order: z.any(),
     invoiceNumber: z.string(),
     pdfUrl: z.string(),
     razorpayData: z.any().nullable(),
-    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime")
+    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
+    order: z.any()
 }).strict();
 
 export type InvoicePureType = z.infer<typeof InvoiceModelSchema>;

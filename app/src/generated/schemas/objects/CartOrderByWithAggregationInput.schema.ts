@@ -9,8 +9,8 @@ import { CartMinOrderByAggregateInputObjectSchema as CartMinOrderByAggregateInpu
 const makeSchema = () => z.object({
   id: SortOrderSchema.optional(),
   userId: SortOrderSchema.optional(),
-  couponCode: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   createdAt: SortOrderSchema.optional(),
+  couponCode: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   updatedAt: SortOrderSchema.optional(),
   _count: z.lazy(() => CartCountOrderByAggregateInputObjectSchema).optional(),
   _max: z.lazy(() => CartMaxOrderByAggregateInputObjectSchema).optional(),

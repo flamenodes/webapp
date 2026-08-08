@@ -9,8 +9,8 @@ export const SessionResultSchema = z.object({
     ipAddress: z.string().nullable(),
     userAgent: z.string().nullable(),
     userId: z.string(),
-    user: z.any(),
-    impersonatedBy: z.string().nullable()
+    impersonatedBy: z.string().nullable(),
+    user: z.any()
 }).strict();
 
 export type SessionResultType = z.infer<typeof SessionResultSchema>;

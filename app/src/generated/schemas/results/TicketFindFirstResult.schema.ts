@@ -9,13 +9,13 @@ export const TicketFindFirstResultSchema = z.nullable(z.object({
   status: z.any(),
   priority: z.any(),
   userId: z.string(),
-  user: UserSchema.optional(),
   assignedToId: z.string().optional(),
-  assignedTo: UserSchema.optional(),
   channelName: z.string(),
   tags: z.array(z.string()),
-  messages: z.array(TicketMessageSchema).optional(),
   createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
   updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
-  closedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").optional()
+  closedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").optional(),
+  assignedTo: UserSchema.optional(),
+  user: UserSchema.optional(),
+  messages: z.array(TicketMessageSchema).optional()
 }));

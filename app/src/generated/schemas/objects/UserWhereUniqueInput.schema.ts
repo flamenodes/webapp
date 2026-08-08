@@ -4,9 +4,9 @@ import type { Prisma } from '../../prisma/browser';
 
 const makeSchema = () => z.object({
   id: z.string().optional(),
-  clientId: z.string().optional(),
   email: z.string().optional(),
-  username: z.string().optional()
+  username: z.string().optional(),
+  clientId: z.string().optional()
 }).strict();
 export const UserWhereUniqueInputObjectSchema: z.ZodType<Prisma.UserWhereUniqueInput> = makeSchema() as unknown as z.ZodType<Prisma.UserWhereUniqueInput>;
 export const UserWhereUniqueInputObjectZodSchema = makeSchema();

@@ -19,11 +19,11 @@ export const StatusNodeFindManySelectSchema: z.ZodType<Prisma.StatusNodeSelect> 
     status: z.boolean().optional(),
     latency: z.boolean().optional(),
     lastChecked: z.boolean().optional(),
-    cpu: z.boolean().optional(),
-    memory: z.boolean().optional(),
-    disk: z.boolean().optional(),
     createdAt: z.boolean().optional(),
-    updatedAt: z.boolean().optional()
+    updatedAt: z.boolean().optional(),
+    cpu: z.boolean().optional(),
+    disk: z.boolean().optional(),
+    memory: z.boolean().optional()
   }).strict() as unknown as z.ZodType<Prisma.StatusNodeSelect>;
 
 export const StatusNodeFindManySelectZodSchema = z.object({
@@ -37,11 +37,11 @@ export const StatusNodeFindManySelectZodSchema = z.object({
     status: z.boolean().optional(),
     latency: z.boolean().optional(),
     lastChecked: z.boolean().optional(),
-    cpu: z.boolean().optional(),
-    memory: z.boolean().optional(),
-    disk: z.boolean().optional(),
     createdAt: z.boolean().optional(),
-    updatedAt: z.boolean().optional()
+    updatedAt: z.boolean().optional(),
+    cpu: z.boolean().optional(),
+    disk: z.boolean().optional(),
+    memory: z.boolean().optional()
   }).strict();
 
 export const StatusNodeFindManySchema: z.ZodType<Prisma.StatusNodeFindManyArgs> = z.object({ select: StatusNodeFindManySelectSchema.optional(),  orderBy: z.union([StatusNodeOrderByWithRelationInputObjectSchema, StatusNodeOrderByWithRelationInputObjectSchema.array()]).optional(), where: StatusNodeWhereInputObjectSchema.optional(), cursor: StatusNodeWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([StatusNodeScalarFieldEnumSchema, StatusNodeScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.StatusNodeFindManyArgs>;

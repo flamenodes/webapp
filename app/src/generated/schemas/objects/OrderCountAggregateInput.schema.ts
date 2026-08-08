@@ -5,15 +5,16 @@ import type { Prisma } from '../../prisma/browser';
 const makeSchema = () => z.object({
   id: z.literal(true).optional(),
   userId: z.literal(true).optional(),
-  status: z.literal(true).optional(),
-  subtotalAmount: z.literal(true).optional(),
-  discountAmount: z.literal(true).optional(),
   totalAmount: z.literal(true).optional(),
-  couponCode: z.literal(true).optional(),
+  status: z.literal(true).optional(),
   deliveryMessage: z.literal(true).optional(),
   deliveryData: z.literal(true).optional(),
   createdAt: z.literal(true).optional(),
+  couponCode: z.literal(true).optional(),
+  discountAmount: z.literal(true).optional(),
+  subtotalAmount: z.literal(true).optional(),
   updatedAt: z.literal(true).optional(),
+  renewalForServerId: z.literal(true).optional(),
   _all: z.literal(true).optional()
 }).strict();
 export const OrderCountAggregateInputObjectSchema: z.ZodType<Prisma.OrderCountAggregateInputType> = makeSchema() as unknown as z.ZodType<Prisma.OrderCountAggregateInputType>;

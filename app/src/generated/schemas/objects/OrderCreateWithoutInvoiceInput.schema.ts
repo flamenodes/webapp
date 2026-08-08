@@ -2,6 +2,7 @@ import * as z from 'zod';
 import type { Prisma } from '../../prisma/browser';
 import { OrderStatusSchema } from '../enums/OrderStatus.schema';
 import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
+import { ServerCreateNestedOneWithoutRenewalsInputObjectSchema as ServerCreateNestedOneWithoutRenewalsInputObjectSchema } from './ServerCreateNestedOneWithoutRenewalsInput.schema';
 import { UserCreateNestedOneWithoutOrdersInputObjectSchema as UserCreateNestedOneWithoutOrdersInputObjectSchema } from './UserCreateNestedOneWithoutOrdersInput.schema';
 import { OrderItemCreateNestedManyWithoutOrderInputObjectSchema as OrderItemCreateNestedManyWithoutOrderInputObjectSchema } from './OrderItemCreateNestedManyWithoutOrderInput.schema'
 
@@ -9,15 +10,16 @@ import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
 const makeSchema = () => z.object({
   id: z.string().optional(),
-  status: OrderStatusSchema.optional(),
-  subtotalAmount: z.number().int(),
-  discountAmount: z.number().int().optional(),
   totalAmount: z.number().int(),
-  couponCode: z.string().optional().nullable(),
+  status: OrderStatusSchema.optional(),
   deliveryMessage: z.string().optional().nullable(),
   deliveryData: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time").optional(),
+  couponCode: z.string().optional().nullable(),
+  discountAmount: z.number().int().optional(),
+  subtotalAmount: z.number().int(),
   updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time").optional(),
+  renewalForServer: z.lazy(() => ServerCreateNestedOneWithoutRenewalsInputObjectSchema).optional(),
   user: z.lazy(() => UserCreateNestedOneWithoutOrdersInputObjectSchema),
   items: z.lazy(() => OrderItemCreateNestedManyWithoutOrderInputObjectSchema).optional()
 }).strict();

@@ -16,10 +16,10 @@ const makeSchema = () => z.object({
   companyCity: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   companyZip: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   companyCountry: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
-  pteroNodeMode: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
-  pteroNodeId: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   updatedAt: SortOrderSchema.optional(),
-  createdAt: SortOrderSchema.optional()
+  createdAt: SortOrderSchema.optional(),
+  pteroNodeId: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
+  pteroNodeMode: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional()
 }).strict();
 export const RazorpayConfigOrderByWithRelationInputObjectSchema: z.ZodType<Prisma.RazorpayConfigOrderByWithRelationInput> = makeSchema() as unknown as z.ZodType<Prisma.RazorpayConfigOrderByWithRelationInput>;
 export const RazorpayConfigOrderByWithRelationInputObjectZodSchema = makeSchema();

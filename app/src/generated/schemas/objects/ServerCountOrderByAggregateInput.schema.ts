@@ -11,13 +11,13 @@ const makeSchema = () => z.object({
   status: SortOrderSchema.optional(),
   ip: SortOrderSchema.optional(),
   port: SortOrderSchema.optional(),
-  pterodactylServerId: SortOrderSchema.optional(),
   expiresAt: SortOrderSchema.optional(),
   resources: SortOrderSchema.optional(),
   pterodactylData: SortOrderSchema.optional(),
   suspended: SortOrderSchema.optional(),
   createdAt: SortOrderSchema.optional(),
-  updatedAt: SortOrderSchema.optional()
+  updatedAt: SortOrderSchema.optional(),
+  pterodactylServerId: SortOrderSchema.optional()
 }).strict();
 export const ServerCountOrderByAggregateInputObjectSchema: z.ZodType<Prisma.ServerCountOrderByAggregateInput> = makeSchema() as unknown as z.ZodType<Prisma.ServerCountOrderByAggregateInput>;
 export const ServerCountOrderByAggregateInputObjectZodSchema = makeSchema();

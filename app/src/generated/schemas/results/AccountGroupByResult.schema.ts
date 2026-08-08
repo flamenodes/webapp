@@ -18,7 +18,6 @@ export const AccountGroupByResultSchema = z.array(z.object({
     accountId: z.number(),
     providerId: z.number(),
     userId: z.number(),
-    user: z.number(),
     accessToken: z.number(),
     refreshToken: z.number(),
     idToken: z.number(),
@@ -27,7 +26,8 @@ export const AccountGroupByResultSchema = z.array(z.object({
     scope: z.number(),
     password: z.number(),
     createdAt: z.number(),
-    updatedAt: z.number()
+    updatedAt: z.number(),
+    user: z.number()
   }).optional(),
   _min: z.object({
     id: z.string().nullable(),

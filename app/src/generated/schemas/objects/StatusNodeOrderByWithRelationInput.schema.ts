@@ -14,11 +14,11 @@ const makeSchema = () => z.object({
   status: SortOrderSchema.optional(),
   latency: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   lastChecked: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
-  cpu: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
-  memory: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
-  disk: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   createdAt: SortOrderSchema.optional(),
-  updatedAt: SortOrderSchema.optional()
+  updatedAt: SortOrderSchema.optional(),
+  cpu: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
+  disk: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
+  memory: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional()
 }).strict();
 export const StatusNodeOrderByWithRelationInputObjectSchema: z.ZodType<Prisma.StatusNodeOrderByWithRelationInput> = makeSchema() as unknown as z.ZodType<Prisma.StatusNodeOrderByWithRelationInput>;
 export const StatusNodeOrderByWithRelationInputObjectZodSchema = makeSchema();

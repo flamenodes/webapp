@@ -19,8 +19,8 @@ export const SessionFindManySelectSchema: z.ZodType<Prisma.SessionSelect> = z.ob
     ipAddress: z.boolean().optional(),
     userAgent: z.boolean().optional(),
     userId: z.boolean().optional(),
-    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
-    impersonatedBy: z.boolean().optional()
+    impersonatedBy: z.boolean().optional(),
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional()
   }).strict() as unknown as z.ZodType<Prisma.SessionSelect>;
 
 export const SessionFindManySelectZodSchema = z.object({
@@ -32,8 +32,8 @@ export const SessionFindManySelectZodSchema = z.object({
     ipAddress: z.boolean().optional(),
     userAgent: z.boolean().optional(),
     userId: z.boolean().optional(),
-    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
-    impersonatedBy: z.boolean().optional()
+    impersonatedBy: z.boolean().optional(),
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional()
   }).strict();
 
 export const SessionFindManySchema: z.ZodType<Prisma.SessionFindManyArgs> = z.object({ select: SessionFindManySelectSchema.optional(), include: z.lazy(() => SessionIncludeObjectSchema.optional()), orderBy: z.union([SessionOrderByWithRelationInputObjectSchema, SessionOrderByWithRelationInputObjectSchema.array()]).optional(), where: SessionWhereInputObjectSchema.optional(), cursor: SessionWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([SessionScalarFieldEnumSchema, SessionScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.SessionFindManyArgs>;

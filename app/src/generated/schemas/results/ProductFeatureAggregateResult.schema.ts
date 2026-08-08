@@ -2,9 +2,9 @@ import * as z from 'zod';
 export const ProductFeatureAggregateResultSchema = z.object({  _count: z.object({
     id: z.number(),
     productId: z.number(),
-    product: z.number(),
     label: z.number(),
-    sortOrder: z.number()
+    sortOrder: z.number(),
+    product: z.number()
   }).optional(),
   _sum: z.object({
     sortOrder: z.number().nullable()

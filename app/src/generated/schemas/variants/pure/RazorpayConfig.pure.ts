@@ -13,10 +13,10 @@ export const RazorpayConfigModelSchema = z.object({
     companyCity: z.string().nullable(),
     companyZip: z.string().nullable(),
     companyCountry: z.string().nullable(),
-    pteroNodeMode: z.string().nullable(),
-    pteroNodeId: z.number().int().nullable(),
     updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
-    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime")
+    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
+    pteroNodeId: z.number().int().nullable(),
+    pteroNodeMode: z.string().nullable()
 }).strict();
 
 export type RazorpayConfigPureType = z.infer<typeof RazorpayConfigModelSchema>;

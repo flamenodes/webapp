@@ -51,6 +51,7 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { exportToCSV, exportToGoogleSheets } from '#/lib/export-utils'
+import { differenceInDays, isPast } from 'date-fns'
 
 type OrderRecord = Awaited<ReturnType<typeof getAllOrders>>[number]
 
@@ -224,6 +225,37 @@ export function OrdersDataTable({
                     ? ` · ${items[0].product.planName}${items.length > 1 ? ' ...' : ''}`
                     : ''}
                 </span>
+              )
+            },
+          },
+          {
+            id: 'renewal',
+            header: 'Renewal',
+            cell: ({ row }) => {
+              const item = row.original.items[0]
+              if (!item?.expiresAt) {
+                return <span className="text-sm text-muted-foreground">—</span>
+              }
+              const expiresAt = new Date(item.expiresAt)
+              const expired = isPast(expiresAt)
+              const days = differenceInDays(expiresAt, new Date())
+              const label = expired
+                ? 'Expired'
+                : days <= 0
+                  ? 'Due today'
+                  : `in ${days}d`
+              const color = expired
+                ? 'text-red-500'
+                : days <= 7
+                  ? 'text-orange-500'
+                  : 'text-emerald-500'
+              return (
+                <div className="space-y-0.5">
+                  <p className={`text-sm font-medium capitalize ${color}`}>{label}</p>
+                  <p className="text-xs text-muted-foreground capitalize">
+                    {item.billingPeriod?.toLowerCase() || ''}
+                  </p>
+                </div>
               )
             },
           },

@@ -9,11 +9,11 @@ const makeSchema = () => z.object({
   amount: SortOrderSchema.optional(),
   description: SortOrderSchema.optional(),
   active: SortOrderSchema.optional(),
+  createdAt: SortOrderSchema.optional(),
+  updatedAt: SortOrderSchema.optional(),
   expiresAt: SortOrderSchema.optional(),
   maxUses: SortOrderSchema.optional(),
-  usedCount: SortOrderSchema.optional(),
-  createdAt: SortOrderSchema.optional(),
-  updatedAt: SortOrderSchema.optional()
+  usedCount: SortOrderSchema.optional()
 }).strict();
 export const CouponMinOrderByAggregateInputObjectSchema: z.ZodType<Prisma.CouponMinOrderByAggregateInput> = makeSchema() as unknown as z.ZodType<Prisma.CouponMinOrderByAggregateInput>;
 export const CouponMinOrderByAggregateInputObjectZodSchema = makeSchema();

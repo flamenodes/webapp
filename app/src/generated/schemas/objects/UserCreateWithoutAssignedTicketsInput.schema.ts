@@ -1,42 +1,42 @@
 import * as z from 'zod';
 import type { Prisma } from '../../prisma/browser';
-import { SessionCreateNestedManyWithoutUserInputObjectSchema as SessionCreateNestedManyWithoutUserInputObjectSchema } from './SessionCreateNestedManyWithoutUserInput.schema';
-import { AccountCreateNestedManyWithoutUserInputObjectSchema as AccountCreateNestedManyWithoutUserInputObjectSchema } from './AccountCreateNestedManyWithoutUserInput.schema';
-import { BillingAddressCreateNestedOneWithoutUserInputObjectSchema as BillingAddressCreateNestedOneWithoutUserInputObjectSchema } from './BillingAddressCreateNestedOneWithoutUserInput.schema';
-import { ServerCreateNestedManyWithoutUserInputObjectSchema as ServerCreateNestedManyWithoutUserInputObjectSchema } from './ServerCreateNestedManyWithoutUserInput.schema';
 import { CartCreateNestedOneWithoutUserInputObjectSchema as CartCreateNestedOneWithoutUserInputObjectSchema } from './CartCreateNestedOneWithoutUserInput.schema';
+import { NotificationCreateNestedManyWithoutUserInputObjectSchema as NotificationCreateNestedManyWithoutUserInputObjectSchema } from './NotificationCreateNestedManyWithoutUserInput.schema';
 import { OrderCreateNestedManyWithoutUserInputObjectSchema as OrderCreateNestedManyWithoutUserInputObjectSchema } from './OrderCreateNestedManyWithoutUserInput.schema';
+import { ServerCreateNestedManyWithoutUserInputObjectSchema as ServerCreateNestedManyWithoutUserInputObjectSchema } from './ServerCreateNestedManyWithoutUserInput.schema';
 import { TicketCreateNestedManyWithoutUserInputObjectSchema as TicketCreateNestedManyWithoutUserInputObjectSchema } from './TicketCreateNestedManyWithoutUserInput.schema';
 import { TicketMessageCreateNestedManyWithoutSenderInputObjectSchema as TicketMessageCreateNestedManyWithoutSenderInputObjectSchema } from './TicketMessageCreateNestedManyWithoutSenderInput.schema';
-import { NotificationCreateNestedManyWithoutUserInputObjectSchema as NotificationCreateNestedManyWithoutUserInputObjectSchema } from './NotificationCreateNestedManyWithoutUserInput.schema'
+import { AccountCreateNestedManyWithoutUserInputObjectSchema as AccountCreateNestedManyWithoutUserInputObjectSchema } from './AccountCreateNestedManyWithoutUserInput.schema';
+import { BillingAddressCreateNestedOneWithoutUserInputObjectSchema as BillingAddressCreateNestedOneWithoutUserInputObjectSchema } from './BillingAddressCreateNestedOneWithoutUserInput.schema';
+import { SessionCreateNestedManyWithoutUserInputObjectSchema as SessionCreateNestedManyWithoutUserInputObjectSchema } from './SessionCreateNestedManyWithoutUserInput.schema'
 
 const makeSchema = () => z.object({
   id: z.string(),
-  clientId: z.string(),
   name: z.string(),
   email: z.string(),
   emailVerified: z.boolean().optional(),
   image: z.string().optional().nullable(),
   createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time").optional(),
   updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time").optional(),
-  role: z.string().optional().nullable(),
-  banned: z.boolean().optional().nullable(),
-  banReason: z.string().optional().nullable(),
   banExpires: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time").optional().nullable(),
-  username: z.string(),
+  banReason: z.string().optional().nullable(),
+  banned: z.boolean().optional().nullable(),
+  displayUsername: z.string().optional().nullable(),
   firstname: z.string(),
   lastname: z.string(),
+  role: z.string().optional().nullable(),
+  username: z.string(),
+  clientId: z.string(),
   pteroUserId: z.number().int().optional().nullable(),
-  displayUsername: z.string().optional().nullable(),
-  sessions: z.lazy(() => SessionCreateNestedManyWithoutUserInputObjectSchema).optional(),
-  accounts: z.lazy(() => AccountCreateNestedManyWithoutUserInputObjectSchema).optional(),
-  billingAddress: z.lazy(() => BillingAddressCreateNestedOneWithoutUserInputObjectSchema).optional(),
-  servers: z.lazy(() => ServerCreateNestedManyWithoutUserInputObjectSchema).optional(),
   cart: z.lazy(() => CartCreateNestedOneWithoutUserInputObjectSchema).optional(),
+  notifications: z.lazy(() => NotificationCreateNestedManyWithoutUserInputObjectSchema).optional(),
   orders: z.lazy(() => OrderCreateNestedManyWithoutUserInputObjectSchema).optional(),
+  servers: z.lazy(() => ServerCreateNestedManyWithoutUserInputObjectSchema).optional(),
   tickets: z.lazy(() => TicketCreateNestedManyWithoutUserInputObjectSchema).optional(),
   ticketMessages: z.lazy(() => TicketMessageCreateNestedManyWithoutSenderInputObjectSchema).optional(),
-  notifications: z.lazy(() => NotificationCreateNestedManyWithoutUserInputObjectSchema).optional()
+  accounts: z.lazy(() => AccountCreateNestedManyWithoutUserInputObjectSchema).optional(),
+  billingAddress: z.lazy(() => BillingAddressCreateNestedOneWithoutUserInputObjectSchema).optional(),
+  sessions: z.lazy(() => SessionCreateNestedManyWithoutUserInputObjectSchema).optional()
 }).strict();
 export const UserCreateWithoutAssignedTicketsInputObjectSchema: z.ZodType<Prisma.UserCreateWithoutAssignedTicketsInput> = makeSchema() as unknown as z.ZodType<Prisma.UserCreateWithoutAssignedTicketsInput>;
 export const UserCreateWithoutAssignedTicketsInputObjectZodSchema = makeSchema();

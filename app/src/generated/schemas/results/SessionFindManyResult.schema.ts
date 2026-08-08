@@ -10,8 +10,8 @@ export const SessionFindManyResultSchema = z.object({
   ipAddress: z.string().optional(),
   userAgent: z.string().optional(),
   userId: z.string(),
-  user: UserSchema.optional(),
-  impersonatedBy: z.string().optional()
+  impersonatedBy: z.string().optional(),
+  user: UserSchema.optional()
 })),
   pagination: z.object({
   page: z.number().int().min(1),

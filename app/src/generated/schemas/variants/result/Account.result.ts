@@ -5,7 +5,6 @@ export const AccountResultSchema = z.object({
     accountId: z.string(),
     providerId: z.string(),
     userId: z.string(),
-    user: z.any(),
     accessToken: z.string().nullable(),
     refreshToken: z.string().nullable(),
     idToken: z.string().nullable(),
@@ -14,7 +13,8 @@ export const AccountResultSchema = z.object({
     scope: z.string().nullable(),
     password: z.string().nullable(),
     createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
-    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime")
+    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
+    user: z.any()
 }).strict();
 
 export type AccountResultType = z.infer<typeof AccountResultSchema>;

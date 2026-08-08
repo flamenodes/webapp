@@ -3,7 +3,6 @@ import Features from '#/components/hero/Features'
 import HeroSection from '#/components/hero/HeroSection'
 import ScrollReveal from '#/components/ScrollReveal'
 import { seo } from '#/utils/seo'
-import { TrustSection } from '@/components/hero/TrustSection'
 import { PricingTableFour } from '@/components/billingsdk/pricing-table-four'
 import { plans } from '@/lib/billingsdk-config'
 

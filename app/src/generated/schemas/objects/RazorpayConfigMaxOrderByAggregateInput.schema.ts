@@ -15,10 +15,10 @@ const makeSchema = () => z.object({
   companyCity: SortOrderSchema.optional(),
   companyZip: SortOrderSchema.optional(),
   companyCountry: SortOrderSchema.optional(),
-  pteroNodeMode: SortOrderSchema.optional(),
-  pteroNodeId: SortOrderSchema.optional(),
   updatedAt: SortOrderSchema.optional(),
-  createdAt: SortOrderSchema.optional()
+  createdAt: SortOrderSchema.optional(),
+  pteroNodeId: SortOrderSchema.optional(),
+  pteroNodeMode: SortOrderSchema.optional()
 }).strict();
 export const RazorpayConfigMaxOrderByAggregateInputObjectSchema: z.ZodType<Prisma.RazorpayConfigMaxOrderByAggregateInput> = makeSchema() as unknown as z.ZodType<Prisma.RazorpayConfigMaxOrderByAggregateInput>;
 export const RazorpayConfigMaxOrderByAggregateInputObjectZodSchema = makeSchema();

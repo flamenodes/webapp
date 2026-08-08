@@ -27,109 +27,115 @@ export type AggregateOrder = {
 }
 
 export type OrderAvgAggregateOutputType = {
-  subtotalAmount: number | null
-  discountAmount: number | null
   totalAmount: number | null
+  discountAmount: number | null
+  subtotalAmount: number | null
 }
 
 export type OrderSumAggregateOutputType = {
-  subtotalAmount: number | null
-  discountAmount: number | null
   totalAmount: number | null
+  discountAmount: number | null
+  subtotalAmount: number | null
 }
 
 export type OrderMinAggregateOutputType = {
   id: string | null
   userId: string | null
-  status: $Enums.OrderStatus | null
-  subtotalAmount: number | null
-  discountAmount: number | null
   totalAmount: number | null
-  couponCode: string | null
+  status: $Enums.OrderStatus | null
   deliveryMessage: string | null
   createdAt: Date | null
+  couponCode: string | null
+  discountAmount: number | null
+  subtotalAmount: number | null
   updatedAt: Date | null
+  renewalForServerId: string | null
 }
 
 export type OrderMaxAggregateOutputType = {
   id: string | null
   userId: string | null
-  status: $Enums.OrderStatus | null
-  subtotalAmount: number | null
-  discountAmount: number | null
   totalAmount: number | null
-  couponCode: string | null
+  status: $Enums.OrderStatus | null
   deliveryMessage: string | null
   createdAt: Date | null
+  couponCode: string | null
+  discountAmount: number | null
+  subtotalAmount: number | null
   updatedAt: Date | null
+  renewalForServerId: string | null
 }
 
 export type OrderCountAggregateOutputType = {
   id: number
   userId: number
-  status: number
-  subtotalAmount: number
-  discountAmount: number
   totalAmount: number
-  couponCode: number
+  status: number
   deliveryMessage: number
   deliveryData: number
   createdAt: number
+  couponCode: number
+  discountAmount: number
+  subtotalAmount: number
   updatedAt: number
+  renewalForServerId: number
   _all: number
 }
 
 
 export type OrderAvgAggregateInputType = {
-  subtotalAmount?: true
-  discountAmount?: true
   totalAmount?: true
+  discountAmount?: true
+  subtotalAmount?: true
 }
 
 export type OrderSumAggregateInputType = {
-  subtotalAmount?: true
-  discountAmount?: true
   totalAmount?: true
+  discountAmount?: true
+  subtotalAmount?: true
 }
 
 export type OrderMinAggregateInputType = {
   id?: true
   userId?: true
-  status?: true
-  subtotalAmount?: true
-  discountAmount?: true
   totalAmount?: true
-  couponCode?: true
+  status?: true
   deliveryMessage?: true
   createdAt?: true
+  couponCode?: true
+  discountAmount?: true
+  subtotalAmount?: true
   updatedAt?: true
+  renewalForServerId?: true
 }
 
 export type OrderMaxAggregateInputType = {
   id?: true
   userId?: true
-  status?: true
-  subtotalAmount?: true
-  discountAmount?: true
   totalAmount?: true
-  couponCode?: true
+  status?: true
   deliveryMessage?: true
   createdAt?: true
+  couponCode?: true
+  discountAmount?: true
+  subtotalAmount?: true
   updatedAt?: true
+  renewalForServerId?: true
 }
 
 export type OrderCountAggregateInputType = {
   id?: true
   userId?: true
-  status?: true
-  subtotalAmount?: true
-  discountAmount?: true
   totalAmount?: true
-  couponCode?: true
+  status?: true
   deliveryMessage?: true
   deliveryData?: true
   createdAt?: true
+  couponCode?: true
+  discountAmount?: true
+  subtotalAmount?: true
   updatedAt?: true
+  renewalForServerId?: true
   _all?: true
 }
 
@@ -222,15 +228,16 @@ export type OrderGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type OrderGroupByOutputType = {
   id: string
   userId: string
-  status: $Enums.OrderStatus
-  subtotalAmount: number
-  discountAmount: number
   totalAmount: number
-  couponCode: string | null
+  status: $Enums.OrderStatus
   deliveryMessage: string | null
   deliveryData: runtime.JsonValue | null
   createdAt: Date
+  couponCode: string | null
+  discountAmount: number
+  subtotalAmount: number
   updatedAt: Date
+  renewalForServerId: string | null
   _count: OrderCountAggregateOutputType | null
   _avg: OrderAvgAggregateOutputType | null
   _sum: OrderSumAggregateOutputType | null
@@ -259,35 +266,39 @@ export type OrderWhereInput = {
   NOT?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
   id?: Prisma.StringFilter<"Order"> | string
   userId?: Prisma.StringFilter<"Order"> | string
-  status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntFilter<"Order"> | number
-  discountAmount?: Prisma.IntFilter<"Order"> | number
   totalAmount?: Prisma.IntFilter<"Order"> | number
-  couponCode?: Prisma.StringNullableFilter<"Order"> | string | null
+  status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   deliveryMessage?: Prisma.StringNullableFilter<"Order"> | string | null
   deliveryData?: Prisma.JsonNullableFilter<"Order">
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
+  couponCode?: Prisma.StringNullableFilter<"Order"> | string | null
+  discountAmount?: Prisma.IntFilter<"Order"> | number
+  subtotalAmount?: Prisma.IntFilter<"Order"> | number
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
+  renewalForServerId?: Prisma.StringNullableFilter<"Order"> | string | null
+  invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
+  renewalForServer?: Prisma.XOR<Prisma.ServerNullableScalarRelationFilter, Prisma.ServerWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   items?: Prisma.OrderItemListRelationFilter
-  invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
 }
 
 export type OrderOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  subtotalAmount?: Prisma.SortOrder
-  discountAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
-  couponCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   deliveryMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   deliveryData?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  couponCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  discountAmount?: Prisma.SortOrder
+  subtotalAmount?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  renewalForServerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  invoice?: Prisma.InvoiceOrderByWithRelationInput
+  renewalForServer?: Prisma.ServerOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
   items?: Prisma.OrderItemOrderByRelationAggregateInput
-  invoice?: Prisma.InvoiceOrderByWithRelationInput
 }
 
 export type OrderWhereUniqueInput = Prisma.AtLeast<{
@@ -296,32 +307,35 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.OrderWhereInput[]
   NOT?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
   userId?: Prisma.StringFilter<"Order"> | string
-  status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntFilter<"Order"> | number
-  discountAmount?: Prisma.IntFilter<"Order"> | number
   totalAmount?: Prisma.IntFilter<"Order"> | number
-  couponCode?: Prisma.StringNullableFilter<"Order"> | string | null
+  status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   deliveryMessage?: Prisma.StringNullableFilter<"Order"> | string | null
   deliveryData?: Prisma.JsonNullableFilter<"Order">
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
+  couponCode?: Prisma.StringNullableFilter<"Order"> | string | null
+  discountAmount?: Prisma.IntFilter<"Order"> | number
+  subtotalAmount?: Prisma.IntFilter<"Order"> | number
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
+  renewalForServerId?: Prisma.StringNullableFilter<"Order"> | string | null
+  invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
+  renewalForServer?: Prisma.XOR<Prisma.ServerNullableScalarRelationFilter, Prisma.ServerWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   items?: Prisma.OrderItemListRelationFilter
-  invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
 }, "id">
 
 export type OrderOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  subtotalAmount?: Prisma.SortOrder
-  discountAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
-  couponCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   deliveryMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   deliveryData?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  couponCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  discountAmount?: Prisma.SortOrder
+  subtotalAmount?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  renewalForServerId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.OrderCountOrderByAggregateInput
   _avg?: Prisma.OrderAvgOrderByAggregateInput
   _max?: Prisma.OrderMaxOrderByAggregateInput
@@ -335,120 +349,127 @@ export type OrderScalarWhereWithAggregatesInput = {
   NOT?: Prisma.OrderScalarWhereWithAggregatesInput | Prisma.OrderScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Order"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Order"> | string
-  status?: Prisma.EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntWithAggregatesFilter<"Order"> | number
-  discountAmount?: Prisma.IntWithAggregatesFilter<"Order"> | number
   totalAmount?: Prisma.IntWithAggregatesFilter<"Order"> | number
-  couponCode?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  status?: Prisma.EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
   deliveryMessage?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   deliveryData?: Prisma.JsonNullableWithAggregatesFilter<"Order">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
+  couponCode?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  discountAmount?: Prisma.IntWithAggregatesFilter<"Order"> | number
+  subtotalAmount?: Prisma.IntWithAggregatesFilter<"Order"> | number
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
+  renewalForServerId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
 }
 
 export type OrderCreateInput = {
   id?: string
-  status?: $Enums.OrderStatus
-  subtotalAmount: number
-  discountAmount?: number
   totalAmount: number
-  couponCode?: string | null
+  status?: $Enums.OrderStatus
   deliveryMessage?: string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  couponCode?: string | null
+  discountAmount?: number
+  subtotalAmount: number
   updatedAt?: Date | string
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutOrderInput
+  renewalForServer?: Prisma.ServerCreateNestedOneWithoutRenewalsInput
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
   items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput
-  invoice?: Prisma.InvoiceCreateNestedOneWithoutOrderInput
 }
 
 export type OrderUncheckedCreateInput = {
   id?: string
   userId: string
-  status?: $Enums.OrderStatus
-  subtotalAmount: number
-  discountAmount?: number
   totalAmount: number
-  couponCode?: string | null
+  status?: $Enums.OrderStatus
   deliveryMessage?: string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  couponCode?: string | null
+  discountAmount?: number
+  subtotalAmount: number
   updatedAt?: Date | string
-  items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput
+  renewalForServerId?: string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutOrderInput
+  items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput
 }
 
 export type OrderUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   deliveryMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  invoice?: Prisma.InvoiceUpdateOneWithoutOrderNestedInput
+  renewalForServer?: Prisma.ServerUpdateOneWithoutRenewalsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
   items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput
-  invoice?: Prisma.InvoiceUpdateOneWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   deliveryMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput
+  renewalForServerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutOrderNestedInput
+  items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderCreateManyInput = {
   id?: string
   userId: string
-  status?: $Enums.OrderStatus
-  subtotalAmount: number
-  discountAmount?: number
   totalAmount: number
-  couponCode?: string | null
+  status?: $Enums.OrderStatus
   deliveryMessage?: string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  couponCode?: string | null
+  discountAmount?: number
+  subtotalAmount: number
   updatedAt?: Date | string
+  renewalForServerId?: string | null
 }
 
 export type OrderUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   deliveryMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OrderUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   deliveryMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  renewalForServerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type OrderListRelationFilter = {
@@ -464,53 +485,56 @@ export type OrderOrderByRelationAggregateInput = {
 export type OrderCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  subtotalAmount?: Prisma.SortOrder
-  discountAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
-  couponCode?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   deliveryMessage?: Prisma.SortOrder
   deliveryData?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  couponCode?: Prisma.SortOrder
+  discountAmount?: Prisma.SortOrder
+  subtotalAmount?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  renewalForServerId?: Prisma.SortOrder
 }
 
 export type OrderAvgOrderByAggregateInput = {
-  subtotalAmount?: Prisma.SortOrder
-  discountAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
+  discountAmount?: Prisma.SortOrder
+  subtotalAmount?: Prisma.SortOrder
 }
 
 export type OrderMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  subtotalAmount?: Prisma.SortOrder
-  discountAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
-  couponCode?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   deliveryMessage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  couponCode?: Prisma.SortOrder
+  discountAmount?: Prisma.SortOrder
+  subtotalAmount?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  renewalForServerId?: Prisma.SortOrder
 }
 
 export type OrderMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  subtotalAmount?: Prisma.SortOrder
-  discountAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
-  couponCode?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   deliveryMessage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  couponCode?: Prisma.SortOrder
+  discountAmount?: Prisma.SortOrder
+  subtotalAmount?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  renewalForServerId?: Prisma.SortOrder
 }
 
 export type OrderSumOrderByAggregateInput = {
-  subtotalAmount?: Prisma.SortOrder
-  discountAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
+  discountAmount?: Prisma.SortOrder
+  subtotalAmount?: Prisma.SortOrder
 }
 
 export type OrderScalarRelationFilter = {
@@ -592,34 +616,78 @@ export type OrderUpdateOneRequiredWithoutItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrderUpdateToOneWithWhereWithoutItemsInput, Prisma.OrderUpdateWithoutItemsInput>, Prisma.OrderUncheckedUpdateWithoutItemsInput>
 }
 
+export type OrderCreateNestedManyWithoutRenewalForServerInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutRenewalForServerInput, Prisma.OrderUncheckedCreateWithoutRenewalForServerInput> | Prisma.OrderCreateWithoutRenewalForServerInput[] | Prisma.OrderUncheckedCreateWithoutRenewalForServerInput[]
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutRenewalForServerInput | Prisma.OrderCreateOrConnectWithoutRenewalForServerInput[]
+  createMany?: Prisma.OrderCreateManyRenewalForServerInputEnvelope
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+}
+
+export type OrderUncheckedCreateNestedManyWithoutRenewalForServerInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutRenewalForServerInput, Prisma.OrderUncheckedCreateWithoutRenewalForServerInput> | Prisma.OrderCreateWithoutRenewalForServerInput[] | Prisma.OrderUncheckedCreateWithoutRenewalForServerInput[]
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutRenewalForServerInput | Prisma.OrderCreateOrConnectWithoutRenewalForServerInput[]
+  createMany?: Prisma.OrderCreateManyRenewalForServerInputEnvelope
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+}
+
+export type OrderUpdateManyWithoutRenewalForServerNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutRenewalForServerInput, Prisma.OrderUncheckedCreateWithoutRenewalForServerInput> | Prisma.OrderCreateWithoutRenewalForServerInput[] | Prisma.OrderUncheckedCreateWithoutRenewalForServerInput[]
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutRenewalForServerInput | Prisma.OrderCreateOrConnectWithoutRenewalForServerInput[]
+  upsert?: Prisma.OrderUpsertWithWhereUniqueWithoutRenewalForServerInput | Prisma.OrderUpsertWithWhereUniqueWithoutRenewalForServerInput[]
+  createMany?: Prisma.OrderCreateManyRenewalForServerInputEnvelope
+  set?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  disconnect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  delete?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  update?: Prisma.OrderUpdateWithWhereUniqueWithoutRenewalForServerInput | Prisma.OrderUpdateWithWhereUniqueWithoutRenewalForServerInput[]
+  updateMany?: Prisma.OrderUpdateManyWithWhereWithoutRenewalForServerInput | Prisma.OrderUpdateManyWithWhereWithoutRenewalForServerInput[]
+  deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[]
+}
+
+export type OrderUncheckedUpdateManyWithoutRenewalForServerNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutRenewalForServerInput, Prisma.OrderUncheckedCreateWithoutRenewalForServerInput> | Prisma.OrderCreateWithoutRenewalForServerInput[] | Prisma.OrderUncheckedCreateWithoutRenewalForServerInput[]
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutRenewalForServerInput | Prisma.OrderCreateOrConnectWithoutRenewalForServerInput[]
+  upsert?: Prisma.OrderUpsertWithWhereUniqueWithoutRenewalForServerInput | Prisma.OrderUpsertWithWhereUniqueWithoutRenewalForServerInput[]
+  createMany?: Prisma.OrderCreateManyRenewalForServerInputEnvelope
+  set?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  disconnect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  delete?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  update?: Prisma.OrderUpdateWithWhereUniqueWithoutRenewalForServerInput | Prisma.OrderUpdateWithWhereUniqueWithoutRenewalForServerInput[]
+  updateMany?: Prisma.OrderUpdateManyWithWhereWithoutRenewalForServerInput | Prisma.OrderUpdateManyWithWhereWithoutRenewalForServerInput[]
+  deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[]
+}
+
 export type OrderCreateWithoutUserInput = {
   id?: string
-  status?: $Enums.OrderStatus
-  subtotalAmount: number
-  discountAmount?: number
   totalAmount: number
-  couponCode?: string | null
+  status?: $Enums.OrderStatus
   deliveryMessage?: string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  couponCode?: string | null
+  discountAmount?: number
+  subtotalAmount: number
   updatedAt?: Date | string
-  items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutOrderInput
+  renewalForServer?: Prisma.ServerCreateNestedOneWithoutRenewalsInput
+  items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput
 }
 
 export type OrderUncheckedCreateWithoutUserInput = {
   id?: string
-  status?: $Enums.OrderStatus
-  subtotalAmount: number
-  discountAmount?: number
   totalAmount: number
-  couponCode?: string | null
+  status?: $Enums.OrderStatus
   deliveryMessage?: string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  couponCode?: string | null
+  discountAmount?: number
+  subtotalAmount: number
   updatedAt?: Date | string
-  items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput
+  renewalForServerId?: string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutOrderInput
+  items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput
 }
 
 export type OrderCreateOrConnectWithoutUserInput = {
@@ -654,28 +722,30 @@ export type OrderScalarWhereInput = {
   NOT?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[]
   id?: Prisma.StringFilter<"Order"> | string
   userId?: Prisma.StringFilter<"Order"> | string
-  status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntFilter<"Order"> | number
-  discountAmount?: Prisma.IntFilter<"Order"> | number
   totalAmount?: Prisma.IntFilter<"Order"> | number
-  couponCode?: Prisma.StringNullableFilter<"Order"> | string | null
+  status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   deliveryMessage?: Prisma.StringNullableFilter<"Order"> | string | null
   deliveryData?: Prisma.JsonNullableFilter<"Order">
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
+  couponCode?: Prisma.StringNullableFilter<"Order"> | string | null
+  discountAmount?: Prisma.IntFilter<"Order"> | number
+  subtotalAmount?: Prisma.IntFilter<"Order"> | number
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
+  renewalForServerId?: Prisma.StringNullableFilter<"Order"> | string | null
 }
 
 export type OrderCreateWithoutInvoiceInput = {
   id?: string
-  status?: $Enums.OrderStatus
-  subtotalAmount: number
-  discountAmount?: number
   totalAmount: number
-  couponCode?: string | null
+  status?: $Enums.OrderStatus
   deliveryMessage?: string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  couponCode?: string | null
+  discountAmount?: number
+  subtotalAmount: number
   updatedAt?: Date | string
+  renewalForServer?: Prisma.ServerCreateNestedOneWithoutRenewalsInput
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
   items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput
 }
@@ -683,15 +753,16 @@ export type OrderCreateWithoutInvoiceInput = {
 export type OrderUncheckedCreateWithoutInvoiceInput = {
   id?: string
   userId: string
-  status?: $Enums.OrderStatus
-  subtotalAmount: number
-  discountAmount?: number
   totalAmount: number
-  couponCode?: string | null
+  status?: $Enums.OrderStatus
   deliveryMessage?: string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  couponCode?: string | null
+  discountAmount?: number
+  subtotalAmount: number
   updatedAt?: Date | string
+  renewalForServerId?: string | null
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -713,15 +784,16 @@ export type OrderUpdateToOneWithWhereWithoutInvoiceInput = {
 
 export type OrderUpdateWithoutInvoiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   deliveryMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  renewalForServer?: Prisma.ServerUpdateOneWithoutRenewalsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
   items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput
 }
@@ -729,45 +801,48 @@ export type OrderUpdateWithoutInvoiceInput = {
 export type OrderUncheckedUpdateWithoutInvoiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   deliveryMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  renewalForServerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderCreateWithoutItemsInput = {
   id?: string
-  status?: $Enums.OrderStatus
-  subtotalAmount: number
-  discountAmount?: number
   totalAmount: number
-  couponCode?: string | null
+  status?: $Enums.OrderStatus
   deliveryMessage?: string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  couponCode?: string | null
+  discountAmount?: number
+  subtotalAmount: number
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutOrdersInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutOrderInput
+  renewalForServer?: Prisma.ServerCreateNestedOneWithoutRenewalsInput
+  user: Prisma.UserCreateNestedOneWithoutOrdersInput
 }
 
 export type OrderUncheckedCreateWithoutItemsInput = {
   id?: string
   userId: string
-  status?: $Enums.OrderStatus
-  subtotalAmount: number
-  discountAmount?: number
   totalAmount: number
-  couponCode?: string | null
+  status?: $Enums.OrderStatus
   deliveryMessage?: string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  couponCode?: string | null
+  discountAmount?: number
+  subtotalAmount: number
   updatedAt?: Date | string
+  renewalForServerId?: string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutOrderInput
 }
 
@@ -789,87 +864,211 @@ export type OrderUpdateToOneWithWhereWithoutItemsInput = {
 
 export type OrderUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   deliveryMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutOrderNestedInput
+  renewalForServer?: Prisma.ServerUpdateOneWithoutRenewalsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
 }
 
 export type OrderUncheckedUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   deliveryMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  renewalForServerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutOrderNestedInput
+}
+
+export type OrderCreateWithoutRenewalForServerInput = {
+  id?: string
+  totalAmount: number
+  status?: $Enums.OrderStatus
+  deliveryMessage?: string | null
+  deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  couponCode?: string | null
+  discountAmount?: number
+  subtotalAmount: number
+  updatedAt?: Date | string
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutOrderInput
+  user: Prisma.UserCreateNestedOneWithoutOrdersInput
+  items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput
+}
+
+export type OrderUncheckedCreateWithoutRenewalForServerInput = {
+  id?: string
+  userId: string
+  totalAmount: number
+  status?: $Enums.OrderStatus
+  deliveryMessage?: string | null
+  deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  couponCode?: string | null
+  discountAmount?: number
+  subtotalAmount: number
+  updatedAt?: Date | string
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutOrderInput
+  items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput
+}
+
+export type OrderCreateOrConnectWithoutRenewalForServerInput = {
+  where: Prisma.OrderWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrderCreateWithoutRenewalForServerInput, Prisma.OrderUncheckedCreateWithoutRenewalForServerInput>
+}
+
+export type OrderCreateManyRenewalForServerInputEnvelope = {
+  data: Prisma.OrderCreateManyRenewalForServerInput | Prisma.OrderCreateManyRenewalForServerInput[]
+  skipDuplicates?: boolean
+}
+
+export type OrderUpsertWithWhereUniqueWithoutRenewalForServerInput = {
+  where: Prisma.OrderWhereUniqueInput
+  update: Prisma.XOR<Prisma.OrderUpdateWithoutRenewalForServerInput, Prisma.OrderUncheckedUpdateWithoutRenewalForServerInput>
+  create: Prisma.XOR<Prisma.OrderCreateWithoutRenewalForServerInput, Prisma.OrderUncheckedCreateWithoutRenewalForServerInput>
+}
+
+export type OrderUpdateWithWhereUniqueWithoutRenewalForServerInput = {
+  where: Prisma.OrderWhereUniqueInput
+  data: Prisma.XOR<Prisma.OrderUpdateWithoutRenewalForServerInput, Prisma.OrderUncheckedUpdateWithoutRenewalForServerInput>
+}
+
+export type OrderUpdateManyWithWhereWithoutRenewalForServerInput = {
+  where: Prisma.OrderScalarWhereInput
+  data: Prisma.XOR<Prisma.OrderUpdateManyMutationInput, Prisma.OrderUncheckedUpdateManyWithoutRenewalForServerInput>
 }
 
 export type OrderCreateManyUserInput = {
   id?: string
-  status?: $Enums.OrderStatus
-  subtotalAmount: number
-  discountAmount?: number
   totalAmount: number
-  couponCode?: string | null
+  status?: $Enums.OrderStatus
   deliveryMessage?: string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  couponCode?: string | null
+  discountAmount?: number
+  subtotalAmount: number
   updatedAt?: Date | string
+  renewalForServerId?: string | null
 }
 
 export type OrderUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   deliveryMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutOrderNestedInput
+  renewalForServer?: Prisma.ServerUpdateOneWithoutRenewalsNestedInput
+  items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   deliveryMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput
+  renewalForServerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutOrderNestedInput
+  items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   deliveryMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  renewalForServerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type OrderCreateManyRenewalForServerInput = {
+  id?: string
+  userId: string
+  totalAmount: number
+  status?: $Enums.OrderStatus
+  deliveryMessage?: string | null
+  deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  couponCode?: string | null
+  discountAmount?: number
+  subtotalAmount: number
+  updatedAt?: Date | string
+}
+
+export type OrderUpdateWithoutRenewalForServerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  deliveryMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  invoice?: Prisma.InvoiceUpdateOneWithoutOrderNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
+  items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput
+}
+
+export type OrderUncheckedUpdateWithoutRenewalForServerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  deliveryMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutOrderNestedInput
+  items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput
+}
+
+export type OrderUncheckedUpdateManyWithoutRenewalForServerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  deliveryMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  couponCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -907,98 +1106,110 @@ export type OrderCountOutputTypeCountItemsArgs<ExtArgs extends runtime.Types.Ext
 export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  status?: boolean
-  subtotalAmount?: boolean
-  discountAmount?: boolean
   totalAmount?: boolean
-  couponCode?: boolean
+  status?: boolean
   deliveryMessage?: boolean
   deliveryData?: boolean
   createdAt?: boolean
+  couponCode?: boolean
+  discountAmount?: boolean
+  subtotalAmount?: boolean
   updatedAt?: boolean
+  renewalForServerId?: boolean
+  invoice?: boolean | Prisma.Order$invoiceArgs<ExtArgs>
+  renewalForServer?: boolean | Prisma.Order$renewalForServerArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>
-  invoice?: boolean | Prisma.Order$invoiceArgs<ExtArgs>
   _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
 export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  status?: boolean
-  subtotalAmount?: boolean
-  discountAmount?: boolean
   totalAmount?: boolean
-  couponCode?: boolean
+  status?: boolean
   deliveryMessage?: boolean
   deliveryData?: boolean
   createdAt?: boolean
+  couponCode?: boolean
+  discountAmount?: boolean
+  subtotalAmount?: boolean
   updatedAt?: boolean
+  renewalForServerId?: boolean
+  renewalForServer?: boolean | Prisma.Order$renewalForServerArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
 export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  status?: boolean
-  subtotalAmount?: boolean
-  discountAmount?: boolean
   totalAmount?: boolean
-  couponCode?: boolean
+  status?: boolean
   deliveryMessage?: boolean
   deliveryData?: boolean
   createdAt?: boolean
+  couponCode?: boolean
+  discountAmount?: boolean
+  subtotalAmount?: boolean
   updatedAt?: boolean
+  renewalForServerId?: boolean
+  renewalForServer?: boolean | Prisma.Order$renewalForServerArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
 export type OrderSelectScalar = {
   id?: boolean
   userId?: boolean
-  status?: boolean
-  subtotalAmount?: boolean
-  discountAmount?: boolean
   totalAmount?: boolean
-  couponCode?: boolean
+  status?: boolean
   deliveryMessage?: boolean
   deliveryData?: boolean
   createdAt?: boolean
+  couponCode?: boolean
+  discountAmount?: boolean
+  subtotalAmount?: boolean
   updatedAt?: boolean
+  renewalForServerId?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "status" | "subtotalAmount" | "discountAmount" | "totalAmount" | "couponCode" | "deliveryMessage" | "deliveryData" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "totalAmount" | "status" | "deliveryMessage" | "deliveryData" | "createdAt" | "couponCode" | "discountAmount" | "subtotalAmount" | "updatedAt" | "renewalForServerId", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  invoice?: boolean | Prisma.Order$invoiceArgs<ExtArgs>
+  renewalForServer?: boolean | Prisma.Order$renewalForServerArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>
-  invoice?: boolean | Prisma.Order$invoiceArgs<ExtArgs>
   _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OrderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  renewalForServer?: boolean | Prisma.Order$renewalForServerArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type OrderIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  renewalForServer?: boolean | Prisma.Order$renewalForServerArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Order"
   objects: {
+    invoice: Prisma.$InvoicePayload<ExtArgs> | null
+    renewalForServer: Prisma.$ServerPayload<ExtArgs> | null
     user: Prisma.$UserPayload<ExtArgs>
     items: Prisma.$OrderItemPayload<ExtArgs>[]
-    invoice: Prisma.$InvoicePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
-    status: $Enums.OrderStatus
-    subtotalAmount: number
-    discountAmount: number
     totalAmount: number
-    couponCode: string | null
+    status: $Enums.OrderStatus
     deliveryMessage: string | null
     deliveryData: runtime.JsonValue | null
     createdAt: Date
+    couponCode: string | null
+    discountAmount: number
+    subtotalAmount: number
     updatedAt: Date
+    renewalForServerId: string | null
   }, ExtArgs["result"]["order"]>
   composites: {}
 }
@@ -1393,9 +1604,10 @@ readonly fields: OrderFieldRefs;
  */
 export interface Prisma__OrderClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  invoice<T extends Prisma.Order$invoiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$invoiceArgs<ExtArgs>>): Prisma.Prisma__InvoiceClient<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  renewalForServer<T extends Prisma.Order$renewalForServerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$renewalForServerArgs<ExtArgs>>): Prisma.Prisma__ServerClient<runtime.Types.Result.GetResult<Prisma.$ServerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   items<T extends Prisma.Order$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  invoice<T extends Prisma.Order$invoiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$invoiceArgs<ExtArgs>>): Prisma.Prisma__InvoiceClient<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1427,15 +1639,16 @@ export interface Prisma__OrderClient<T, Null = never, ExtArgs extends runtime.Ty
 export interface OrderFieldRefs {
   readonly id: Prisma.FieldRef<"Order", 'String'>
   readonly userId: Prisma.FieldRef<"Order", 'String'>
-  readonly status: Prisma.FieldRef<"Order", 'OrderStatus'>
-  readonly subtotalAmount: Prisma.FieldRef<"Order", 'Int'>
-  readonly discountAmount: Prisma.FieldRef<"Order", 'Int'>
   readonly totalAmount: Prisma.FieldRef<"Order", 'Int'>
-  readonly couponCode: Prisma.FieldRef<"Order", 'String'>
+  readonly status: Prisma.FieldRef<"Order", 'OrderStatus'>
   readonly deliveryMessage: Prisma.FieldRef<"Order", 'String'>
   readonly deliveryData: Prisma.FieldRef<"Order", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Order", 'DateTime'>
+  readonly couponCode: Prisma.FieldRef<"Order", 'String'>
+  readonly discountAmount: Prisma.FieldRef<"Order", 'Int'>
+  readonly subtotalAmount: Prisma.FieldRef<"Order", 'Int'>
   readonly updatedAt: Prisma.FieldRef<"Order", 'DateTime'>
+  readonly renewalForServerId: Prisma.FieldRef<"Order", 'String'>
 }
     
 
@@ -1837,6 +2050,44 @@ export type OrderDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * Order.invoice
+ */
+export type Order$invoiceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Invoice
+   */
+  select?: Prisma.InvoiceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Invoice
+   */
+  omit?: Prisma.InvoiceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InvoiceInclude<ExtArgs> | null
+  where?: Prisma.InvoiceWhereInput
+}
+
+/**
+ * Order.renewalForServer
+ */
+export type Order$renewalForServerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Server
+   */
+  select?: Prisma.ServerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Server
+   */
+  omit?: Prisma.ServerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServerInclude<ExtArgs> | null
+  where?: Prisma.ServerWhereInput
+}
+
+/**
  * Order.items
  */
 export type Order$itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1858,25 +2109,6 @@ export type Order$itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.OrderItemScalarFieldEnum | Prisma.OrderItemScalarFieldEnum[]
-}
-
-/**
- * Order.invoice
- */
-export type Order$invoiceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Invoice
-   */
-  select?: Prisma.InvoiceSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Invoice
-   */
-  omit?: Prisma.InvoiceOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.InvoiceInclude<ExtArgs> | null
-  where?: Prisma.InvoiceWhereInput
 }
 
 /**

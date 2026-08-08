@@ -11,11 +11,11 @@ export const StatusNodeInputSchema = z.object({
     status: z.string(),
     latency: z.number().int().optional().nullable(),
     lastChecked: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").optional().nullable(),
-    cpu: z.number().optional().nullable(),
-    memory: z.number().int().optional().nullable(),
-    disk: z.number().int().optional().nullable(),
     createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
-    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime")
+    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
+    cpu: z.number().optional().nullable(),
+    disk: z.number().int().optional().nullable(),
+    memory: z.number().int().optional().nullable()
 }).strict();
 
 export type StatusNodeInputType = z.infer<typeof StatusNodeInputSchema>;

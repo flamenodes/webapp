@@ -26,6 +26,7 @@ interface QuickCheckoutSheetProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   product: any
+  initialBillingPeriod?: string
 }
 
 type BillingPeriod = 'HOURLY' | 'DAILY' | 'MONTHLY' | 'QUARTERLY' | 'SEMIANNUALLY' | 'YEARLY' | 'CUSTOM'
@@ -34,11 +35,14 @@ export const QuickCheckoutSheet: React.FC<QuickCheckoutSheetProps> = ({
   open,
   onOpenChange,
   product,
+  initialBillingPeriod,
 }) => {
   const navigate = useNavigate()
   const [quantity, setQuantity] = useState(1)
   const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>(
-    product?.billingOptions?.[0]?.billingPeriod || 'MONTHLY'
+    (initialBillingPeriod as BillingPeriod) ||
+      product?.billingOptions?.[0]?.billingPeriod ||
+      'MONTHLY'
   )
   const [configurations, setConfigurations] = useState<any[]>([])
   const [configValues, setConfigValues] = useState<Record<string, string>>({})

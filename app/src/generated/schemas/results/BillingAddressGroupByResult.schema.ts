@@ -15,7 +15,6 @@ export const BillingAddressGroupByResultSchema = z.array(z.object({
   _count: z.object({
     id: z.number(),
     userId: z.number(),
-    user: z.number(),
     firstName: z.number(),
     lastName: z.number(),
     phone: z.number(),
@@ -25,7 +24,8 @@ export const BillingAddressGroupByResultSchema = z.array(z.object({
     zip: z.number(),
     country: z.number(),
     updatedAt: z.number(),
-    createdAt: z.number()
+    createdAt: z.number(),
+    user: z.number()
   }).optional(),
   _min: z.object({
     id: z.string().nullable(),

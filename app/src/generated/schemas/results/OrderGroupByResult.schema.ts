@@ -2,60 +2,65 @@ import * as z from 'zod';
 export const OrderGroupByResultSchema = z.array(z.object({
   id: z.string(),
   userId: z.string(),
-  subtotalAmount: z.number().int(),
-  discountAmount: z.number().int(),
   totalAmount: z.number().int(),
-  couponCode: z.string(),
   deliveryMessage: z.string(),
   deliveryData: z.any(),
   createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
+  couponCode: z.string(),
+  discountAmount: z.number().int(),
+  subtotalAmount: z.number().int(),
   updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
+  renewalForServerId: z.string(),
   _count: z.object({
     id: z.number(),
     userId: z.number(),
-    user: z.number(),
-    status: z.number(),
-    subtotalAmount: z.number(),
-    discountAmount: z.number(),
     totalAmount: z.number(),
-    couponCode: z.number(),
+    status: z.number(),
     deliveryMessage: z.number(),
     deliveryData: z.number(),
-    items: z.number(),
-    invoice: z.number(),
     createdAt: z.number(),
-    updatedAt: z.number()
+    couponCode: z.number(),
+    discountAmount: z.number(),
+    subtotalAmount: z.number(),
+    updatedAt: z.number(),
+    invoice: z.number(),
+    renewalForServerId: z.number(),
+    renewalForServer: z.number(),
+    user: z.number(),
+    items: z.number()
   }).optional(),
   _sum: z.object({
-    subtotalAmount: z.number().nullable(),
+    totalAmount: z.number().nullable(),
     discountAmount: z.number().nullable(),
-    totalAmount: z.number().nullable()
+    subtotalAmount: z.number().nullable()
   }).nullable().optional(),
   _avg: z.object({
-    subtotalAmount: z.number().nullable(),
+    totalAmount: z.number().nullable(),
     discountAmount: z.number().nullable(),
-    totalAmount: z.number().nullable()
+    subtotalAmount: z.number().nullable()
   }).nullable().optional(),
   _min: z.object({
     id: z.string().nullable(),
     userId: z.string().nullable(),
-    subtotalAmount: z.number().int().nullable(),
-    discountAmount: z.number().int().nullable(),
     totalAmount: z.number().int().nullable(),
-    couponCode: z.string().nullable(),
     deliveryMessage: z.string().nullable(),
     createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
-    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable()
+    couponCode: z.string().nullable(),
+    discountAmount: z.number().int().nullable(),
+    subtotalAmount: z.number().int().nullable(),
+    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
+    renewalForServerId: z.string().nullable()
   }).nullable().optional(),
   _max: z.object({
     id: z.string().nullable(),
     userId: z.string().nullable(),
-    subtotalAmount: z.number().int().nullable(),
-    discountAmount: z.number().int().nullable(),
     totalAmount: z.number().int().nullable(),
-    couponCode: z.string().nullable(),
     deliveryMessage: z.string().nullable(),
     createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
-    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable()
+    couponCode: z.string().nullable(),
+    discountAmount: z.number().int().nullable(),
+    subtotalAmount: z.number().int().nullable(),
+    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
+    renewalForServerId: z.string().nullable()
   }).nullable().optional()
 }));

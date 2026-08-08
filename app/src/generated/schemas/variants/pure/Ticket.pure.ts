@@ -10,15 +10,15 @@ export const TicketModelSchema = z.object({
     status: TicketStatusSchema,
     priority: TicketPrioritySchema,
     userId: z.string(),
-    user: z.any(),
     assignedToId: z.string().nullable(),
-    assignedTo: z.any().nullable(),
     channelName: z.string(),
     tags: z.array(z.string()),
-    messages: z.array(z.any()),
     createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
     updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
-    closedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable()
+    closedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
+    assignedTo: z.any().nullable(),
+    user: z.any(),
+    messages: z.array(z.any())
 }).strict();
 
 export type TicketPureType = z.infer<typeof TicketModelSchema>;

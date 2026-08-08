@@ -2707,22 +2707,22 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const UserScalarFieldEnum = {
   id: 'id',
-  clientId: 'clientId',
   name: 'name',
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  role: 'role',
-  banned: 'banned',
-  banReason: 'banReason',
   banExpires: 'banExpires',
-  username: 'username',
+  banReason: 'banReason',
+  banned: 'banned',
+  displayUsername: 'displayUsername',
   firstname: 'firstname',
   lastname: 'lastname',
-  pteroUserId: 'pteroUserId',
-  displayUsername: 'displayUsername'
+  role: 'role',
+  username: 'username',
+  clientId: 'clientId',
+  pteroUserId: 'pteroUserId'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -2803,19 +2803,19 @@ export type DiscountScalarFieldEnum = (typeof DiscountScalarFieldEnum)[keyof typ
 
 export const ProductScalarFieldEnum = {
   id: 'id',
-  planName: 'planName',
-  icon: 'icon',
-  badge: 'badge',
-  category: 'category',
-  price: 'price',
-  sortOrder: 'sortOrder',
-  featureCategory: 'featureCategory',
-  inStock: 'inStock',
-  discountId: 'discountId',
-  specs: 'specs',
   deployMode: 'deployMode',
+  specs: 'specs',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  category: 'category',
+  icon: 'icon',
+  inStock: 'inStock',
+  planName: 'planName',
+  price: 'price',
+  discountId: 'discountId',
+  featureCategory: 'featureCategory',
+  badge: 'badge',
+  sortOrder: 'sortOrder'
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
@@ -2860,11 +2860,11 @@ export const CouponScalarFieldEnum = {
   amount: 'amount',
   description: 'description',
   active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   expiresAt: 'expiresAt',
   maxUses: 'maxUses',
-  usedCount: 'usedCount',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  usedCount: 'usedCount'
 } as const
 
 export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
@@ -2873,8 +2873,8 @@ export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof 
 export const CartScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  couponCode: 'couponCode',
   createdAt: 'createdAt',
+  couponCode: 'couponCode',
   updatedAt: 'updatedAt'
 } as const
 
@@ -2887,9 +2887,9 @@ export const CartItemScalarFieldEnum = {
   productId: 'productId',
   quantity: 'quantity',
   billingPeriod: 'billingPeriod',
-  configuration: 'configuration',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  configuration: 'configuration'
 } as const
 
 export type CartItemScalarFieldEnum = (typeof CartItemScalarFieldEnum)[keyof typeof CartItemScalarFieldEnum]
@@ -2898,15 +2898,16 @@ export type CartItemScalarFieldEnum = (typeof CartItemScalarFieldEnum)[keyof typ
 export const OrderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  status: 'status',
-  subtotalAmount: 'subtotalAmount',
-  discountAmount: 'discountAmount',
   totalAmount: 'totalAmount',
-  couponCode: 'couponCode',
+  status: 'status',
   deliveryMessage: 'deliveryMessage',
   deliveryData: 'deliveryData',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  couponCode: 'couponCode',
+  discountAmount: 'discountAmount',
+  subtotalAmount: 'subtotalAmount',
+  updatedAt: 'updatedAt',
+  renewalForServerId: 'renewalForServerId'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -2928,15 +2929,15 @@ export const OrderItemScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
   productId: 'productId',
-  productName: 'productName',
   quantity: 'quantity',
-  billingPeriod: 'billingPeriod',
-  unitPrice: 'unitPrice',
-  totalPrice: 'totalPrice',
-  specsSnapshot: 'specsSnapshot',
-  configuration: 'configuration',
   expiresAt: 'expiresAt',
-  createdAt: 'createdAt'
+  billingPeriod: 'billingPeriod',
+  createdAt: 'createdAt',
+  productName: 'productName',
+  specsSnapshot: 'specsSnapshot',
+  totalPrice: 'totalPrice',
+  unitPrice: 'unitPrice',
+  configuration: 'configuration'
 } as const
 
 export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
@@ -2951,13 +2952,13 @@ export const ServerScalarFieldEnum = {
   status: 'status',
   ip: 'ip',
   port: 'port',
-  pterodactylServerId: 'pterodactylServerId',
   expiresAt: 'expiresAt',
   resources: 'resources',
   pterodactylData: 'pterodactylData',
   suspended: 'suspended',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  pterodactylServerId: 'pterodactylServerId'
 } as const
 
 export type ServerScalarFieldEnum = (typeof ServerScalarFieldEnum)[keyof typeof ServerScalarFieldEnum]
@@ -3037,11 +3038,11 @@ export const StatusNodeScalarFieldEnum = {
   status: 'status',
   latency: 'latency',
   lastChecked: 'lastChecked',
-  cpu: 'cpu',
-  memory: 'memory',
-  disk: 'disk',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  cpu: 'cpu',
+  disk: 'disk',
+  memory: 'memory'
 } as const
 
 export type StatusNodeScalarFieldEnum = (typeof StatusNodeScalarFieldEnum)[keyof typeof StatusNodeScalarFieldEnum]
@@ -3086,9 +3087,9 @@ export const NotificationScalarFieldEnum = {
   title: 'title',
   message: 'message',
   read: 'read',
+  createdAt: 'createdAt',
   link: 'link',
-  metadata: 'metadata',
-  createdAt: 'createdAt'
+  metadata: 'metadata'
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
@@ -3123,10 +3124,10 @@ export const RazorpayConfigScalarFieldEnum = {
   companyCity: 'companyCity',
   companyZip: 'companyZip',
   companyCountry: 'companyCountry',
-  pteroNodeMode: 'pteroNodeMode',
-  pteroNodeId: 'pteroNodeId',
   updatedAt: 'updatedAt',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  pteroNodeId: 'pteroNodeId',
+  pteroNodeMode: 'pteroNodeMode'
 } as const
 
 export type RazorpayConfigScalarFieldEnum = (typeof RazorpayConfigScalarFieldEnum)[keyof typeof RazorpayConfigScalarFieldEnum]
@@ -3259,20 +3260,6 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'ProductCategory'
- */
-export type EnumProductCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductCategory'>
-    
-
-
-/**
- * Reference to a field of type 'ProductCategory[]'
- */
-export type ListEnumProductCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductCategory[]'>
-    
-
-
-/**
  * Reference to a field of type 'Json'
  */
 export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -3283,6 +3270,20 @@ export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'J
  * Reference to a field of type 'QueryMode'
  */
 export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'ProductCategory'
+ */
+export type EnumProductCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductCategory'>
+    
+
+
+/**
+ * Reference to a field of type 'ProductCategory[]'
+ */
+export type ListEnumProductCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductCategory[]'>
     
 
 

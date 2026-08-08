@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as ProtectedRouteImport } from './routes/_protected'
-import { Route as McpRouteImport } from './routes/mcp'
 import { Route as PricingRouteRouteImport } from './routes/pricing/route'
 import { Route as StatusRouteImport } from './routes/status'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
@@ -74,11 +73,6 @@ const AuthRoute = AuthRouteImport.update({
 } as any)
 const ProtectedRoute = ProtectedRouteImport.update({
   id: '/_protected',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const McpRoute = McpRouteImport.update({
-  id: '/mcp',
-  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PricingRouteRoute = PricingRouteRouteImport.update({
@@ -337,7 +331,6 @@ const ProtectedAdminDocumentsEditorIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/pricing': typeof PricingRouteRouteWithChildren
-  '/mcp': typeof McpRoute
   '/status': typeof StatusRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/user': typeof ProtectedUserRouteRouteWithChildren
@@ -389,7 +382,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/mcp': typeof McpRoute
   '/status': typeof StatusRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/user': typeof ProtectedUserRouteRouteWithChildren
@@ -445,7 +437,6 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRouteRouteWithChildren
   '/_auth': typeof AuthRouteWithChildren
   '/_protected': typeof ProtectedRouteWithChildren
-  '/mcp': typeof McpRoute
   '/status': typeof StatusRoute
   '/_protected/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/_protected/user': typeof ProtectedUserRouteRouteWithChildren
@@ -500,7 +491,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/pricing'
-    | '/mcp'
     | '/status'
     | '/admin'
     | '/user'
@@ -552,7 +542,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/mcp'
     | '/status'
     | '/admin'
     | '/user'
@@ -607,7 +596,6 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/_auth'
     | '/_protected'
-    | '/mcp'
     | '/status'
     | '/_protected/admin'
     | '/_protected/user'
@@ -663,7 +651,6 @@ export interface RootRouteChildren {
   PricingRouteRoute: typeof PricingRouteRouteWithChildren
   AuthRoute: typeof AuthRouteWithChildren
   ProtectedRoute: typeof ProtectedRouteWithChildren
-  McpRoute: typeof McpRoute
   StatusRoute: typeof StatusRoute
   BillingCheckoutRoute: typeof BillingCheckoutRoute
   BillingConfigureRoute: typeof BillingConfigureRoute
@@ -694,13 +681,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof ProtectedRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mcp': {
-      id: '/mcp'
-      path: '/mcp'
-      fullPath: '/mcp'
-      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pricing': {
@@ -1194,7 +1174,6 @@ const rootRouteChildren: RootRouteChildren = {
   PricingRouteRoute: PricingRouteRouteWithChildren,
   AuthRoute: AuthRouteWithChildren,
   ProtectedRoute: ProtectedRouteWithChildren,
-  McpRoute: McpRoute,
   StatusRoute: StatusRoute,
   BillingCheckoutRoute: BillingCheckoutRoute,
   BillingConfigureRoute: BillingConfigureRoute,

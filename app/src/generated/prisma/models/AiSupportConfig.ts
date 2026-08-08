@@ -1005,7 +1005,7 @@ export type AiSupportConfigCreateArgs<ExtArgs extends runtime.Types.Extensions.I
   /**
    * The data needed to create a AiSupportConfig.
    */
-  data: Prisma.XOR<Prisma.AiSupportConfigCreateInput, Prisma.AiSupportConfigUncheckedCreateInput>
+  data?: Prisma.XOR<Prisma.AiSupportConfigCreateInput, Prisma.AiSupportConfigUncheckedCreateInput>
 }
 
 /**

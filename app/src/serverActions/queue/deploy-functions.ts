@@ -2,7 +2,7 @@ import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 
 const sendEmailSchema = z.object({
-  type: z.enum(['order-confirmation', 'server-processing', 'server-ready', 'payment-failed']),
+  type: z.enum(['order-confirmation', 'server-processing', 'server-ready', 'payment-failed', 'server-renewed']),
   to: z.string().email(),
   subject: z.string(),
   data: z.record(z.any()),
@@ -94,6 +94,23 @@ const emailTemplates = {
           <p style="margin: 0;">Please check your payment method and try again.</p>
         </div>
         <p style="color: #6b7280; font-size: 14px; margin-top: 30px;">If you continue to experience issues, please contact our support team.</p>
+      </div>
+    `,
+  }),
+  'server-renewed': (data: any) => ({
+    subject: `Your Server Has Been Renewed - ${data.serverName}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #10b981;">✅ Server Renewed!</h2>
+        <p>Hi ${data.userName},</p>
+        <p>Your server <strong>${data.serverName}</strong> has been successfully renewed.</p>
+        <div style="background-color: #d1fae5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <p><strong>Order ID:</strong> ${data.orderId}</p>
+          <p><strong>Amount:</strong> ₹${data.amount}</p>
+          <p><strong>New Expiry:</strong> ${new Date(data.newExpiry).toLocaleString()}</p>
+        </div>
+        <p>Your server is now active again. You can manage it from your dashboard.</p>
+        <p style="color: #6b7280; font-size: 14px; margin-top: 30px;">Thank you for choosing FlameNodes!</p>
       </div>
     `,
   }),

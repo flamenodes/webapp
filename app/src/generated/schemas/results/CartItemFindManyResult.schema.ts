@@ -8,11 +8,11 @@ export const CartItemFindManyResultSchema = z.object({
   productId: z.string(),
   quantity: z.number().int(),
   billingPeriod: z.any(),
+  createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
+  updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
   configuration: z.any().optional(),
   cart: CartSchema.optional(),
-  product: ProductSchema.optional(),
-  createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
-  updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime")
+  product: ProductSchema.optional()
 })),
   pagination: z.object({
   page: z.number().int().min(1),

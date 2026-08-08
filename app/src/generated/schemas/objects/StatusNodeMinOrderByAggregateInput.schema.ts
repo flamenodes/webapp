@@ -13,11 +13,11 @@ const makeSchema = () => z.object({
   status: SortOrderSchema.optional(),
   latency: SortOrderSchema.optional(),
   lastChecked: SortOrderSchema.optional(),
-  cpu: SortOrderSchema.optional(),
-  memory: SortOrderSchema.optional(),
-  disk: SortOrderSchema.optional(),
   createdAt: SortOrderSchema.optional(),
-  updatedAt: SortOrderSchema.optional()
+  updatedAt: SortOrderSchema.optional(),
+  cpu: SortOrderSchema.optional(),
+  disk: SortOrderSchema.optional(),
+  memory: SortOrderSchema.optional()
 }).strict();
 export const StatusNodeMinOrderByAggregateInputObjectSchema: z.ZodType<Prisma.StatusNodeMinOrderByAggregateInput> = makeSchema() as unknown as z.ZodType<Prisma.StatusNodeMinOrderByAggregateInput>;
 export const StatusNodeMinOrderByAggregateInputObjectZodSchema = makeSchema();

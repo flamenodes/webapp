@@ -8,9 +8,9 @@ export const ConfigurationOptionAggregateResultSchema = z.object({  _count: z.ob
     required: z.number(),
     category: z.number(),
     sortOrder: z.number(),
-    values: z.number(),
     createdAt: z.number(),
-    updatedAt: z.number()
+    updatedAt: z.number(),
+    values: z.number()
   }).optional(),
   _sum: z.object({
     sortOrder: z.number().nullable()

@@ -19,8 +19,8 @@ const makeSchema = () => z.object({
   createdAt: SortOrderSchema.optional(),
   updatedAt: SortOrderSchema.optional(),
   closedAt: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
-  user: z.lazy(() => UserOrderByWithRelationInputObjectSchema).optional(),
   assignedTo: z.lazy(() => UserOrderByWithRelationInputObjectSchema).optional(),
+  user: z.lazy(() => UserOrderByWithRelationInputObjectSchema).optional(),
   messages: z.lazy(() => TicketMessageOrderByRelationAggregateInputObjectSchema).optional()
 }).strict();
 export const TicketOrderByWithRelationInputObjectSchema: z.ZodType<Prisma.TicketOrderByWithRelationInput> = makeSchema() as unknown as z.ZodType<Prisma.TicketOrderByWithRelationInput>;

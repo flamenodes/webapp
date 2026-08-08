@@ -9,9 +9,9 @@ const makeSchema = () => z.object({
   title: SortOrderSchema.optional(),
   message: SortOrderSchema.optional(),
   read: SortOrderSchema.optional(),
+  createdAt: SortOrderSchema.optional(),
   link: SortOrderSchema.optional(),
-  metadata: SortOrderSchema.optional(),
-  createdAt: SortOrderSchema.optional()
+  metadata: SortOrderSchema.optional()
 }).strict();
 export const NotificationCountOrderByAggregateInputObjectSchema: z.ZodType<Prisma.NotificationCountOrderByAggregateInput> = makeSchema() as unknown as z.ZodType<Prisma.NotificationCountOrderByAggregateInput>;
 export const NotificationCountOrderByAggregateInputObjectZodSchema = makeSchema();

@@ -10,11 +10,11 @@ const makeSchema = () => z.object({
   amount: SortOrderSchema.optional(),
   description: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   active: SortOrderSchema.optional(),
+  createdAt: SortOrderSchema.optional(),
+  updatedAt: SortOrderSchema.optional(),
   expiresAt: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   maxUses: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
-  usedCount: SortOrderSchema.optional(),
-  createdAt: SortOrderSchema.optional(),
-  updatedAt: SortOrderSchema.optional()
+  usedCount: SortOrderSchema.optional()
 }).strict();
 export const CouponOrderByWithRelationInputObjectSchema: z.ZodType<Prisma.CouponOrderByWithRelationInput> = makeSchema() as unknown as z.ZodType<Prisma.CouponOrderByWithRelationInput>;
 export const CouponOrderByWithRelationInputObjectZodSchema = makeSchema();

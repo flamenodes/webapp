@@ -4,15 +4,24 @@ import { prisma } from '#/db'
 import { auth } from '@/lib/auth'
 import { z } from 'zod'
 import { razorpay } from '../razorpay/instance'
+import { ptero } from '../pterodactyl/client'
+import { calculateExpiryDate } from '../billing/expiry'
 
 const wrapSuccess = <T>(message: string, data?: T) => ({ success: true, message, data })
 const wrapError = (message: string) => ({ success: false, message })
 
 const createManualOrderSchema = z.object({
   userEmail: z.string().email(),
-  productId: z.string(),
   quantity: z.string().transform((v) => parseInt(v, 10)),
-  billingPeriod: z.enum(['MONTHLY', 'QUARTERLY', 'YEARLY']),
+  orderType: z.enum(['EXISTING', 'CUSTOM']),
+  productId: z.string().optional(),
+  planName: z.string().optional(),
+  price: z.string().optional().transform((v) => (v ? parseInt(v, 10) : undefined)),
+  category: z.enum(['VPS', 'VDS', 'WEBHOST', 'DISCORD', 'DDOS_PROT', 'DEDICATED', 'MINECRAFT']).optional(),
+  billingPeriod: z.enum(['HOURLY', 'DAILY', 'MONTHLY', 'QUARTERLY', 'SEMIANNUALLY', 'YEARLY', 'CUSTOM']).default('MONTHLY'),
+  customDays: z.string().optional().transform((v) => (v ? parseInt(v, 10) : undefined)),
+  pteroServerId: z.number().int().positive(),
+  linkDirectly: z.boolean().default(false),
 })
 
 const generatePaymentLinkSchema = z.object({
@@ -71,22 +80,84 @@ export const createManualOrder = createServerFn({ method: 'POST' })
 
     if (!user) return wrapError('User not found with this email')
 
-    const product = await prisma.product.findUnique({
-      where: { id: data.productId },
-    })
+    // Resolve the product backing this order.
+    // EXISTING → pick from the product catalog (recommended).
+    // CUSTOM   → one-off product created hidden from the catalog.
+    let product
+    let unitPrice: number
 
-    if (!product) return wrapError('Product not found')
+    if (data.orderType === 'CUSTOM') {
+      if (!data.planName || !data.price || !data.category) {
+        return wrapError('Plan name, price and category are required for a custom product')
+      }
 
-    const unitPrice = product.price
+      product = await prisma.product.create({
+        data: {
+          planName: data.planName,
+          price: data.price,
+          category: data.category,
+          inStock: false,
+          deployMode: 'PTERODACTYL',
+          specs: {},
+          sortOrder: 9999,
+        },
+      })
+
+      unitPrice = data.price
+    } else {
+      if (!data.productId) return wrapError('Please choose a product')
+
+      product = await prisma.product.findUnique({
+        where: { id: data.productId },
+        include: { billingOptions: true },
+      })
+
+      if (!product) return wrapError('Product not found')
+
+      // Use the billing-period price when available, fall back to the base price
+      const billingOption = product.billingOptions.find(
+        (opt) => opt.billingPeriod === data.billingPeriod,
+      )
+      unitPrice = billingOption?.price ?? product.price
+    }
+
     const totalPrice = unitPrice * data.quantity
+    const expiresAt = calculateExpiryDate(data.billingPeriod, data.customDays)
+
+    // Fetch the existing Pterodactyl server to link against
+    let pteroAttributes: any
+    try {
+      const res = await ptero.get(`/application/servers/${data.pteroServerId}`)
+      pteroAttributes = res.data?.attributes
+      if (!pteroAttributes) throw new Error('No attributes returned from Pterodactyl')
+    } catch (error: any) {
+      return wrapError(`Could not fetch Pterodactyl server ${data.pteroServerId}: ${error?.message || 'not found'}`)
+    }
+
+    const allocations = pteroAttributes?.relationships?.allocations?.data ?? []
+    const mainAlloc =
+      allocations.find(
+        (a: any) => a.attributes?.id === pteroAttributes?.main_allocation,
+      )?.attributes ?? allocations[0]?.attributes
+    const ip = mainAlloc?.ip ?? null
+    const port = mainAlloc?.port ?? null
+
+    const orderStatus = data.linkDirectly ? 'PAID' : 'PENDING'
 
     const order = await prisma.order.create({
       data: {
         userId: user.id,
-        status: 'PENDING',
+        status: orderStatus,
         subtotalAmount: totalPrice,
         discountAmount: 0,
         totalAmount: totalPrice,
+        deliveryData: {
+          pteroServerId: data.pteroServerId,
+          pteroAttributes,
+          billingPeriod: data.billingPeriod,
+          customDays: data.customDays ?? null,
+          orderType: data.orderType,
+        },
         items: {
           create: {
             productId: product.id,
@@ -96,13 +167,80 @@ export const createManualOrder = createServerFn({ method: 'POST' })
             unitPrice,
             totalPrice,
             specsSnapshot: product.specs ?? {},
+            expiresAt,
           },
         },
       },
       include: { items: { include: { product: true } } },
     })
 
-    return wrapSuccess('Order created successfully', order)
+    // Deliver now: server is already provisioned, so link it and mark delivered.
+    if (data.linkDirectly) {
+      const server = await prisma.server.create({
+        data: {
+          orderItemId: order.items[0].id,
+          userId: user.id,
+          name: product.planName,
+          type: product.category,
+          status: 'ACTIVE',
+          ip,
+          port,
+          pterodactylServerId: data.pteroServerId,
+          pterodactylData: pteroAttributes,
+          expiresAt,
+        },
+      })
+
+      await prisma.order.update({
+        where: { id: order.id },
+        data: {
+          status: 'DELIVERED',
+          deliveryMessage: `Linked to existing Pterodactyl server ${data.pteroServerId}`,
+        },
+      })
+
+      return wrapSuccess('Order created and server linked', { order, server })
+    }
+
+    // Pending + payment link: order is PENDING, generate a Razorpay link.
+    try {
+      const razorpayOrder = await razorpay.orders.create({
+        amount: totalPrice * 100,
+        currency: 'INR',
+        receipt: `ord_${order.id.slice(0, 32)}`,
+        notes: {
+          orderId: order.id,
+          userId: user.id,
+          customerEmail: user.email,
+        },
+      })
+
+      await prisma.order.update({
+        where: { id: order.id },
+        data: {
+          deliveryData: {
+            ...(order.deliveryData as any),
+            razorpayOrderId: razorpayOrder.id,
+            razorpayAmount: razorpayOrder.amount,
+          },
+        },
+      })
+
+      const paymentLink = `${process.env.VITE_CLIENT_URL || process.env.CLIENT_URL || 'http://localhost:3000'}/checkout/payment?orderId=${order.id}&razorpayOrderId=${razorpayOrder.id}`
+
+      return wrapSuccess('Order created. Payment link generated.', {
+        orderId: order.id,
+        razorpayOrderId: razorpayOrder.id,
+        paymentLink,
+      })
+    } catch (error: any) {
+      console.error('Razorpay error:', error)
+      return wrapSuccess('Order created. Payment link failed to generate — generate manually.', {
+        orderId: order.id,
+        razorpayOrderId: null,
+        paymentLink: null,
+      })
+    }
   })
 
 export const generatePaymentLink = createServerFn({ method: 'POST' })

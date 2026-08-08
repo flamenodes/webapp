@@ -11,9 +11,9 @@ export const ConfigurationOptionInputSchema = z.object({
     required: z.boolean(),
     category: ProductCategorySchema,
     sortOrder: z.number().int(),
-    values: z.array(z.any()),
     createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
-    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime")
+    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
+    values: z.array(z.any())
 }).strict();
 
 export type ConfigurationOptionInputType = z.infer<typeof ConfigurationOptionInputSchema>;

@@ -3,8 +3,8 @@ import { ProductSchema } from '../models/Product.schema';
 export const ProductBillingOptionCreateResultSchema = z.object({
   id: z.string(),
   productId: z.string(),
-  product: ProductSchema.optional(),
   billingPeriod: z.any(),
   price: z.number().int(),
-  customDays: z.number().int().optional()
+  customDays: z.number().int().optional(),
+  product: ProductSchema.optional()
 });

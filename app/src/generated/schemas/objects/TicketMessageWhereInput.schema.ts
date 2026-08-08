@@ -5,10 +5,10 @@ import { EnumSenderRoleFilterObjectSchema as EnumSenderRoleFilterObjectSchema } 
 import { SenderRoleSchema } from '../enums/SenderRole.schema';
 import { JsonNullableFilterObjectSchema as JsonNullableFilterObjectSchema } from './JsonNullableFilter.schema';
 import { DateTimeFilterObjectSchema as DateTimeFilterObjectSchema } from './DateTimeFilter.schema';
-import { TicketScalarRelationFilterObjectSchema as TicketScalarRelationFilterObjectSchema } from './TicketScalarRelationFilter.schema';
-import { TicketWhereInputObjectSchema as TicketWhereInputObjectSchema } from './TicketWhereInput.schema';
 import { UserScalarRelationFilterObjectSchema as UserScalarRelationFilterObjectSchema } from './UserScalarRelationFilter.schema';
-import { UserWhereInputObjectSchema as UserWhereInputObjectSchema } from './UserWhereInput.schema'
+import { UserWhereInputObjectSchema as UserWhereInputObjectSchema } from './UserWhereInput.schema';
+import { TicketScalarRelationFilterObjectSchema as TicketScalarRelationFilterObjectSchema } from './TicketScalarRelationFilter.schema';
+import { TicketWhereInputObjectSchema as TicketWhereInputObjectSchema } from './TicketWhereInput.schema'
 
 const ticketmessagewhereinputSchema = z.object({
   AND: z.union([z.lazy(() => TicketMessageWhereInputObjectSchema), z.lazy(() => TicketMessageWhereInputObjectSchema).array()]).optional(),
@@ -21,8 +21,8 @@ const ticketmessagewhereinputSchema = z.object({
   content: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
   attachments: z.lazy(() => JsonNullableFilterObjectSchema).optional(),
   createdAt: z.union([z.lazy(() => DateTimeFilterObjectSchema), z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time")]).optional(),
-  ticket: z.union([z.lazy(() => TicketScalarRelationFilterObjectSchema), z.lazy(() => TicketWhereInputObjectSchema)]).optional(),
-  sender: z.union([z.lazy(() => UserScalarRelationFilterObjectSchema), z.lazy(() => UserWhereInputObjectSchema)]).optional()
+  sender: z.union([z.lazy(() => UserScalarRelationFilterObjectSchema), z.lazy(() => UserWhereInputObjectSchema)]).optional(),
+  ticket: z.union([z.lazy(() => TicketScalarRelationFilterObjectSchema), z.lazy(() => TicketWhereInputObjectSchema)]).optional()
 }).strict();
 export const TicketMessageWhereInputObjectSchema: z.ZodType<Prisma.TicketMessageWhereInput> = ticketmessagewhereinputSchema as unknown as z.ZodType<Prisma.TicketMessageWhereInput>;
 export const TicketMessageWhereInputObjectZodSchema = ticketmessagewhereinputSchema;

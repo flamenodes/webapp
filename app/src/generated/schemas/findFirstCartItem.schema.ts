@@ -17,11 +17,11 @@ export const CartItemFindFirstSelectSchema: z.ZodType<Prisma.CartItemSelect> = z
     productId: z.boolean().optional(),
     quantity: z.boolean().optional(),
     billingPeriod: z.boolean().optional(),
+    createdAt: z.boolean().optional(),
+    updatedAt: z.boolean().optional(),
     configuration: z.boolean().optional(),
     cart: z.union([z.boolean(), z.lazy(() => CartArgsObjectSchema)]).optional(),
-    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
-    createdAt: z.boolean().optional(),
-    updatedAt: z.boolean().optional()
+    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional()
   }).strict() as unknown as z.ZodType<Prisma.CartItemSelect>;
 
 export const CartItemFindFirstSelectZodSchema = z.object({
@@ -30,11 +30,11 @@ export const CartItemFindFirstSelectZodSchema = z.object({
     productId: z.boolean().optional(),
     quantity: z.boolean().optional(),
     billingPeriod: z.boolean().optional(),
+    createdAt: z.boolean().optional(),
+    updatedAt: z.boolean().optional(),
     configuration: z.boolean().optional(),
     cart: z.union([z.boolean(), z.lazy(() => CartArgsObjectSchema)]).optional(),
-    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
-    createdAt: z.boolean().optional(),
-    updatedAt: z.boolean().optional()
+    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional()
   }).strict();
 
 export const CartItemFindFirstSchema: z.ZodType<Prisma.CartItemFindFirstArgs> = z.object({ select: CartItemFindFirstSelectSchema.optional(), include: z.lazy(() => CartItemIncludeObjectSchema.optional()), orderBy: z.union([CartItemOrderByWithRelationInputObjectSchema, CartItemOrderByWithRelationInputObjectSchema.array()]).optional(), where: CartItemWhereInputObjectSchema.optional(), cursor: CartItemWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([CartItemScalarFieldEnumSchema, CartItemScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.CartItemFindFirstArgs>;

@@ -5,7 +5,6 @@ import { ConfigurationOptionArgsObjectSchema as ConfigurationOptionArgsObjectSch
 const makeSchema = () => z.object({
   id: z.boolean().optional(),
   optionId: z.boolean().optional(),
-  option: z.union([z.boolean(), z.lazy(() => ConfigurationOptionArgsObjectSchema)]).optional(),
   label: z.boolean().optional(),
   value: z.boolean().optional(),
   description: z.boolean().optional(),
@@ -13,7 +12,8 @@ const makeSchema = () => z.object({
   metadata: z.boolean().optional(),
   sortOrder: z.boolean().optional(),
   createdAt: z.boolean().optional(),
-  updatedAt: z.boolean().optional()
+  updatedAt: z.boolean().optional(),
+  option: z.union([z.boolean(), z.lazy(() => ConfigurationOptionArgsObjectSchema)]).optional()
 }).strict();
 export const ConfigurationValueSelectObjectSchema: z.ZodType<Prisma.ConfigurationValueSelect> = makeSchema() as unknown as z.ZodType<Prisma.ConfigurationValueSelect>;
 export const ConfigurationValueSelectObjectZodSchema = makeSchema();

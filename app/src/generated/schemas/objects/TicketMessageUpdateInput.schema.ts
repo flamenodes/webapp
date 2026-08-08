@@ -5,8 +5,8 @@ import { SenderRoleSchema } from '../enums/SenderRole.schema';
 import { EnumSenderRoleFieldUpdateOperationsInputObjectSchema as EnumSenderRoleFieldUpdateOperationsInputObjectSchema } from './EnumSenderRoleFieldUpdateOperationsInput.schema';
 import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
 import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
-import { TicketUpdateOneRequiredWithoutMessagesNestedInputObjectSchema as TicketUpdateOneRequiredWithoutMessagesNestedInputObjectSchema } from './TicketUpdateOneRequiredWithoutMessagesNestedInput.schema';
-import { UserUpdateOneRequiredWithoutTicketMessagesNestedInputObjectSchema as UserUpdateOneRequiredWithoutTicketMessagesNestedInputObjectSchema } from './UserUpdateOneRequiredWithoutTicketMessagesNestedInput.schema'
+import { UserUpdateOneRequiredWithoutTicketMessagesNestedInputObjectSchema as UserUpdateOneRequiredWithoutTicketMessagesNestedInputObjectSchema } from './UserUpdateOneRequiredWithoutTicketMessagesNestedInput.schema';
+import { TicketUpdateOneRequiredWithoutMessagesNestedInputObjectSchema as TicketUpdateOneRequiredWithoutMessagesNestedInputObjectSchema } from './TicketUpdateOneRequiredWithoutMessagesNestedInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
@@ -16,8 +16,8 @@ const makeSchema = () => z.object({
   content: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
   attachments: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   createdAt: z.union([z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time"), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
-  ticket: z.lazy(() => TicketUpdateOneRequiredWithoutMessagesNestedInputObjectSchema).optional(),
-  sender: z.lazy(() => UserUpdateOneRequiredWithoutTicketMessagesNestedInputObjectSchema).optional()
+  sender: z.lazy(() => UserUpdateOneRequiredWithoutTicketMessagesNestedInputObjectSchema).optional(),
+  ticket: z.lazy(() => TicketUpdateOneRequiredWithoutMessagesNestedInputObjectSchema).optional()
 }).strict();
 export const TicketMessageUpdateInputObjectSchema: z.ZodType<Prisma.TicketMessageUpdateInput> = makeSchema() as unknown as z.ZodType<Prisma.TicketMessageUpdateInput>;
 export const TicketMessageUpdateInputObjectZodSchema = makeSchema();

@@ -13,17 +13,17 @@ import { ProductArgsObjectSchema as ProductArgsObjectSchema } from './objects/Pr
 export const ProductFeatureFindManySelectSchema: z.ZodType<Prisma.ProductFeatureSelect> = z.object({
     id: z.boolean().optional(),
     productId: z.boolean().optional(),
-    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
     label: z.boolean().optional(),
-    sortOrder: z.boolean().optional()
+    sortOrder: z.boolean().optional(),
+    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional()
   }).strict() as unknown as z.ZodType<Prisma.ProductFeatureSelect>;
 
 export const ProductFeatureFindManySelectZodSchema = z.object({
     id: z.boolean().optional(),
     productId: z.boolean().optional(),
-    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
     label: z.boolean().optional(),
-    sortOrder: z.boolean().optional()
+    sortOrder: z.boolean().optional(),
+    product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional()
   }).strict();
 
 export const ProductFeatureFindManySchema: z.ZodType<Prisma.ProductFeatureFindManyArgs> = z.object({ select: ProductFeatureFindManySelectSchema.optional(), include: z.lazy(() => ProductFeatureIncludeObjectSchema.optional()), orderBy: z.union([ProductFeatureOrderByWithRelationInputObjectSchema, ProductFeatureOrderByWithRelationInputObjectSchema.array()]).optional(), where: ProductFeatureWhereInputObjectSchema.optional(), cursor: ProductFeatureWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([ProductFeatureScalarFieldEnumSchema, ProductFeatureScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.ProductFeatureFindManyArgs>;

@@ -17,9 +17,9 @@ export const ConfigurationOptionGroupByResultSchema = z.array(z.object({
     required: z.number(),
     category: z.number(),
     sortOrder: z.number(),
-    values: z.number(),
     createdAt: z.number(),
-    updatedAt: z.number()
+    updatedAt: z.number(),
+    values: z.number()
   }).optional(),
   _sum: z.object({
     sortOrder: z.number().nullable()

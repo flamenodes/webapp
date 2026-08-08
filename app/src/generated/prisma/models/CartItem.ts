@@ -60,9 +60,9 @@ export type CartItemCountAggregateOutputType = {
   productId: number
   quantity: number
   billingPeriod: number
-  configuration: number
   createdAt: number
   updatedAt: number
+  configuration: number
   _all: number
 }
 
@@ -101,9 +101,9 @@ export type CartItemCountAggregateInputType = {
   productId?: true
   quantity?: true
   billingPeriod?: true
-  configuration?: true
   createdAt?: true
   updatedAt?: true
+  configuration?: true
   _all?: true
 }
 
@@ -199,9 +199,9 @@ export type CartItemGroupByOutputType = {
   productId: string
   quantity: number
   billingPeriod: $Enums.BillingPeriod
-  configuration: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date
+  configuration: runtime.JsonValue | null
   _count: CartItemCountAggregateOutputType | null
   _avg: CartItemAvgAggregateOutputType | null
   _sum: CartItemSumAggregateOutputType | null
@@ -233,9 +233,9 @@ export type CartItemWhereInput = {
   productId?: Prisma.StringFilter<"CartItem"> | string
   quantity?: Prisma.IntFilter<"CartItem"> | number
   billingPeriod?: Prisma.EnumBillingPeriodFilter<"CartItem"> | $Enums.BillingPeriod
-  configuration?: Prisma.JsonNullableFilter<"CartItem">
   createdAt?: Prisma.DateTimeFilter<"CartItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CartItem"> | Date | string
+  configuration?: Prisma.JsonNullableFilter<"CartItem">
   cart?: Prisma.XOR<Prisma.CartScalarRelationFilter, Prisma.CartWhereInput>
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }
@@ -246,9 +246,9 @@ export type CartItemOrderByWithRelationInput = {
   productId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   billingPeriod?: Prisma.SortOrder
-  configuration?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  configuration?: Prisma.SortOrderInput | Prisma.SortOrder
   cart?: Prisma.CartOrderByWithRelationInput
   product?: Prisma.ProductOrderByWithRelationInput
 }
@@ -262,9 +262,9 @@ export type CartItemWhereUniqueInput = Prisma.AtLeast<{
   productId?: Prisma.StringFilter<"CartItem"> | string
   quantity?: Prisma.IntFilter<"CartItem"> | number
   billingPeriod?: Prisma.EnumBillingPeriodFilter<"CartItem"> | $Enums.BillingPeriod
-  configuration?: Prisma.JsonNullableFilter<"CartItem">
   createdAt?: Prisma.DateTimeFilter<"CartItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CartItem"> | Date | string
+  configuration?: Prisma.JsonNullableFilter<"CartItem">
   cart?: Prisma.XOR<Prisma.CartScalarRelationFilter, Prisma.CartWhereInput>
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }, "id">
@@ -275,9 +275,9 @@ export type CartItemOrderByWithAggregationInput = {
   productId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   billingPeriod?: Prisma.SortOrder
-  configuration?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  configuration?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.CartItemCountOrderByAggregateInput
   _avg?: Prisma.CartItemAvgOrderByAggregateInput
   _max?: Prisma.CartItemMaxOrderByAggregateInput
@@ -294,18 +294,18 @@ export type CartItemScalarWhereWithAggregatesInput = {
   productId?: Prisma.StringWithAggregatesFilter<"CartItem"> | string
   quantity?: Prisma.IntWithAggregatesFilter<"CartItem"> | number
   billingPeriod?: Prisma.EnumBillingPeriodWithAggregatesFilter<"CartItem"> | $Enums.BillingPeriod
-  configuration?: Prisma.JsonNullableWithAggregatesFilter<"CartItem">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CartItem"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CartItem"> | Date | string
+  configuration?: Prisma.JsonNullableWithAggregatesFilter<"CartItem">
 }
 
 export type CartItemCreateInput = {
   id?: string
   quantity?: number
   billingPeriod?: $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   cart: Prisma.CartCreateNestedOneWithoutItemsInput
   product: Prisma.ProductCreateNestedOneWithoutCartItemsInput
 }
@@ -316,18 +316,18 @@ export type CartItemUncheckedCreateInput = {
   productId: string
   quantity?: number
   billingPeriod?: $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CartItemUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   cart?: Prisma.CartUpdateOneRequiredWithoutItemsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutCartItemsNestedInput
 }
@@ -338,9 +338,9 @@ export type CartItemUncheckedUpdateInput = {
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CartItemCreateManyInput = {
@@ -349,18 +349,18 @@ export type CartItemCreateManyInput = {
   productId: string
   quantity?: number
   billingPeriod?: $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CartItemUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CartItemUncheckedUpdateManyInput = {
@@ -369,9 +369,9 @@ export type CartItemUncheckedUpdateManyInput = {
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CartItemListRelationFilter = {
@@ -390,9 +390,9 @@ export type CartItemCountOrderByAggregateInput = {
   productId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   billingPeriod?: Prisma.SortOrder
-  configuration?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  configuration?: Prisma.SortOrder
 }
 
 export type CartItemAvgOrderByAggregateInput = {
@@ -511,9 +511,9 @@ export type CartItemCreateWithoutProductInput = {
   id?: string
   quantity?: number
   billingPeriod?: $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   cart: Prisma.CartCreateNestedOneWithoutItemsInput
 }
 
@@ -522,9 +522,9 @@ export type CartItemUncheckedCreateWithoutProductInput = {
   cartId: string
   quantity?: number
   billingPeriod?: $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CartItemCreateOrConnectWithoutProductInput = {
@@ -562,18 +562,18 @@ export type CartItemScalarWhereInput = {
   productId?: Prisma.StringFilter<"CartItem"> | string
   quantity?: Prisma.IntFilter<"CartItem"> | number
   billingPeriod?: Prisma.EnumBillingPeriodFilter<"CartItem"> | $Enums.BillingPeriod
-  configuration?: Prisma.JsonNullableFilter<"CartItem">
   createdAt?: Prisma.DateTimeFilter<"CartItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CartItem"> | Date | string
+  configuration?: Prisma.JsonNullableFilter<"CartItem">
 }
 
 export type CartItemCreateWithoutCartInput = {
   id?: string
   quantity?: number
   billingPeriod?: $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   product: Prisma.ProductCreateNestedOneWithoutCartItemsInput
 }
 
@@ -582,9 +582,9 @@ export type CartItemUncheckedCreateWithoutCartInput = {
   productId: string
   quantity?: number
   billingPeriod?: $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CartItemCreateOrConnectWithoutCartInput = {
@@ -618,18 +618,18 @@ export type CartItemCreateManyProductInput = {
   cartId: string
   quantity?: number
   billingPeriod?: $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CartItemUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   cart?: Prisma.CartUpdateOneRequiredWithoutItemsNestedInput
 }
 
@@ -638,9 +638,9 @@ export type CartItemUncheckedUpdateWithoutProductInput = {
   cartId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CartItemUncheckedUpdateManyWithoutProductInput = {
@@ -648,9 +648,9 @@ export type CartItemUncheckedUpdateManyWithoutProductInput = {
   cartId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CartItemCreateManyCartInput = {
@@ -658,18 +658,18 @@ export type CartItemCreateManyCartInput = {
   productId: string
   quantity?: number
   billingPeriod?: $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CartItemUpdateWithoutCartInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   product?: Prisma.ProductUpdateOneRequiredWithoutCartItemsNestedInput
 }
 
@@ -678,9 +678,9 @@ export type CartItemUncheckedUpdateWithoutCartInput = {
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type CartItemUncheckedUpdateManyWithoutCartInput = {
@@ -688,9 +688,9 @@ export type CartItemUncheckedUpdateManyWithoutCartInput = {
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   billingPeriod?: Prisma.EnumBillingPeriodFieldUpdateOperationsInput | $Enums.BillingPeriod
-  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  configuration?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 
@@ -701,9 +701,9 @@ export type CartItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   productId?: boolean
   quantity?: boolean
   billingPeriod?: boolean
-  configuration?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  configuration?: boolean
   cart?: boolean | Prisma.CartDefaultArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cartItem"]>
@@ -714,9 +714,9 @@ export type CartItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   productId?: boolean
   quantity?: boolean
   billingPeriod?: boolean
-  configuration?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  configuration?: boolean
   cart?: boolean | Prisma.CartDefaultArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cartItem"]>
@@ -727,9 +727,9 @@ export type CartItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   productId?: boolean
   quantity?: boolean
   billingPeriod?: boolean
-  configuration?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  configuration?: boolean
   cart?: boolean | Prisma.CartDefaultArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cartItem"]>
@@ -740,12 +740,12 @@ export type CartItemSelectScalar = {
   productId?: boolean
   quantity?: boolean
   billingPeriod?: boolean
-  configuration?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  configuration?: boolean
 }
 
-export type CartItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "cartId" | "productId" | "quantity" | "billingPeriod" | "configuration" | "createdAt" | "updatedAt", ExtArgs["result"]["cartItem"]>
+export type CartItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "cartId" | "productId" | "quantity" | "billingPeriod" | "createdAt" | "updatedAt" | "configuration", ExtArgs["result"]["cartItem"]>
 export type CartItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cart?: boolean | Prisma.CartDefaultArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
@@ -771,9 +771,9 @@ export type $CartItemPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     productId: string
     quantity: number
     billingPeriod: $Enums.BillingPeriod
-    configuration: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date
+    configuration: runtime.JsonValue | null
   }, ExtArgs["result"]["cartItem"]>
   composites: {}
 }
@@ -1204,9 +1204,9 @@ export interface CartItemFieldRefs {
   readonly productId: Prisma.FieldRef<"CartItem", 'String'>
   readonly quantity: Prisma.FieldRef<"CartItem", 'Int'>
   readonly billingPeriod: Prisma.FieldRef<"CartItem", 'BillingPeriod'>
-  readonly configuration: Prisma.FieldRef<"CartItem", 'Json'>
   readonly createdAt: Prisma.FieldRef<"CartItem", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CartItem", 'DateTime'>
+  readonly configuration: Prisma.FieldRef<"CartItem", 'Json'>
 }
     
 

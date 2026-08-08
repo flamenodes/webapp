@@ -7,7 +7,8 @@ import { NullableDateTimeFieldUpdateOperationsInputObjectSchema as NullableDateT
 import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
 import { BoolFieldUpdateOperationsInputObjectSchema as BoolFieldUpdateOperationsInputObjectSchema } from './BoolFieldUpdateOperationsInput.schema';
 import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
-import { UserUpdateOneRequiredWithoutServersNestedInputObjectSchema as UserUpdateOneRequiredWithoutServersNestedInputObjectSchema } from './UserUpdateOneRequiredWithoutServersNestedInput.schema'
+import { UserUpdateOneRequiredWithoutServersNestedInputObjectSchema as UserUpdateOneRequiredWithoutServersNestedInputObjectSchema } from './UserUpdateOneRequiredWithoutServersNestedInput.schema';
+import { OrderUpdateManyWithoutRenewalForServerNestedInputObjectSchema as OrderUpdateManyWithoutRenewalForServerNestedInputObjectSchema } from './OrderUpdateManyWithoutRenewalForServerNestedInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
@@ -18,14 +19,15 @@ const makeSchema = () => z.object({
   status: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
   ip: z.union([z.string(), z.lazy(() => NullableStringFieldUpdateOperationsInputObjectSchema)]).optional().nullable(),
   port: z.union([z.number().int(), z.lazy(() => NullableIntFieldUpdateOperationsInputObjectSchema)]).optional().nullable(),
-  pterodactylServerId: z.union([z.number().int(), z.lazy(() => NullableIntFieldUpdateOperationsInputObjectSchema)]).optional().nullable(),
   expiresAt: z.union([z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time"), z.lazy(() => NullableDateTimeFieldUpdateOperationsInputObjectSchema)]).optional().nullable(),
   resources: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   pterodactylData: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   suspended: z.union([z.boolean(), z.lazy(() => BoolFieldUpdateOperationsInputObjectSchema)]).optional(),
   createdAt: z.union([z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time"), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
   updatedAt: z.union([z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time"), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
-  user: z.lazy(() => UserUpdateOneRequiredWithoutServersNestedInputObjectSchema).optional()
+  pterodactylServerId: z.union([z.number().int(), z.lazy(() => NullableIntFieldUpdateOperationsInputObjectSchema)]).optional().nullable(),
+  user: z.lazy(() => UserUpdateOneRequiredWithoutServersNestedInputObjectSchema).optional(),
+  renewals: z.lazy(() => OrderUpdateManyWithoutRenewalForServerNestedInputObjectSchema).optional()
 }).strict();
 export const ServerUpdateWithoutOrderItemInputObjectSchema: z.ZodType<Prisma.ServerUpdateWithoutOrderItemInput> = makeSchema() as unknown as z.ZodType<Prisma.ServerUpdateWithoutOrderItemInput>;
 export const ServerUpdateWithoutOrderItemInputObjectZodSchema = makeSchema();

@@ -10,9 +10,9 @@ const makeSchema = () => z.object({
   cartId: z.string(),
   quantity: z.number().int().optional(),
   billingPeriod: BillingPeriodSchema.optional(),
-  configuration: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time").optional(),
-  updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time").optional()
+  updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time").optional(),
+  configuration: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional()
 }).strict();
 export const CartItemUncheckedCreateWithoutProductInputObjectSchema: z.ZodType<Prisma.CartItemUncheckedCreateWithoutProductInput> = makeSchema() as unknown as z.ZodType<Prisma.CartItemUncheckedCreateWithoutProductInput>;
 export const CartItemUncheckedCreateWithoutProductInputObjectZodSchema = makeSchema();

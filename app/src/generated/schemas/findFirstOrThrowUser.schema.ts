@@ -5,15 +5,15 @@ import { UserOrderByWithRelationInputObjectSchema as UserOrderByWithRelationInpu
 import { UserWhereInputObjectSchema as UserWhereInputObjectSchema } from './objects/UserWhereInput.schema';
 import { UserWhereUniqueInputObjectSchema as UserWhereUniqueInputObjectSchema } from './objects/UserWhereUniqueInput.schema';
 import { UserScalarFieldEnumSchema } from './enums/UserScalarFieldEnum.schema';
-import { SessionFindManySchema } from './findManySession.schema';
-import { AccountFindManySchema } from './findManyAccount.schema';
-import { BillingAddressArgsObjectSchema as BillingAddressArgsObjectSchema } from './objects/BillingAddressArgs.schema';
-import { ServerFindManySchema } from './findManyServer.schema';
 import { CartArgsObjectSchema as CartArgsObjectSchema } from './objects/CartArgs.schema';
+import { NotificationFindManySchema } from './findManyNotification.schema';
 import { OrderFindManySchema } from './findManyOrder.schema';
+import { ServerFindManySchema } from './findManyServer.schema';
 import { TicketFindManySchema } from './findManyTicket.schema';
 import { TicketMessageFindManySchema } from './findManyTicketMessage.schema';
-import { NotificationFindManySchema } from './findManyNotification.schema';
+import { AccountFindManySchema } from './findManyAccount.schema';
+import { BillingAddressArgsObjectSchema as BillingAddressArgsObjectSchema } from './objects/BillingAddressArgs.schema';
+import { SessionFindManySchema } from './findManySession.schema';
 import { UserCountOutputTypeArgsObjectSchema as UserCountOutputTypeArgsObjectSchema } from './objects/UserCountOutputTypeArgs.schema';
 
 // Select schema needs to be in file to prevent circular imports
@@ -21,63 +21,63 @@ import { UserCountOutputTypeArgsObjectSchema as UserCountOutputTypeArgsObjectSch
 
 export const UserFindFirstOrThrowSelectSchema: z.ZodType<Prisma.UserSelect> = z.object({
     id: z.boolean().optional(),
-    clientId: z.boolean().optional(),
     name: z.boolean().optional(),
     email: z.boolean().optional(),
     emailVerified: z.boolean().optional(),
     image: z.boolean().optional(),
     createdAt: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
-    sessions: z.union([z.boolean(), z.lazy(() => SessionFindManySchema)]).optional(),
-    accounts: z.union([z.boolean(), z.lazy(() => AccountFindManySchema)]).optional(),
-    role: z.boolean().optional(),
-    banned: z.boolean().optional(),
-    banReason: z.boolean().optional(),
     banExpires: z.boolean().optional(),
-    username: z.boolean().optional(),
+    banReason: z.boolean().optional(),
+    banned: z.boolean().optional(),
+    displayUsername: z.boolean().optional(),
     firstname: z.boolean().optional(),
     lastname: z.boolean().optional(),
+    role: z.boolean().optional(),
+    username: z.boolean().optional(),
+    clientId: z.boolean().optional(),
     pteroUserId: z.boolean().optional(),
-    billingAddress: z.union([z.boolean(), z.lazy(() => BillingAddressArgsObjectSchema)]).optional(),
-    servers: z.union([z.boolean(), z.lazy(() => ServerFindManySchema)]).optional(),
     cart: z.union([z.boolean(), z.lazy(() => CartArgsObjectSchema)]).optional(),
-    orders: z.union([z.boolean(), z.lazy(() => OrderFindManySchema)]).optional(),
-    displayUsername: z.boolean().optional(),
-    tickets: z.union([z.boolean(), z.lazy(() => TicketFindManySchema)]).optional(),
-    assignedTickets: z.union([z.boolean(), z.lazy(() => TicketFindManySchema)]).optional(),
-    ticketMessages: z.union([z.boolean(), z.lazy(() => TicketMessageFindManySchema)]).optional(),
     notifications: z.union([z.boolean(), z.lazy(() => NotificationFindManySchema)]).optional(),
+    orders: z.union([z.boolean(), z.lazy(() => OrderFindManySchema)]).optional(),
+    servers: z.union([z.boolean(), z.lazy(() => ServerFindManySchema)]).optional(),
+    assignedTickets: z.union([z.boolean(), z.lazy(() => TicketFindManySchema)]).optional(),
+    tickets: z.union([z.boolean(), z.lazy(() => TicketFindManySchema)]).optional(),
+    ticketMessages: z.union([z.boolean(), z.lazy(() => TicketMessageFindManySchema)]).optional(),
+    accounts: z.union([z.boolean(), z.lazy(() => AccountFindManySchema)]).optional(),
+    billingAddress: z.union([z.boolean(), z.lazy(() => BillingAddressArgsObjectSchema)]).optional(),
+    sessions: z.union([z.boolean(), z.lazy(() => SessionFindManySchema)]).optional(),
     _count: z.union([z.boolean(), z.lazy(() => UserCountOutputTypeArgsObjectSchema)]).optional()
   }).strict() as unknown as z.ZodType<Prisma.UserSelect>;
 
 export const UserFindFirstOrThrowSelectZodSchema = z.object({
     id: z.boolean().optional(),
-    clientId: z.boolean().optional(),
     name: z.boolean().optional(),
     email: z.boolean().optional(),
     emailVerified: z.boolean().optional(),
     image: z.boolean().optional(),
     createdAt: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
-    sessions: z.union([z.boolean(), z.lazy(() => SessionFindManySchema)]).optional(),
-    accounts: z.union([z.boolean(), z.lazy(() => AccountFindManySchema)]).optional(),
-    role: z.boolean().optional(),
-    banned: z.boolean().optional(),
-    banReason: z.boolean().optional(),
     banExpires: z.boolean().optional(),
-    username: z.boolean().optional(),
+    banReason: z.boolean().optional(),
+    banned: z.boolean().optional(),
+    displayUsername: z.boolean().optional(),
     firstname: z.boolean().optional(),
     lastname: z.boolean().optional(),
+    role: z.boolean().optional(),
+    username: z.boolean().optional(),
+    clientId: z.boolean().optional(),
     pteroUserId: z.boolean().optional(),
-    billingAddress: z.union([z.boolean(), z.lazy(() => BillingAddressArgsObjectSchema)]).optional(),
-    servers: z.union([z.boolean(), z.lazy(() => ServerFindManySchema)]).optional(),
     cart: z.union([z.boolean(), z.lazy(() => CartArgsObjectSchema)]).optional(),
-    orders: z.union([z.boolean(), z.lazy(() => OrderFindManySchema)]).optional(),
-    displayUsername: z.boolean().optional(),
-    tickets: z.union([z.boolean(), z.lazy(() => TicketFindManySchema)]).optional(),
-    assignedTickets: z.union([z.boolean(), z.lazy(() => TicketFindManySchema)]).optional(),
-    ticketMessages: z.union([z.boolean(), z.lazy(() => TicketMessageFindManySchema)]).optional(),
     notifications: z.union([z.boolean(), z.lazy(() => NotificationFindManySchema)]).optional(),
+    orders: z.union([z.boolean(), z.lazy(() => OrderFindManySchema)]).optional(),
+    servers: z.union([z.boolean(), z.lazy(() => ServerFindManySchema)]).optional(),
+    assignedTickets: z.union([z.boolean(), z.lazy(() => TicketFindManySchema)]).optional(),
+    tickets: z.union([z.boolean(), z.lazy(() => TicketFindManySchema)]).optional(),
+    ticketMessages: z.union([z.boolean(), z.lazy(() => TicketMessageFindManySchema)]).optional(),
+    accounts: z.union([z.boolean(), z.lazy(() => AccountFindManySchema)]).optional(),
+    billingAddress: z.union([z.boolean(), z.lazy(() => BillingAddressArgsObjectSchema)]).optional(),
+    sessions: z.union([z.boolean(), z.lazy(() => SessionFindManySchema)]).optional(),
     _count: z.union([z.boolean(), z.lazy(() => UserCountOutputTypeArgsObjectSchema)]).optional()
   }).strict();
 

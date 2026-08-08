@@ -13,27 +13,27 @@ import { UserArgsObjectSchema as UserArgsObjectSchema } from './objects/UserArgs
 export const NotificationFindManySelectSchema: z.ZodType<Prisma.NotificationSelect> = z.object({
     id: z.boolean().optional(),
     userId: z.boolean().optional(),
-    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
     type: z.boolean().optional(),
     title: z.boolean().optional(),
     message: z.boolean().optional(),
     read: z.boolean().optional(),
+    createdAt: z.boolean().optional(),
     link: z.boolean().optional(),
     metadata: z.boolean().optional(),
-    createdAt: z.boolean().optional()
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional()
   }).strict() as unknown as z.ZodType<Prisma.NotificationSelect>;
 
 export const NotificationFindManySelectZodSchema = z.object({
     id: z.boolean().optional(),
     userId: z.boolean().optional(),
-    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
     type: z.boolean().optional(),
     title: z.boolean().optional(),
     message: z.boolean().optional(),
     read: z.boolean().optional(),
+    createdAt: z.boolean().optional(),
     link: z.boolean().optional(),
     metadata: z.boolean().optional(),
-    createdAt: z.boolean().optional()
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional()
   }).strict();
 
 export const NotificationFindManySchema: z.ZodType<Prisma.NotificationFindManyArgs> = z.object({ select: NotificationFindManySelectSchema.optional(), include: z.lazy(() => NotificationIncludeObjectSchema.optional()), orderBy: z.union([NotificationOrderByWithRelationInputObjectSchema, NotificationOrderByWithRelationInputObjectSchema.array()]).optional(), where: NotificationWhereInputObjectSchema.optional(), cursor: NotificationWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([NotificationScalarFieldEnumSchema, NotificationScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.NotificationFindManyArgs>;

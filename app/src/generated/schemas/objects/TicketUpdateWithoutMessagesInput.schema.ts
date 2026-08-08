@@ -8,8 +8,8 @@ import { EnumTicketPriorityFieldUpdateOperationsInputObjectSchema as EnumTicketP
 import { TicketUpdatetagsInputObjectSchema as TicketUpdatetagsInputObjectSchema } from './TicketUpdatetagsInput.schema';
 import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
 import { NullableDateTimeFieldUpdateOperationsInputObjectSchema as NullableDateTimeFieldUpdateOperationsInputObjectSchema } from './NullableDateTimeFieldUpdateOperationsInput.schema';
-import { UserUpdateOneRequiredWithoutTicketsNestedInputObjectSchema as UserUpdateOneRequiredWithoutTicketsNestedInputObjectSchema } from './UserUpdateOneRequiredWithoutTicketsNestedInput.schema';
-import { UserUpdateOneWithoutAssignedTicketsNestedInputObjectSchema as UserUpdateOneWithoutAssignedTicketsNestedInputObjectSchema } from './UserUpdateOneWithoutAssignedTicketsNestedInput.schema'
+import { UserUpdateOneWithoutAssignedTicketsNestedInputObjectSchema as UserUpdateOneWithoutAssignedTicketsNestedInputObjectSchema } from './UserUpdateOneWithoutAssignedTicketsNestedInput.schema';
+import { UserUpdateOneRequiredWithoutTicketsNestedInputObjectSchema as UserUpdateOneRequiredWithoutTicketsNestedInputObjectSchema } from './UserUpdateOneRequiredWithoutTicketsNestedInput.schema'
 
 const makeSchema = () => z.object({
   id: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
@@ -23,8 +23,8 @@ const makeSchema = () => z.object({
   createdAt: z.union([z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time"), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
   updatedAt: z.union([z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time"), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
   closedAt: z.union([z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time"), z.lazy(() => NullableDateTimeFieldUpdateOperationsInputObjectSchema)]).optional().nullable(),
-  user: z.lazy(() => UserUpdateOneRequiredWithoutTicketsNestedInputObjectSchema).optional(),
-  assignedTo: z.lazy(() => UserUpdateOneWithoutAssignedTicketsNestedInputObjectSchema).optional()
+  assignedTo: z.lazy(() => UserUpdateOneWithoutAssignedTicketsNestedInputObjectSchema).optional(),
+  user: z.lazy(() => UserUpdateOneRequiredWithoutTicketsNestedInputObjectSchema).optional()
 }).strict();
 export const TicketUpdateWithoutMessagesInputObjectSchema: z.ZodType<Prisma.TicketUpdateWithoutMessagesInput> = makeSchema() as unknown as z.ZodType<Prisma.TicketUpdateWithoutMessagesInput>;
 export const TicketUpdateWithoutMessagesInputObjectZodSchema = makeSchema();

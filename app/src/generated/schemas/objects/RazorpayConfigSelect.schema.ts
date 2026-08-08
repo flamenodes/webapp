@@ -15,10 +15,10 @@ const makeSchema = () => z.object({
   companyCity: z.boolean().optional(),
   companyZip: z.boolean().optional(),
   companyCountry: z.boolean().optional(),
-  pteroNodeMode: z.boolean().optional(),
-  pteroNodeId: z.boolean().optional(),
   updatedAt: z.boolean().optional(),
-  createdAt: z.boolean().optional()
+  createdAt: z.boolean().optional(),
+  pteroNodeId: z.boolean().optional(),
+  pteroNodeMode: z.boolean().optional()
 }).strict();
 export const RazorpayConfigSelectObjectSchema: z.ZodType<Prisma.RazorpayConfigSelect> = makeSchema() as unknown as z.ZodType<Prisma.RazorpayConfigSelect>;
 export const RazorpayConfigSelectObjectZodSchema = makeSchema();

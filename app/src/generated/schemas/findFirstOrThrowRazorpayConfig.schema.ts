@@ -21,10 +21,10 @@ export const RazorpayConfigFindFirstOrThrowSelectSchema: z.ZodType<Prisma.Razorp
     companyCity: z.boolean().optional(),
     companyZip: z.boolean().optional(),
     companyCountry: z.boolean().optional(),
-    pteroNodeMode: z.boolean().optional(),
-    pteroNodeId: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
-    createdAt: z.boolean().optional()
+    createdAt: z.boolean().optional(),
+    pteroNodeId: z.boolean().optional(),
+    pteroNodeMode: z.boolean().optional()
   }).strict() as unknown as z.ZodType<Prisma.RazorpayConfigSelect>;
 
 export const RazorpayConfigFindFirstOrThrowSelectZodSchema = z.object({
@@ -40,10 +40,10 @@ export const RazorpayConfigFindFirstOrThrowSelectZodSchema = z.object({
     companyCity: z.boolean().optional(),
     companyZip: z.boolean().optional(),
     companyCountry: z.boolean().optional(),
-    pteroNodeMode: z.boolean().optional(),
-    pteroNodeId: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
-    createdAt: z.boolean().optional()
+    createdAt: z.boolean().optional(),
+    pteroNodeId: z.boolean().optional(),
+    pteroNodeMode: z.boolean().optional()
   }).strict();
 
 export const RazorpayConfigFindFirstOrThrowSchema: z.ZodType<Prisma.RazorpayConfigFindFirstOrThrowArgs> = z.object({ select: RazorpayConfigFindFirstOrThrowSelectSchema.optional(),  orderBy: z.union([RazorpayConfigOrderByWithRelationInputObjectSchema, RazorpayConfigOrderByWithRelationInputObjectSchema.array()]).optional(), where: RazorpayConfigWhereInputObjectSchema.optional(), cursor: RazorpayConfigWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([RazorpayConfigScalarFieldEnumSchema, RazorpayConfigScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.RazorpayConfigFindFirstOrThrowArgs>;

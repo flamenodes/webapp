@@ -13,21 +13,21 @@ import { OrderArgsObjectSchema as OrderArgsObjectSchema } from './objects/OrderA
 export const InvoiceFindManySelectSchema: z.ZodType<Prisma.InvoiceSelect> = z.object({
     id: z.boolean().optional(),
     orderId: z.boolean().optional(),
-    order: z.union([z.boolean(), z.lazy(() => OrderArgsObjectSchema)]).optional(),
     invoiceNumber: z.boolean().optional(),
     pdfUrl: z.boolean().optional(),
     razorpayData: z.boolean().optional(),
-    createdAt: z.boolean().optional()
+    createdAt: z.boolean().optional(),
+    order: z.union([z.boolean(), z.lazy(() => OrderArgsObjectSchema)]).optional()
   }).strict() as unknown as z.ZodType<Prisma.InvoiceSelect>;
 
 export const InvoiceFindManySelectZodSchema = z.object({
     id: z.boolean().optional(),
     orderId: z.boolean().optional(),
-    order: z.union([z.boolean(), z.lazy(() => OrderArgsObjectSchema)]).optional(),
     invoiceNumber: z.boolean().optional(),
     pdfUrl: z.boolean().optional(),
     razorpayData: z.boolean().optional(),
-    createdAt: z.boolean().optional()
+    createdAt: z.boolean().optional(),
+    order: z.union([z.boolean(), z.lazy(() => OrderArgsObjectSchema)]).optional()
   }).strict();
 
 export const InvoiceFindManySchema: z.ZodType<Prisma.InvoiceFindManyArgs> = z.object({ select: InvoiceFindManySelectSchema.optional(), include: z.lazy(() => InvoiceIncludeObjectSchema.optional()), orderBy: z.union([InvoiceOrderByWithRelationInputObjectSchema, InvoiceOrderByWithRelationInputObjectSchema.array()]).optional(), where: InvoiceWhereInputObjectSchema.optional(), cursor: InvoiceWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([InvoiceScalarFieldEnumSchema, InvoiceScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.InvoiceFindManyArgs>;

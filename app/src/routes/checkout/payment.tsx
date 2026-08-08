@@ -4,7 +4,8 @@ import { motion } from 'motion/react'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
 import { CreditCard, Package, Loader2, CheckCircle2 } from 'lucide-react'
-import { updateOrderStatus,getOrder } from '#/serverActions/billing/order.api'
+import { getOrder } from '#/serverActions/billing/order.api'
+import { verifyRazorpayPayment } from '#/serverActions/razorpay/verify'
 import { toast } from 'sonner'
 
 declare global {
@@ -73,18 +74,29 @@ function CheckoutPaymentPage() {
           color: '#FF4500',
         },
         handler: async function (response: any) {
-          toast.success('Payment successful!')
-          navigate({ to: "/user/dashboard" })
-          
-          // Update order status in background
-          updateOrderStatus({
-            data: {
-              orderId: order.id,
-              status: 'PAID',
+          try {
+            toast.success('Payment successful!')
+            // Verify the Razorpay signature server-side and fulfill the order
+            const res = await verifyRazorpayPayment({
+              data: {
+                orderId: order.id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              },
+            })
+            if (res.success) {
+              toast.success('Order confirmed!')
+            } else {
+              toast.error(res.message || 'Payment verification failed')
             }
-          }).catch((error) => {
-            console.error('Background order update failed:', error)
-          })
+          } catch (error: any) {
+            console.error('Payment verification failed:', error)
+            toast.error(error.message || 'Payment verification failed')
+          } finally {
+            setProcessing(false)
+            navigate({ to: '/user/servers' })
+          }
         },
         modal: {
           ondismiss: function () {

@@ -5,8 +5,8 @@ import { TicketMessageFindManySchema as TicketMessageFindManySchema } from '../f
 import { TicketCountOutputTypeArgsObjectSchema as TicketCountOutputTypeArgsObjectSchema } from './TicketCountOutputTypeArgs.schema'
 
 const makeSchema = () => z.object({
-  user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
   assignedTo: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
+  user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
   messages: z.union([z.boolean(), z.lazy(() => TicketMessageFindManySchema)]).optional(),
   _count: z.union([z.boolean(), z.lazy(() => TicketCountOutputTypeArgsObjectSchema)]).optional()
 }).strict();

@@ -23,12 +23,12 @@ export type ProductCategory = (typeof ProductCategory)[keyof typeof ProductCateg
 
 
 export const BillingPeriod = {
-  HOURLY: 'HOURLY',
-  DAILY: 'DAILY',
   MONTHLY: 'MONTHLY',
   QUARTERLY: 'QUARTERLY',
   SEMIANNUALLY: 'SEMIANNUALLY',
   YEARLY: 'YEARLY',
+  HOURLY: 'HOURLY',
+  DAILY: 'DAILY',
   CUSTOM: 'CUSTOM'
 } as const
 

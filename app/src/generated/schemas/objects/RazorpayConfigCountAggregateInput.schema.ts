@@ -15,10 +15,10 @@ const makeSchema = () => z.object({
   companyCity: z.literal(true).optional(),
   companyZip: z.literal(true).optional(),
   companyCountry: z.literal(true).optional(),
-  pteroNodeMode: z.literal(true).optional(),
-  pteroNodeId: z.literal(true).optional(),
   updatedAt: z.literal(true).optional(),
   createdAt: z.literal(true).optional(),
+  pteroNodeId: z.literal(true).optional(),
+  pteroNodeMode: z.literal(true).optional(),
   _all: z.literal(true).optional()
 }).strict();
 export const RazorpayConfigCountAggregateInputObjectSchema: z.ZodType<Prisma.RazorpayConfigCountAggregateInputType> = makeSchema() as unknown as z.ZodType<Prisma.RazorpayConfigCountAggregateInputType>;

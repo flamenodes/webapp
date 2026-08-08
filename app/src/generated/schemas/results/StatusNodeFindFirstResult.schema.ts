@@ -10,9 +10,9 @@ export const StatusNodeFindFirstResultSchema = z.nullable(z.object({
   status: z.string(),
   latency: z.number().int().optional(),
   lastChecked: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").optional(),
-  cpu: z.number().optional(),
-  memory: z.number().int().optional(),
-  disk: z.number().int().optional(),
   createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
-  updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime")
+  updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
+  cpu: z.number().optional(),
+  disk: z.number().int().optional(),
+  memory: z.number().int().optional()
 }));

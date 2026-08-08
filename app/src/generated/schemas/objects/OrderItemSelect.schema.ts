@@ -8,18 +8,18 @@ const makeSchema = () => z.object({
   id: z.boolean().optional(),
   orderId: z.boolean().optional(),
   productId: z.boolean().optional(),
-  productName: z.boolean().optional(),
   quantity: z.boolean().optional(),
-  billingPeriod: z.boolean().optional(),
-  unitPrice: z.boolean().optional(),
-  totalPrice: z.boolean().optional(),
-  specsSnapshot: z.boolean().optional(),
-  configuration: z.boolean().optional(),
   expiresAt: z.boolean().optional(),
+  billingPeriod: z.boolean().optional(),
+  createdAt: z.boolean().optional(),
+  productName: z.boolean().optional(),
+  specsSnapshot: z.boolean().optional(),
+  totalPrice: z.boolean().optional(),
+  unitPrice: z.boolean().optional(),
+  configuration: z.boolean().optional(),
   order: z.union([z.boolean(), z.lazy(() => OrderArgsObjectSchema)]).optional(),
   product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
-  server: z.union([z.boolean(), z.lazy(() => ServerArgsObjectSchema)]).optional(),
-  createdAt: z.boolean().optional()
+  server: z.union([z.boolean(), z.lazy(() => ServerArgsObjectSchema)]).optional()
 }).strict();
 export const OrderItemSelectObjectSchema: z.ZodType<Prisma.OrderItemSelect> = makeSchema() as unknown as z.ZodType<Prisma.OrderItemSelect>;
 export const OrderItemSelectObjectZodSchema = makeSchema();

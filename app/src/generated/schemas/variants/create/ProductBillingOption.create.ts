@@ -4,10 +4,10 @@ import { BillingPeriodSchema } from '../../enums/BillingPeriod.schema';
 export const ProductBillingOptionCreateSchema = z.object({
     id: z.string(),
     productId: z.string(),
-    product: z.any(),
     billingPeriod: BillingPeriodSchema,
     price: z.number().int(),
-    customDays: z.number().int().nullable()
+    customDays: z.number().int().nullable(),
+    product: z.any()
 }).strict();
 
 export type ProductBillingOptionCreateType = z.infer<typeof ProductBillingOptionCreateSchema>;

@@ -75,7 +75,7 @@ const Header = () => {
           }
         : { href: '/' }),
     },
-    { title: 'Status', href: '/' },
+    { title: 'Status', href: '/status' },
   ]
   
   if (error) {

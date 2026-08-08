@@ -6,11 +6,11 @@ export const CouponAggregateResultSchema = z.object({  _count: z.object({
     amount: z.number(),
     description: z.number(),
     active: z.number(),
+    createdAt: z.number(),
+    updatedAt: z.number(),
     expiresAt: z.number(),
     maxUses: z.number(),
-    usedCount: z.number(),
-    createdAt: z.number(),
-    updatedAt: z.number()
+    usedCount: z.number()
   }).optional(),
   _sum: z.object({
     amount: z.number().nullable(),
@@ -27,20 +27,20 @@ export const CouponAggregateResultSchema = z.object({  _count: z.object({
     code: z.string().nullable(),
     amount: z.number().int().nullable(),
     description: z.string().nullable(),
+    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
+    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
     expiresAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
     maxUses: z.number().int().nullable(),
-    usedCount: z.number().int().nullable(),
-    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
-    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable()
+    usedCount: z.number().int().nullable()
   }).nullable().optional(),
   _max: z.object({
     id: z.string().nullable(),
     code: z.string().nullable(),
     amount: z.number().int().nullable(),
     description: z.string().nullable(),
+    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
+    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
     expiresAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
     maxUses: z.number().int().nullable(),
-    usedCount: z.number().int().nullable(),
-    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
-    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable()
+    usedCount: z.number().int().nullable()
   }).nullable().optional()});

@@ -5,9 +5,10 @@ import { OrderOrderByWithRelationInputObjectSchema as OrderOrderByWithRelationIn
 import { OrderWhereInputObjectSchema as OrderWhereInputObjectSchema } from './objects/OrderWhereInput.schema';
 import { OrderWhereUniqueInputObjectSchema as OrderWhereUniqueInputObjectSchema } from './objects/OrderWhereUniqueInput.schema';
 import { OrderScalarFieldEnumSchema } from './enums/OrderScalarFieldEnum.schema';
+import { InvoiceArgsObjectSchema as InvoiceArgsObjectSchema } from './objects/InvoiceArgs.schema';
+import { ServerArgsObjectSchema as ServerArgsObjectSchema } from './objects/ServerArgs.schema';
 import { UserArgsObjectSchema as UserArgsObjectSchema } from './objects/UserArgs.schema';
 import { OrderItemFindManySchema } from './findManyOrderItem.schema';
-import { InvoiceArgsObjectSchema as InvoiceArgsObjectSchema } from './objects/InvoiceArgs.schema';
 import { OrderCountOutputTypeArgsObjectSchema as OrderCountOutputTypeArgsObjectSchema } from './objects/OrderCountOutputTypeArgs.schema';
 
 // Select schema needs to be in file to prevent circular imports
@@ -16,36 +17,40 @@ import { OrderCountOutputTypeArgsObjectSchema as OrderCountOutputTypeArgsObjectS
 export const OrderFindManySelectSchema: z.ZodType<Prisma.OrderSelect> = z.object({
     id: z.boolean().optional(),
     userId: z.boolean().optional(),
-    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
-    status: z.boolean().optional(),
-    subtotalAmount: z.boolean().optional(),
-    discountAmount: z.boolean().optional(),
     totalAmount: z.boolean().optional(),
-    couponCode: z.boolean().optional(),
+    status: z.boolean().optional(),
     deliveryMessage: z.boolean().optional(),
     deliveryData: z.boolean().optional(),
-    items: z.union([z.boolean(), z.lazy(() => OrderItemFindManySchema)]).optional(),
-    invoice: z.union([z.boolean(), z.lazy(() => InvoiceArgsObjectSchema)]).optional(),
     createdAt: z.boolean().optional(),
+    couponCode: z.boolean().optional(),
+    discountAmount: z.boolean().optional(),
+    subtotalAmount: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
+    invoice: z.union([z.boolean(), z.lazy(() => InvoiceArgsObjectSchema)]).optional(),
+    renewalForServerId: z.boolean().optional(),
+    renewalForServer: z.union([z.boolean(), z.lazy(() => ServerArgsObjectSchema)]).optional(),
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
+    items: z.union([z.boolean(), z.lazy(() => OrderItemFindManySchema)]).optional(),
     _count: z.union([z.boolean(), z.lazy(() => OrderCountOutputTypeArgsObjectSchema)]).optional()
   }).strict() as unknown as z.ZodType<Prisma.OrderSelect>;
 
 export const OrderFindManySelectZodSchema = z.object({
     id: z.boolean().optional(),
     userId: z.boolean().optional(),
-    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
-    status: z.boolean().optional(),
-    subtotalAmount: z.boolean().optional(),
-    discountAmount: z.boolean().optional(),
     totalAmount: z.boolean().optional(),
-    couponCode: z.boolean().optional(),
+    status: z.boolean().optional(),
     deliveryMessage: z.boolean().optional(),
     deliveryData: z.boolean().optional(),
-    items: z.union([z.boolean(), z.lazy(() => OrderItemFindManySchema)]).optional(),
-    invoice: z.union([z.boolean(), z.lazy(() => InvoiceArgsObjectSchema)]).optional(),
     createdAt: z.boolean().optional(),
+    couponCode: z.boolean().optional(),
+    discountAmount: z.boolean().optional(),
+    subtotalAmount: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
+    invoice: z.union([z.boolean(), z.lazy(() => InvoiceArgsObjectSchema)]).optional(),
+    renewalForServerId: z.boolean().optional(),
+    renewalForServer: z.union([z.boolean(), z.lazy(() => ServerArgsObjectSchema)]).optional(),
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
+    items: z.union([z.boolean(), z.lazy(() => OrderItemFindManySchema)]).optional(),
     _count: z.union([z.boolean(), z.lazy(() => OrderCountOutputTypeArgsObjectSchema)]).optional()
   }).strict();
 

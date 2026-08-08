@@ -8,8 +8,8 @@ import { CartItemOrderByRelationAggregateInputObjectSchema as CartItemOrderByRel
 const makeSchema = () => z.object({
   id: SortOrderSchema.optional(),
   userId: SortOrderSchema.optional(),
-  couponCode: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   createdAt: SortOrderSchema.optional(),
+  couponCode: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   updatedAt: SortOrderSchema.optional(),
   user: z.lazy(() => UserOrderByWithRelationInputObjectSchema).optional(),
   items: z.lazy(() => CartItemOrderByRelationAggregateInputObjectSchema).optional()

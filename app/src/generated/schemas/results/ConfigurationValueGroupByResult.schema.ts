@@ -13,7 +13,6 @@ export const ConfigurationValueGroupByResultSchema = z.array(z.object({
   _count: z.object({
     id: z.number(),
     optionId: z.number(),
-    option: z.number(),
     label: z.number(),
     value: z.number(),
     description: z.number(),
@@ -21,7 +20,8 @@ export const ConfigurationValueGroupByResultSchema = z.array(z.object({
     metadata: z.number(),
     sortOrder: z.number(),
     createdAt: z.number(),
-    updatedAt: z.number()
+    updatedAt: z.number(),
+    option: z.number()
   }).optional(),
   _sum: z.object({
     priceModifier: z.number().nullable(),

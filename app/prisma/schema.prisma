@@ -14,78 +14,68 @@ datasource db {
 }
 
 model User {
-  id            String    @id
-  clientId      String    @unique
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
-
-  role       String?
-  banned     Boolean?  @default(false)
-  banReason  String?
-  banExpires DateTime?
-
-  username      String
-  firstname     String
-  lastname      String
-  pteroUserId   Int?
-
-  billingAddress BillingAddress?
-
-  servers   Server[]
-  cart      Cart?
-  orders    Order[]
-
+  id              String          @id
+  name            String
+  email           String          @unique
+  emailVerified   Boolean         @default(false)
+  image           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  banExpires      DateTime?
+  banReason       String?
+  banned          Boolean?        @default(false)
   displayUsername String?
-
-  tickets         Ticket[]        @relation("TicketsByUser")
-  assignedTickets Ticket[]        @relation("TicketsAssignedTo")
-  ticketMessages  TicketMessage[]
+  firstname       String
+  lastname        String
+  role            String?
+  username        String          @unique
+  clientId        String          @unique
+  pteroUserId     Int?
+  cart            Cart?
   notifications   Notification[]
+  orders          Order[]
+  servers         Server[]
+  assignedTickets Ticket[]        @relation("TicketsAssignedTo")
+  tickets         Ticket[]        @relation("TicketsByUser")
+  ticketMessages  TicketMessage[]
+  accounts        Account[]
+  billingAddress  BillingAddress?
+  sessions        Session[]
 
-  @@unique([email])
-  @@unique([username])
   @@map("user")
 }
 
 model BillingAddress {
   id        String   @id @default(uuid())
   userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  firstName String
-  lastName  String
-  phone     String
-  address   String
-  city      String
+  firstName String   @default("")
+  lastName  String   @default("")
+  phone     String   @default("")
+  address   String   @default("")
+  city      String   @default("")
   state     String   @default("")
-  zip       String
+  zip       String   @default("")
   country   String   @default("India")
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("billing_address")
 }
 
 model Session {
-  id        String   @id
-  expiresAt DateTime
-  token     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  ipAddress String?
-  userAgent String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  id             String   @id
+  expiresAt      DateTime
+  token          String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  ipAddress      String?
+  userAgent      String?
+  userId         String
   impersonatedBy String?
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([token])
   @@index([userId])
   @@map("session")
 }
@@ -95,7 +85,6 @@ model Account {
   accountId             String
   providerId            String
   userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -105,6 +94,7 @@ model Account {
   password              String?
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("account")
@@ -122,6 +112,384 @@ model Verification {
   @@map("verification")
 }
 
+model Discount {
+  id         String    @id @default(uuid())
+  label      String
+  percentage Int
+  product    Product[]
+}
+
+model Product {
+  id              String                 @id @default(uuid())
+  deployMode      String                 @default("PTERODACTYL")
+  specs           Json                   @default("{}")
+  createdAt       DateTime               @default(now())
+  updatedAt       DateTime               @updatedAt
+  category        ProductCategory
+  icon            String?
+  inStock         Boolean                @default(true)
+  planName        String
+  price           Int
+  discountId      String?
+  featureCategory String                 @default("Features")
+  badge           String?
+  sortOrder       Int                    @default(0)
+  cartItems       CartItem[]
+  orderItems      OrderItem[]
+  discount        Discount?              @relation(fields: [discountId], references: [id])
+  billingOptions  ProductBillingOption[]
+  features        ProductFeature[]
+}
+
+model ProductBillingOption {
+  id            String        @id @default(uuid())
+  productId     String
+  billingPeriod BillingPeriod
+  price         Int
+  customDays    Int?
+  product       Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, billingPeriod])
+  @@index([productId])
+}
+
+model ProductCategoryConfig {
+  id             String          @id @default(uuid())
+  category       ProductCategory @unique
+  billingPeriods BillingPeriod[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model ProductFeature {
+  id        String  @id @default(cuid())
+  productId String
+  label     String
+  sortOrder Int     @default(0)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+}
+
+model Coupon {
+  id          String     @id @default(uuid())
+  code        String     @unique
+  type        CouponType @default(FIXED)
+  amount      Int
+  description String?
+  active      Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  expiresAt   DateTime?
+  maxUses     Int?
+  usedCount   Int        @default(0)
+}
+
+model Cart {
+  id         String     @id @default(uuid())
+  userId     String     @unique
+  createdAt  DateTime   @default(now())
+  couponCode String?
+  updatedAt  DateTime   @updatedAt
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items      CartItem[]
+}
+
+model CartItem {
+  id            String        @id @default(uuid())
+  cartId        String
+  productId     String
+  quantity      Int           @default(1)
+  billingPeriod BillingPeriod @default(MONTHLY)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  configuration Json?
+  cart          Cart          @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product       Product       @relation(fields: [productId], references: [id])
+
+  @@index([cartId])
+  @@index([productId])
+}
+
+model Order {
+  id                  String      @id @default(uuid())
+  userId              String
+  totalAmount         Int
+  status              OrderStatus @default(PENDING)
+  deliveryMessage     String?
+  deliveryData        Json?
+  createdAt           DateTime    @default(now())
+  couponCode          String?
+  discountAmount      Int         @default(0)
+  subtotalAmount      Int
+  updatedAt           DateTime    @updatedAt
+  invoice             Invoice?
+  renewalForServerId  String?
+  renewalForServer    Server?     @relation("RenewalOrders", fields: [renewalForServerId], references: [id], onDelete: SetNull)
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items               OrderItem[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([renewalForServerId])
+}
+
+model Invoice {
+  id            String   @id @default(uuid())
+  orderId       String   @unique
+  invoiceNumber String   @unique
+  pdfUrl        String
+  razorpayData  Json?
+  createdAt     DateTime @default(now())
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@index([invoiceNumber])
+}
+
+model OrderItem {
+  id            String        @id @default(uuid())
+  orderId       String
+  productId     String
+  quantity      Int           @default(1)
+  expiresAt     DateTime?
+  billingPeriod BillingPeriod
+  createdAt     DateTime      @default(now())
+  productName   String
+  specsSnapshot Json?
+  totalPrice    Int
+  unitPrice     Int
+  configuration Json?
+  order         Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product       Product       @relation(fields: [productId], references: [id])
+  server        Server?
+
+  @@index([orderId])
+  @@index([productId])
+  @@index([expiresAt])
+}
+
+model Server {
+  id                  String    @id @default(uuid())
+  userId              String
+  orderItemId         String    @unique
+  name                String
+  type                String
+  status              String
+  ip                  String?
+  port                Int?
+  expiresAt           DateTime?
+  resources           Json?
+  pterodactylData     Json?
+  suspended           Boolean   @default(false)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  pterodactylServerId Int?
+  orderItem           OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+  user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  renewals            Order[]   @relation("RenewalOrders")
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model PageDocument {
+  id          String     @id @default(uuid())
+  slug        String     @unique
+  title       String
+  description String     @default("")
+  content     String     @default("")
+  status      PageStatus @default(DRAFT)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model TicketCounter {
+  id  String @id
+  seq Int    @default(0)
+}
+
+model Ticket {
+  id           String          @id @default(uuid())
+  ticketId     String          @unique
+  title        String
+  description  String
+  status       TicketStatus    @default(OPEN)
+  priority     TicketPriority  @default(MEDIUM)
+  userId       String
+  assignedToId String?
+  channelName  String
+  tags         String[]        @default([])
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  closedAt     DateTime?
+  assignedTo   User?           @relation("TicketsAssignedTo", fields: [assignedToId], references: [id])
+  user         User            @relation("TicketsByUser", fields: [userId], references: [id], onDelete: Cascade)
+  messages     TicketMessage[]
+
+  @@index([ticketId])
+  @@index([userId])
+  @@index([assignedToId])
+  @@index([status])
+  @@index([priority])
+  @@index([channelName])
+  @@index([createdAt])
+}
+
+model TicketMessage {
+  id          String     @id @default(uuid())
+  ticketId    String
+  senderId    String
+  senderRole  SenderRole
+  content     String
+  attachments Json?
+  createdAt   DateTime   @default(now())
+  sender      User       @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  ticket      Ticket     @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId])
+  @@index([senderId])
+  @@index([createdAt])
+}
+
+model TicketTagPreset {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  @@index([name])
+  @@index([createdAt])
+}
+
+model StatusNode {
+  id          String    @id @default(cuid())
+  name        String
+  ip          String
+  location    String
+  type        String    @default("VPS")
+  port        Int       @default(80)
+  protocol    String    @default("http")
+  status      String    @default("unknown")
+  latency     Int?
+  lastChecked DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  cpu         Float?
+  disk        Int?
+  memory      Int?
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model ConfigurationOption {
+  id          String                  @id @default(uuid())
+  name        String
+  label       String
+  description String?
+  type        ConfigurationOptionType @default(SELECT)
+  required    Boolean                 @default(true)
+  category    ProductCategory
+  sortOrder   Int                     @default(0)
+  createdAt   DateTime                @default(now())
+  updatedAt   DateTime                @updatedAt
+  values      ConfigurationValue[]
+
+  @@index([category])
+  @@index([sortOrder])
+}
+
+model ConfigurationValue {
+  id            String              @id @default(uuid())
+  optionId      String
+  label         String
+  value         String
+  description   String?
+  priceModifier Int                 @default(0)
+  metadata      Json?
+  sortOrder     Int                 @default(0)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+  option        ConfigurationOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+
+  @@index([optionId])
+  @@index([sortOrder])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String   @default("info")
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  link      String?
+  metadata  Json?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([read])
+  @@index([createdAt])
+}
+
+model Announcement {
+  id        String           @id @default(uuid())
+  title     String
+  message   String
+  type      AnnouncementType @default(INFO)
+  active    Boolean          @default(true)
+  priority  Int              @default(0)
+  link      String?
+  expiresAt DateTime?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([active])
+  @@index([priority])
+  @@index([createdAt])
+}
+
+model RazorpayConfig {
+  id             String   @id @default(uuid())
+  mode           String   @default("test")
+  testKeyId      String?
+  testKeySecret  String?
+  prodKeyId      String?
+  prodKeySecret  String?
+  gstin          String?
+  companyName    String?  @default("Flame Nodes")
+  companyAddress String?
+  companyCity    String?
+  companyZip     String?
+  companyCountry String?  @default("India")
+  updatedAt      DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  pteroNodeId    Int?
+  pteroNodeMode  String?  @default("balance")
+}
+
+model AiSupportConfig {
+  id           String   @id @default(uuid())
+  enabled      Boolean  @default(true)
+  systemPrompt String   @default("")
+  model        String   @default("gpt-4o-mini")
+  updatedAt    DateTime @default(now()) @updatedAt
+  createdAt    DateTime @default(now())
+
+  @@map("ai_support_config")
+}
+
+model WebSettings {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@index([key])
+}
+
 enum ProductCategory {
   VPS
   VDS
@@ -133,12 +501,12 @@ enum ProductCategory {
 }
 
 enum BillingPeriod {
-  HOURLY
-  DAILY
   MONTHLY
   QUARTERLY
   SEMIANNUALLY
   YEARLY
+  HOURLY
+  DAILY
   CUSTOM
 }
 
@@ -157,215 +525,9 @@ enum CouponType {
   PERCENT
 }
 
-model Discount {
-  id         String    @id @default(uuid())
-  label      String
-  percentage Int
-  product    Product[]
-}
-
-model Product {
-  id String @id @default(uuid())
-
-  planName String
-  icon     String?
-  badge    String?
-
-  category ProductCategory
-  price    Int
-
-  sortOrder Int @default(0)
-
-  features        ProductFeature[]
-  featureCategory String           @default("Features")
-
-  inStock Boolean @default(true)
-
-  discountId String?
-  discount   Discount? @relation(fields: [discountId], references: [id])
-
-  specs Json @default("{}")
-
-  deployMode String @default("PTERODACTYL")
-
-  cartItems      CartItem[]
-  orderItems     OrderItem[]
-  billingOptions ProductBillingOption[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model ProductBillingOption {
-  id            String        @id @default(uuid())
-  productId     String
-  product       Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
-  billingPeriod BillingPeriod
-  price         Int
-  customDays    Int?
-
-  @@unique([productId, billingPeriod])
-  @@index([productId])
-}
-
-model ProductCategoryConfig {
-  id             String          @id @default(uuid())
-  category       ProductCategory @unique
-  billingPeriods BillingPeriod[]
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-}
-
-model ProductFeature {
-  id String @id @default(cuid())
-
-  productId String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
-  label     String
-  sortOrder Int    @default(0)
-
-  @@index([productId])
-}
-
-model Coupon {
-  id          String     @id @default(uuid())
-  code        String     @unique
-  type        CouponType @default(FIXED)
-  amount      Int
-  description String?
-  active      Boolean    @default(true)
-  expiresAt   DateTime?
-  maxUses     Int?
-  usedCount   Int        @default(0)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-}
-
-model Cart {
-  id         String     @id @default(uuid())
-  userId     String     @unique
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items      CartItem[]
-  couponCode String?
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-}
-
-model CartItem {
-  id String @id @default(uuid())
-
-  cartId        String
-  productId     String
-  quantity      Int           @default(1)
-  billingPeriod BillingPeriod @default(MONTHLY)
-  configuration Json?
-  cart          Cart          @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  product       Product       @relation(fields: [productId], references: [id])
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-
-  @@index([cartId])
-  @@index([productId])
-}
-
-model Order {
-  id String @id @default(uuid())
-
-  userId          String
-  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  status          OrderStatus @default(PENDING)
-  subtotalAmount  Int
-  discountAmount  Int         @default(0)
-  totalAmount     Int
-  couponCode      String?
-  deliveryMessage String?
-  deliveryData    Json?
-  items           OrderItem[]
-  invoice         Invoice?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-
-  @@index([userId])
-  @@index([status])
-}
-
-model Invoice {
-  id String @id @default(uuid())
-
-  orderId       String   @unique
-  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  invoiceNumber String   @unique
-  pdfUrl        String
-  razorpayData  Json?
-  createdAt     DateTime @default(now())
-
-  @@index([orderId])
-  @@index([invoiceNumber])
-}
-
-model OrderItem {
-  id String @id @default(uuid())
-
-  orderId       String
-  productId     String
-  productName   String
-  quantity      Int           @default(1)
-  billingPeriod BillingPeriod
-  unitPrice     Int
-  totalPrice    Int
-  specsSnapshot Json?
-  configuration Json?
-  expiresAt     DateTime?
-  order         Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product       Product       @relation(fields: [productId], references: [id])
-  server        Server?
-  createdAt     DateTime      @default(now())
-
-  @@index([orderId])
-  @@index([productId])
-  @@index([expiresAt])
-}
-
-model Server {
-  id String @id @default(uuid())
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  orderItemId     String    @unique
-  orderItem       OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
-  name            String
-  type            String
-  status          String
-  ip              String?
-  port            Int?
-  pterodactylServerId Int?
-  expiresAt       DateTime?
-  resources       Json?
-  pterodactylData Json?
-  suspended       Boolean   @default(false)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-
-  @@index([userId])
-  @@index([expiresAt])
-}
-
 enum PageStatus {
   PUBLISHED
   DRAFT
-}
-
-model PageDocument {
-  id          String     @id @default(uuid())
-  slug        String     @unique
-  title       String
-  description String     @default("")
-  content     String     @default("")
-  status      PageStatus @default(DRAFT)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
 }
 
 enum TicketStatus {
@@ -389,151 +551,11 @@ enum SenderRole {
   ADMIN
 }
 
-model TicketCounter {
-  id  String @id
-  seq Int    @default(0)
-}
-
-model Ticket {
-  id       String @id @default(uuid())
-  ticketId String @unique
-
-  title       String
-  description String
-  status      TicketStatus   @default(OPEN)
-  priority    TicketPriority @default(MEDIUM)
-
-  userId String
-  user   User   @relation("TicketsByUser", fields: [userId], references: [id], onDelete: Cascade)
-
-  assignedToId String?
-  assignedTo   User?   @relation("TicketsAssignedTo", fields: [assignedToId], references: [id], onDelete: SetNull)
-
-  channelName String
-  tags        String[] @default([])
-
-  messages TicketMessage[]
-
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  closedAt  DateTime?
-
-  @@index([ticketId])
-  @@index([userId])
-  @@index([assignedToId])
-  @@index([status])
-  @@index([priority])
-  @@index([channelName])
-  @@index([createdAt])
-}
-
-model TicketMessage {
-  id String @id @default(uuid())
-
-  ticketId String
-  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-
-  senderId   String
-  sender     User       @relation(fields: [senderId], references: [id], onDelete: Cascade)
-  senderRole SenderRole
-
-  content     String
-  attachments Json?
-
-  createdAt DateTime @default(now())
-
-  @@index([ticketId])
-  @@index([senderId])
-  @@index([createdAt])
-}
-
-model TicketTagPreset {
-  id   String @id @default(uuid())
-  name String @unique
-
-  createdAt DateTime @default(now())
-
-  @@index([name])
-  @@index([createdAt])
-}
-
-model StatusNode {
-  id          String    @id @default(cuid())
-  name        String
-  ip          String
-  location    String
-  type        String    @default("VPS")
-  port        Int       @default(80)
-  protocol    String    @default("http")
-  status      String    @default("unknown")
-  latency     Int?
-  lastChecked DateTime?
-  cpu         Float?
-  memory      Int?
-  disk        Int?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  @@index([status])
-  @@index([createdAt])
-}
-
 enum ConfigurationOptionType {
   SELECT
   RADIO
   TEXT
   NUMBER
-}
-
-model ConfigurationOption {
-  id          String                   @id @default(uuid())
-  name        String
-  label       String
-  description String?
-  type        ConfigurationOptionType  @default(SELECT)
-  required    Boolean                  @default(true)
-  category    ProductCategory
-  sortOrder   Int                      @default(0)
-  values      ConfigurationValue[]
-  createdAt   DateTime                 @default(now())
-  updatedAt   DateTime                 @updatedAt
-
-  @@index([category])
-  @@index([sortOrder])
-}
-
-model ConfigurationValue {
-  id          String               @id @default(uuid())
-  optionId    String
-  option      ConfigurationOption  @relation(fields: [optionId], references: [id], onDelete: Cascade)
-  label       String
-  value       String
-  description String?
-  priceModifier Int                @default(0)
-  metadata    Json?
-  sortOrder   Int                  @default(0)
-  createdAt   DateTime             @default(now())
-  updatedAt   DateTime             @updatedAt
-
-  @@index([optionId])
-  @@index([sortOrder])
-}
-
-model Notification {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type      String   @default("info")
-  title     String
-  message   String
-  read      Boolean  @default(false)
-  link      String?
-  metadata  Json?
-  createdAt DateTime @default(now())
-
-  @@index([userId])
-  @@index([read])
-  @@index([createdAt])
 }
 
 enum AnnouncementType {
@@ -542,61 +564,4 @@ enum AnnouncementType {
   SUCCESS
   ERROR
   MAINTENANCE
-}
-
-model Announcement {
-  id        String           @id @default(uuid())
-  title     String
-  message   String
-  type      AnnouncementType @default(INFO)
-  active    Boolean          @default(true)
-  priority  Int              @default(0)
-  link      String?
-  expiresAt DateTime?
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-
-  @@index([active])
-  @@index([priority])
-  @@index([createdAt])
-}
-
-model RazorpayConfig {
-  id        String   @id @default(uuid())
-  mode      String   @default("test") // "test" or "production"
-  testKeyId String?
-  testKeySecret String?
-  prodKeyId String?
-  prodKeySecret String?
-  gstin     String?
-  companyName String? @default("Flame Nodes")
-  companyAddress String?
-  companyCity String?
-  companyZip String?
-  companyCountry String? @default("India")
-  pteroNodeMode  String? @default("balance") // "balance" or "specific"
-  pteroNodeId    Int?
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())
-}
-
-model AiSupportConfig {
-  id           String   @id @default(uuid())
-  enabled      Boolean  @default(true)
-  systemPrompt String   @default("")
-  model        String   @default("gpt-4o-mini")
-  updatedAt    DateTime @updatedAt
-  createdAt    DateTime @default(now())
-
-  @@map("ai_support_config")
-}
-
-model WebSettings {
-  id        String   @id @default(uuid())
-  key       String   @unique
-  value     Json
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())
-
-  @@index([key])
 }

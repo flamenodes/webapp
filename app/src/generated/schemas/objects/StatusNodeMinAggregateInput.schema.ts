@@ -13,11 +13,11 @@ const makeSchema = () => z.object({
   status: z.literal(true).optional(),
   latency: z.literal(true).optional(),
   lastChecked: z.literal(true).optional(),
-  cpu: z.literal(true).optional(),
-  memory: z.literal(true).optional(),
-  disk: z.literal(true).optional(),
   createdAt: z.literal(true).optional(),
-  updatedAt: z.literal(true).optional()
+  updatedAt: z.literal(true).optional(),
+  cpu: z.literal(true).optional(),
+  disk: z.literal(true).optional(),
+  memory: z.literal(true).optional()
 }).strict();
 export const StatusNodeMinAggregateInputObjectSchema: z.ZodType<Prisma.StatusNodeMinAggregateInputType> = makeSchema() as unknown as z.ZodType<Prisma.StatusNodeMinAggregateInputType>;
 export const StatusNodeMinAggregateInputObjectZodSchema = makeSchema();

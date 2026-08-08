@@ -5,14 +5,15 @@ import { SortOrderSchema } from '../enums/SortOrder.schema'
 const makeSchema = () => z.object({
   id: SortOrderSchema.optional(),
   userId: SortOrderSchema.optional(),
-  status: SortOrderSchema.optional(),
-  subtotalAmount: SortOrderSchema.optional(),
-  discountAmount: SortOrderSchema.optional(),
   totalAmount: SortOrderSchema.optional(),
-  couponCode: SortOrderSchema.optional(),
+  status: SortOrderSchema.optional(),
   deliveryMessage: SortOrderSchema.optional(),
   createdAt: SortOrderSchema.optional(),
-  updatedAt: SortOrderSchema.optional()
+  couponCode: SortOrderSchema.optional(),
+  discountAmount: SortOrderSchema.optional(),
+  subtotalAmount: SortOrderSchema.optional(),
+  updatedAt: SortOrderSchema.optional(),
+  renewalForServerId: SortOrderSchema.optional()
 }).strict();
 export const OrderMinOrderByAggregateInputObjectSchema: z.ZodType<Prisma.OrderMinOrderByAggregateInput> = makeSchema() as unknown as z.ZodType<Prisma.OrderMinOrderByAggregateInput>;
 export const OrderMinOrderByAggregateInputObjectZodSchema = makeSchema();

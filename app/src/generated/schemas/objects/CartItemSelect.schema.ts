@@ -9,11 +9,11 @@ const makeSchema = () => z.object({
   productId: z.boolean().optional(),
   quantity: z.boolean().optional(),
   billingPeriod: z.boolean().optional(),
+  createdAt: z.boolean().optional(),
+  updatedAt: z.boolean().optional(),
   configuration: z.boolean().optional(),
   cart: z.union([z.boolean(), z.lazy(() => CartArgsObjectSchema)]).optional(),
-  product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional(),
-  createdAt: z.boolean().optional(),
-  updatedAt: z.boolean().optional()
+  product: z.union([z.boolean(), z.lazy(() => ProductArgsObjectSchema)]).optional()
 }).strict();
 export const CartItemSelectObjectSchema: z.ZodType<Prisma.CartItemSelect> = makeSchema() as unknown as z.ZodType<Prisma.CartItemSelect>;
 export const CartItemSelectObjectZodSchema = makeSchema();

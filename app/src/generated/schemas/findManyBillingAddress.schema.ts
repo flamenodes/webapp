@@ -13,7 +13,6 @@ import { UserArgsObjectSchema as UserArgsObjectSchema } from './objects/UserArgs
 export const BillingAddressFindManySelectSchema: z.ZodType<Prisma.BillingAddressSelect> = z.object({
     id: z.boolean().optional(),
     userId: z.boolean().optional(),
-    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
     firstName: z.boolean().optional(),
     lastName: z.boolean().optional(),
     phone: z.boolean().optional(),
@@ -23,13 +22,13 @@ export const BillingAddressFindManySelectSchema: z.ZodType<Prisma.BillingAddress
     zip: z.boolean().optional(),
     country: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
-    createdAt: z.boolean().optional()
+    createdAt: z.boolean().optional(),
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional()
   }).strict() as unknown as z.ZodType<Prisma.BillingAddressSelect>;
 
 export const BillingAddressFindManySelectZodSchema = z.object({
     id: z.boolean().optional(),
     userId: z.boolean().optional(),
-    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
     firstName: z.boolean().optional(),
     lastName: z.boolean().optional(),
     phone: z.boolean().optional(),
@@ -39,7 +38,8 @@ export const BillingAddressFindManySelectZodSchema = z.object({
     zip: z.boolean().optional(),
     country: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
-    createdAt: z.boolean().optional()
+    createdAt: z.boolean().optional(),
+    user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional()
   }).strict();
 
 export const BillingAddressFindManySchema: z.ZodType<Prisma.BillingAddressFindManyArgs> = z.object({ select: BillingAddressFindManySelectSchema.optional(), include: z.lazy(() => BillingAddressIncludeObjectSchema.optional()), orderBy: z.union([BillingAddressOrderByWithRelationInputObjectSchema, BillingAddressOrderByWithRelationInputObjectSchema.array()]).optional(), where: BillingAddressWhereInputObjectSchema.optional(), cursor: BillingAddressWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([BillingAddressScalarFieldEnumSchema, BillingAddressScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.BillingAddressFindManyArgs>;

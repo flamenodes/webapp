@@ -13,7 +13,6 @@ import { ConfigurationOptionArgsObjectSchema as ConfigurationOptionArgsObjectSch
 export const ConfigurationValueFindManySelectSchema: z.ZodType<Prisma.ConfigurationValueSelect> = z.object({
     id: z.boolean().optional(),
     optionId: z.boolean().optional(),
-    option: z.union([z.boolean(), z.lazy(() => ConfigurationOptionArgsObjectSchema)]).optional(),
     label: z.boolean().optional(),
     value: z.boolean().optional(),
     description: z.boolean().optional(),
@@ -21,13 +20,13 @@ export const ConfigurationValueFindManySelectSchema: z.ZodType<Prisma.Configurat
     metadata: z.boolean().optional(),
     sortOrder: z.boolean().optional(),
     createdAt: z.boolean().optional(),
-    updatedAt: z.boolean().optional()
+    updatedAt: z.boolean().optional(),
+    option: z.union([z.boolean(), z.lazy(() => ConfigurationOptionArgsObjectSchema)]).optional()
   }).strict() as unknown as z.ZodType<Prisma.ConfigurationValueSelect>;
 
 export const ConfigurationValueFindManySelectZodSchema = z.object({
     id: z.boolean().optional(),
     optionId: z.boolean().optional(),
-    option: z.union([z.boolean(), z.lazy(() => ConfigurationOptionArgsObjectSchema)]).optional(),
     label: z.boolean().optional(),
     value: z.boolean().optional(),
     description: z.boolean().optional(),
@@ -35,7 +34,8 @@ export const ConfigurationValueFindManySelectZodSchema = z.object({
     metadata: z.boolean().optional(),
     sortOrder: z.boolean().optional(),
     createdAt: z.boolean().optional(),
-    updatedAt: z.boolean().optional()
+    updatedAt: z.boolean().optional(),
+    option: z.union([z.boolean(), z.lazy(() => ConfigurationOptionArgsObjectSchema)]).optional()
   }).strict();
 
 export const ConfigurationValueFindManySchema: z.ZodType<Prisma.ConfigurationValueFindManyArgs> = z.object({ select: ConfigurationValueFindManySelectSchema.optional(), include: z.lazy(() => ConfigurationValueIncludeObjectSchema.optional()), orderBy: z.union([ConfigurationValueOrderByWithRelationInputObjectSchema, ConfigurationValueOrderByWithRelationInputObjectSchema.array()]).optional(), where: ConfigurationValueWhereInputObjectSchema.optional(), cursor: ConfigurationValueWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([ConfigurationValueScalarFieldEnumSchema, ConfigurationValueScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.ConfigurationValueFindManyArgs>;

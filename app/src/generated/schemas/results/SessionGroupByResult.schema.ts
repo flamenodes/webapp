@@ -18,8 +18,8 @@ export const SessionGroupByResultSchema = z.array(z.object({
     ipAddress: z.number(),
     userAgent: z.number(),
     userId: z.number(),
-    user: z.number(),
-    impersonatedBy: z.number()
+    impersonatedBy: z.number(),
+    user: z.number()
   }).optional(),
   _min: z.object({
     id: z.string().nullable(),

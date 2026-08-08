@@ -13,10 +13,10 @@ export const RazorpayConfigSchema = z.object({
   companyCity: z.string().nullish(),
   companyZip: z.string().nullish(),
   companyCountry: z.string().default("India").nullish(),
-  pteroNodeMode: z.string().default("balance").nullish(),
-  pteroNodeId: z.number().int().nullish(),
   updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
   createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
+  pteroNodeId: z.number().int().nullish(),
+  pteroNodeMode: z.string().default("balance").nullish(),
 });
 
 export type RazorpayConfigType = z.infer<typeof RazorpayConfigSchema>;

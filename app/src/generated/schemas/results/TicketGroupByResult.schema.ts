@@ -19,15 +19,15 @@ export const TicketGroupByResultSchema = z.array(z.object({
     status: z.number(),
     priority: z.number(),
     userId: z.number(),
-    user: z.number(),
     assignedToId: z.number(),
-    assignedTo: z.number(),
     channelName: z.number(),
     tags: z.number(),
-    messages: z.number(),
     createdAt: z.number(),
     updatedAt: z.number(),
-    closedAt: z.number()
+    closedAt: z.number(),
+    assignedTo: z.number(),
+    user: z.number(),
+    messages: z.number()
   }).optional(),
   _min: z.object({
     id: z.string().nullable(),

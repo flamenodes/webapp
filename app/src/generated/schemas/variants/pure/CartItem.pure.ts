@@ -7,11 +7,11 @@ export const CartItemModelSchema = z.object({
     productId: z.string(),
     quantity: z.number().int(),
     billingPeriod: BillingPeriodSchema,
+    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
+    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
     configuration: z.any().nullable(),
     cart: z.any(),
-    product: z.any(),
-    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
-    updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime")
+    product: z.any()
 }).strict();
 
 export type CartItemPureType = z.infer<typeof CartItemModelSchema>;

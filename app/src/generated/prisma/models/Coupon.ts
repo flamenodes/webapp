@@ -45,11 +45,11 @@ export type CouponMinAggregateOutputType = {
   amount: number | null
   description: string | null
   active: boolean | null
+  createdAt: Date | null
+  updatedAt: Date | null
   expiresAt: Date | null
   maxUses: number | null
   usedCount: number | null
-  createdAt: Date | null
-  updatedAt: Date | null
 }
 
 export type CouponMaxAggregateOutputType = {
@@ -59,11 +59,11 @@ export type CouponMaxAggregateOutputType = {
   amount: number | null
   description: string | null
   active: boolean | null
+  createdAt: Date | null
+  updatedAt: Date | null
   expiresAt: Date | null
   maxUses: number | null
   usedCount: number | null
-  createdAt: Date | null
-  updatedAt: Date | null
 }
 
 export type CouponCountAggregateOutputType = {
@@ -73,11 +73,11 @@ export type CouponCountAggregateOutputType = {
   amount: number
   description: number
   active: number
+  createdAt: number
+  updatedAt: number
   expiresAt: number
   maxUses: number
   usedCount: number
-  createdAt: number
-  updatedAt: number
   _all: number
 }
 
@@ -101,11 +101,11 @@ export type CouponMinAggregateInputType = {
   amount?: true
   description?: true
   active?: true
+  createdAt?: true
+  updatedAt?: true
   expiresAt?: true
   maxUses?: true
   usedCount?: true
-  createdAt?: true
-  updatedAt?: true
 }
 
 export type CouponMaxAggregateInputType = {
@@ -115,11 +115,11 @@ export type CouponMaxAggregateInputType = {
   amount?: true
   description?: true
   active?: true
+  createdAt?: true
+  updatedAt?: true
   expiresAt?: true
   maxUses?: true
   usedCount?: true
-  createdAt?: true
-  updatedAt?: true
 }
 
 export type CouponCountAggregateInputType = {
@@ -129,11 +129,11 @@ export type CouponCountAggregateInputType = {
   amount?: true
   description?: true
   active?: true
+  createdAt?: true
+  updatedAt?: true
   expiresAt?: true
   maxUses?: true
   usedCount?: true
-  createdAt?: true
-  updatedAt?: true
   _all?: true
 }
 
@@ -230,11 +230,11 @@ export type CouponGroupByOutputType = {
   amount: number
   description: string | null
   active: boolean
+  createdAt: Date
+  updatedAt: Date
   expiresAt: Date | null
   maxUses: number | null
   usedCount: number
-  createdAt: Date
-  updatedAt: Date
   _count: CouponCountAggregateOutputType | null
   _avg: CouponAvgAggregateOutputType | null
   _sum: CouponSumAggregateOutputType | null
@@ -267,11 +267,11 @@ export type CouponWhereInput = {
   amount?: Prisma.IntFilter<"Coupon"> | number
   description?: Prisma.StringNullableFilter<"Coupon"> | string | null
   active?: Prisma.BoolFilter<"Coupon"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Coupon"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Coupon"> | Date | string
   expiresAt?: Prisma.DateTimeNullableFilter<"Coupon"> | Date | string | null
   maxUses?: Prisma.IntNullableFilter<"Coupon"> | number | null
   usedCount?: Prisma.IntFilter<"Coupon"> | number
-  createdAt?: Prisma.DateTimeFilter<"Coupon"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Coupon"> | Date | string
 }
 
 export type CouponOrderByWithRelationInput = {
@@ -281,11 +281,11 @@ export type CouponOrderByWithRelationInput = {
   amount?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   active?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   maxUses?: Prisma.SortOrderInput | Prisma.SortOrder
   usedCount?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type CouponWhereUniqueInput = Prisma.AtLeast<{
@@ -298,11 +298,11 @@ export type CouponWhereUniqueInput = Prisma.AtLeast<{
   amount?: Prisma.IntFilter<"Coupon"> | number
   description?: Prisma.StringNullableFilter<"Coupon"> | string | null
   active?: Prisma.BoolFilter<"Coupon"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Coupon"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Coupon"> | Date | string
   expiresAt?: Prisma.DateTimeNullableFilter<"Coupon"> | Date | string | null
   maxUses?: Prisma.IntNullableFilter<"Coupon"> | number | null
   usedCount?: Prisma.IntFilter<"Coupon"> | number
-  createdAt?: Prisma.DateTimeFilter<"Coupon"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Coupon"> | Date | string
 }, "id" | "code">
 
 export type CouponOrderByWithAggregationInput = {
@@ -312,11 +312,11 @@ export type CouponOrderByWithAggregationInput = {
   amount?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   active?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   maxUses?: Prisma.SortOrderInput | Prisma.SortOrder
   usedCount?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   _count?: Prisma.CouponCountOrderByAggregateInput
   _avg?: Prisma.CouponAvgOrderByAggregateInput
   _max?: Prisma.CouponMaxOrderByAggregateInput
@@ -334,11 +334,11 @@ export type CouponScalarWhereWithAggregatesInput = {
   amount?: Prisma.IntWithAggregatesFilter<"Coupon"> | number
   description?: Prisma.StringNullableWithAggregatesFilter<"Coupon"> | string | null
   active?: Prisma.BoolWithAggregatesFilter<"Coupon"> | boolean
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Coupon"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Coupon"> | Date | string
   expiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Coupon"> | Date | string | null
   maxUses?: Prisma.IntNullableWithAggregatesFilter<"Coupon"> | number | null
   usedCount?: Prisma.IntWithAggregatesFilter<"Coupon"> | number
-  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Coupon"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Coupon"> | Date | string
 }
 
 export type CouponCreateInput = {
@@ -348,11 +348,11 @@ export type CouponCreateInput = {
   amount: number
   description?: string | null
   active?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   expiresAt?: Date | string | null
   maxUses?: number | null
   usedCount?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type CouponUncheckedCreateInput = {
@@ -362,11 +362,11 @@ export type CouponUncheckedCreateInput = {
   amount: number
   description?: string | null
   active?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   expiresAt?: Date | string | null
   maxUses?: number | null
   usedCount?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type CouponUpdateInput = {
@@ -376,11 +376,11 @@ export type CouponUpdateInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   maxUses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   usedCount?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CouponUncheckedUpdateInput = {
@@ -390,11 +390,11 @@ export type CouponUncheckedUpdateInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   maxUses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   usedCount?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CouponCreateManyInput = {
@@ -404,11 +404,11 @@ export type CouponCreateManyInput = {
   amount: number
   description?: string | null
   active?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   expiresAt?: Date | string | null
   maxUses?: number | null
   usedCount?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type CouponUpdateManyMutationInput = {
@@ -418,11 +418,11 @@ export type CouponUpdateManyMutationInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   maxUses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   usedCount?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CouponUncheckedUpdateManyInput = {
@@ -432,11 +432,11 @@ export type CouponUncheckedUpdateManyInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   maxUses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   usedCount?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CouponCountOrderByAggregateInput = {
@@ -446,11 +446,11 @@ export type CouponCountOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   description?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   maxUses?: Prisma.SortOrder
   usedCount?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type CouponAvgOrderByAggregateInput = {
@@ -466,11 +466,11 @@ export type CouponMaxOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   description?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   maxUses?: Prisma.SortOrder
   usedCount?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type CouponMinOrderByAggregateInput = {
@@ -480,11 +480,11 @@ export type CouponMinOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   description?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   maxUses?: Prisma.SortOrder
   usedCount?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type CouponSumOrderByAggregateInput = {
@@ -506,11 +506,11 @@ export type CouponSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   amount?: boolean
   description?: boolean
   active?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   expiresAt?: boolean
   maxUses?: boolean
   usedCount?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
 }, ExtArgs["result"]["coupon"]>
 
 export type CouponSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -520,11 +520,11 @@ export type CouponSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   amount?: boolean
   description?: boolean
   active?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   expiresAt?: boolean
   maxUses?: boolean
   usedCount?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
 }, ExtArgs["result"]["coupon"]>
 
 export type CouponSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -534,11 +534,11 @@ export type CouponSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   amount?: boolean
   description?: boolean
   active?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   expiresAt?: boolean
   maxUses?: boolean
   usedCount?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
 }, ExtArgs["result"]["coupon"]>
 
 export type CouponSelectScalar = {
@@ -548,14 +548,14 @@ export type CouponSelectScalar = {
   amount?: boolean
   description?: boolean
   active?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   expiresAt?: boolean
   maxUses?: boolean
   usedCount?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
 }
 
-export type CouponOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "type" | "amount" | "description" | "active" | "expiresAt" | "maxUses" | "usedCount" | "createdAt" | "updatedAt", ExtArgs["result"]["coupon"]>
+export type CouponOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "type" | "amount" | "description" | "active" | "createdAt" | "updatedAt" | "expiresAt" | "maxUses" | "usedCount", ExtArgs["result"]["coupon"]>
 
 export type $CouponPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Coupon"
@@ -567,11 +567,11 @@ export type $CouponPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     amount: number
     description: string | null
     active: boolean
+    createdAt: Date
+    updatedAt: Date
     expiresAt: Date | null
     maxUses: number | null
     usedCount: number
-    createdAt: Date
-    updatedAt: Date
   }, ExtArgs["result"]["coupon"]>
   composites: {}
 }
@@ -1001,11 +1001,11 @@ export interface CouponFieldRefs {
   readonly amount: Prisma.FieldRef<"Coupon", 'Int'>
   readonly description: Prisma.FieldRef<"Coupon", 'String'>
   readonly active: Prisma.FieldRef<"Coupon", 'Boolean'>
+  readonly createdAt: Prisma.FieldRef<"Coupon", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Coupon", 'DateTime'>
   readonly expiresAt: Prisma.FieldRef<"Coupon", 'DateTime'>
   readonly maxUses: Prisma.FieldRef<"Coupon", 'Int'>
   readonly usedCount: Prisma.FieldRef<"Coupon", 'Int'>
-  readonly createdAt: Prisma.FieldRef<"Coupon", 'DateTime'>
-  readonly updatedAt: Prisma.FieldRef<"Coupon", 'DateTime'>
 }
     
 

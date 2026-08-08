@@ -4,6 +4,7 @@ import { prisma } from "#/db";
 import { auth } from "@/lib/auth";
 import { z } from "zod";
 import type { OrderStatus } from "@/generated/prisma/client";
+import { calculateExpiryDate } from "./expiry";
 
 const createOrderSchema = z.object({
   cartId: z.string().optional(),
@@ -24,27 +25,6 @@ const cancelOrderSchema = z.object({
 
 const wrapSuccess = <T>(message: string, data?: T) => ({ success: true, message, data });
 const wrapError = (message: string) => ({ success: false, message });
-
-function calculateExpiryDate(billingPeriod: string): Date {
-  const now = new Date()
-  switch (billingPeriod) {
-    case 'HOURLY':
-      return new Date(now.getTime() + 60 * 60 * 1000)
-    case 'DAILY':
-      return new Date(now.getTime() + 24 * 60 * 60 * 1000)
-    case 'MONTHLY':
-      return new Date(now.setMonth(now.getMonth() + 1))
-    case 'QUARTERLY':
-      return new Date(now.setMonth(now.getMonth() + 3))
-    case 'SEMIANNUALLY':
-      return new Date(now.setMonth(now.getMonth() + 6))
-    case 'YEARLY':
-      return new Date(now.setFullYear(now.getFullYear() + 1))
-    default:
-      return new Date(now.setMonth(now.getMonth() + 1))
-  }
-}
-
 
 export const createOrder = createServerFn({ method: "POST" })
   .validator(createOrderSchema)
@@ -124,7 +104,11 @@ export const getOrders = createServerFn({ method: "GET" }).handler(
 
     return prisma.order.findMany({
       where: { userId: session.user.id },
-      include: { items: { include: { product: true } } },
+      include: {
+        items: {
+          include: { product: { include: { billingOptions: true } }, server: true },
+        },
+      },
       orderBy: { createdAt: "desc" },
     });
   },
@@ -168,17 +152,10 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
     });
 
     if (data.status === 'PAID') {
-      const pteroItems = order.items.filter(
-        (item) => item.product.deployMode === 'PTERODACTYL',
-      );
-      const customItems = order.items.filter(
-        (item) => item.product.deployMode === 'CUSTOM',
-      );
-
       // Send order confirmation email
       const billingDetails = order.deliveryData as any
       const { sendEmailFn } = await import('../queue/deploy-functions')
-      
+
       await sendEmailFn({
         data: {
           type: 'order-confirmation',
@@ -193,116 +170,10 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
         },
       })
 
-      // Handle CUSTOM items — create a pending server record for manual delivery
-      await Promise.all(
-        customItems.map(async (item) => {
-          const existingServer = await prisma.server.findUnique({
-            where: { orderItemId: item.id },
-          });
-          if (existingServer) return;
-
-          await prisma.server.create({
-            data: {
-              orderItemId: item.id,
-              userId: session.user.id,
-              name: `${item.productName}-${item.id.slice(0, 8)}`,
-              type: item.product.category,
-              status: 'PENDING_MANUAL',
-              expiresAt: item.expiresAt,
-            },
-          });
-        }),
-      );
-
-      // Handle PTERODACTYL items - Add to deployment queue
-      await Promise.all(
-        pteroItems.map(async (item) => {
-          const existingServer = await prisma.server.findUnique({
-            where: { orderItemId: item.id },
-          });
-
-          if (existingServer) return;
-
-          const name = `${item.productName}-${item.id.slice(0, 8)}`;
-          
-          console.log('='.repeat(80));
-          console.log('🔍 DEBUGGING SPECS ISSUE');
-          console.log('='.repeat(80));
-          console.log('📦 Product ID:', item.productId);
-          console.log('📦 Product Name:', item.productName);
-          console.log('📦 Product Object:', JSON.stringify(item.product, null, 2));
-          console.log('📦 Product specs field:', JSON.stringify(item.product.specs, null, 2));
-          console.log('📦 Product specs type:', typeof item.product.specs);
-          console.log('📦 OrderItem specsSnapshot:', JSON.stringify(item.specsSnapshot, null, 2));
-          console.log('='.repeat(80));
-          
-          const { extractPteroSpecsFromProduct } = await import('../pterodactyl/configData');
-          const specs = extractPteroSpecsFromProduct(item.product.specs);
-          
-          console.log('✅ Final extracted specs:', JSON.stringify(specs, null, 2));
-          console.log('='.repeat(80));
-          
-          // Validate critical specs are not 0
-          if (!specs.cpu || !specs.memory || !specs.disk) {
-            console.error(`Invalid specs for product ${item.productName}:`, specs);
-            throw new Error(`Product ${item.productName} has invalid specs. CPU, memory, and disk must be greater than 0.`);
-          }
-
-          const productSpecs = item.product.specs as Record<string, any> ?? {};
-          const userConfig = (item.configuration ?? {}) as Record<string, string>;
-
-          let resolvedEgg = Number(productSpecs.egg ?? process.env.PTERO_DEFAULT_EGG ?? 1);
-          let resolvedNest = Number(productSpecs.nest ?? process.env.PTERO_DEFAULT_NEST ?? 1);
-          let extraEnv: Record<string, string> = {};
-
-          const configValueIds = Object.values(userConfig).filter(Boolean);
-          if (configValueIds.length > 0) {
-            const configValues = await prisma.configurationValue.findMany({
-              where: { value: { in: configValueIds } },
-            });
-            for (const cv of configValues) {
-              const meta = cv.metadata as Record<string, any> | null;
-              if (!meta) continue;
-              if (meta.eggId) resolvedEgg = Number(meta.eggId);
-              if (meta.nestId) resolvedNest = Number(meta.nestId);
-              if (meta.envVars && typeof meta.envVars === 'object') {
-                extraEnv = { ...extraEnv, ...meta.envVars };
-              }
-            }
-          }
-
-          const server = await prisma.server.create({
-            data: {
-              orderItemId: item.id,
-              userId: session.user.id,
-              name,
-              type: item.product.category,
-              status: 'PROCESSING',
-              expiresAt: item.expiresAt,
-              resources: specs,
-            },
-          });
-
-          // Deploy server in background
-          const { deployServerFn } = await import('../queue/deploy-functions')
-          deployServerFn({
-            data: {
-              orderId: order.id,
-              orderItemId: item.id,
-              serverId: server.id,
-              name,
-              user: Number(process.env.PTERO_DEFAULT_USER_ID ?? 1),
-              nest: resolvedNest,
-              egg: resolvedEgg,
-              extraEnv,
-              specs,
-              type: item.product.category,
-              userEmail: billingDetails?.billingDetails?.email || session.user.email,
-              userName: billingDetails?.billingDetails?.firstName || session.user.name,
-            },
-          }).catch(err => console.error('Deployment failed:', err));
-        }),
-      );
+      // Fulfill the order: renewals extend servers, manual ptero links get linked,
+      // new purchases get provisioned — all in one place.
+      const { fulfillPaidOrder } = await import('./fulfill-order')
+      await fulfillPaidOrder(order.id)
     }
 
     return wrapSuccess('Order status updated successfully.', updatedOrder);

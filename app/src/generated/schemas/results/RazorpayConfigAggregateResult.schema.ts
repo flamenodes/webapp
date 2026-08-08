@@ -12,10 +12,10 @@ export const RazorpayConfigAggregateResultSchema = z.object({  _count: z.object(
     companyCity: z.number(),
     companyZip: z.number(),
     companyCountry: z.number(),
-    pteroNodeMode: z.number(),
-    pteroNodeId: z.number(),
     updatedAt: z.number(),
-    createdAt: z.number()
+    createdAt: z.number(),
+    pteroNodeId: z.number(),
+    pteroNodeMode: z.number()
   }).optional(),
   _sum: z.object({
     pteroNodeId: z.number().nullable()
@@ -36,10 +36,10 @@ export const RazorpayConfigAggregateResultSchema = z.object({  _count: z.object(
     companyCity: z.string().nullable(),
     companyZip: z.string().nullable(),
     companyCountry: z.string().nullable(),
-    pteroNodeMode: z.string().nullable(),
-    pteroNodeId: z.number().int().nullable(),
     updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
-    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable()
+    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
+    pteroNodeId: z.number().int().nullable(),
+    pteroNodeMode: z.string().nullable()
   }).nullable().optional(),
   _max: z.object({
     id: z.string().nullable(),
@@ -54,8 +54,8 @@ export const RazorpayConfigAggregateResultSchema = z.object({  _count: z.object(
     companyCity: z.string().nullable(),
     companyZip: z.string().nullable(),
     companyCountry: z.string().nullable(),
-    pteroNodeMode: z.string().nullable(),
-    pteroNodeId: z.number().int().nullable(),
     updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
-    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable()
+    createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime").nullable(),
+    pteroNodeId: z.number().int().nullable(),
+    pteroNodeMode: z.string().nullable()
   }).nullable().optional()});

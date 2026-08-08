@@ -16,10 +16,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { ShoppingCart, Package, ChevronRight, Loader2, X, Download } from 'lucide-react'
+import { ShoppingCart, Package, ChevronRight, Loader2, X, Download, RefreshCw } from 'lucide-react'
 import { formatDistanceToNow } from '@/lib/date-utils'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import { RenewServerDialog } from '@/components/billing/RenewServerDialog'
 
 export const Route = createFileRoute('/_protected/user/orders')({
   head: () => ({ meta: [{ title: 'My Orders | Flame Nodes' }] }),
@@ -69,6 +70,7 @@ function OrdersPage() {
   const [processingOrderId, setProcessingOrderId] = useState<string | null>(null)
   const [cancellingOrderId, setCancellingOrderId] = useState<string | null>(null)
   const [orderToCancel, setOrderToCancel] = useState<string | null>(null)
+  const [renewServer, setRenewServer] = useState<any>(null)
 
   const paymentMutation = useMutation({
     mutationFn: (orderId: string) => generatePaymentLink({ data: { orderId } }),
@@ -190,17 +192,41 @@ function OrdersPage() {
                     {/* Expanded Items */}
                     {isExpanded && (
                       <div className="space-y-2">
-                        {order.items.map((item) => (
-                          <div key={item.id} className="flex items-center justify-between text-sm bg-muted/30 rounded p-2.5">
-                            <div className="flex-1 min-w-0">
-                              <p className="font-medium text-sm truncate">{item.productName}</p>
-                              <p className="text-xs text-muted-foreground mt-0.5">
-                                {item.quantity} × ₹{item.unitPrice.toLocaleString()} • {item.billingPeriod.toLowerCase()}
-                              </p>
+                        {order.items.map((item) => {
+                          const srv = item.server
+                          const canRenew = srv && (srv.status === 'ACTIVE' || srv.status === 'SUSPENDED')
+                          return (
+                            <div key={item.id} className="flex items-center justify-between text-sm bg-muted/30 rounded p-2.5">
+                              <div className="flex-1 min-w-0">
+                                <p className="font-medium text-sm truncate">{item.productName}</p>
+                                <p className="text-xs text-muted-foreground mt-0.5">
+                                  {item.quantity} × ₹{item.unitPrice.toLocaleString()} • {item.billingPeriod.toLowerCase()}
+                                </p>
+                              </div>
+                              <div className="flex items-center gap-2 ml-3 shrink-0">
+                                <p className="font-semibold text-sm">₹{item.totalPrice.toLocaleString()}</p>
+                                {canRenew && (
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="h-7 text-xs"
+                                    onClick={() =>
+                                      setRenewServer({
+                                        id: srv.id,
+                                        name: srv.name,
+                                        resources: srv.resources,
+                                        orderItem: { billingPeriod: item.billingPeriod, product: item.product },
+                                      })
+                                    }
+                                  >
+                                    <RefreshCw className="w-3 h-3 mr-1" />
+                                    Renew
+                                  </Button>
+                                )}
+                              </div>
                             </div>
-                            <p className="font-semibold text-sm ml-3">₹{item.totalPrice.toLocaleString()}</p>
-                          </div>
-                        ))}
+                          )
+                        })}
 
                         {/* Order Totals */}
                         <div className="space-y-1 pt-2 border-t text-xs">
@@ -296,6 +322,13 @@ function OrdersPage() {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+
+        {/* Renew dialog for linked servers */}
+        <RenewServerDialog
+          server={renewServer}
+          open={!!renewServer}
+          onOpenChange={(open) => !open && setRenewServer(null)}
+        />
       </div>
     </main>
   )

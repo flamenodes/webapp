@@ -5,11 +5,11 @@ export const CartItemAggregateResultSchema = z.object({  _count: z.object({
     productId: z.number(),
     quantity: z.number(),
     billingPeriod: z.number(),
+    createdAt: z.number(),
+    updatedAt: z.number(),
     configuration: z.number(),
     cart: z.number(),
-    product: z.number(),
-    createdAt: z.number(),
-    updatedAt: z.number()
+    product: z.number()
   }).optional(),
   _sum: z.object({
     quantity: z.number().nullable()

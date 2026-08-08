@@ -5,11 +5,11 @@ import { ProductOrderByWithRelationInputObjectSchema as ProductOrderByWithRelati
 import { ProductWhereInputObjectSchema as ProductWhereInputObjectSchema } from './objects/ProductWhereInput.schema';
 import { ProductWhereUniqueInputObjectSchema as ProductWhereUniqueInputObjectSchema } from './objects/ProductWhereUniqueInput.schema';
 import { ProductScalarFieldEnumSchema } from './enums/ProductScalarFieldEnum.schema';
-import { ProductFeatureFindManySchema } from './findManyProductFeature.schema';
-import { DiscountArgsObjectSchema as DiscountArgsObjectSchema } from './objects/DiscountArgs.schema';
 import { CartItemFindManySchema } from './findManyCartItem.schema';
 import { OrderItemFindManySchema } from './findManyOrderItem.schema';
+import { DiscountArgsObjectSchema as DiscountArgsObjectSchema } from './objects/DiscountArgs.schema';
 import { ProductBillingOptionFindManySchema } from './findManyProductBillingOption.schema';
+import { ProductFeatureFindManySchema } from './findManyProductFeature.schema';
 import { ProductCountOutputTypeArgsObjectSchema as ProductCountOutputTypeArgsObjectSchema } from './objects/ProductCountOutputTypeArgs.schema';
 
 // Select schema needs to be in file to prevent circular imports
@@ -17,47 +17,47 @@ import { ProductCountOutputTypeArgsObjectSchema as ProductCountOutputTypeArgsObj
 
 export const ProductFindManySelectSchema: z.ZodType<Prisma.ProductSelect> = z.object({
     id: z.boolean().optional(),
-    planName: z.boolean().optional(),
-    icon: z.boolean().optional(),
-    badge: z.boolean().optional(),
-    category: z.boolean().optional(),
-    price: z.boolean().optional(),
-    sortOrder: z.boolean().optional(),
-    features: z.union([z.boolean(), z.lazy(() => ProductFeatureFindManySchema)]).optional(),
-    featureCategory: z.boolean().optional(),
-    inStock: z.boolean().optional(),
-    discountId: z.boolean().optional(),
-    discount: z.union([z.boolean(), z.lazy(() => DiscountArgsObjectSchema)]).optional(),
-    specs: z.boolean().optional(),
     deployMode: z.boolean().optional(),
-    cartItems: z.union([z.boolean(), z.lazy(() => CartItemFindManySchema)]).optional(),
-    orderItems: z.union([z.boolean(), z.lazy(() => OrderItemFindManySchema)]).optional(),
-    billingOptions: z.union([z.boolean(), z.lazy(() => ProductBillingOptionFindManySchema)]).optional(),
+    specs: z.boolean().optional(),
     createdAt: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
+    category: z.boolean().optional(),
+    icon: z.boolean().optional(),
+    inStock: z.boolean().optional(),
+    planName: z.boolean().optional(),
+    price: z.boolean().optional(),
+    discountId: z.boolean().optional(),
+    featureCategory: z.boolean().optional(),
+    badge: z.boolean().optional(),
+    sortOrder: z.boolean().optional(),
+    cartItems: z.union([z.boolean(), z.lazy(() => CartItemFindManySchema)]).optional(),
+    orderItems: z.union([z.boolean(), z.lazy(() => OrderItemFindManySchema)]).optional(),
+    discount: z.union([z.boolean(), z.lazy(() => DiscountArgsObjectSchema)]).optional(),
+    billingOptions: z.union([z.boolean(), z.lazy(() => ProductBillingOptionFindManySchema)]).optional(),
+    features: z.union([z.boolean(), z.lazy(() => ProductFeatureFindManySchema)]).optional(),
     _count: z.union([z.boolean(), z.lazy(() => ProductCountOutputTypeArgsObjectSchema)]).optional()
   }).strict() as unknown as z.ZodType<Prisma.ProductSelect>;
 
 export const ProductFindManySelectZodSchema = z.object({
     id: z.boolean().optional(),
-    planName: z.boolean().optional(),
-    icon: z.boolean().optional(),
-    badge: z.boolean().optional(),
-    category: z.boolean().optional(),
-    price: z.boolean().optional(),
-    sortOrder: z.boolean().optional(),
-    features: z.union([z.boolean(), z.lazy(() => ProductFeatureFindManySchema)]).optional(),
-    featureCategory: z.boolean().optional(),
-    inStock: z.boolean().optional(),
-    discountId: z.boolean().optional(),
-    discount: z.union([z.boolean(), z.lazy(() => DiscountArgsObjectSchema)]).optional(),
-    specs: z.boolean().optional(),
     deployMode: z.boolean().optional(),
-    cartItems: z.union([z.boolean(), z.lazy(() => CartItemFindManySchema)]).optional(),
-    orderItems: z.union([z.boolean(), z.lazy(() => OrderItemFindManySchema)]).optional(),
-    billingOptions: z.union([z.boolean(), z.lazy(() => ProductBillingOptionFindManySchema)]).optional(),
+    specs: z.boolean().optional(),
     createdAt: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
+    category: z.boolean().optional(),
+    icon: z.boolean().optional(),
+    inStock: z.boolean().optional(),
+    planName: z.boolean().optional(),
+    price: z.boolean().optional(),
+    discountId: z.boolean().optional(),
+    featureCategory: z.boolean().optional(),
+    badge: z.boolean().optional(),
+    sortOrder: z.boolean().optional(),
+    cartItems: z.union([z.boolean(), z.lazy(() => CartItemFindManySchema)]).optional(),
+    orderItems: z.union([z.boolean(), z.lazy(() => OrderItemFindManySchema)]).optional(),
+    discount: z.union([z.boolean(), z.lazy(() => DiscountArgsObjectSchema)]).optional(),
+    billingOptions: z.union([z.boolean(), z.lazy(() => ProductBillingOptionFindManySchema)]).optional(),
+    features: z.union([z.boolean(), z.lazy(() => ProductFeatureFindManySchema)]).optional(),
     _count: z.union([z.boolean(), z.lazy(() => ProductCountOutputTypeArgsObjectSchema)]).optional()
   }).strict();
 

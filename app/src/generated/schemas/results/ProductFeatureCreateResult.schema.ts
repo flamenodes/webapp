@@ -3,7 +3,7 @@ import { ProductSchema } from '../models/Product.schema';
 export const ProductFeatureCreateResultSchema = z.object({
   id: z.string(),
   productId: z.string(),
-  product: ProductSchema.optional(),
   label: z.string(),
-  sortOrder: z.number().int()
+  sortOrder: z.number().int(),
+  product: ProductSchema.optional()
 });

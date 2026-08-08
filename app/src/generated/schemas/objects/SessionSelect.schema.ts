@@ -11,8 +11,8 @@ const makeSchema = () => z.object({
   ipAddress: z.boolean().optional(),
   userAgent: z.boolean().optional(),
   userId: z.boolean().optional(),
-  user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional(),
-  impersonatedBy: z.boolean().optional()
+  impersonatedBy: z.boolean().optional(),
+  user: z.union([z.boolean(), z.lazy(() => UserArgsObjectSchema)]).optional()
 }).strict();
 export const SessionSelectObjectSchema: z.ZodType<Prisma.SessionSelect> = makeSchema() as unknown as z.ZodType<Prisma.SessionSelect>;
 export const SessionSelectObjectZodSchema = makeSchema();
