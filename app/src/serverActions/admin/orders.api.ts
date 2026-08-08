@@ -36,6 +36,11 @@ const updateOrderStatusSchema = z.object({
   status: z.string(),
 })
 
+const changeOrderPurchaseDateSchema = z.object({
+  orderId: z.string(),
+  purchasedOn: z.string(), // ISO date string, e.g. '2026-08-09'
+})
+
 export const getRazorpayKeyId = createServerFn({ method: 'GET' }).handler(async () => {
   return process.env.RAZORPAY_KEY_ID || ''
 })
@@ -348,6 +353,64 @@ export const updateOrderStatus = createServerFn({ method: 'POST' })
     })
 
     return wrapSuccess('Order status updated successfully', updatedOrder)
+  })
+
+export const changeOrderPurchaseDate = createServerFn({ method: 'POST' })
+  .validator(changeOrderPurchaseDateSchema)
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const session = await auth.api.getSession({ headers })
+    if (!session?.user) return wrapError('Unauthorized')
+
+    const adminUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { role: true },
+    })
+
+    const role = adminUser?.role?.toUpperCase()
+    if (role !== 'ADMIN' && role !== 'OWNER') return wrapError('Forbidden')
+
+    const order = await prisma.order.findUnique({
+      where: { id: data.orderId },
+      include: { items: { include: { server: true } } },
+    })
+    if (!order) return wrapError('Order not found')
+
+    const purchasedOn = new Date(data.purchasedOn)
+    if (isNaN(purchasedOn.getTime())) return wrapError('Invalid purchase date')
+
+    const deliveryData = (order.deliveryData ?? {}) as any
+    const customDays = deliveryData?.customDays as number | undefined
+
+    // Recompute every order item's expiry from the new purchase date. The
+    // renewal countdown (both in this table and on the user's server page)
+    // is driven by expiresAt, so the linked server expiry moves with it.
+    const updatedItems = await Promise.all(
+      order.items.map(async (item) => {
+        const newExpiry = calculateExpiryDate(item.billingPeriod, customDays, purchasedOn)
+        const updatedItem = await prisma.orderItem.update({
+          where: { id: item.id },
+          data: { expiresAt: newExpiry },
+        })
+        if (item.server) {
+          await prisma.server.update({
+            where: { id: item.server.id },
+            data: { expiresAt: newExpiry },
+          })
+        }
+        return updatedItem
+      }),
+    )
+
+    const updatedOrder = await prisma.order.update({
+      where: { id: data.orderId },
+      data: { createdAt: purchasedOn },
+    })
+
+    return wrapSuccess('Purchase date updated successfully', {
+      order: updatedOrder,
+      itemCount: updatedItems.length,
+    })
   })
 
 export const getAllProducts = createServerFn({ method: 'GET' }).handler(async () => {

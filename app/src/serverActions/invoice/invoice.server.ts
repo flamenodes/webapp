@@ -20,12 +20,19 @@ async function buildAndSaveInvoice(orderId: string, razorpayData?: Record<string
   const [order, razorpayConfig] = await Promise.all([
     prisma.order.findUnique({
       where: { id: orderId },
-      include: { items: { include: { product: true } }, user: { include: { billingAddress: true } } },
+      include: { items: { include: { product: true, server: true } }, user: { include: { billingAddress: true } } },
     }),
     prisma.razorpayConfig.findFirst(),
   ])
 
   if (!order) throw new Error('Order not found')
+
+  // Invoice date = order start (purchase) date. Due date = the server's
+  // expiry — the day the paid-for period ends — falling back to the order
+  // item expiry, then the order date.
+  const invoiceDate = new Date(order.createdAt)
+  const linkedServer = order.items.map((i) => i.server).find(Boolean)
+  const dueDate = linkedServer?.expiresAt ?? order.items[0]?.expiresAt ?? invoiceDate
 
   const invoiceCount = await prisma.invoice.count()
   const invoiceNumber = `INV-${new Date().getFullYear()}-${String(invoiceCount + 1).padStart(6, '0')}`
@@ -50,8 +57,8 @@ async function buildAndSaveInvoice(orderId: string, razorpayData?: Record<string
     },
     information: {
       number: invoiceNumber,
-      date: new Date(order.createdAt).toLocaleDateString('en-IN'),
-      'due-date': new Date(order.createdAt).toLocaleDateString('en-IN'),
+      date: invoiceDate.toLocaleDateString('en-IN'),
+      'due-date': dueDate.toLocaleDateString('en-IN'),
     },
     products: order.items.map((item) => ({
       quantity: item.quantity,

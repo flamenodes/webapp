@@ -4,7 +4,7 @@ import {
   getAllOrders, createManualOrder, generatePaymentLink,
   updateOrderStatus, getAllProducts,
   getPendingCustomOrders, deliverCustomOrder, deleteOrder,
-  deployOrder, deployCustomOrder,
+  deployOrder, deployCustomOrder, changeOrderPurchaseDate,
 } from '@/serverActions/admin/orders.api'
 import { useState } from 'react'
 import { OrdersDataTable } from '@/components/admin/orders/OrdersDataTable'
@@ -109,6 +109,16 @@ function OrdersPage() {
       toast.success('Order status updated')
     },
     onError: () => toast.error('Failed to update order status'),
+  })
+
+  const changePurchaseDateMutation = useMutation({
+    mutationFn: ({ orderId, purchasedOn }: { orderId: string; purchasedOn: string }) =>
+      changeOrderPurchaseDate({ data: { orderId, purchasedOn } }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin-orders'] })
+      toast.success('Purchase date updated — renewal days recalculated')
+    },
+    onError: (error: any) => toast.error(error?.message || 'Failed to update purchase date'),
   })
 
   const deliverMutation = useMutation({
@@ -476,6 +486,10 @@ function OrdersPage() {
               }
             }}
             onDeploy={(orderId) => setDeployDialog(orderId)}
+            onChangePurchaseDate={(orderId, purchasedOn) =>
+              changePurchaseDateMutation.mutate({ orderId, purchasedOn })
+            }
+            isPurchaseDatePending={changePurchaseDateMutation.isPending}
             isGeneratingLink={generateLinkMutation.isPending}
           />
         </div>

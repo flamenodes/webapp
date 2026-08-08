@@ -9,6 +9,8 @@ import {
 import { Badge } from '#/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
 import { Button } from '#/components/ui/button'
+import { Input } from '#/components/ui/input'
+import { Label } from '#/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -39,6 +41,7 @@ import {
   Download,
   FileSpreadsheet,
   Rocket,
+  Calendar,
 } from 'lucide-react'
 import {
   DropdownMenu,
@@ -51,7 +54,7 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { exportToCSV, exportToGoogleSheets } from '#/lib/export-utils'
-import { differenceInDays, isPast } from 'date-fns'
+import { differenceInDays, format, isPast } from 'date-fns'
 
 type OrderRecord = Awaited<ReturnType<typeof getAllOrders>>[number]
 
@@ -61,6 +64,8 @@ interface OrdersDataTableProps {
   onUpdateStatus?: (orderId: string, status: string) => void
   onDeleteOrder?: (orderId: string) => void
   onDeploy?: (orderId: string) => void
+  onChangePurchaseDate?: (orderId: string, purchasedOn: string) => void
+  isPurchaseDatePending?: boolean
   isGeneratingLink?: boolean
 }
 
@@ -96,6 +101,8 @@ export function OrdersDataTable({
   onUpdateStatus,
   onDeleteOrder,
   onDeploy,
+  onChangePurchaseDate,
+  isPurchaseDatePending,
   isGeneratingLink,
 }: OrdersDataTableProps) {
   const qc = useQueryClient()
@@ -106,6 +113,10 @@ export function OrdersDataTable({
   const [orderToDelete, setOrderToDelete] = React.useState<string | null>(null)
   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = React.useState(false)
   const [selectedOrderIds, setSelectedOrderIds] = React.useState<string[]>([])
+  const [purchaseDateDialog, setPurchaseDateDialog] = React.useState<{
+    orderId: string
+    purchasedOn: string
+  } | null>(null)
 
   const handleGenerateLink = (orderId: string) => {
     setGeneratingLinkId(orderId)
@@ -159,6 +170,13 @@ export function OrdersDataTable({
   const handleBulkDelete = (orderIds: string[]) => {
     setSelectedOrderIds(orderIds)
     setBulkDeleteDialogOpen(true)
+  }
+
+  const handleChangePurchaseDate = (order: OrderRecord) => {
+    setPurchaseDateDialog({
+      orderId: order.id,
+      purchasedOn: format(new Date(order.createdAt), 'yyyy-MM-dd'),
+    })
   }
 
   const handleExportToExcel = (orders: OrderRecord[]) => {
@@ -367,6 +385,13 @@ export function OrdersDataTable({
 
                     <DropdownMenuSeparator />
 
+                    <DropdownMenuItem onClick={() => handleChangePurchaseDate(order)}>
+                      <Calendar className="w-4 h-4 mr-2" />
+                      Change Purchase Date
+                    </DropdownMenuItem>
+
+                    <DropdownMenuSeparator />
+
                     <DropdownMenuItem
                       className="text-red-500 focus:text-red-500"
                       onClick={() => handleDelete(orderId)}
@@ -410,6 +435,58 @@ export function OrdersDataTable({
           </>
         )}
       />
+
+      {/* Change Purchase Date Dialog */}
+      <AlertDialog
+        open={purchaseDateDialog !== null}
+        onOpenChange={(open) => {
+          if (!open) setPurchaseDateDialog(null)
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Change Purchase Date</AlertDialogTitle>
+            <AlertDialogDescription>
+              Renewal days left are calculated from the purchase date. Changing
+              it will recompute the renewal date for this order and its
+              linked servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          {purchaseDateDialog && (
+            <div className="space-y-2 py-2">
+              <Label>Purchase date</Label>
+              <Input
+                type="date"
+                value={purchaseDateDialog.purchasedOn}
+                onChange={(e) =>
+                  setPurchaseDateDialog((prev) =>
+                    prev ? { ...prev, purchasedOn: e.target.value } : prev,
+                  )
+                }
+              />
+            </div>
+          )}
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              disabled={!purchaseDateDialog?.purchasedOn}
+              onClick={() => {
+                if (!purchaseDateDialog) return
+                onChangePurchaseDate?.(
+                  purchaseDateDialog.orderId,
+                  purchaseDateDialog.purchasedOn,
+                )
+                setPurchaseDateDialog(null)
+              }}
+            >
+              {isPurchaseDatePending && (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              )}
+              Save
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Single Delete Confirmation Dialog */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
