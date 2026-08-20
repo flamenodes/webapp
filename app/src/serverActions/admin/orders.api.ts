@@ -620,11 +620,15 @@ export const deployOrder = createServerFn({ method: 'POST' })
     }
 
     // Create server record
+    const { extractPteroSpecsFromProduct } = await import('../pterodactyl/configData')
     const productSpecs = product.specs as Record<string, any> ?? {}
     const userConfig = (orderItem.configuration ?? {}) as Record<string, string>
+    const specs = extractPteroSpecsFromProduct(productSpecs)
 
-    let resolvedEgg = Number(productSpecs.egg ?? process.env.PTERO_DEFAULT_EGG ?? 1)
-    let resolvedNest = Number(productSpecs.nest ?? process.env.PTERO_DEFAULT_NEST ?? 1)
+    // Also extract egg and nest from nested ptero object (fallback to root-level)
+    const pteroSpecs = productSpecs.ptero ?? {}
+    let resolvedEgg = Number(pteroSpecs.egg ?? productSpecs.egg ?? process.env.PTERO_DEFAULT_EGG ?? 1)
+    let resolvedNest = Number(pteroSpecs.nest ?? productSpecs.nest ?? process.env.PTERO_DEFAULT_NEST ?? 1)
     let extraEnv: Record<string, string> = {}
 
     const configValueIds = Object.values(userConfig).filter(Boolean)
@@ -650,7 +654,7 @@ export const deployOrder = createServerFn({ method: 'POST' })
         name: product.planName,
         type: product.category,
         status: 'PROCESSING',
-        resources: productSpecs,
+        resources: specs,
         expiresAt: orderItem.expiresAt,
       },
     })
@@ -675,15 +679,7 @@ export const deployOrder = createServerFn({ method: 'POST' })
       nest: resolvedNest,
       egg: resolvedEgg,
       extraEnv,
-      specs: {
-        cpu: Number(productSpecs.cpu ?? 0),
-        memory: Number(productSpecs.memory ?? 0),
-        swap: Number(productSpecs.swap ?? 0),
-        disk: Number(productSpecs.disk ?? 0),
-        database: Number(productSpecs.database ?? 0),
-        allocation: Number(productSpecs.allocation ?? 1),
-        backups: Number(productSpecs.backups ?? 0),
-      },
+      specs,
       type: product.category,
       userEmail: order.user.email,
       userName: order.user.name,

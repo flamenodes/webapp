@@ -182,8 +182,10 @@ async function provisionNewServers(order: NonNullable<OrderWithRelations>) {
       const userConfig = (item.configuration ?? {}) as Record<string, string>
       const specs = extractPteroSpecsFromProduct(item.product.specs)
 
-      let resolvedEgg = Number(productSpecs.egg ?? process.env.PTERO_DEFAULT_EGG ?? 1)
-      let resolvedNest = Number(productSpecs.nest ?? process.env.PTERO_DEFAULT_NEST ?? 1)
+      // Also extract egg and nest from nested ptero object (fallback to root-level)
+      const pteroSpecs = productSpecs.ptero ?? {}
+      let resolvedEgg = Number(pteroSpecs.egg ?? productSpecs.egg ?? process.env.PTERO_DEFAULT_EGG ?? 1)
+      let resolvedNest = Number(pteroSpecs.nest ?? productSpecs.nest ?? process.env.PTERO_DEFAULT_NEST ?? 1)
       let extraEnv: Record<string, string> = {}
 
       const configValueIds = Object.values(userConfig).filter(Boolean)

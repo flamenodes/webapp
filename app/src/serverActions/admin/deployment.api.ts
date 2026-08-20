@@ -55,8 +55,14 @@ export const retryServerDeployment = createServerFn({ method: 'POST' })
     const productSpecs = product.specs as Record<string, any> ?? {}
     const userConfig = (orderItem.configuration ?? {}) as Record<string, string>
 
-    let resolvedEgg = Number(productSpecs.egg ?? process.env.PTERO_DEFAULT_EGG ?? 1)
-    let resolvedNest = Number(productSpecs.nest ?? process.env.PTERO_DEFAULT_NEST ?? 1)
+    // Use the extraction function to properly handle nested ptero specs
+    const { extractPteroSpecsFromProduct } = await import('../pterodactyl/configData')
+    const specs = extractPteroSpecsFromProduct(productSpecs)
+
+    // Also extract egg and nest from nested ptero object (fallback to root-level)
+    const pteroSpecs = productSpecs.ptero ?? {}
+    let resolvedEgg = Number(pteroSpecs.egg ?? productSpecs.egg ?? process.env.PTERO_DEFAULT_EGG ?? 1)
+    let resolvedNest = Number(pteroSpecs.nest ?? productSpecs.nest ?? process.env.PTERO_DEFAULT_NEST ?? 1)
     let extraEnv: Record<string, string> = {}
 
     const configValueIds = Object.values(userConfig).filter(Boolean)
@@ -96,15 +102,7 @@ export const retryServerDeployment = createServerFn({ method: 'POST' })
         nest: resolvedNest,
         egg: resolvedEgg,
         extraEnv,
-        specs: {
-          cpu: Number(resources?.cpu ?? 0),
-          memory: Number(resources?.memory ?? 0),
-          swap: Number(resources?.swap ?? 0),
-          disk: Number(resources?.disk ?? 0),
-          database: Number(resources?.database ?? 0),
-          allocation: Number(resources?.allocation ?? 1),
-          backups: Number(resources?.backups ?? 0),
-        },
+        specs,
         type: product.category,
         userEmail: billingDetails?.billingDetails?.email || user.email,
         userName: billingDetails?.billingDetails?.firstName || user.name,

@@ -1,5 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
-import { z } from 'zod'
+import { success, z } from 'zod'
 import { hasPermissionFn } from '@/lib/has-permission'
 
 const wrapSuccess = <T>(message: string, data?: T) => ({

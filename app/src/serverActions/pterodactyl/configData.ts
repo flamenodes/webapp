@@ -109,22 +109,27 @@ export const pteroServerData = async (
 /** Build specs for a Pterodactyl server from a product's specs JSON field */
 export function extractPteroSpecsFromProduct(productSpecs: unknown) {
   console.log('🔍 Extracting specs from product:', JSON.stringify(productSpecs, null, 2));
-  
+
   const s = (productSpecs ?? {}) as Record<string, any>
-  
+
+  // The Product Configuration UI saves Pterodactyl specs nested under a 'ptero' key
+  // Check for nested ptero object first, then fall back to root-level keys for backwards compatibility
+  const pteroSpecs = s.ptero ?? {}
+  const source = { ...s, ...pteroSpecs } // ptero specs take precedence
+
   // Parse values - they might be strings from the database
-  const cpu = typeof s.cpu === 'string' ? Number(s.cpu) : (s.cpu ?? 0)
-  const memory = typeof s.memory === 'string' ? Number(s.memory) : (s.memory ?? 0)
-  const disk = typeof s.disk === 'string' ? Number(s.disk) : (s.disk ?? 0)
-  const swap = typeof s.swap === 'string' ? Number(s.swap) : (s.swap ?? 0)
-  const database = typeof s.databases === 'string' ? Number(s.databases) : 
-                  typeof s.database === 'string' ? Number(s.database) : 
-                  (s.databases ?? s.database ?? 0)
-  const allocation = typeof s.allocations === 'string' ? Number(s.allocations) : 
-                    typeof s.allocation === 'string' ? Number(s.allocation) : 
-                    (s.allocations ?? s.allocation ?? 1)
-  const backups = typeof s.backups === 'string' ? Number(s.backups) : (s.backups ?? 0)
-  
+  const cpu = typeof source.cpu === 'string' ? Number(source.cpu) : (source.cpu ?? 0)
+  const memory = typeof source.memory === 'string' ? Number(source.memory) : (source.memory ?? 0)
+  const disk = typeof source.disk === 'string' ? Number(source.disk) : (source.disk ?? 0)
+  const swap = typeof source.swap === 'string' ? Number(source.swap) : (source.swap ?? 0)
+  const database = typeof source.databases === 'string' ? Number(source.databases) :
+                  typeof source.database === 'string' ? Number(source.database) :
+                  (source.databases ?? source.database ?? 0)
+  const allocation = typeof source.allocations === 'string' ? Number(source.allocations) :
+                    typeof source.allocation === 'string' ? Number(source.allocation) :
+                    (source.allocations ?? source.allocation ?? 1)
+  const backups = typeof source.backups === 'string' ? Number(source.backups) : (source.backups ?? 0)
+
   const result = {
     cpu,
     memory,
@@ -134,7 +139,7 @@ export function extractPteroSpecsFromProduct(productSpecs: unknown) {
     allocation,
     backups,
   }
-  
+
   console.log('✅ Extracted specs result:', JSON.stringify(result, null, 2));
   return result
 }
