@@ -1,6 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
-import { calculateExpiryDate } from '../billing/expiry'
 
 const sendEmailSchema = z.object({
   type: z.enum(['order-confirmation', 'server-processing', 'server-ready', 'payment-failed', 'server-renewed']),
@@ -148,259 +147,88 @@ export const sendEmailFn = createServerFn({ method: 'POST' })
     }
   })
 
+async function notify(payload: {
+  type: 'server-processing' | 'server-ready'
+  to: string
+  subject: string
+  data: Record<string, any>
+}) {
+  const { addEmailJob } = await import('./queues')
+  const queued = await addEmailJob(payload as any).catch(() => null)
+  if (queued) return
+  await sendEmailFn({ data: payload as any }).catch((err) =>
+    console.error('Email send failed:', err),
+  )
+}
+
 export const deployServerFn = createServerFn({ method: 'POST' })
   .validator((data) => deployServerSchema.parse(data))
   .handler(async ({ data }) => {
-    const { prisma } = await import('#/db')
-    const { pteroServerData } = await import('../pterodactyl/configData')
-    const { ptero } = await import('../pterodactyl/client')
-
-    let lastError: any = null
-    const maxRetries = 5
-    const triedAllocations: number[] = []
+    const { performDeployment, markServerFailed } = await import('./deploy-core')
 
     try {
-      // Send processing email in background
-      sendEmailFn({
+      await notify({
+        type: 'server-processing',
+        to: data.userEmail,
+        subject: `Your Server is Being Deployed - ${data.name}`,
         data: {
-          type: 'server-processing',
-          to: data.userEmail,
-          subject: `Your Server is Being Deployed - ${data.name}`,
-          data: {
-            userName: data.userName,
-            serverName: data.name,
-            serverId: data.serverId,
-          },
+          userName: data.userName,
+          serverName: data.name,
+          serverId: data.serverId,
         },
-      }).catch(err => console.error('Email send failed:', err))
+      })
 
-      // Retry deployment with different allocations
-      for (let attempt = 1; attempt <= maxRetries; attempt++) {
-        try {
-          console.log(`\n🔄 Deployment attempt ${attempt}/${maxRetries} for ${data.name}`)
+      const result = await performDeployment(data)
 
-          const serverPayload = await pteroServerData({
-            name: data.name,
-            user: data.user,
-            egg: data.egg,
-            nest: data.nest,
-            specs: data.specs,
-          }, triedAllocations)
+      await notify({
+        type: 'server-ready',
+        to: data.userEmail,
+        subject: `Your Server is Ready! - ${data.name}`,
+        data: {
+          userName: data.userName,
+          serverName: data.name,
+          serverId: data.serverId,
+          ip: result.ip ?? undefined,
+          port: result.port != null ? String(result.port) : undefined,
+          panelUrl: result.panelUrl,
+        },
+      })
 
-          if (data.extraEnv && Object.keys(data.extraEnv).length > 0) {
-            serverPayload.environment = { ...serverPayload.environment, ...data.extraEnv }
-          }
-
-          console.log('📦 Allocation:', serverPayload.allocation)
-          triedAllocations.push(serverPayload.allocation.default)
-
-          const res = await ptero.post('/application/servers', serverPayload)
-          const attributes = res.data?.attributes ?? res.data?.data?.attributes
-
-          if (!attributes) {
-            throw new Error('No server attributes returned from Pterodactyl')
-          }
-
-          const ip = attributes.relationships?.allocations?.data?.[0]?.attributes?.ip ?? null
-          const port = attributes.relationships?.allocations?.data?.[0]?.attributes?.port ?? null
-          const pterodactylServerId = attributes.id
-
-          await prisma.server.update({
-            where: { id: data.serverId },
-            data: {
-              status: 'ACTIVE',
-              pterodactylData: attributes,
-              pterodactylServerId,
-              ip: ip,
-              port: port,
-              // Billing cycle starts on delivery, not on order creation.
-              expiresAt: calculateExpiryDate(data.billingPeriod ?? 'MONTHLY', data.customDays),
-            },
-          })
-
-          // Update order status to DELIVERED
-          await prisma.order.update({
-            where: { id: data.orderId },
-            data: { status: 'DELIVERED' },
-          })
-
-          // Send ready email in background
-          sendEmailFn({
-            data: {
-              type: 'server-ready',
-              to: data.userEmail,
-              subject: `Your Server is Ready! - ${data.name}`,
-              data: {
-                userName: data.userName,
-                serverName: data.name,
-                serverId: data.serverId,
-                ip,
-                port,
-              },
-            },
-          }).catch(err => console.error('Email send failed:', err))
-
-          console.log(`✅ Deployment successful for ${data.name} - ${ip}:${port}`)
-          return { success: true, data: { ip, port, pterodactylId: attributes.id } }
-        } catch (error: any) {
-          lastError = error
-          const isDaemonError = 
-            error.response?.data?.errors?.some((e: any) => e.code === 'DaemonConnectionException') ||
-            error.response?.errors?.some((e: any) => e.code === 'DaemonConnectionException')
-
-          console.error(`❌ Attempt ${attempt} failed:`, {
-            isDaemonError,
-            code: error.response?.data?.errors?.[0]?.code || error.response?.errors?.[0]?.code || 'UNKNOWN',
-            message: error.message,
-          })
-
-          if (isDaemonError && attempt < maxRetries) {
-            const delay = 3000 + (attempt * 1000) // 4s, 5s, 6s, 7s for attempts 1-4
-            console.warn(`⚠️ Daemon connection failed on attempt ${attempt}, waiting ${delay}ms before retrying with different allocation...`)
-            await new Promise(resolve => setTimeout(resolve, delay))
-            continue
-          }
-
-          throw error
-        }
+      return {
+        success: true as const,
+        data: { ip: result.ip, port: result.port, pterodactylId: result.pterodactylId },
       }
-
-      throw lastError || new Error('Deployment failed after all retries')
     } catch (error: any) {
-      console.error(`❌ Deployment failed for server: ${data.name}`)
-      console.error('Error details:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
-        errors: error.response?.data?.errors,
-      })
-
-      await prisma.server.update({
-        where: { id: data.serverId },
-        data: { status: 'FAILED' },
-      })
-
-      return { success: false, error: error.message, details: error.response?.data }
+      await markServerFailed(data.serverId, error?.message)
+      return { success: false as const, error: error.message, details: error.response?.data }
     }
   })
 
 export const redeployServerFn = createServerFn({ method: 'POST' })
   .validator((data) => deployServerSchema.parse(data))
   .handler(async ({ data }) => {
-    const { prisma } = await import('#/db')
-    const { pteroServerData } = await import('../pterodactyl/configData')
-    const { ptero } = await import('../pterodactyl/client')
+    const { performRedeploy, markServerFailed } = await import('./deploy-core')
 
     try {
-      const server = await prisma.server.findUniqueOrThrow({
-        where: { id: data.serverId },
+      const result = await performRedeploy(data)
+
+      await notify({
+        type: 'server-ready',
+        to: data.userEmail,
+        subject: `Your Server is Ready! - ${data.name}`,
+        data: {
+          userName: data.userName,
+          serverName: data.name,
+          serverId: data.serverId,
+          ip: result.ip ?? undefined,
+          port: result.port != null ? String(result.port) : undefined,
+          panelUrl: result.panelUrl,
+        },
       })
 
-      let pterodactylServerId = server.pterodactylServerId
-
-      // Check if the Pterodactyl server still exists
-      let serverExists = true
-      if (pterodactylServerId) {
-        try {
-          await ptero.get(`/application/servers/${pterodactylServerId}`)
-          console.log(`\n🔄 Redeploying server: ${data.name} (Pterodactyl ID: ${pterodactylServerId})`)
-        } catch (checkError: any) {
-          if (checkError.response?.status === 404) {
-            serverExists = false
-            console.warn(`⚠️ Pterodactyl server ${pterodactylServerId} not found, creating new server...`)
-          } else {
-            throw checkError
-          }
-        }
-      } else {
-        serverExists = false
-        console.log(`\n🔄 No Pterodactyl ID found, creating new server for: ${data.name}`)
-      }
-
-      // If server doesn't exist, create a new one
-      if (!serverExists) {
-        const triedAllocations: number[] = []
-        const serverPayload = await pteroServerData({
-          name: data.name,
-          user: data.user,
-          egg: data.egg,
-          nest: data.nest,
-          specs: data.specs,
-        }, triedAllocations)
-
-        if (data.extraEnv && Object.keys(data.extraEnv).length > 0) {
-          serverPayload.environment = { ...serverPayload.environment, ...data.extraEnv }
-        }
-
-        console.log('📦 Creating new Pterodactyl server...')
-        const res = await ptero.post('/application/servers', serverPayload)
-        const attributes = res.data?.attributes ?? res.data?.data?.attributes
-
-        if (!attributes) {
-          throw new Error('No server attributes returned from Pterodactyl')
-        }
-
-        pterodactylServerId = attributes.id
-        const ip = attributes.relationships?.allocations?.data?.[0]?.attributes?.ip ?? null
-        const port = attributes.relationships?.allocations?.data?.[0]?.attributes?.port ?? null
-
-        await prisma.server.update({
-          where: { id: data.serverId },
-          data: {
-            pterodactylServerId,
-            pterodactylData: attributes,
-            ip: ip,
-            port: port,
-          },
-        })
-
-        console.log(`✅ New Pterodactyl server created with ID: ${pterodactylServerId}`)
-      } else {
-        // Update existing server specs
-        const updatePayload = {
-          limits: {
-            memory: data.specs.memory,
-            swap: data.specs.swap,
-            disk: data.specs.disk,
-            io: 500,
-            cpu: data.specs.cpu,
-            threads: null,
-          },
-          feature_limits: {
-            databases: data.specs.database,
-            allocations: data.specs.allocation,
-            backups: data.specs.backups,
-          },
-        }
-
-        console.log('📋 Updating server specs...')
-        await ptero.post(`/application/servers/${pterodactylServerId}/build`, updatePayload)
-
-        console.log('🔧 Triggering server reinstall...')
-        await ptero.post(`/application/servers/${pterodactylServerId}/reinstall`)
-      }
-
-      // Update database status
-      await prisma.server.update({
-        where: { id: data.serverId },
-        data: { status: 'ACTIVE' },
-      })
-
-      console.log(`✅ Redeployment successful for ${data.name}`)
-      return { success: true, message: 'Server redeployed successfully' }
+      return { success: true as const, message: 'Server redeployed successfully' }
     } catch (error: any) {
-      console.error(`❌ Redeployment failed for server: ${data.name}`)
-      console.error('Error details:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
-      })
-
-      await prisma.server.update({
-        where: { id: data.serverId },
-        data: { status: 'FAILED' },
-      })
-
-      return { success: false, error: error.message, details: error.response?.data }
+      await markServerFailed(data.serverId, error?.message)
+      return { success: false as const, error: error.message, details: error.response?.data }
     }
   })

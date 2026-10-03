@@ -57,6 +57,12 @@ function PteroDetails({ serverId }: { serverId: string }) {
     retry: false,
   })
 
+  const refreshButton = (
+    <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => refetch()}>
+      <RefreshCw className="w-3.5 h-3.5" />
+    </Button>
+  )
+
   if (isLoading) {
     return (
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -65,7 +71,14 @@ function PteroDetails({ serverId }: { serverId: string }) {
     )
   }
   if (error || !data) {
-    return <p className="text-sm text-destructive">Could not fetch Pterodactyl data.</p>
+    return (
+      <div className="flex items-start justify-between gap-3">
+        <p className="text-sm text-destructive">
+          {error instanceof Error ? error.message : 'Could not fetch Pterodactyl data.'}
+        </p>
+        {refreshButton}
+      </div>
+    )
   }
 
   const stateColor: Record<string, string> = {
@@ -73,6 +86,9 @@ function PteroDetails({ serverId }: { serverId: string }) {
     starting: 'text-blue-500',
     stopping: 'text-orange-500',
     offline: 'text-muted-foreground',
+    installing: 'text-blue-500',
+    install_failed: 'text-destructive',
+    suspended: 'text-destructive',
   }
 
   return (
@@ -83,11 +99,19 @@ function PteroDetails({ serverId }: { serverId: string }) {
           <p className={`text-sm font-semibold capitalize ${stateColor[data.state ?? ''] ?? 'text-muted-foreground'}`}>
             {data.state ?? 'Unknown'}
           </p>
+          {data.suspended ? (
+            <p className="text-xs text-destructive mt-0.5">Suspended in panel</p>
+          ) : null}
         </div>
-        <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => refetch()}>
-          <RefreshCw className="w-3.5 h-3.5" />
-        </Button>
+        {refreshButton}
       </div>
+
+      {/* The panel lookup failed, but we still show what we stored at deploy time. */}
+      {data.error && (
+        <p className="text-xs text-amber-600 dark:text-amber-500 rounded-md border border-amber-500/30 bg-amber-500/10 px-2.5 py-2">
+          {data.error} Showing the data recorded when this server was deployed.
+        </p>
+      )}
 
       {/* Server Connection Info */}
       <div className="rounded-lg border border-border bg-muted/30 p-3 space-y-2">
@@ -118,6 +142,18 @@ function PteroDetails({ serverId }: { serverId: string }) {
               <p className="text-sm font-semibold">{data.nodeAlias}</p>
             </div>
           )}
+          {data.identifier && (
+            <div>
+              <p className="text-muted-foreground">Identifier</p>
+              <p className="font-mono text-xs">{data.identifier}</p>
+            </div>
+          )}
+          {data.pterodactylId ? (
+            <div>
+              <p className="text-muted-foreground">Panel ID</p>
+              <p className="font-mono text-xs">{data.pterodactylId}</p>
+            </div>
+          ) : null}
           {data.allocationId && (
             <div className="col-span-2">
               <p className="text-muted-foreground">Allocation ID</p>
@@ -127,7 +163,40 @@ function PteroDetails({ serverId }: { serverId: string }) {
         </div>
       </div>
 
-      {data.usage && (
+      {/* Allocated resources */}
+      {data.limits && (
+        <div className="rounded-lg border border-border bg-muted/30 p-3 space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Allocated Resources</p>
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <div>
+              <p className="text-muted-foreground">CPU</p>
+              <p className="font-semibold">{data.limits.cpu === 0 ? 'Unlimited' : `${data.limits.cpu}%`}</p>
+            </div>
+            <div>
+              <p className="text-muted-foreground">Memory</p>
+              <p className="font-semibold">{data.limits.memory === 0 ? 'Unlimited' : `${data.limits.memory} MB`}</p>
+            </div>
+            <div>
+              <p className="text-muted-foreground">Disk</p>
+              <p className="font-semibold">{data.limits.disk === 0 ? 'Unlimited' : `${data.limits.disk} MB`}</p>
+            </div>
+            <div>
+              <p className="text-muted-foreground">Swap</p>
+              <p className="font-semibold">{data.limits.swap === 0 ? 'Disabled' : `${data.limits.swap} MB`}</p>
+            </div>
+            {data.featureLimits && (
+              <div className="col-span-2">
+                <p className="text-muted-foreground">Feature Limits</p>
+                <p className="font-semibold">
+                  {data.featureLimits.databases} databases · {data.featureLimits.allocations} allocations · {data.featureLimits.backups} backups
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {data.usage ? (
         <div className="grid grid-cols-2 gap-3">
           <div className="rounded-lg border border-border bg-muted/30 p-3">
             <div className="flex items-center gap-1.5 mb-1">
@@ -162,11 +231,17 @@ function PteroDetails({ serverId }: { serverId: string }) {
             <p className="text-xs text-muted-foreground">↑ {formatBytes(data.usage.network_tx)}</p>
           </div>
         </div>
+      ) : (
+        <p className="text-xs text-muted-foreground">
+          {data.available
+            ? 'Live CPU/RAM usage needs a client API key (PTERO_CLIENT_SECRET) on the panel.'
+            : 'No live data is available for this server.'}
+        </p>
       )}
 
-      {data.identifier && (
+      {data.panelUrl && (
         <a
-          href={`${(import.meta as any).env?.VITE_PTERO_URL ?? ''}/server/${data.identifier}`}
+          href={data.panelUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-1.5 text-xs text-primary hover:underline"
@@ -222,11 +297,19 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
   const statusMutation = useMutation({
     mutationFn: (newStatus: 'SUSPENDED' | 'ACTIVE') =>
       updateAdminServer({ data: { serverId: server.id, status: newStatus, syncToPanel: true } }),
-    onSuccess: (_, newStatus) => {
+    onSuccess: (res, newStatus) => {
       qc.invalidateQueries({ queryKey: ['admin-servers'] })
-      toast.success(newStatus === 'SUSPENDED' ? 'Server suspended' : 'Server activated')
+      qc.invalidateQueries({ queryKey: ['ptero-detail', server.id] })
+      const label = newStatus === 'SUSPENDED' ? 'Server suspended' : 'Server activated'
+      if (res.panelSync === 'skipped') {
+        toast.warning(`${label} in the dashboard, but the panel was not updated`, {
+          description: res.panelError,
+        })
+      } else {
+        toast.success(`${label} and synced to Pterodactyl`)
+      }
     },
-    onError: () => toast.error('Failed to update server status'),
+    onError: (err: any) => toast.error(err.message || 'Failed to update server status'),
   })
 
   const deleteMutation = useMutation({
@@ -243,7 +326,9 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
     mutationFn: () => retryDeployment({ data: { serverId: server.id } }),
     onSuccess: (res) => {
       qc.invalidateQueries({ queryKey: ['admin-servers'] })
-      toast.success(res.message || 'Deployment retried successfully')
+      qc.invalidateQueries({ queryKey: ['ptero-detail', server.id] })
+      if (res.success) toast.success(res.message || 'Deployment queued')
+      else toast.error(res.message || 'Deployment failed')
       onClose()
     },
     onError: (err: any) => toast.error(err.message || 'Failed to retry deployment'),
@@ -253,7 +338,9 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
     mutationFn: () => redeployServer({ data: { serverId: server.id } }),
     onSuccess: (res) => {
       qc.invalidateQueries({ queryKey: ['admin-servers'] })
-      toast.success(res.message || 'Redeployment started successfully')
+      qc.invalidateQueries({ queryKey: ['ptero-detail', server.id] })
+      if (res.success) toast.success(res.message || 'Redeployment queued')
+      else toast.error(res.message || 'Redeployment failed')
       onClose()
     },
     onError: (err: any) => toast.error(err.message || 'Failed to start redeployment'),

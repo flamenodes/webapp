@@ -28,8 +28,8 @@ function initQueues() {
     deploymentQueue = new Queue('server-deployment', {
       connection: redis,
       defaultJobOptions: {
-        attempts: 2,
-        backoff: { type: 'fixed', delay: 5000 },
+        attempts: 3,
+        backoff: { type: 'exponential', delay: 10000 },
         removeOnComplete: { count: 50, age: 7 * 24 * 3600 },
         removeOnFail: { count: 100, age: 30 * 24 * 3600 },
       },
@@ -103,6 +103,12 @@ export interface DeploymentJobData {
   // moment it is actually delivered (not when the order was created).
   billingPeriod?: string
   customDays?: number
+  // 'create' provisions a new panel server; 'redeploy' re-applies build limits
+  // and reinstalls (falling back to a create when the panel server is gone).
+  mode?: 'create' | 'redeploy'
+  // Set by admin actions so the UI can distinguish a manual retry/redeploy from
+  // an automatic fulfillment.
+  source?: 'order' | 'admin' | 'retry'
 }
 
 export async function addEmailJob(data: EmailJobData) {
@@ -124,7 +130,9 @@ export async function addDeploymentJob(data: DeploymentJobData) {
   }
   try {
     const job = await deploymentQueue.add('deploy-server', data)
-    console.log(`✅ Deployment job added to queue: ${job.id}`)
+    console.log(
+      `✅ Deployment job queued: ${job.id} (${data.mode ?? 'create'} · ${data.name})`,
+    )
     return job
   } catch (error) {
     console.error('❌ Failed to add deployment job:', error)

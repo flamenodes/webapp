@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useSuspenseQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useSuspenseQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
 import { Badge } from '#/components/ui/badge'
-import { getStuckServers, getDeploymentQueueLogs, retryServerDeployment } from '#/serverActions/admin/deployment.api'
+import { getStuckServers, getDeploymentQueueLogs, getDeploymentConfigStatus, retryServerDeployment } from '#/serverActions/admin/deployment.api'
 import { Loader2, RefreshCw, CheckCircle, XCircle, Clock, Zap, Server, RotateCw } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -38,12 +38,22 @@ function DeployPage() {
     refetchInterval: 10000,
   })
 
+  // Read on the server — `process.env` is empty in the browser, so the status
+  // badges below used to always render as "Not Configured".
+  const { data: config } = useQuery({
+    queryKey: ['deployment-config-status'],
+    queryFn: () => getDeploymentConfigStatus(),
+    staleTime: 60_000,
+  })
+
   const retryMutation = useMutation({
     mutationFn: (serverId: string) => retryServerDeployment({ data: { serverId } }),
-    onSuccess: () => {
+    onSuccess: (res) => {
       qc.invalidateQueries({ queryKey: ['stuck-servers'] })
       qc.invalidateQueries({ queryKey: ['admin-servers'] })
-      toast.success('Deployment triggered successfully')
+      qc.invalidateQueries({ queryKey: ['deployment-queue-logs'] })
+      if (res.success) toast.success(res.message || 'Deployment queued')
+      else toast.error(res.message || 'Deployment failed')
     },
     onError: (error: any) => {
       toast.error(error.message || 'Failed to retry deployment')
@@ -312,16 +322,22 @@ function DeployPage() {
               <div className="p-4 rounded-lg bg-muted/50">
                 <div className="flex items-center justify-between mb-2">
                   <p className="font-semibold">Deployment Method</p>
-                  <Badge variant="default">Server Functions</Badge>
+                  <Badge variant={config?.redisConfigured ? 'default' : 'secondary'}>
+                    {config?.redisConfigured ? 'BullMQ Queue' : 'Inline'}
+                  </Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Using TanStack Start server functions for deployments
+                  {config?.redisConfigured
+                    ? 'Deployments are queued and processed by the background worker'
+                    : 'Configure REDIS_URL to queue deployments in the background'}
                 </p>
               </div>
               <div className="p-4 rounded-lg bg-muted/50">
                 <div className="flex items-center justify-between mb-2">
                   <p className="font-semibold">Background Processing</p>
-                  <Badge variant="default">Active</Badge>
+                  <Badge variant={config?.redisConfigured ? 'default' : 'secondary'}>
+                    {config?.redisConfigured ? 'Active' : 'Unavailable'}
+                  </Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Deployments run asynchronously without blocking requests
@@ -330,23 +346,25 @@ function DeployPage() {
               <div className="p-4 rounded-lg bg-muted/50">
                 <div className="flex items-center justify-between mb-2">
                   <p className="font-semibold">Email Notifications</p>
-                  <Badge variant={process.env.RESEND_API_KEY ? 'default' : 'secondary'}>
-                    {process.env.RESEND_API_KEY ? 'Enabled' : 'Disabled'}
+                  <Badge variant={config?.emailConfigured ? 'default' : 'secondary'}>
+                    {config?.emailConfigured ? 'Enabled' : 'Disabled'}
                   </Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  {process.env.RESEND_API_KEY ? 'Automated emails via Resend' : 'Configure RESEND_API_KEY to enable'}
+                  {config?.emailConfigured ? 'Automated emails via Resend' : 'Configure RESEND_API_KEY to enable'}
                 </p>
               </div>
               <div className="p-4 rounded-lg bg-muted/50">
                 <div className="flex items-center justify-between mb-2">
                   <p className="font-semibold">Pterodactyl Integration</p>
-                  <Badge variant={process.env.PTERODACTYL_URL ? 'default' : 'secondary'}>
-                    {process.env.PTERODACTYL_URL ? 'Connected' : 'Not Configured'}
+                  <Badge variant={config?.pteroConfigured ? 'default' : 'secondary'}>
+                    {config?.pteroConfigured ? 'Connected' : 'Not Configured'}
                   </Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  {process.env.PTERODACTYL_URL ? 'Ready for server provisioning' : 'Configure PTERODACTYL_URL to enable'}
+                  {config?.pteroConfigured
+                    ? `Ready for server provisioning${config.pteroUrl ? ` via ${config.pteroUrl}` : ''}`
+                    : 'Configure PTERO_URL and PTERO_SECRET to enable'}
                 </p>
               </div>
             </div>

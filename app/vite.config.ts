@@ -63,7 +63,14 @@ const config = defineConfig({
       },
     },
     devtools(),
-    nitro({ rollupConfig: { external: [/^@sentry\//] } }),
+    // Nitro v3 defaults to `serverDir: false` / `scanDirs: []`, so it never
+    // globs `server/plugins/**` on its own — the files were silently dropped
+    // from the build and the BullMQ workers never started in production.
+    // Listing them explicitly guarantees they are bundled and run at boot.
+    nitro({
+      plugins: ['server/plugins/workers.ts', 'server/plugins/polyfill.ts'],
+      rollupConfig: { external: [/^@sentry\//] },
+    }),
     tailwindcss(),
     tanstackStart(),
     viteReact(),

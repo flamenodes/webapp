@@ -5,10 +5,18 @@ let redisClient: Redis | null = null
 export function getRedis(): Redis | null {
   if (redisClient) return redisClient
 
+  // No hardcoded fallback: BullMQ must never silently attach to an unknown
+  // Redis instance. Without REDIS_URL, queues and workers stay disabled and
+  // callers fall back to inline processing.
+  const redisUrl = process.env.REDIS_URL
+  if (!redisUrl) {
+    console.warn('⚠️  REDIS_URL is not set — BullMQ queues and workers are disabled')
+    return null
+  }
+
   try {
-    const redisUrl = process.env.REDIS_URL || 'redis://default:JmGAGBqlW21zcqvwfAha@13.203.230.206:3453'
     redisClient = new Redis(redisUrl, {
-      maxRetriesPerRequest: 3,
+      maxRetriesPerRequest: null,
       retryStrategy: (times) => {
         if (times > 3) {
           console.error('❌ Redis connection failed after 3 retries')

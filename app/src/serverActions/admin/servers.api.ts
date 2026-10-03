@@ -1,7 +1,8 @@
 import { createServerFn } from '@tanstack/react-start'
 import { prisma } from '#/db'
 import { getSession } from '@/handlers/auth.handler'
-import { ptero } from '../pterodactyl/client'
+import { ptero, pteroClient, getPanelServerUrl } from '../pterodactyl/client'
+import { getPteroServerId } from '../pterodactyl/resolve'
 import { z } from 'zod'
 import net from 'net'
 
@@ -34,55 +35,100 @@ export const getAdminServers = createServerFn({ method: 'GET' }).handler(async (
   }))
 })
 
+/**
+ * Panel details for a server, for the admin "Live Panel Data" card.
+ *
+ * The stored `PTERO_SECRET` is an **application** key (`ptla_`), which may only
+ * call `/api/application/*`. Calling `/api/client/*` with it returns 403, which
+ * is why this used to render "Could not fetch Pterodactyl data." Live resource
+ * usage is only available from the client API, so it is fetched with the
+ * optional `PTERO_CLIENT_SECRET` (`ptlc_`) key and simply omitted when that key
+ * is not configured.
+ */
 export const fetchPteroServerData = createServerFn({ method: 'POST' })
   .validator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
 
     const server = await prisma.server.findUniqueOrThrow({ where: { id: data.serverId } })
-    const pteroData = server.pterodactylData as any
-    if (!pteroData?.identifier) throw new Error('No Pterodactyl identifier on this server')
+    const stored = (server.pterodactylData as any) ?? {}
+    const pteroId = getPteroServerId(server)
+    const identifier = stored.identifier ?? stored.attributes?.identifier ?? null
 
-    const [resourcesRes, detailsRes] = await Promise.allSettled([
-      ptero.get(`/client/servers/${pteroData.identifier}/resources`),
-      ptero.get(`/client/servers/${pteroData.identifier}`),
-    ])
+    let panelError: string | null = null
+    let application: any = null
 
-    const resources =
-      resourcesRes.status === 'fulfilled'
-        ? resourcesRes.value.data?.attributes
-        : null
-    const details =
-      detailsRes.status === 'fulfilled'
-        ? detailsRes.value.data?.attributes
-        : null
+    if (pteroId) {
+      try {
+        const res = await ptero.get(`/application/servers/${pteroId}`, {
+          params: { include: 'allocations,node,user' },
+        })
+        application = res.data?.attributes ?? res.data?.data?.attributes ?? null
+      } catch (error: any) {
+        panelError =
+          error?.response?.status === 404
+            ? 'This server no longer exists in the Pterodactyl panel.'
+            : (error?.response?.data?.errors?.[0]?.detail ?? error?.message ?? 'Panel request failed')
+      }
+    } else {
+      panelError = 'No Pterodactyl server is linked to this record yet.'
+    }
 
-    // Extract allocation and node info from stored pterodactylData
-    const allocationData = pteroData.relationships?.allocations?.data?.[0]?.attributes
-    const nodeData = pteroData.relationships?.node?.data?.attributes
-    const allocationId = pteroData.relationships?.allocations?.data?.[0]?.id
+    // Live usage is best-effort: it needs the optional client key.
+    let live: any = null
+    if (pteroClient && identifier) {
+      try {
+        const res = await pteroClient.get(`/client/servers/${identifier}/resources`)
+        live = res.data?.attributes ?? null
+      } catch (error: any) {
+        console.warn(
+          `⚠️  Live usage unavailable for ${identifier}:`,
+          error?.response?.status ?? error?.message,
+        )
+      }
+    }
+
+    // Prefer fresh panel data, fall back to what we stored at creation time.
+    const source = application ?? stored
+    const allocation = source?.relationships?.allocations?.data?.[0] ?? null
+    const node = source?.relationships?.node?.data?.attributes ?? null
+    const owner = source?.relationships?.user?.data?.attributes ?? null
 
     return {
-      state: resources?.current_state ?? null,
-      usage: resources?.resources
+      // Panel data is available if either the live lookup or the stored payload
+      // has something to show.
+      available: Boolean(application || source?.identifier || source?.uuid || pteroId),
+      error: panelError,
+      live: Boolean(live),
+      state: live?.current_state ?? application?.status ?? null,
+      status: application?.status ?? null,
+      suspended: application?.suspended ?? null,
+      usage: live?.resources
         ? {
-            cpu: resources.resources.cpu_absolute ?? 0,
-            memory: resources.resources.memory_bytes ?? 0,
-            disk: resources.resources.disk_bytes ?? 0,
-            network_rx: resources.resources.network_rx_bytes ?? 0,
-            network_tx: resources.resources.network_tx_bytes ?? 0,
+            cpu: live.resources.cpu_absolute ?? 0,
+            memory: live.resources.memory_bytes ?? 0,
+            disk: live.resources.disk_bytes ?? 0,
+            network_rx: live.resources.network_rx_bytes ?? 0,
+            network_tx: live.resources.network_tx_bytes ?? 0,
+            uptime: live.resources.uptime ?? null,
           }
         : null,
-      limits: details?.limits ?? null,
-      name: details?.name ?? null,
-      description: details?.description ?? null,
-      identifier: pteroData.identifier,
-      ip: allocationData?.ip ?? null,
-      ipAlias: allocationData?.ip_alias ?? null,
-      port: allocationData?.port ?? null,
-      allocationId: allocationId ?? null,
-      nodeId: nodeData?.id ?? null,
-      nodeAlias: nodeData?.name_short ?? nodeData?.name ?? null,
+      limits: application?.limits ?? stored?.limits ?? null,
+      featureLimits: application?.feature_limits ?? stored?.feature_limits ?? null,
+      name: application?.name ?? stored?.name ?? server.name,
+      description: application?.description ?? stored?.description ?? null,
+      identifier: identifier ?? application?.identifier ?? null,
+      uuid: application?.uuid ?? stored?.uuid ?? null,
+      pterodactylId: pteroId,
+      ip: allocation?.attributes?.ip ?? server.ip ?? null,
+      ipAlias: allocation?.attributes?.ip_alias ?? null,
+      port: allocation?.attributes?.port ?? server.port ?? null,
+      allocationId: allocation?.id ?? null,
+      nodeId: node?.id ?? source?.node ?? null,
+      nodeAlias: node?.name ?? node?.name_short ?? null,
+      owner: owner?.email ?? owner?.username ?? null,
+      panelUrl: getPanelServerUrl(identifier ?? application?.identifier),
+      createdAt: application?.created_at ?? stored?.created_at ?? null,
     }
   })
 
@@ -129,24 +175,32 @@ export const updateAdminServer = createServerFn({ method: 'POST' })
     if (data.label !== undefined) resources.label = data.label
 
     const deployMode = server.orderItem?.product?.deployMode ?? 'CUSTOM'
-    const pteroData = server.pterodactylData as any
+    const pteroId = getPteroServerId(server)
+    let panelSync: 'not_applicable' | 'synced' | 'skipped' = 'not_applicable'
+    let panelError: string | undefined
 
-    if (deployMode === 'PTERODACTYL' && pteroData?.id && data.syncToPanel) {
-      if (data.status) {
+    // Suspend/unsuspend in the panel only when the caller asked for it.
+    if (deployMode === 'PTERODACTYL' && data.syncToPanel && data.status) {
+      if (!pteroId) {
+        panelSync = 'skipped'
+        panelError = 'This server has no Pterodactyl server id yet, so the panel was not updated.'
+      } else if (data.status === 'SUSPENDED' || data.status === 'ACTIVE') {
         try {
-          if (data.status === 'SUSPENDED') {
-            await ptero.post(`/application/servers/${pteroData.id}/suspend`)
-          } else if (data.status === 'ACTIVE') {
-            await ptero.post(`/application/servers/${pteroData.id}/unsuspend`)
-          }
+          await ptero.post(
+            `/application/servers/${pteroId}/${data.status === 'SUSPENDED' ? 'suspend' : 'unsuspend'}`,
+          )
+          panelSync = 'synced'
         } catch (pteroError: any) {
-          console.error(`Pterodactyl status sync failed for server ${pteroData.id}:`, pteroError.message)
-          throw new Error('Failed to sync status to Pterodactyl panel')
+          console.error(`Pterodactyl status sync failed for server ${pteroId}:`, pteroError.message)
+          throw new Error(
+            pteroError?.response?.data?.errors?.[0]?.detail ||
+              'Failed to sync status to the Pterodactyl panel',
+          )
         }
       }
     }
 
-    return prisma.server.update({
+    const updated = await prisma.server.update({
       where: { id: data.serverId },
       data: {
         ...(data.ip !== undefined ? { ip: data.ip } : {}),
@@ -158,6 +212,8 @@ export const updateAdminServer = createServerFn({ method: 'POST' })
         resources,
       },
     })
+
+    return { ...updated, panelSync, panelError }
   })
 
 export const deleteAdminServer = createServerFn({ method: 'POST' })
@@ -171,13 +227,13 @@ export const deleteAdminServer = createServerFn({ method: 'POST' })
     })
 
     const deployMode = server.orderItem?.product?.deployMode ?? 'CUSTOM'
-    const pteroData = server.pterodactylData as any
+    const pteroId = getPteroServerId(server)
 
-    if (deployMode === 'PTERODACTYL' && pteroData?.id) {
+    if (deployMode === 'PTERODACTYL' && pteroId) {
       try {
-        await ptero.delete(`/application/servers/${pteroData.id}`)
+        await ptero.delete(`/application/servers/${pteroId}`)
       } catch (pteroError: any) {
-        console.error(`Failed to delete Pterodactyl server ${pteroData.id}:`, pteroError.message)
+        console.error(`Failed to delete Pterodactyl server ${pteroId}:`, pteroError.message)
       }
     }
 
@@ -197,13 +253,13 @@ export const bulkDeleteServers = createServerFn({ method: 'POST' })
 
     for (const server of servers) {
       const deployMode = server.orderItem?.product?.deployMode ?? 'CUSTOM'
-      const pteroData = server.pterodactylData as any
+      const pteroId = getPteroServerId(server)
 
-      if (deployMode === 'PTERODACTYL' && pteroData?.id) {
+      if (deployMode === 'PTERODACTYL' && pteroId) {
         try {
-          await ptero.delete(`/application/servers/${pteroData.id}`)
+          await ptero.delete(`/application/servers/${pteroId}`)
         } catch (pteroError: any) {
-          console.error(`Failed to delete Pterodactyl server ${pteroData.id}:`, pteroError.message)
+          console.error(`Failed to delete Pterodactyl server ${pteroId}:`, pteroError.message)
         }
       }
     }
@@ -212,157 +268,39 @@ export const bulkDeleteServers = createServerFn({ method: 'POST' })
     return { success: true, deletedCount: servers.length }
   })
 
+/**
+ * Retry a failed deployment. Queues the work through BullMQ so the request
+ * returns immediately; falls back to inline processing without Redis.
+ */
 export const retryDeployment = createServerFn({ method: 'POST' })
   .validator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
 
-    const server = await prisma.server.findUniqueOrThrow({
-      where: { id: data.serverId },
-      include: {
-        user: { select: { id: true, name: true, email: true } },
-        orderItem: {
-          include: {
-            order: { select: { id: true } },
-            product: true,
-          },
-        },
-      },
-    })
-
-    if (server.orderItem?.product?.deployMode !== 'PTERODACTYL') {
-      throw new Error('Manual deployment only supported for Pterodactyl servers')
-    }
-
-    console.log('='.repeat(80));
-    console.log('🔄 RETRY DEPLOYMENT - DEBUGGING SPECS');
-    console.log('='.repeat(80));
-    console.log('📦 Product ID:', server.orderItem.product.id);
-    console.log('📦 Product Name:', server.orderItem.product.planName);
-    console.log('📦 Product Object:', JSON.stringify(server.orderItem.product, null, 2));
-    console.log('📦 Product specs field:', JSON.stringify(server.orderItem.product.specs, null, 2));
-    console.log('📦 Product specs type:', typeof server.orderItem.product.specs);
-    console.log('📦 OrderItem specsSnapshot:', JSON.stringify(server.orderItem?.specsSnapshot, null, 2));
-    console.log('='.repeat(80));
-
-    const { extractPteroSpecsFromProduct } = await import('../pterodactyl/configData')
-    const specs = extractPteroSpecsFromProduct(server.orderItem.product.specs)
-    
-    console.log('✅ Final extracted specs:', JSON.stringify(specs, null, 2));
-    console.log('='.repeat(80));
-    
-    // Validate critical specs are not 0
-    if (!specs.cpu || !specs.memory || !specs.disk) {
-      throw new Error('Product specs are incomplete. CPU, memory, and disk must be greater than 0.')
-    }
-
-    const pteroConfig = (server.orderItem.product.pteroConfig as any) ?? {}
-    const orderId = server.orderItem.order?.id
-    
-    if (!orderId) throw new Error('No order found for this server')
+    const { buildDeploymentRequest, dispatchDeployment } = await import('./deploy-payload')
+    const request = await buildDeploymentRequest(data.serverId)
 
     await prisma.server.update({
       where: { id: data.serverId },
       data: { status: 'PROCESSING' },
     })
 
-    const { deployServerFn } = await import('../queue/deploy-functions')
-    
-    const result = await deployServerFn({
-      data: {
-        orderId,
-        orderItemId: server.orderItemId!,
-        serverId: server.id,
-        name: server.name,
-        user: pteroConfig.user ?? 1,
-        nest: pteroConfig.nest ?? 1,
-        egg: pteroConfig.egg ?? 1,
-        extraEnv: pteroConfig.extraEnv ?? {},
-        specs,
-        type: 'pterodactyl',
-        userEmail: server.user?.email ?? '',
-        userName: server.user?.name ?? 'User',
-      },
-    })
-    
-    return { 
-      success: result.success,
-      message: result.success ? 'Deployment completed successfully' : result.error || 'Deployment failed'
-    }
+    return dispatchDeployment(request, { mode: 'create', source: 'retry' })
   })
 
+/** Redeploy an existing server (re-apply build limits + reinstall). */
 export const redeployServer = createServerFn({ method: 'POST' })
   .validator((data: unknown) => z.object({ serverId: z.string() }).parse(data))
   .handler(async ({ data }) => {
     await requireAdmin()
 
-    const server = await prisma.server.findUniqueOrThrow({
-      where: { id: data.serverId },
-      include: {
-        user: { select: { id: true, name: true, email: true } },
-        orderItem: {
-          include: {
-            order: { select: { id: true } },
-            product: true,
-          },
-        },
-      },
-    })
-
-    if (server.orderItem?.product?.deployMode !== 'PTERODACTYL') {
-      throw new Error('Redeployment only supported for Pterodactyl servers')
-    }
-
-    console.log('='.repeat(80));
-    console.log('🔄 REDEPLOY - DEBUGGING SPECS');
-    console.log('='.repeat(80));
-    console.log('📦 Product ID:', server.orderItem.product.id);
-    console.log('📦 Product Name:', server.orderItem.product.planName);
-    console.log('📦 Product Object:', JSON.stringify(server.orderItem.product, null, 2));
-    console.log('📦 Product specs field:', JSON.stringify(server.orderItem.product.specs, null, 2));
-    console.log('📦 Product specs type:', typeof server.orderItem.product.specs);
-    console.log('📦 OrderItem specsSnapshot:', JSON.stringify(server.orderItem?.specsSnapshot, null, 2));
-    console.log('='.repeat(80));
-
-    const { extractPteroSpecsFromProduct } = await import('../pterodactyl/configData')
-    const specs = extractPteroSpecsFromProduct(server.orderItem.product.specs)
-    
-    console.log('✅ Final extracted specs:', JSON.stringify(specs, null, 2));
-    console.log('='.repeat(80));
-    
-    // Validate critical specs are not 0
-    if (!specs.cpu || !specs.memory || !specs.disk) {
-      throw new Error('Product specs are incomplete. CPU, memory, and disk must be greater than 0.')
-    }
-
-    const pteroConfig = (server.orderItem.product.pteroConfig as any) ?? {}
+    const { buildDeploymentRequest, dispatchDeployment } = await import('./deploy-payload')
+    const request = await buildDeploymentRequest(data.serverId)
 
     await prisma.server.update({
       where: { id: data.serverId },
       data: { status: 'PROCESSING' },
     })
 
-    const { redeployServerFn } = await import('../queue/deploy-functions')
-    
-    const result = await redeployServerFn({
-      data: {
-        orderId: server.orderItem.order?.id ?? '',
-        orderItemId: server.orderItemId!,
-        serverId: server.id,
-        name: server.name,
-        user: pteroConfig.user ?? 1,
-        nest: pteroConfig.nest ?? 1,
-        egg: pteroConfig.egg ?? 1,
-        extraEnv: pteroConfig.extraEnv ?? {},
-        specs,
-        type: 'pterodactyl',
-        userEmail: server.user?.email ?? '',
-        userName: server.user?.name ?? 'User',
-      },
-    })
-    
-    return { 
-      success: result.success,
-      message: result.success ? 'Redeployment started successfully' : result.error || 'Redeployment failed'
-    }
+    return dispatchDeployment(request, { mode: 'redeploy', source: 'admin' })
   })

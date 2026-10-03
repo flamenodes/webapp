@@ -1,19 +1,21 @@
 {
-	"name": "flamenodes-cloud",
-	"version": "1.0.0",
-	"description": "Flame Nodes cloud infra",
-	"keywords": [
-		"flamenodes",
-		"cloudinfra"
-	],
-	"license": "ISC",
-	"author": "aislx",
-	"type": "module",
-	"main": "index.js",
-	"scripts": {
-		"dev": "pnpm -r --parallel dev ",
-		"build": "pnpm -r --parallel build",
-		"start": "pnpm -r --parallel start "
-	}
+  "name": "flamenodes-cloud",
+  "version": "1.0.0",
+  "description": "Flame Nodes cloud infra",
+  "keywords": [
+    "flamenodes",
+    "cloudinfra"
+  ],
+  "license": "ISC",
+  "author": "aislx",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "dotenv -e .env -- pnpm -r --parallel dev ",
+    "build": "dotenv -e .env -- pnpm -r --parallel build",
+    "start": "dotenv -e .env -- pnpm -r --parallel start "
+  },
+  "devDependencies": {
+    "dotenv-cli": "^11.0.0"
+  }
 }
-

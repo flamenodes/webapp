@@ -1,8 +1,8 @@
 {
   "version": "1.0",
   "generatorVersion": "unknown",
-  "generatedAt": "2026-08-08T10:24:21.793Z",
-  "outputPath": "/home/aislx/Documents/webapp/app/src/generated",
+  "generatedAt": "2026-09-27T18:57:35.729Z",
+  "outputPath": "/home/aislx/Documents/dev/webapp/app/src/generated",
   "files": [
     "schemas/enums/TransactionIsolationLevel.schema.ts",
     "schemas/enums/UserScalarFieldEnum.schema.ts",

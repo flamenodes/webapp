@@ -3,13 +3,14 @@ import { getRequestHeaders } from '@tanstack/react-start/server'
 import { auth } from '@/lib/auth'
 import { hasPermissionFn } from '@/lib/has-permission'
 import { prisma } from '#/db'
-import { resolveDeployOwnerId } from '../pterodactyl/user-resolver'
+import { getPteroUrl, isPteroConfigured } from '../pterodactyl/client'
 import { z } from 'zod'
 
 const retryDeploymentSchema = z.object({
   serverId: z.string(),
 })
 
+/** Retry a failed deployment through the BullMQ queue. */
 export const retryServerDeployment = createServerFn({ method: 'POST' })
   .validator((data) => retryDeploymentSchema.parse(data))
   .handler(async ({ data }) => {
@@ -22,95 +23,41 @@ export const retryServerDeployment = createServerFn({ method: 'POST' })
     })
     if (!hasAccess) throw new Error('Forbidden')
 
-    const server = await prisma.server.findUnique({
-      where: { id: data.serverId },
-      include: {
-        orderItem: {
-          include: {
-            product: true,
-            order: true,
-          },
-        },
-        user: true,
-      },
-    })
+    const { buildDeploymentRequest, dispatchDeployment } = await import('./deploy-payload')
+    const request = await buildDeploymentRequest(data.serverId)
 
-    if (!server) throw new Error('Server not found')
-
-    const orderItem = server.orderItem
-    const product = orderItem.product
-    const user = server.user
-
-    if (product.deployMode !== 'PTERODACTYL') {
-      throw new Error('Only Pterodactyl servers can be deployed')
-    }
-
-    // Update status to PROCESSING
     await prisma.server.update({
-      where: { id: server.id },
+      where: { id: data.serverId },
       data: { status: 'PROCESSING' },
     })
 
-    const name = server.name
-    const productSpecs = product.specs as Record<string, any> ?? {}
-    const userConfig = (orderItem.configuration ?? {}) as Record<string, string>
-
-    // Use the extraction function to properly handle nested ptero specs
-    const { extractPteroSpecsFromProduct } = await import('../pterodactyl/configData')
-    const specs = extractPteroSpecsFromProduct(productSpecs)
-
-    // Also extract egg and nest from nested ptero object (fallback to root-level)
-    const pteroSpecs = productSpecs.ptero ?? {}
-    let resolvedEgg = Number(pteroSpecs.egg ?? productSpecs.egg ?? process.env.PTERO_DEFAULT_EGG ?? 1)
-    let resolvedNest = Number(pteroSpecs.nest ?? productSpecs.nest ?? process.env.PTERO_DEFAULT_NEST ?? 1)
-    let extraEnv: Record<string, string> = {}
-
-    const configValueIds = Object.values(userConfig).filter(Boolean)
-    if (configValueIds.length > 0) {
-      const configValues = await prisma.configurationValue.findMany({
-        where: { value: { in: configValueIds } },
-      })
-      for (const cv of configValues) {
-        const meta = cv.metadata as Record<string, any> | null
-        if (!meta) continue
-        if (meta.eggId) resolvedEgg = Number(meta.eggId)
-        if (meta.nestId) resolvedNest = Number(meta.nestId)
-        if (meta.envVars && typeof meta.envVars === 'object') {
-          extraEnv = { ...extraEnv, ...meta.envVars }
-        }
-      }
-    }
-
-    const resources = server.resources as any
-    const billingDetails = orderItem.order.deliveryData as any
-
-    // Trigger deployment
-    const { deployServerFn } = await import('../queue/deploy-functions')
-
-    const pteroOwnerId = await resolveDeployOwnerId({
-      customerEmail: billingDetails?.billingDetails?.email || user.email,
-      defaultUserId: Number(process.env.PTERO_DEFAULT_USER_ID ?? 1),
-    })
-
-    deployServerFn({
-      data: {
-        orderId: orderItem.orderId,
-        orderItemId: orderItem.id,
-        serverId: server.id,
-        name,
-        user: pteroOwnerId,
-        nest: resolvedNest,
-        egg: resolvedEgg,
-        extraEnv,
-        specs,
-        type: product.category,
-        userEmail: billingDetails?.billingDetails?.email || user.email,
-        userName: billingDetails?.billingDetails?.firstName || user.name,
-      },
-    }).catch(err => console.error('Manual deployment failed:', err))
-
-    return { success: true, message: 'Deployment triggered' }
+    return dispatchDeployment(request, { mode: 'create', source: 'retry' })
   })
+
+/**
+ * Deployment pipeline configuration for the admin deploy page.
+ *
+ * Read on the server: `process.env` is always empty in the browser, which is why
+ * the page previously always showed "Not Configured".
+ */
+export const getDeploymentConfigStatus = createServerFn({ method: 'GET' }).handler(async () => {
+  const headers = getRequestHeaders()
+  const session = await auth.api.getSession({ headers })
+  if (!session?.user) throw new Error('Unauthorized')
+
+  const hasAccess = await hasPermissionFn({
+    data: { permissions: { dashboard: ['admin'] } },
+  })
+  if (!hasAccess) throw new Error('Forbidden')
+
+  return {
+    // PTERO_URL is the single source of truth for the panel URL.
+    pteroConfigured: isPteroConfigured(),
+    pteroUrl: getPteroUrl() ?? null,
+    redisConfigured: Boolean(process.env.REDIS_URL),
+    emailConfigured: Boolean(process.env.RESEND_API_KEY),
+  }
+})
 
 export const getStuckServers = createServerFn({ method: 'GET' }).handler(async () => {
   const headers = getRequestHeaders()
@@ -185,6 +132,8 @@ export const getDeploymentQueueLogs = createServerFn({ method: 'GET' }).handler(
         serverId: data.serverId ?? '',
         orderId: data.orderId ?? '',
         userEmail: data.userEmail ?? '',
+        mode: data.mode ?? 'create',
+        source: data.source ?? 'order',
         attemptsMade: Number(job.attemptsMade ?? 1),
         createdAt,
         completedAt,

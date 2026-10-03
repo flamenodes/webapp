@@ -45,8 +45,10 @@ function readAllocation(
 }
 
 /**
- * Panel base URL. Mirrors the fallback already used on the user servers page
- * (`process.env.PTERO_URL`) and the admin page (`VITE_PTERO_URL`).
+ * Panel base URL. `PTERO_URL` is the single source of truth and is only
+ * readable server-side; `VITE_PTERO_URL` and the hardcoded fallback below
+ * exist solely so this helper still returns a usable link when called from
+ * the browser, where `process.env` is empty.
  */
 function getPanelBaseUrl(): string {
   const fromProcess =
