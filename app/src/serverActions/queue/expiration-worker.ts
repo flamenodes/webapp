@@ -19,6 +19,7 @@ export const expirationWorker = new Worker(
             lt: new Date(),
           },
           suspended: false,
+          status: { not: 'TERMINATED' },
         },
         include: {
           orderItem: {
@@ -40,13 +41,19 @@ export const expirationWorker = new Worker(
 
       for (const server of expiredServers) {
         try {
-          const isPtero = server.orderItem?.product?.deployMode === 'PTERODACTYL'
-          const pteroData = server.pterodactylData as any
+          const pteroData = (server.pterodactylData ?? {}) as any
 
-          if (isPtero && pteroData?.id) {
+          // The panel id lives either on the column or inside the snapshot JSON.
+          // We key off the id rather than the product's deploy mode because the
+          // order item is detached (SetNull) when its order is deleted, and the
+          // server still has to be suspended on the panel.
+          const pteroServerId: number | undefined =
+            server.pterodactylServerId ?? pteroData?.id ?? undefined
+
+          if (pteroServerId) {
             // Suspend on Pterodactyl
             console.log(`🔒 Suspending Pterodactyl server: ${server.name}`)
-            await ptero.post(`/application/servers/${pteroData.id}/suspend`)
+            await ptero.post(`/application/servers/${pteroServerId}/suspend`)
           }
 
           // Update database

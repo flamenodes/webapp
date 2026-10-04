@@ -61,14 +61,27 @@ async function fulfillRenewal(order: NonNullable<OrderWithRelations>) {
   const pteroData = (server.pterodactylData ?? {}) as any
   const pteroServerId = server.pterodactylServerId ?? pteroData?.id
 
-  // Unsuspend on Pterodactyl when applicable
+  // Renewal never re-provisions: it extends the cycle and lifts the expiry
+  // suspension. Retry the panel call a couple of times — a 5xx or a timeout
+  // here would otherwise leave a paid-for server frozen on the panel.
+  let unsuspendError: string | null = null
   if (pteroServerId) {
-    try {
-      await ptero.post(`/application/servers/${pteroServerId}/unsuspend`)
-    } catch (error: any) {
+    let lastError: any = null
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        await ptero.post(`/application/servers/${pteroServerId}/unsuspend`)
+        lastError = null
+        break
+      } catch (error: any) {
+        lastError = error
+        if (attempt < 3) await new Promise((resolve) => setTimeout(resolve, 500 * attempt))
+      }
+    }
+    if (lastError) {
+      unsuspendError = lastError?.message ?? String(lastError)
       console.error(
-        `Failed to unsuspend Pterodactyl server ${pteroServerId}:`,
-        error?.message,
+        `Failed to unsuspend Pterodactyl server ${pteroServerId} after 3 attempts:`,
+        unsuspendError,
       )
     }
   }
@@ -82,14 +95,16 @@ async function fulfillRenewal(order: NonNullable<OrderWithRelations>) {
       where: { id: order.id },
       data: {
         status: 'DELIVERED',
-        deliveryMessage: `Server renewed for ${billingPeriod.toLowerCase()} — expires ${newExpiry.toISOString()}`,
+        deliveryMessage: unsuspendError
+          ? `Server renewed for ${billingPeriod.toLowerCase()} — expires ${newExpiry.toISOString()}. WARNING: the Pterodactyl unsuspend call failed (${unsuspendError}), so the panel may still show it suspended.`
+          : `Server renewed for ${billingPeriod.toLowerCase()} — expires ${newExpiry.toISOString()}`,
       },
     }),
   ])
 
   await sendRenewalEmail(order, server, newExpiry)
 
-  return { renewal: true, serverId: server.id, newExpiry }
+  return { renewal: true, serverId: server.id, newExpiry, unsuspendError }
 }
 
 /** Manual admin order that links an already-existing Pterodactyl server. */

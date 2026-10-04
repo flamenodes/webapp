@@ -145,15 +145,3 @@ export const validateCoupon = createServerFn({ method: 'POST' })
 
     return evaluateCoupon(coupon, data.subtotal)
   })
-
-/**
- * Record a redemption. Called from the order writers once a coupon has been
- * priced into an order, so `maxUses` counts orders actually placed rather than
- * every time someone typed the code into the box.
- */
-export async function consumeCoupon(code: string) {
-  await prisma.coupon.updateMany({
-    where: { code: code.trim().toUpperCase() },
-    data: { usedCount: { increment: 1 } },
-  })
-}

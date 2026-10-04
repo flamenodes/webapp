@@ -181,6 +181,16 @@ export const createRenewalOrder = createServerFn({ method: 'POST' })
             product: { include: { billingOptions: true } },
           },
         },
+        // Deleting an order detaches its item (SetNull) while the server keeps
+        // running, so price the renewal from this server's most recent renewal
+        // order in that case — otherwise it could never be renewed again.
+        renewals: {
+          orderBy: { createdAt: 'desc' },
+          take: 1,
+          include: {
+            items: { include: { product: { include: { billingOptions: true } } } },
+          },
+        },
       },
     })
     if (!server) return wrapError('Server not found')
@@ -188,7 +198,7 @@ export const createRenewalOrder = createServerFn({ method: 'POST' })
       return wrapError('Terminated servers cannot be renewed')
     }
 
-    const product = server.orderItem?.product
+    const product = server.orderItem?.product ?? server.renewals[0]?.items[0]?.product
     if (!product) return wrapError('Product not found for this server')
 
     // Resolve unit price from the product's billing options, fall back to base price

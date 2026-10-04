@@ -6,7 +6,7 @@ import { z } from "zod";
 import type { OrderStatus } from "@/generated/prisma/client";
 import { calculateExpiryDate } from "./expiry";
 import { suspendServersForOrder } from "./suspend-order-servers";
-import { consumeCoupon } from "./coupon.api";
+import { consumeCoupon } from "./coupon.server";
 import { evaluateCoupon } from "#/lib/coupon";
 
 const createOrderSchema = z.object({

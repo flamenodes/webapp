@@ -36,17 +36,23 @@ export async function suspendExpiredServers() {
 
     for (const server of expiredServers) {
       try {
-        const deployMode = server.orderItem?.product?.deployMode || 'CUSTOM'
-        const pteroData = server.pterodactylData as any
+        const pteroData = (server.pterodactylData ?? {}) as any
+
+        // Resolve the panel id from the column first, then the snapshot JSON,
+        // and key off that rather than the product's deploy mode: deleting an
+        // order detaches its item (SetNull), and the server must still be
+        // suspended on the panel.
+        const pteroServerId: number | undefined =
+          server.pterodactylServerId ?? pteroData?.id ?? undefined
 
         // If it's a Pterodactyl server, suspend it on the panel using the admin API
-        if (deployMode === 'PTERODACTYL' && pteroData?.id) {
+        if (pteroServerId) {
           try {
-            await ptero.post(`/application/servers/${pteroData.id}/suspend`)
-            console.log(`Suspended Pterodactyl server: ${pteroData.id}`)
+            await ptero.post(`/application/servers/${pteroServerId}/suspend`)
+            console.log(`Suspended Pterodactyl server: ${pteroServerId}`)
           } catch (pteroError: any) {
             console.error(
-              `Failed to suspend Pterodactyl server ${pteroData.id}:`,
+              `Failed to suspend Pterodactyl server ${pteroServerId}:`,
               pteroError.message,
             )
           }

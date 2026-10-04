@@ -14,15 +14,41 @@ async function requireAdmin() {
   return session?.user
 }
 
-async function buildAndSaveInvoice(orderId: string, razorpayData?: Record<string, any> | null) {
-  await prisma.invoice.deleteMany({ where: { orderId } })
+const INVOICE_NUMBER_ATTEMPTS = 5
 
-  const [order, razorpayConfig] = await Promise.all([
+/**
+ * Next invoice number for the year, taken from the highest one already issued.
+ *
+ * Row count must not be used for this: `count()` is not a sequence. Rebuilding
+ * an invoice deletes a row, which lowers the count, so the next order was handed
+ * a number that was already taken and the insert died with P2002 on
+ * `invoiceNumber`.
+ */
+async function nextInvoiceNumber(year: number) {
+  const prefix = `INV-${year}-`
+  const latest = await prisma.invoice.findFirst({
+    where: { invoiceNumber: { startsWith: prefix } },
+    // Zero-padded to six digits, so lexical order matches numeric order.
+    orderBy: { invoiceNumber: 'desc' },
+    select: { invoiceNumber: true },
+  })
+
+  const lastSequence = latest
+    ? Number.parseInt(latest.invoiceNumber.slice(prefix.length), 10)
+    : 0
+  const nextSequence = Number.isFinite(lastSequence) ? lastSequence + 1 : 1
+
+  return `${prefix}${String(nextSequence).padStart(6, '0')}`
+}
+
+async function buildAndSaveInvoice(orderId: string, razorpayData?: Record<string, any> | null) {
+  const [order, razorpayConfig, existingInvoice] = await Promise.all([
     prisma.order.findUnique({
       where: { id: orderId },
       include: { items: { include: { product: true, server: true } }, user: { include: { billingAddress: true } } },
     }),
     prisma.razorpayConfig.findFirst(),
+    prisma.invoice.findUnique({ where: { orderId }, select: { invoiceNumber: true } }),
   ])
 
   if (!order) throw new Error('Order not found')
@@ -33,9 +59,6 @@ async function buildAndSaveInvoice(orderId: string, razorpayData?: Record<string
   const invoiceDate = new Date(order.createdAt)
   const linkedServer = order.items.map((i) => i.server).find(Boolean)
   const dueDate = linkedServer?.expiresAt ?? order.items[0]?.expiresAt ?? invoiceDate
-
-  const invoiceCount = await prisma.invoice.count()
-  const invoiceNumber = `INV-${new Date().getFullYear()}-${String(invoiceCount + 1).padStart(6, '0')}`
 
   const invoiceData = {
     sender: {
@@ -55,11 +78,6 @@ async function buildAndSaveInvoice(orderId: string, razorpayData?: Record<string
       custom1: `Email: ${order.user.email}`,
       custom2: order.user.billingAddress?.phone ? `Phone: ${order.user.billingAddress.phone}` : `Customer ID: ${order.user.id.slice(0, 8)}`,
     },
-    information: {
-      number: invoiceNumber,
-      date: invoiceDate.toLocaleDateString('en-IN'),
-      'due-date': dueDate.toLocaleDateString('en-IN'),
-    },
     products: order.items.map((item) => ({
       quantity: item.quantity,
       description: `${item.productName} (${item.billingPeriod.toLowerCase()})`,
@@ -77,13 +95,49 @@ async function buildAndSaveInvoice(orderId: string, razorpayData?: Record<string
     },
   }
 
-  const result = await easyinvoice.createInvoice(invoiceData)
-  const pdfBuffer = Buffer.from(result.pdf, 'base64')
-  const pdfUrl = await uploadInvoicePDF(pdfBuffer, `${invoiceNumber}.pdf`)
+  // The number is embedded in the PDF, so a lost race means rendering again
+  // with a fresh one.
+  for (let attempt = 1; attempt <= INVOICE_NUMBER_ATTEMPTS; attempt++) {
+    // Rebuilding keeps the order's original number — a document's number
+    // should not change under the customer. Retries allocate a new one.
+    const invoiceNumber =
+      attempt === 1 && existingInvoice?.invoiceNumber
+        ? existingInvoice.invoiceNumber
+        : await nextInvoiceNumber(new Date().getFullYear())
 
-  return prisma.invoice.create({
-    data: { orderId: order.id, invoiceNumber, pdfUrl, razorpayData: razorpayData ?? null },
-  })
+    const result = await easyinvoice.createInvoice({
+      ...invoiceData,
+      information: {
+        number: invoiceNumber,
+        date: invoiceDate.toLocaleDateString('en-IN'),
+        'due-date': dueDate.toLocaleDateString('en-IN'),
+      },
+    })
+    const pdfUrl = await uploadInvoicePDF(
+      Buffer.from(result.pdf, 'base64'),
+      `${invoiceNumber}.pdf`,
+    )
+
+    try {
+      // Replace any previous invoice for this order, in one transaction, so the
+      // order is never briefly left without one.
+      return await prisma.$transaction(async (tx) => {
+        await tx.invoice.deleteMany({ where: { orderId: order.id } })
+        return tx.invoice.create({
+          data: { orderId: order.id, invoiceNumber, pdfUrl, razorpayData: razorpayData ?? null },
+        })
+      })
+    } catch (error: any) {
+      // Another request may have invoiced this same order first — that is a
+      // success, not a conflict.
+      const raced = await prisma.invoice.findUnique({ where: { orderId: order.id } })
+      if (raced) return raced
+
+      if (error?.code !== 'P2002' || attempt === INVOICE_NUMBER_ATTEMPTS) throw error
+    }
+  }
+
+  throw new Error('Could not allocate an invoice number')
 }
 
 export async function runGenerateInvoice(data: { orderId: string; razorpayData?: Record<string, any> }) {
