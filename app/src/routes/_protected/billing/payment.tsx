@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
-import { ArrowLeft, CreditCard, Check, Loader2, ShieldCheck } from 'lucide-react'
+import { Input } from '#/components/ui/input'
+import { ArrowLeft, CreditCard, Check, Loader2, ShieldCheck, TicketPercent } from 'lucide-react'
 import { toast } from 'sonner'
 import { createRazorOrderFn } from '#/serverActions/razorpay/order'
 import { verifyRazorpayPayment } from '#/serverActions/razorpay/verify'
 import { createOrderDirect } from '#/serverActions/billing/order.api'
+import { validateCoupon } from '#/serverActions/billing/coupon.api'
 import { ThemeSwitch } from '#/components/theme/ThemeSwitch'
 
 export const Route = createFileRoute('/_protected/billing/payment')({
@@ -21,12 +23,23 @@ declare global {
   }
 }
 
+/** A coupon the server has priced for this order. */
+type AppliedCoupon = {
+  code: string
+  label: string
+  discountAmount: number
+  totalAmount: number
+}
+
 function BillingPaymentPage() {
   const navigate = useNavigate()
   const [billingConfig, setBillingConfig] = useState<any>(null)
   const [billingAddress, setBillingAddress] = useState<any>(null)
   const [processing, setProcessing] = useState(false)
   const [scriptLoaded, setScriptLoaded] = useState(false)
+  const [couponInput, setCouponInput] = useState('')
+  const [coupon, setCoupon] = useState<AppliedCoupon | null>(null)
+  const [checkingCoupon, setCheckingCoupon] = useState(false)
 
   useEffect(() => {
     const config = sessionStorage.getItem('billingConfig')
@@ -56,6 +69,47 @@ function BillingPaymentPage() {
     navigate({ to: '/billing/address' })
   }
 
+  /** What the customer is shown before a coupon; the server recomputes it at charge time. */
+  const subtotal = Math.round(Number(billingConfig?.totalPrice ?? 0))
+  const payable = coupon ? coupon.totalAmount : subtotal
+
+  const handleApplyCoupon = async () => {
+    const code = couponInput.trim().toUpperCase()
+    if (!code) {
+      toast.error('Enter a coupon code first.')
+      return
+    }
+
+    setCheckingCoupon(true)
+    try {
+      const result = await validateCoupon({ data: { code, subtotal } })
+
+      if (!result.ok) {
+        setCoupon(null)
+        toast.error(result.message)
+        return
+      }
+
+      setCoupon({
+        code: result.code,
+        label: result.label,
+        discountAmount: result.discountAmount,
+        totalAmount: result.totalAmount,
+      })
+      toast.success(`${result.label} applied`)
+    } catch (error: any) {
+      setCoupon(null)
+      toast.error(error?.message || 'Could not check that coupon.')
+    } finally {
+      setCheckingCoupon(false)
+    }
+  }
+
+  const handleRemoveCoupon = () => {
+    setCoupon(null)
+    setCouponInput('')
+  }
+
   const handlePayment = async () => {
     if (!scriptLoaded) {
       toast.error('Payment system is loading. Please try again.')
@@ -71,15 +125,16 @@ function BillingPaymentPage() {
           quantity: billingConfig.quantity,
           billingPeriod: billingConfig.billingPeriod,
           configurationData: billingConfig.configuration,
+          couponCode: coupon?.code,
           billingDetails: billingAddress,
         },
       })
 
-      const amountInPaise = Math.round(billingConfig.totalPrice * 100)
-
+      // The amount comes from the stored order, so the coupon discount and the
+      // product price are both server-side numbers.
       const razorpayOrder = await createRazorOrderFn({
         data: {
-          amount: amountInPaise,
+          orderId: order.id,
           currency: 'INR',
           receipt: order.id,
           notes: {
@@ -264,9 +319,74 @@ function BillingPaymentPage() {
                 </div>
 
                 <div className="border-t pt-6">
+                  {/* Coupon */}
+                  <div className="mb-6 rounded-lg border border-border p-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <TicketPercent className="w-4 h-4 text-primary" />
+                      <span className="text-sm font-medium">Have a coupon code?</span>
+                    </div>
+
+                    {coupon ? (
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="text-sm">
+                          <span className="font-mono font-semibold">{coupon.code}</span>
+                          <span className="text-muted-foreground"> · {coupon.label}</span>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={handleRemoveCoupon}
+                          disabled={processing}
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="flex gap-2">
+                        <Input
+                          value={couponInput}
+                          onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault()
+                              handleApplyCoupon()
+                            }
+                          }}
+                          placeholder="SAVE10"
+                          className="font-mono uppercase"
+                          disabled={processing}
+                        />
+                        <Button
+                          variant="outline"
+                          onClick={handleApplyCoupon}
+                          disabled={processing || checkingCoupon}
+                        >
+                          {checkingCoupon ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            'Apply'
+                          )}
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="space-y-2 text-sm mb-4">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Subtotal</span>
+                      <span>₹{subtotal.toFixed(2)}</span>
+                    </div>
+                    {coupon && (
+                      <div className="flex justify-between text-primary">
+                        <span>Discount ({coupon.code})</span>
+                        <span>−₹{coupon.discountAmount.toFixed(2)}</span>
+                      </div>
+                    )}
+                  </div>
+
                   <div className="flex justify-between items-center mb-6">
                     <span className="text-2xl font-bold">Total Amount</span>
-                    <span className="text-4xl font-bold text-primary">₹{billingConfig.totalPrice.toFixed(2)}</span>
+                    <span className="text-4xl font-bold text-primary">₹{payable.toFixed(2)}</span>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">

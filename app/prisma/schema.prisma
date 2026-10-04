@@ -272,7 +272,9 @@ model OrderItem {
 model Server {
   id                  String    @id @default(uuid())
   userId              String
-  orderItemId         String    @unique
+  // Nullable so an order can be deleted while keeping its server running.
+  // Deleting the order detaches the server (SetNull) instead of cascading.
+  orderItemId         String?   @unique
   name                String
   type                String
   status              String
@@ -285,7 +287,7 @@ model Server {
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
   pterodactylServerId Int?
-  orderItem           OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+  orderItem           OrderItem? @relation(fields: [orderItemId], references: [id], onDelete: SetNull)
   user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   renewals            Order[]   @relation("RenewalOrders")
 

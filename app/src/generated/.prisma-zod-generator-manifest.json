@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "generatorVersion": "unknown",
-  "generatedAt": "2026-09-27T18:57:35.729Z",
+  "generatedAt": "2026-10-03T13:10:38.855Z",
   "outputPath": "/home/aislx/Documents/dev/webapp/app/src/generated",
   "files": [
     "schemas/enums/TransactionIsolationLevel.schema.ts",
@@ -541,7 +541,7 @@
     "schemas/objects/OrderItemMaxOrderByAggregateInput.schema.ts",
     "schemas/objects/OrderItemMinOrderByAggregateInput.schema.ts",
     "schemas/objects/OrderItemSumOrderByAggregateInput.schema.ts",
-    "schemas/objects/OrderItemScalarRelationFilter.schema.ts",
+    "schemas/objects/OrderItemNullableScalarRelationFilter.schema.ts",
     "schemas/objects/ServerCountOrderByAggregateInput.schema.ts",
     "schemas/objects/ServerAvgOrderByAggregateInput.schema.ts",
     "schemas/objects/ServerMaxOrderByAggregateInput.schema.ts",
@@ -740,7 +740,7 @@
     "schemas/objects/UserCreateNestedOneWithoutServersInput.schema.ts",
     "schemas/objects/OrderCreateNestedManyWithoutRenewalForServerInput.schema.ts",
     "schemas/objects/OrderUncheckedCreateNestedManyWithoutRenewalForServerInput.schema.ts",
-    "schemas/objects/OrderItemUpdateOneRequiredWithoutServerNestedInput.schema.ts",
+    "schemas/objects/OrderItemUpdateOneWithoutServerNestedInput.schema.ts",
     "schemas/objects/UserUpdateOneRequiredWithoutServersNestedInput.schema.ts",
     "schemas/objects/OrderUpdateManyWithoutRenewalForServerNestedInput.schema.ts",
     "schemas/objects/OrderUncheckedUpdateManyWithoutRenewalForServerNestedInput.schema.ts",

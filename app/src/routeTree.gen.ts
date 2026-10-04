@@ -34,6 +34,7 @@ import { Route as PricingWebhostRouteImport } from './routes/pricing/webhost'
 import { Route as ProtectedAdminAnnouncementsRouteImport } from './routes/_protected/admin/announcements'
 import { Route as ProtectedAdminBillingPeriodsRouteImport } from './routes/_protected/admin/billing-periods'
 import { Route as ProtectedAdminConfigurationsRouteImport } from './routes/_protected/admin/configurations'
+import { Route as ProtectedAdminCouponsRouteImport } from './routes/_protected/admin/coupons'
 import { Route as ProtectedAdminCustomersRouteImport } from './routes/_protected/admin/customers'
 import { Route as ProtectedAdminDashboardRouteImport } from './routes/_protected/admin/dashboard'
 import { Route as ProtectedAdminDeployRouteImport } from './routes/_protected/admin/deploy'
@@ -188,6 +189,11 @@ const ProtectedAdminConfigurationsRoute =
     path: '/configurations',
     getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
+const ProtectedAdminCouponsRoute = ProtectedAdminCouponsRouteImport.update({
+  id: '/coupons',
+  path: '/coupons',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
 const ProtectedAdminCustomersRoute = ProtectedAdminCustomersRouteImport.update({
   id: '/customers',
   path: '/customers',
@@ -352,6 +358,7 @@ export interface FileRoutesByFullPath {
   '/admin/announcements': typeof ProtectedAdminAnnouncementsRoute
   '/admin/billing-periods': typeof ProtectedAdminBillingPeriodsRoute
   '/admin/configurations': typeof ProtectedAdminConfigurationsRoute
+  '/admin/coupons': typeof ProtectedAdminCouponsRoute
   '/admin/customers': typeof ProtectedAdminCustomersRoute
   '/admin/dashboard': typeof ProtectedAdminDashboardRoute
   '/admin/deploy': typeof ProtectedAdminDeployRoute
@@ -403,6 +410,7 @@ export interface FileRoutesByTo {
   '/admin/announcements': typeof ProtectedAdminAnnouncementsRoute
   '/admin/billing-periods': typeof ProtectedAdminBillingPeriodsRoute
   '/admin/configurations': typeof ProtectedAdminConfigurationsRoute
+  '/admin/coupons': typeof ProtectedAdminCouponsRoute
   '/admin/customers': typeof ProtectedAdminCustomersRoute
   '/admin/dashboard': typeof ProtectedAdminDashboardRoute
   '/admin/deploy': typeof ProtectedAdminDeployRoute
@@ -458,6 +466,7 @@ export interface FileRoutesById {
   '/_protected/admin/announcements': typeof ProtectedAdminAnnouncementsRoute
   '/_protected/admin/billing-periods': typeof ProtectedAdminBillingPeriodsRoute
   '/_protected/admin/configurations': typeof ProtectedAdminConfigurationsRoute
+  '/_protected/admin/coupons': typeof ProtectedAdminCouponsRoute
   '/_protected/admin/customers': typeof ProtectedAdminCustomersRoute
   '/_protected/admin/dashboard': typeof ProtectedAdminDashboardRoute
   '/_protected/admin/deploy': typeof ProtectedAdminDeployRoute
@@ -512,6 +521,7 @@ export interface FileRouteTypes {
     | '/admin/announcements'
     | '/admin/billing-periods'
     | '/admin/configurations'
+    | '/admin/coupons'
     | '/admin/customers'
     | '/admin/dashboard'
     | '/admin/deploy'
@@ -563,6 +573,7 @@ export interface FileRouteTypes {
     | '/admin/announcements'
     | '/admin/billing-periods'
     | '/admin/configurations'
+    | '/admin/coupons'
     | '/admin/customers'
     | '/admin/dashboard'
     | '/admin/deploy'
@@ -617,6 +628,7 @@ export interface FileRouteTypes {
     | '/_protected/admin/announcements'
     | '/_protected/admin/billing-periods'
     | '/_protected/admin/configurations'
+    | '/_protected/admin/coupons'
     | '/_protected/admin/customers'
     | '/_protected/admin/dashboard'
     | '/_protected/admin/deploy'
@@ -835,6 +847,13 @@ declare module '@tanstack/react-router' {
       path: '/configurations'
       fullPath: '/admin/configurations'
       preLoaderRoute: typeof ProtectedAdminConfigurationsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/coupons': {
+      id: '/_protected/admin/coupons'
+      path: '/coupons'
+      fullPath: '/admin/coupons'
+      preLoaderRoute: typeof ProtectedAdminCouponsRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
     '/_protected/admin/customers': {
@@ -1085,6 +1104,7 @@ interface ProtectedAdminRouteRouteChildren {
   ProtectedAdminAnnouncementsRoute: typeof ProtectedAdminAnnouncementsRoute
   ProtectedAdminBillingPeriodsRoute: typeof ProtectedAdminBillingPeriodsRoute
   ProtectedAdminConfigurationsRoute: typeof ProtectedAdminConfigurationsRoute
+  ProtectedAdminCouponsRoute: typeof ProtectedAdminCouponsRoute
   ProtectedAdminCustomersRoute: typeof ProtectedAdminCustomersRoute
   ProtectedAdminDashboardRoute: typeof ProtectedAdminDashboardRoute
   ProtectedAdminDeployRoute: typeof ProtectedAdminDeployRoute
@@ -1106,6 +1126,7 @@ const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
   ProtectedAdminAnnouncementsRoute: ProtectedAdminAnnouncementsRoute,
   ProtectedAdminBillingPeriodsRoute: ProtectedAdminBillingPeriodsRoute,
   ProtectedAdminConfigurationsRoute: ProtectedAdminConfigurationsRoute,
+  ProtectedAdminCouponsRoute: ProtectedAdminCouponsRoute,
   ProtectedAdminCustomersRoute: ProtectedAdminCustomersRoute,
   ProtectedAdminDashboardRoute: ProtectedAdminDashboardRoute,
   ProtectedAdminDeployRoute: ProtectedAdminDeployRoute,

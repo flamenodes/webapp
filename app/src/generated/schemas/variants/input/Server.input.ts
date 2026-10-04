@@ -3,7 +3,7 @@ import * as z from 'zod';
 export const ServerInputSchema = z.object({
     id: z.string(),
     userId: z.string(),
-    orderItemId: z.string(),
+    orderItemId: z.string().optional().nullable(),
     name: z.string(),
     type: z.string(),
     status: z.string(),
@@ -16,7 +16,7 @@ export const ServerInputSchema = z.object({
     createdAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
     updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "Invalid ISO datetime"),
     pterodactylServerId: z.number().int().optional().nullable(),
-    orderItem: z.any(),
+    orderItem: z.any().optional().nullable(),
     user: z.any(),
     renewals: z.array(z.any())
 }).strict();

@@ -67,7 +67,19 @@ export const pteroServerData = async (
     ...(excludeAllocations ? { excludeAllocations } : {}),
   })
 
-  // Ensure critical specs are never 0
+  // Missing values are a product-configuration problem, so say so loudly instead
+  // of quietly shipping an undersized server.
+  const missing: string[] = []
+  if (!data.specs.cpu) missing.push('cpu')
+  if (!data.specs.memory) missing.push('memory')
+  if (!data.specs.disk) missing.push('disk')
+  if (missing.length > 0) {
+    console.warn(
+      `⚠️  Server "${data.name}" has no ${missing.join(', ')} in its product specs — using fallback limits. ` +
+        `Set them in Admin → Products → Pterodactyl Resources.`,
+    )
+  }
+
   const cpu = data.specs.cpu || 100
   const memory = data.specs.memory || 512
   const disk = data.specs.disk || 1024
@@ -106,40 +118,98 @@ export const pteroServerData = async (
   return serverData
 }
 
+// The key/alias handling lives in an isomorphic module so the admin product
+// form and this deployer can never disagree about what a spec key means.
+import { normalizeSpecSource, parseSpecValue, type SpecKey } from '#/lib/ptero-specs'
+
+export { normalizeSpecSource }
+
 /** Build specs for a Pterodactyl server from a product's specs JSON field */
 export function extractPteroSpecsFromProduct(productSpecs: unknown) {
-  console.log('🔍 Extracting specs from product:', JSON.stringify(productSpecs, null, 2));
+  const source = normalizeSpecSource(productSpecs)
 
-  const s = (productSpecs ?? {}) as Record<string, any>
-
-  // The Product Configuration UI saves Pterodactyl specs nested under a 'ptero' key
-  // Check for nested ptero object first, then fall back to root-level keys for backwards compatibility
-  const pteroSpecs = s.ptero ?? {}
-  const source = { ...s, ...pteroSpecs } // ptero specs take precedence
-
-  // Parse values - they might be strings from the database
-  const cpu = typeof source.cpu === 'string' ? Number(source.cpu) : (source.cpu ?? 0)
-  const memory = typeof source.memory === 'string' ? Number(source.memory) : (source.memory ?? 0)
-  const disk = typeof source.disk === 'string' ? Number(source.disk) : (source.disk ?? 0)
-  const swap = typeof source.swap === 'string' ? Number(source.swap) : (source.swap ?? 0)
-  const database = typeof source.databases === 'string' ? Number(source.databases) :
-                  typeof source.database === 'string' ? Number(source.database) :
-                  (source.databases ?? source.database ?? 0)
-  const allocation = typeof source.allocations === 'string' ? Number(source.allocations) :
-                    typeof source.allocation === 'string' ? Number(source.allocation) :
-                    (source.allocations ?? source.allocation ?? 1)
-  const backups = typeof source.backups === 'string' ? Number(source.backups) : (source.backups ?? 0)
-
-  const result = {
-    cpu,
-    memory,
-    disk,
-    swap,
-    database,
-    allocation,
-    backups,
+  const read = (key: SpecKey, fallback = 0) => {
+    const parsed = parseSpecValue(source[key], key)
+    return parsed === null ? fallback : parsed
   }
 
-  console.log('✅ Extracted specs result:', JSON.stringify(result, null, 2));
+  const result = {
+    cpu: read('cpu'),
+    memory: read('memory'),
+    disk: read('disk'),
+    swap: read('swap'),
+    database: read('database'),
+    allocation: read('allocation', 1),
+    backups: read('backups'),
+  }
+
+  const unresolved = (['cpu', 'memory', 'disk'] as const).filter((key) => !result[key])
+  if (unresolved.length > 0) {
+    console.warn(
+      `⚠️  Product specs did not resolve ${unresolved.join(', ')}. ` +
+        `Recognised keys: cpu, memory, disk, swap, databases, allocations, backups.`,
+    )
+  }
+
+  console.log('✅ Extracted specs result:', JSON.stringify(result, null, 2))
   return result
+}
+
+/**
+ * Resolve the nest/egg (and extra environment variables) for a deployment from
+ * the product specs, letting the configuration values the customer purchased
+ * override them. Shared by the online-purchase and admin-deploy paths so both
+ * behave identically.
+ */
+export async function resolvePteroEggConfig({
+  productSpecs,
+  pteroConfig,
+  configuration,
+}: {
+  productSpecs?: unknown
+  /** Optional product-level override block ({ nest, egg, extraEnv }). */
+  pteroConfig?: unknown
+  configuration?: unknown
+}) {
+  const source = normalizeSpecSource(productSpecs)
+
+  const override = (pteroConfig ?? {}) as Record<string, unknown>
+
+  const eggFromProduct = parseSpecValue(source.egg, 'egg')
+  const nestFromProduct = parseSpecValue(source.nest, 'nest')
+
+  let egg = eggFromProduct ?? Number(override.egg ?? process.env.PTERO_DEFAULT_EGG ?? 1)
+  let nest = nestFromProduct ?? Number(override.nest ?? process.env.PTERO_DEFAULT_NEST ?? 1)
+  let extraEnv: Record<string, string> = {
+    ...((override.extraEnv as Record<string, string>) ?? {}),
+  }
+
+  const configValueIds = Object.values((configuration ?? {}) as Record<string, unknown>).filter(
+    (value): value is string => typeof value === 'string' && value.length > 0,
+  )
+
+  if (configValueIds.length > 0) {
+    const configValues = await prisma.configurationValue.findMany({
+      where: { value: { in: configValueIds } },
+    })
+
+    for (const configValue of configValues) {
+      const metadata = configValue.metadata as Record<string, any> | null
+      if (!metadata) continue
+      if (metadata.eggId) egg = Number(metadata.eggId)
+      if (metadata.nestId) nest = Number(metadata.nestId)
+      if (metadata.envVars && typeof metadata.envVars === 'object') {
+        extraEnv = { ...extraEnv, ...metadata.envVars }
+      }
+    }
+  }
+
+  if (!Number.isFinite(egg) || egg <= 0 || !Number.isFinite(nest) || nest <= 0) {
+    throw new Error(
+      `Could not resolve a Pterodactyl egg/nest for this product (got egg=${egg}, nest=${nest}). ` +
+        `Set them in the product's Pterodactyl Resources, or configure PTERO_DEFAULT_EGG / PTERO_DEFAULT_NEST.`,
+    )
+  }
+
+  return { egg, nest, extraEnv }
 }

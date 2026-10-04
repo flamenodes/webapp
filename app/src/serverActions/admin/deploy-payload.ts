@@ -5,7 +5,7 @@
  * across the retry and redeploy actions; this is the single source of truth.
  */
 import { prisma } from '#/db'
-import { extractPteroSpecsFromProduct } from '../pterodactyl/configData'
+import { extractPteroSpecsFromProduct, resolvePteroEggConfig } from '../pterodactyl/configData'
 import { resolveDeployOwnerId } from '../pterodactyl/user-resolver'
 import type { DeploymentJobData } from '../queue/queues'
 
@@ -43,35 +43,18 @@ export async function buildDeploymentRequest(serverId: string): Promise<Deployme
     throw new Error('Product specs are incomplete. CPU, memory, and disk must be greater than 0.')
   }
 
-  const pteroConfig = (product.pteroConfig as any) ?? {}
-  let nest = Number(pteroConfig.nest ?? process.env.PTERO_DEFAULT_NEST ?? 1)
-  let egg = Number(pteroConfig.egg ?? process.env.PTERO_DEFAULT_EGG ?? 1)
-  let extraEnv: Record<string, string> = { ...(pteroConfig.extraEnv ?? {}) }
-
-  // A purchased configuration can override the egg/nest and add env vars.
-  const userConfig = (orderItem.configuration ?? {}) as Record<string, string>
-  const configValueIds = Object.values(userConfig).filter(Boolean)
-  if (configValueIds.length > 0) {
-    const configValues = await prisma.configurationValue.findMany({
-      where: { value: { in: configValueIds } },
-    })
-    for (const cv of configValues) {
-      const meta = cv.metadata as Record<string, any> | null
-      if (!meta) continue
-      if (meta.eggId) egg = Number(meta.eggId)
-      if (meta.nestId) nest = Number(meta.nestId)
-      if (meta.envVars && typeof meta.envVars === 'object') {
-        extraEnv = { ...extraEnv, ...meta.envVars }
-      }
-    }
-  }
+  // Egg/nest come from the product specs, then the purchased configuration.
+  const { egg, nest, extraEnv } = await resolvePteroEggConfig({
+    productSpecs: product.specs,
+    configuration: orderItem.configuration,
+  })
 
   const billingDetails = (orderItem.order?.deliveryData as any)?.billingDetails ?? {}
   const customerEmail = billingDetails.email || server.user.email
 
   const pteroUser = await resolveDeployOwnerId({
     customerEmail,
-    defaultUserId: Number(pteroConfig.user ?? process.env.PTERO_DEFAULT_USER_ID ?? 1),
+    defaultUserId: Number(process.env.PTERO_DEFAULT_USER_ID ?? 1),
   })
 
   return {

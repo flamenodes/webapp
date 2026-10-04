@@ -135,11 +135,20 @@ function OrdersPage() {
   })
 
   const deleteMutation = useMutation({
-    mutationFn: (orderId: string) => deleteOrder({ data: { orderId } }),
-    onSuccess: () => {
+    mutationFn: ({
+      orderId,
+      deleteServerRecord,
+      deletePteroServers,
+    }: {
+      orderId: string
+      deleteServerRecord: boolean
+      deletePteroServers: boolean
+    }) => deleteOrder({ data: { orderId, deleteServerRecord, deletePteroServers } }),
+    onSuccess: (result: any) => {
       qc.invalidateQueries({ queryKey: ['admin-orders'] })
       qc.invalidateQueries({ queryKey: ['pending-custom-orders'] })
-      toast.success('Order and associated servers deleted')
+      if (result?.success === false) toast.error(result.message)
+      else toast.success(result?.message || 'Order deleted successfully')
     },
     onError: (error: any) => toast.error(error?.message || 'Failed to delete order'),
   })
@@ -480,11 +489,7 @@ function OrdersPage() {
             data={orders}
             onGeneratePaymentLink={(orderId) => generateLinkMutation.mutate(orderId)}
             onUpdateStatus={(orderId, status) => updateStatusMutation.mutate({ orderId, status })}
-            onDeleteOrder={(orderId) => {
-              if (confirm('Are you sure you want to delete this order? All associated servers will be deleted, including from Pterodactyl if applicable.')) {
-                deleteMutation.mutate(orderId)
-              }
-            }}
+            onDeleteOrder={(orderId, options) => deleteMutation.mutate({ orderId, ...options })}
             onDeploy={(orderId) => setDeployDialog(orderId)}
             onChangePurchaseDate={(orderId, purchasedOn) =>
               changePurchaseDateMutation.mutate({ orderId, purchasedOn })

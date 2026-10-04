@@ -378,6 +378,21 @@ function ServerSheet({ server, onClose }: { server: AdminServer; onClose: () => 
                 <p className="text-sm font-medium truncate">{server.productName}</p>
               </div>
               <div>
+                <p className="text-xs text-muted-foreground mb-0.5">Order</p>
+                {server.orderItem?.order ? (
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm font-medium font-mono">
+                      #{server.orderItem.order.id.slice(0, 8).toUpperCase()}
+                    </span>
+                    <Badge variant="outline" className="text-[10px]">
+                      {server.orderItem.order.status}
+                    </Badge>
+                  </div>
+                ) : (
+                  <p className="text-sm font-medium text-muted-foreground">— detached</p>
+                )}
+              </div>
+              <div>
                 <p className="text-xs text-muted-foreground mb-0.5">Owner</p>
                 <p className="text-sm font-medium truncate">{server.user?.name ?? server.user?.email ?? '—'}</p>
               </div>
@@ -636,7 +651,7 @@ function ServersPage() {
                   onCheckedChange={toggleSelectAll}
                 />
               </th>
-              {['Status', 'Name', 'Owner', 'Type', 'IP / Port', 'Product', 'Expires', ''].map((h) => (
+              {['Status', 'Name', 'Owner', 'Type', 'IP / Port', 'Product', 'Order', 'Expires', ''].map((h) => (
                 <th key={h} className="px-4 py-3 font-medium">{h}</th>
               ))}
             </tr>
@@ -644,7 +659,7 @@ function ServersPage() {
           <tbody className="divide-y divide-border">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={9} className="text-center py-12 text-muted-foreground">
+                <td colSpan={10} className="text-center py-12 text-muted-foreground">
                   {search ? 'No servers match your search.' : 'No servers yet.'}
                 </td>
               </tr>
@@ -688,6 +703,21 @@ function ServersPage() {
                     </td>
                     <td className="px-4 py-3 text-muted-foreground text-xs max-w-[120px] truncate">
                       {server.productName}
+                    </td>
+                    <td className="px-4 py-3 text-xs">
+                      {server.orderItem?.order ? (
+                        <div className="flex flex-col gap-0.5">
+                          <span className="font-mono text-muted-foreground">
+                            #{server.orderItem.order.id.slice(0, 8).toUpperCase()}
+                          </span>
+                          <span className="text-[11px] text-muted-foreground">
+                            {server.orderItem.order.status} ·{' '}
+                            {new Date(server.orderItem.order.createdAt).toLocaleDateString()}
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground">—</span>
+                      )}
                     </td>
                     <td className="px-4 py-3 text-muted-foreground text-xs">
                       {server.expiresAt ? new Date(server.expiresAt).toLocaleDateString() : '—'}

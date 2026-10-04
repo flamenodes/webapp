@@ -9,7 +9,7 @@ import { OrderOrderByRelationAggregateInputObjectSchema as OrderOrderByRelationA
 const makeSchema = () => z.object({
   id: SortOrderSchema.optional(),
   userId: SortOrderSchema.optional(),
-  orderItemId: SortOrderSchema.optional(),
+  orderItemId: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   name: SortOrderSchema.optional(),
   type: SortOrderSchema.optional(),
   status: SortOrderSchema.optional(),

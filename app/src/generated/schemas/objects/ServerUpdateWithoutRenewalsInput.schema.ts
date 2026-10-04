@@ -7,7 +7,7 @@ import { NullableDateTimeFieldUpdateOperationsInputObjectSchema as NullableDateT
 import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
 import { BoolFieldUpdateOperationsInputObjectSchema as BoolFieldUpdateOperationsInputObjectSchema } from './BoolFieldUpdateOperationsInput.schema';
 import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
-import { OrderItemUpdateOneRequiredWithoutServerNestedInputObjectSchema as OrderItemUpdateOneRequiredWithoutServerNestedInputObjectSchema } from './OrderItemUpdateOneRequiredWithoutServerNestedInput.schema';
+import { OrderItemUpdateOneWithoutServerNestedInputObjectSchema as OrderItemUpdateOneWithoutServerNestedInputObjectSchema } from './OrderItemUpdateOneWithoutServerNestedInput.schema';
 import { UserUpdateOneRequiredWithoutServersNestedInputObjectSchema as UserUpdateOneRequiredWithoutServersNestedInputObjectSchema } from './UserUpdateOneRequiredWithoutServersNestedInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
@@ -26,7 +26,7 @@ const makeSchema = () => z.object({
   createdAt: z.union([z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time"), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
   updatedAt: z.union([z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time"), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
   pterodactylServerId: z.union([z.number().int(), z.lazy(() => NullableIntFieldUpdateOperationsInputObjectSchema)]).optional().nullable(),
-  orderItem: z.lazy(() => OrderItemUpdateOneRequiredWithoutServerNestedInputObjectSchema).optional(),
+  orderItem: z.lazy(() => OrderItemUpdateOneWithoutServerNestedInputObjectSchema).optional(),
   user: z.lazy(() => UserUpdateOneRequiredWithoutServersNestedInputObjectSchema).optional()
 }).strict();
 export const ServerUpdateWithoutRenewalsInputObjectSchema: z.ZodType<Prisma.ServerUpdateWithoutRenewalsInput> = makeSchema() as unknown as z.ZodType<Prisma.ServerUpdateWithoutRenewalsInput>;

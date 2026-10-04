@@ -60,11 +60,11 @@ export function OrderSummary({
         Continue
       </Button>
 
-      {/* Coupon Link */}
+      {/* Coupon note — codes are entered on the payment step */}
       <div className="mt-4 text-center">
-        <button className="text-sm text-primary hover:text-primary/80 font-medium transition-colors">
-          Have a coupon code?
-        </button>
+        <p className="text-sm text-muted-foreground">
+          Have a coupon code? You can apply it on the payment step.
+        </p>
       </div>
     </div>
   )

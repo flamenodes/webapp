@@ -1,6 +1,7 @@
 import { createServerFn } from '@tanstack/react-start'
 import { getRequestHeaders } from '@tanstack/react-start/server'
 import { prisma } from '#/db'
+import { Prisma } from '#/generated/prisma/client'
 import { auth } from '@/lib/auth'
 import { z } from 'zod'
 import { razorpay } from '../razorpay/instance'
@@ -61,7 +62,8 @@ export const getAllOrders = createServerFn({ method: 'GET' }).handler(async () =
   return prisma.order.findMany({
     include: {
       user: { select: { id: true, name: true, email: true, image: true } },
-      items: { include: { product: true } },
+      // `server` makes the order → server pairing visible in the admin table.
+      items: { include: { product: true, server: true } },
     },
     orderBy: { createdAt: 'desc' },
   })
@@ -521,6 +523,16 @@ export const deliverCustomOrder = createServerFn({ method: 'POST' })
 
 const deleteOrderSchema = z.object({
   orderId: z.string(),
+  /** Delete the local Server row too. Unchecked → the server is detached and keeps running. */
+  deleteServerRecord: z.boolean().default(true),
+  /** Delete the server from the Pterodactyl panel too. */
+  deletePteroServers: z.boolean().default(true),
+})
+
+const deleteOrdersSchema = z.object({
+  orderIds: z.array(z.string()).min(1),
+  deleteServerRecord: z.boolean().default(true),
+  deletePteroServers: z.boolean().default(true),
 })
 
 const deployOrderSchema = z.object({
@@ -535,6 +547,42 @@ const deployCustomOrderSchema = z.object({
   password: z.string().optional(),
   message: z.string(),
 })
+
+type DeletableItem = {
+  id: string
+  server: {
+    id: string
+    pterodactylServerId: number | null
+    pterodactylData: unknown
+  } | null
+}
+
+/**
+ * Best-effort removal of the panel servers behind these order items. Panel
+ * failures are collected and reported but never abort the database delete —
+ * a half-deleted order is worse than a stray panel server.
+ */
+async function deletePterodactylServersForItems(items: DeletableItem[]) {
+  const failures: string[] = []
+
+  for (const item of items) {
+    const server = item.server
+    if (!server) continue
+
+    const pteroData = (server.pterodactylData ?? {}) as { id?: number }
+    const pteroServerId = server.pterodactylServerId ?? pteroData?.id
+    if (!pteroServerId) continue
+
+    try {
+      await ptero.delete(`/application/servers/${pteroServerId}`)
+    } catch (error: any) {
+      console.error(`Failed to delete Pterodactyl server ${pteroServerId}:`, error?.message)
+      failures.push(`#${pteroServerId} (${error?.message ?? 'unknown error'})`)
+    }
+  }
+
+  return failures
+}
 
 export const deleteOrder = createServerFn({ method: 'POST' })
   .validator(deleteOrderSchema)
@@ -561,27 +609,102 @@ export const deleteOrder = createServerFn({ method: 'POST' })
 
     if (!order) return wrapError('Order not found')
 
-    // Delete servers from Pterodactyl if applicable
-    for (const item of order.items) {
-      if (item.server) {
-        const deployMode = item.product?.deployMode ?? 'CUSTOM'
-        const pteroData = item.server.pterodactylData as any
+    const failures = data.deletePteroServers
+      ? await deletePterodactylServersForItems(order.items)
+      : []
 
-        if (deployMode === 'PTERODACTYL' && pteroData?.id) {
-          try {
-            const { ptero } = await import('../pterodactyl/client')
-            await ptero.delete(`/application/servers/${pteroData.id}`)
-          } catch (pteroError: any) {
-            console.error(`Failed to delete Pterodactyl server ${pteroData.id}:`, pteroError.message)
-          }
-        }
-      }
+    if (data.deleteServerRecord) {
+      // Cascade removes the order items and their servers.
+      await prisma.order.delete({ where: { id: data.orderId } })
+    } else {
+      // Keep the servers alive; detach them so the cascade has nothing to remove.
+      // A server whose panel entry was just deleted is marked TERMINATED and
+      // unlinked from Pterodactyl, since it no longer exists there.
+      const itemIds = order.items.map((item) => item.id)
+
+      await prisma.server.updateMany({
+        where: { orderItemId: { in: itemIds } },
+        data: data.deletePteroServers
+          ? {
+              orderItemId: null,
+              status: 'TERMINATED' as const,
+              pterodactylServerId: null,
+              pterodactylData: Prisma.DbNull,
+            }
+          : { orderItemId: null },
+      })
+
+      await prisma.order.delete({ where: { id: data.orderId } })
     }
 
-    // Delete order (cascade will delete servers and order items)
-    await prisma.order.delete({ where: { id: data.orderId } })
+    const keptNote = data.deleteServerRecord
+      ? ''
+      : ` ${order.items.filter((i) => i.server).length} server(s) kept and detached from the order.`
+    const failureNote =
+      failures.length > 0
+        ? ` Pterodactyl deletion failed for ${failures.join(', ')}.`
+        : ''
 
-    return wrapSuccess('Order and associated servers deleted successfully')
+    return wrapSuccess(`Order deleted successfully.${keptNote}${failureNote}`)
+  })
+
+export const deleteOrders = createServerFn({ method: 'POST' })
+  .validator(deleteOrdersSchema)
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const session = await auth.api.getSession({ headers })
+    if (!session?.user) return wrapError('Unauthorized')
+
+    const user = await prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } })
+    const role = user?.role?.toLowerCase()
+    if (role !== 'admin' && role !== 'owner') return wrapError('Forbidden')
+
+    const orders = await prisma.order.findMany({
+      where: { id: { in: data.orderIds } },
+      include: {
+        items: {
+          include: {
+            server: true,
+            product: { select: { deployMode: true } },
+          },
+        },
+      },
+    })
+
+    if (orders.length === 0) return wrapError('No matching orders found')
+
+    const allItems = orders.flatMap((order) => order.items)
+
+    const failures = data.deletePteroServers
+      ? await deletePterodactylServersForItems(allItems)
+      : []
+
+    if (!data.deleteServerRecord) {
+      const itemIds = allItems.map((item) => item.id)
+
+      await prisma.server.updateMany({
+        where: { orderItemId: { in: itemIds } },
+        data: data.deletePteroServers
+          ? {
+              orderItemId: null,
+              status: 'TERMINATED' as const,
+              pterodactylServerId: null,
+              pterodactylData: Prisma.DbNull,
+            }
+          : { orderItemId: null },
+      })
+    }
+
+    const result = await prisma.order.deleteMany({
+      where: { id: { in: orders.map((order) => order.id) } },
+    })
+
+    const failureNote =
+      failures.length > 0
+        ? ` Pterodactyl deletion failed for ${failures.join(', ')}.`
+        : ''
+
+    return wrapSuccess(`${result.count} order(s) deleted successfully.${failureNote}`)
   })
 
 export const deployOrder = createServerFn({ method: 'POST' })
@@ -620,32 +743,16 @@ export const deployOrder = createServerFn({ method: 'POST' })
     }
 
     // Create server record
-    const { extractPteroSpecsFromProduct } = await import('../pterodactyl/configData')
-    const productSpecs = product.specs as Record<string, any> ?? {}
-    const userConfig = (orderItem.configuration ?? {}) as Record<string, string>
-    const specs = extractPteroSpecsFromProduct(productSpecs)
+    const { extractPteroSpecsFromProduct, resolvePteroEggConfig } = await import(
+      '../pterodactyl/configData'
+    )
+    const specs = extractPteroSpecsFromProduct(product.specs)
 
-    // Also extract egg and nest from nested ptero object (fallback to root-level)
-    const pteroSpecs = productSpecs.ptero ?? {}
-    let resolvedEgg = Number(pteroSpecs.egg ?? productSpecs.egg ?? process.env.PTERO_DEFAULT_EGG ?? 1)
-    let resolvedNest = Number(pteroSpecs.nest ?? productSpecs.nest ?? process.env.PTERO_DEFAULT_NEST ?? 1)
-    let extraEnv: Record<string, string> = {}
-
-    const configValueIds = Object.values(userConfig).filter(Boolean)
-    if (configValueIds.length > 0) {
-      const configValues = await prisma.configurationValue.findMany({
-        where: { value: { in: configValueIds } },
-      })
-      for (const cv of configValues) {
-        const meta = cv.metadata as Record<string, any> | null
-        if (!meta) continue
-        if (meta.eggId) resolvedEgg = Number(meta.eggId)
-        if (meta.nestId) resolvedNest = Number(meta.nestId)
-        if (meta.envVars && typeof meta.envVars === 'object') {
-          extraEnv = { ...extraEnv, ...meta.envVars }
-        }
-      }
-    }
+    // Egg/nest come from the product specs, then the purchased configuration.
+    const { egg: resolvedEgg, nest: resolvedNest, extraEnv } = await resolvePteroEggConfig({
+      productSpecs: product.specs,
+      configuration: orderItem.configuration,
+    })
 
     const server = await prisma.server.create({
       data: {

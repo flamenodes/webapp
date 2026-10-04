@@ -3,7 +3,7 @@ import * as z from 'zod';
 export const ServerSchema = z.object({
   id: z.string(),
   userId: z.string(),
-  orderItemId: z.string(),
+  orderItemId: z.string().nullish(),
   name: z.string(),
   type: z.string(),
   status: z.string(),

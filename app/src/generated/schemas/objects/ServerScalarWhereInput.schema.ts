@@ -14,7 +14,7 @@ const serverscalarwhereinputSchema = z.object({
   NOT: z.union([z.lazy(() => ServerScalarWhereInputObjectSchema), z.lazy(() => ServerScalarWhereInputObjectSchema).array()]).optional(),
   id: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
   userId: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
-  orderItemId: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
+  orderItemId: z.union([z.lazy(() => StringNullableFilterObjectSchema), z.string()]).optional().nullable(),
   name: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
   type: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
   status: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),

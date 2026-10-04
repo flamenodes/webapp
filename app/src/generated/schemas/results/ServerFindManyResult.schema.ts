@@ -6,7 +6,7 @@ export const ServerFindManyResultSchema = z.object({
   data: z.array(z.object({
   id: z.string(),
   userId: z.string(),
-  orderItemId: z.string(),
+  orderItemId: z.string().optional(),
   name: z.string(),
   type: z.string(),
   status: z.string(),

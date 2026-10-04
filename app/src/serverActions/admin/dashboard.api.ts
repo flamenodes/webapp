@@ -256,7 +256,11 @@ export const getAllOrders = createServerFn({ method: 'GET' }).handler(
       orderBy: { createdAt: 'desc' },
       include: {
         items: {
-          include: { product: { select: { planName: true, category: true } } },
+          include: {
+            product: { select: { planName: true, category: true } },
+            // Keeps the order → server pairing available on the dashboard too.
+            server: true,
+          },
         },
         user: { select: { id: true, name: true, email: true, image: true } },
       },

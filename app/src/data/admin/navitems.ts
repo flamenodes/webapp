@@ -32,6 +32,12 @@ export const navItems = [
     section: 'management',
   },
   {
+    icon: 'TicketPercent',
+    label: 'Coupons',
+    to: '/admin/coupons',
+    section: 'management',
+  },
+  {
     icon: 'FileText',
     label: 'Invoices',
     to: '/admin/invoices',

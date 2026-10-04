@@ -6,6 +6,8 @@ import { z } from "zod";
 import type { OrderStatus } from "@/generated/prisma/client";
 import { calculateExpiryDate } from "./expiry";
 import { suspendServersForOrder } from "./suspend-order-servers";
+import { consumeCoupon } from "./coupon.api";
+import { evaluateCoupon } from "#/lib/coupon";
 
 const createOrderSchema = z.object({
   cartId: z.string().optional(),
@@ -47,26 +49,19 @@ export const createOrder = createServerFn({ method: "POST" })
     }
 
     const coupon = cart.couponCode
-      ? await prisma.coupon.findUnique({ where: { code: cart.couponCode } })
+      ? await prisma.coupon.findUnique({ where: { code: cart.couponCode.toUpperCase() } })
       : null;
-
-    const validCoupon =
-      coupon &&
-      coupon.active &&
-      (!coupon.expiresAt || coupon.expiresAt > new Date());
 
     const subtotalAmount = cart.items.reduce(
       (sum, item) => sum + item.product.price * item.quantity,
       0,
     );
 
-    const discountAmount = validCoupon
-      ? coupon.type === 'PERCENT'
-        ? Math.floor((subtotalAmount * coupon.amount) / 100)
-        : coupon.amount
-      : 0;
+    const evaluation = evaluateCoupon(coupon, subtotalAmount);
+    const applied = evaluation.ok ? evaluation : null;
 
-    const totalAmount = Math.max(subtotalAmount - discountAmount, 0);
+    const discountAmount = applied?.discountAmount ?? 0;
+    const totalAmount = applied?.totalAmount ?? subtotalAmount;
 
     const order = await prisma.order.create({
       data: {
@@ -75,7 +70,7 @@ export const createOrder = createServerFn({ method: "POST" })
         subtotalAmount,
         discountAmount,
         totalAmount,
-        couponCode: validCoupon ? cart.couponCode : undefined,
+        couponCode: applied?.code,
         items: {
           create: cart.items.map((item) => ({
             productId: item.productId,
@@ -93,6 +88,9 @@ export const createOrder = createServerFn({ method: "POST" })
     });
 
     await prisma.cartItem.deleteMany({ where: { cartId: cart.id } });
+
+    // Only count a redemption once an order has actually been written.
+    if (applied) await consumeCoupon(applied.code);
 
     return wrapSuccess('Order created successfully.', order);
   });
@@ -185,6 +183,8 @@ const checkoutSchema = z.object({
   quantity: z.number().int().positive().default(1),
   billingPeriod: z.enum(['HOURLY', 'DAILY', 'MONTHLY', 'QUARTERLY', 'SEMIANNUALLY', 'YEARLY']).default('MONTHLY'),
   configurationData: z.record(z.string()).optional(),
+  /** Applied at checkout; re-priced here so the browser total is only a preview. */
+  couponCode: z.string().trim().nullish(),
   billingDetails: z.object({
     firstName: z.string(),
     lastName: z.string(),
@@ -230,15 +230,28 @@ export const createOrderDirect = createServerFn({ method: "POST" })
       unitPrice = billingOption.price
     }
 
-    const totalAmount = unitPrice * data.quantity
+    const subtotalAmount = unitPrice * data.quantity
+
+    // The coupon the customer typed is priced here, not in the browser: the
+    // stored order is what fulfilment and refunds read.
+    const requestedCode = data.couponCode?.trim().toUpperCase()
+    const coupon = requestedCode
+      ? await prisma.coupon.findUnique({ where: { code: requestedCode } })
+      : null
+    const evaluation = requestedCode ? evaluateCoupon(coupon, subtotalAmount) : null
+    if (evaluation && !evaluation.ok) throw new Error(evaluation.message)
+    const applied = evaluation?.ok ? evaluation : null
+
+    const totalAmount = applied?.totalAmount ?? subtotalAmount
 
     const order = await prisma.order.create({
       data: {
         userId: session.user.id,
         status: 'PENDING',
-        subtotalAmount: totalAmount,
-        discountAmount: 0,
+        subtotalAmount,
+        discountAmount: applied?.discountAmount ?? 0,
         totalAmount,
+        couponCode: applied?.code,
         items: {
           create: {
             productId: product.id,
@@ -246,7 +259,7 @@ export const createOrderDirect = createServerFn({ method: "POST" })
             quantity: data.quantity,
             billingPeriod: data.billingPeriod,
             unitPrice,
-            totalPrice: totalAmount,
+            totalPrice: subtotalAmount,
             specsSnapshot: product.specs ?? {},
             configuration: data.configurationData ?? undefined,
             expiresAt: calculateExpiryDate(data.billingPeriod),
@@ -258,6 +271,8 @@ export const createOrderDirect = createServerFn({ method: "POST" })
       },
       include: { items: true },
     })
+
+    if (applied) await consumeCoupon(applied.code)
 
     return order
   })

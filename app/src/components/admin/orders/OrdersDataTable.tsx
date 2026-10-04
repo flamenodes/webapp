@@ -7,6 +7,7 @@ import {
   type DataTableFilterConfig,
 } from '#/components/ui/data-table'
 import { Badge } from '#/components/ui/badge'
+import { Checkbox } from '#/components/ui/checkbox'
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
@@ -32,7 +33,8 @@ import {
   deleteOrder,
   deleteOrders,
   type getAllOrders,
-} from '#/serverActions/admin/dashboard.api'
+} from '#/serverActions/admin/orders.api'
+import { getServerConnectionString, getServerPanelUrl } from '#/lib/server-address'
 import {
   Link as LinkIcon,
   Loader2,
@@ -42,6 +44,7 @@ import {
   FileSpreadsheet,
   Rocket,
   Calendar,
+  Server as ServerIcon,
 } from 'lucide-react'
 import {
   DropdownMenu,
@@ -58,11 +61,19 @@ import { differenceInDays, format, isPast } from 'date-fns'
 
 type OrderRecord = Awaited<ReturnType<typeof getAllOrders>>[number]
 
+/** What happens to the servers behind an order when the order is deleted. */
+export type OrderDeletionOptions = {
+  /** Delete the local Server row too. Unchecked → the server is detached and keeps running. */
+  deleteServerRecord: boolean
+  /** Delete the server from the Pterodactyl panel too. */
+  deletePteroServers: boolean
+}
+
 interface OrdersDataTableProps {
   data: OrderRecord[]
   onGeneratePaymentLink?: (orderId: string) => void
   onUpdateStatus?: (orderId: string, status: string) => void
-  onDeleteOrder?: (orderId: string) => void
+  onDeleteOrder?: (orderId: string, options: OrderDeletionOptions) => void
   onDeploy?: (orderId: string) => void
   onChangePurchaseDate?: (orderId: string, purchasedOn: string) => void
   isPurchaseDatePending?: boolean
@@ -113,6 +124,11 @@ export function OrdersDataTable({
   const [orderToDelete, setOrderToDelete] = React.useState<string | null>(null)
   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = React.useState(false)
   const [selectedOrderIds, setSelectedOrderIds] = React.useState<string[]>([])
+  // Shared by both delete dialogs; reset to "delete everything" each time one opens.
+  const [deleteOptions, setDeleteOptions] = React.useState<OrderDeletionOptions>({
+    deleteServerRecord: true,
+    deletePteroServers: true,
+  })
   const [purchaseDateDialog, setPurchaseDateDialog] = React.useState<{
     orderId: string
     purchasedOn: string
@@ -125,17 +141,24 @@ export function OrdersDataTable({
   }
 
   const deleteMutation = useMutation({
-    mutationFn: (orderId: string) => {
+    mutationFn: ({
+      orderId,
+      options,
+    }: {
+      orderId: string
+      options: OrderDeletionOptions
+    }) => {
       if (onDeleteOrder) {
-        onDeleteOrder(orderId)
-        return Promise.resolve()
+        onDeleteOrder(orderId, options)
+        return Promise.resolve(null)
       }
-      return deleteOrder({ data: { id: orderId } })
+      return deleteOrder({ data: { orderId, ...options } })
     },
-    onSuccess: () => {
+    onSuccess: (result: any) => {
       if (!onDeleteOrder) {
         qc.invalidateQueries({ queryKey: ['admin-orders'] })
-        toast.success('Order deleted successfully')
+        if (result?.success === false) toast.error(result.message)
+        else toast.success(result?.message || 'Order deleted successfully')
       }
       setDeleteDialogOpen(false)
       setOrderToDelete(null)
@@ -148,12 +171,12 @@ export function OrdersDataTable({
   })
 
   const bulkDeleteMutation = useMutation({
-    mutationFn: (orderIds: string[]) => deleteOrders({ data: { ids: orderIds } }),
-    onSuccess: (result) => {
+    mutationFn: (orderIds: string[]) =>
+      deleteOrders({ data: { orderIds, ...deleteOptions } }),
+    onSuccess: (result: any) => {
       qc.invalidateQueries({ queryKey: ['admin-orders'] })
-      if (result.success) {
-        toast.success(`${result.data?.deleted || 0} orders deleted successfully`)
-      }
+      if (result?.success === false) toast.error(result.message)
+      else toast.success(result?.message || 'Orders deleted successfully')
       setBulkDeleteDialogOpen(false)
       setSelectedOrderIds([])
     },
@@ -163,11 +186,13 @@ export function OrdersDataTable({
   })
 
   const handleDelete = (orderId: string) => {
+    setDeleteOptions({ deleteServerRecord: true, deletePteroServers: true })
     setOrderToDelete(orderId)
     setDeleteDialogOpen(true)
   }
 
   const handleBulkDelete = (orderIds: string[]) => {
+    setDeleteOptions({ deleteServerRecord: true, deletePteroServers: true })
     setSelectedOrderIds(orderIds)
     setBulkDeleteDialogOpen(true)
   }
@@ -341,6 +366,60 @@ export function OrdersDataTable({
             ),
           },
           {
+            id: 'server',
+            header: 'Server',
+            cell: ({ row }) => {
+              const servers = row.original.items
+                .map((item) => item.server)
+                .filter((server): server is NonNullable<typeof server> => Boolean(server))
+
+              const server = servers[0]
+              if (!server) {
+                return <span className="text-sm text-muted-foreground">—</span>
+              }
+
+              const address = getServerConnectionString(server)
+              const panelUrl = getServerPanelUrl(server)
+
+              return (
+                <div className="space-y-0.5 min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <ServerIcon className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                    <span className="text-sm font-medium truncate">{server.name}</span>
+                  </div>
+                  {server.pterodactylServerId != null && (
+                    <p className="font-mono text-xs text-muted-foreground">
+                      #{server.pterodactylServerId}
+                    </p>
+                  )}
+                  {address && (
+                    <p className="truncate text-xs text-muted-foreground">{address}</p>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline" className="text-[10px] capitalize">
+                      {server.status.replace('_', ' ').toLowerCase()}
+                    </Badge>
+                    {panelUrl && (
+                      <a
+                        href={panelUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[11px] text-primary hover:underline"
+                      >
+                        Panel
+                      </a>
+                    )}
+                  </div>
+                  {servers.length > 1 && (
+                    <p className="text-[11px] text-muted-foreground">
+                      +{servers.length - 1} more
+                    </p>
+                  )}
+                </div>
+              )
+            },
+          },
+          {
             id: 'actions',
             header: 'Actions',
             cell: ({ row }) => {
@@ -494,13 +573,24 @@ export function OrdersDataTable({
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Order</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this order? All associated servers will be deleted{onDeleteOrder ? ', including from Pterodactyl if applicable' : ''}. This action cannot be undone.
+              Are you sure you want to delete this order? This action cannot be
+              undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
+
+          <DeleteOptionsFields
+            value={deleteOptions}
+            onChange={setDeleteOptions}
+            disabled={deleteMutation.isPending}
+          />
+
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={() => orderToDelete && deleteMutation.mutate(orderToDelete)}
+              onClick={() =>
+                orderToDelete &&
+                deleteMutation.mutate({ orderId: orderToDelete, options: deleteOptions })
+              }
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               {deleteMutation.isPending ? (
@@ -518,9 +608,17 @@ export function OrdersDataTable({
           <AlertDialogHeader>
             <AlertDialogTitle>Delete {selectedOrderIds.length} Orders</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete {selectedOrderIds.length} orders? This action cannot be undone.
+              Are you sure you want to delete {selectedOrderIds.length} orders? This
+              action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
+
+          <DeleteOptionsFields
+            value={deleteOptions}
+            onChange={setDeleteOptions}
+            disabled={bulkDeleteMutation.isPending}
+          />
+
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
@@ -536,5 +634,73 @@ export function OrdersDataTable({
         </AlertDialogContent>
       </AlertDialog>
     </>
+  )
+}
+
+/**
+ * The two "what about the servers?" switches. Both default to on so a plain
+ * delete still cleans everything up; unchecking one leaves that side alive.
+ */
+function DeleteOptionsFields({
+  value,
+  onChange,
+  disabled,
+}: {
+  value: OrderDeletionOptions
+  onChange: (next: OrderDeletionOptions) => void
+  disabled?: boolean
+}) {
+  return (
+    <div className="space-y-3 rounded-lg border border-border bg-muted/40 p-3">
+      <p className="text-xs font-medium text-muted-foreground">
+        Servers attached to this order
+      </p>
+
+      <div className="flex items-start gap-2">
+        <Checkbox
+          id="delete-server-record"
+          checked={value.deleteServerRecord}
+          disabled={disabled}
+          onCheckedChange={(checked) =>
+            onChange({ ...value, deleteServerRecord: checked === true })
+          }
+        />
+        <div className="space-y-0.5">
+          <Label htmlFor="delete-server-record" className="text-sm font-normal">
+            Delete server record
+          </Label>
+          <p className="text-xs text-muted-foreground">
+            Removes the server from the customer dashboard and admin panel.
+          </p>
+        </div>
+      </div>
+
+      <div className="flex items-start gap-2">
+        <Checkbox
+          id="delete-ptero-servers"
+          checked={value.deletePteroServers}
+          disabled={disabled}
+          onCheckedChange={(checked) =>
+            onChange({ ...value, deletePteroServers: checked === true })
+          }
+        />
+        <div className="space-y-0.5">
+          <Label htmlFor="delete-ptero-servers" className="text-sm font-normal">
+            Delete Pterodactyl server
+          </Label>
+          <p className="text-xs text-muted-foreground">
+            Also destroys the server on the panel. Leave unchecked to keep it
+            running there.
+          </p>
+        </div>
+      </div>
+
+      {!value.deleteServerRecord && (
+        <p className="text-xs text-muted-foreground">
+          Kept servers are detached from the order and will still appear under
+          Servers.
+        </p>
+      )}
+    </div>
   )
 }

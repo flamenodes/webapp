@@ -23,6 +23,15 @@ import {
   createProduct,
   updateProduct,
 } from '#/serverActions/products/product.api'
+import {
+  PTERO_RESOURCE_FIELDS,
+  REQUIRED_PTERO_RESOURCES,
+  SPEC_ALIASES,
+  normalizeSpecKey,
+  normalizeSpecSource,
+  parseSpecValue,
+  type SpecKey,
+} from '#/lib/ptero-specs'
 import { useQueryClient } from '@tanstack/react-query'
 import type React from 'react'
 import { useEffect, useMemo, useState } from 'react'
@@ -53,6 +62,11 @@ type EditableProduct = {
   specEntries: Array<{ key: string; value: string }>
 }
 
+/** The canonical spec key an admin-typed key resolves to, when we recognise it. */
+function canonicalSpecKey(key: string): SpecKey | undefined {
+  return SPEC_ALIASES[normalizeSpecKey(key)]
+}
+
 const CreateProductModal = ({
   children,
   product,
@@ -72,6 +86,8 @@ const CreateProductModal = ({
 
   const [features, setFeatures] = useState([''])
   const [specs, setSpecs] = useState([{ key: '', value: '' }])
+  /** Typed resource sizing; the source of truth for a Pterodactyl deployment. */
+  const [resources, setResources] = useState<Record<string, string>>({})
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const queryClient = useQueryClient()
@@ -88,6 +104,7 @@ const CreateProductModal = ({
     setPrice(0)
     setFeatures([''])
     setSpecs([{ key: '', value: '' }])
+    setResources({})
   }
 
   useEffect(() => {
@@ -110,6 +127,18 @@ const CreateProductModal = ({
       product.specEntries?.length
         ? [...product.specEntries.map((s) => ({ key: s.key, value: s.value })), { key: '', value: '' }]
         : [{ key: '', value: '' }],
+    )
+    // Prefill the typed block from whatever spelling the stored specs use, so
+    // editing an old product shows real numbers instead of blanks.
+    const source = normalizeSpecSource(product.specEntries)
+    setResources(
+      Object.fromEntries(
+        PTERO_RESOURCE_FIELDS.map(({ key }) => {
+          const specKey = canonicalSpecKey(key)
+          const parsed = specKey ? parseSpecValue(source[specKey], specKey) : null
+          return [key, parsed === null ? '' : String(parsed)]
+        }),
+      ),
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, product?.id])
@@ -171,12 +200,39 @@ const CreateProductModal = ({
     }
 
     const cleanedFeatures = features.map((f) => f.trim()).filter(Boolean)
-    const cleanedSpecs = specs
-      .map((s) => ({
-        key: s.key.trim(),
-        value: s.value.trim(),
-      }))
-      .filter((s) => s.key.length > 0)
+
+    // Canonical resource rows from the typed block — these win over any
+    // free-text row that happens to name the same resource.
+    const resourceRows = PTERO_RESOURCE_FIELDS.map(({ key }) => ({
+      key,
+      value: (resources[key] ?? '').trim(),
+    })).filter((row) => row.value.length > 0)
+
+    if (deployMode.trim().toUpperCase() === 'PTERODACTYL') {
+      const missing = REQUIRED_PTERO_RESOURCES.filter(
+        (key) => !resourceRows.some((row) => row.key === key),
+      ).map((key) => PTERO_RESOURCE_FIELDS.find((field) => field.key === key)?.label ?? key)
+
+      if (missing.length > 0) {
+        toast.warning(
+          `${missing.join(', ')} not set — deployments will fall back to 100% CPU / 512 MB RAM / 1 GB disk.`,
+        )
+      }
+    }
+
+    const managedKeys = new Set(
+      PTERO_RESOURCE_FIELDS.map((field) => canonicalSpecKey(field.key)),
+    )
+    const cleanedSpecs = [
+      ...specs
+        .map((s) => ({ key: s.key.trim(), value: s.value.trim() }))
+        .filter((s) => {
+          if (s.key.length === 0) return false
+          const canonical = canonicalSpecKey(s.key)
+          return !(canonical && managedKeys.has(canonical))
+        }),
+      ...resourceRows,
+    ]
 
     setIsSubmitting(true)
     try {
@@ -345,7 +401,48 @@ const CreateProductModal = ({
           </Field>
 
           <Field>
+            <Label>Pterodactyl Resources</Label>
+
+            <p className="text-xs text-muted-foreground">
+              What the panel server is built with. Any free-text spec row naming the
+              same resource is replaced by these values.
+            </p>
+
+            <div className="grid grid-cols-2 gap-3">
+              {PTERO_RESOURCE_FIELDS.map((field) => (
+                <div key={field.key} className="space-y-1">
+                  <Label
+                    htmlFor={`resource-${field.key}`}
+                    className="text-xs font-normal text-muted-foreground"
+                  >
+                    {field.label}
+                  </Label>
+                  <Input
+                    id={`resource-${field.key}`}
+                    type="number"
+                    min={0}
+                    inputMode="numeric"
+                    placeholder="0"
+                    value={resources[field.key] ?? ''}
+                    onChange={(e) =>
+                      setResources((prev) => ({
+                        ...prev,
+                        [field.key]: e.target.value,
+                      }))
+                    }
+                  />
+                  <p className="text-[11px] text-muted-foreground">{field.hint}</p>
+                </div>
+              ))}
+            </div>
+          </Field>
+
+          <Field>
             <Label>Specs</Label>
+
+            <p className="text-xs text-muted-foreground">
+              Extra specs shown on the storefront — use this for Egg and Nest.
+            </p>
 
             <div className="space-y-2">
               {specs.map((spec, index) => (

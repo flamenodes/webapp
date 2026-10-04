@@ -2,7 +2,7 @@ import { prisma } from '#/db'
 import { ptero } from '../pterodactyl/client'
 import { resolveDeployOwnerId } from '../pterodactyl/user-resolver'
 import { calculateExpiryDate } from './expiry'
-import { extractPteroSpecsFromProduct } from '../pterodactyl/configData'
+import { extractPteroSpecsFromProduct, resolvePteroEggConfig } from '../pterodactyl/configData'
 
 type OrderWithRelations = Awaited<ReturnType<typeof loadOrder>>
 
@@ -178,31 +178,13 @@ async function provisionNewServers(order: NonNullable<OrderWithRelations>) {
       if (existing) return
 
       const name = `${item.productName}-${item.id.slice(0, 8)}`
-      const productSpecs = (item.product.specs ?? {}) as Record<string, any>
-      const userConfig = (item.configuration ?? {}) as Record<string, string>
       const specs = extractPteroSpecsFromProduct(item.product.specs)
 
-      // Also extract egg and nest from nested ptero object (fallback to root-level)
-      const pteroSpecs = productSpecs.ptero ?? {}
-      let resolvedEgg = Number(pteroSpecs.egg ?? productSpecs.egg ?? process.env.PTERO_DEFAULT_EGG ?? 1)
-      let resolvedNest = Number(pteroSpecs.nest ?? productSpecs.nest ?? process.env.PTERO_DEFAULT_NEST ?? 1)
-      let extraEnv: Record<string, string> = {}
-
-      const configValueIds = Object.values(userConfig).filter(Boolean)
-      if (configValueIds.length > 0) {
-        const configValues = await prisma.configurationValue.findMany({
-          where: { value: { in: configValueIds } },
-        })
-        for (const cv of configValues) {
-          const meta = cv.metadata as Record<string, any> | null
-          if (!meta) continue
-          if (meta.eggId) resolvedEgg = Number(meta.eggId)
-          if (meta.nestId) resolvedNest = Number(meta.nestId)
-          if (meta.envVars && typeof meta.envVars === 'object') {
-            extraEnv = { ...extraEnv, ...meta.envVars }
-          }
-        }
-      }
+      // Egg/nest come from the product specs, then the purchased configuration.
+      const { egg, nest, extraEnv } = await resolvePteroEggConfig({
+        productSpecs: item.product.specs,
+        configuration: item.configuration,
+      })
 
       const server = await prisma.server.create({
         data: {
@@ -227,8 +209,8 @@ async function provisionNewServers(order: NonNullable<OrderWithRelations>) {
         serverId: server.id,
         name,
         user: ownerId,
-        nest: resolvedNest,
-        egg: resolvedEgg,
+        nest,
+        egg,
         extraEnv,
         specs,
         type: item.product.category,

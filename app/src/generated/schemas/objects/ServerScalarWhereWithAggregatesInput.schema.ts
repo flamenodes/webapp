@@ -14,7 +14,7 @@ const serverscalarwherewithaggregatesinputSchema = z.object({
   NOT: z.union([z.lazy(() => ServerScalarWhereWithAggregatesInputObjectSchema), z.lazy(() => ServerScalarWhereWithAggregatesInputObjectSchema).array()]).optional(),
   id: z.union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()]).optional(),
   userId: z.union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()]).optional(),
-  orderItemId: z.union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()]).optional(),
+  orderItemId: z.union([z.lazy(() => StringNullableWithAggregatesFilterObjectSchema), z.string()]).optional().nullable(),
   name: z.union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()]).optional(),
   type: z.union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()]).optional(),
   status: z.union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()]).optional(),

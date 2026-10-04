@@ -22,6 +22,8 @@ export const getAdminServers = createServerFn({ method: 'GET' }).handler(async (
       orderItem: {
         include: {
           product: { select: { planName: true, deployMode: true } },
+          // Surfaces the order this server fulfils, both ways round.
+          order: { select: { id: true, status: true, createdAt: true } },
         },
       },
     },

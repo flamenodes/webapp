@@ -7,7 +7,7 @@ import { DateTimeNullableFilterObjectSchema as DateTimeNullableFilterObjectSchem
 import { JsonNullableFilterObjectSchema as JsonNullableFilterObjectSchema } from './JsonNullableFilter.schema';
 import { BoolFilterObjectSchema as BoolFilterObjectSchema } from './BoolFilter.schema';
 import { DateTimeFilterObjectSchema as DateTimeFilterObjectSchema } from './DateTimeFilter.schema';
-import { OrderItemScalarRelationFilterObjectSchema as OrderItemScalarRelationFilterObjectSchema } from './OrderItemScalarRelationFilter.schema';
+import { OrderItemNullableScalarRelationFilterObjectSchema as OrderItemNullableScalarRelationFilterObjectSchema } from './OrderItemNullableScalarRelationFilter.schema';
 import { OrderItemWhereInputObjectSchema as OrderItemWhereInputObjectSchema } from './OrderItemWhereInput.schema';
 import { UserScalarRelationFilterObjectSchema as UserScalarRelationFilterObjectSchema } from './UserScalarRelationFilter.schema';
 import { UserWhereInputObjectSchema as UserWhereInputObjectSchema } from './UserWhereInput.schema';
@@ -19,7 +19,7 @@ const serverwhereinputSchema = z.object({
   NOT: z.union([z.lazy(() => ServerWhereInputObjectSchema), z.lazy(() => ServerWhereInputObjectSchema).array()]).optional(),
   id: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
   userId: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
-  orderItemId: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
+  orderItemId: z.union([z.lazy(() => StringNullableFilterObjectSchema), z.string()]).optional().nullable(),
   name: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
   type: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
   status: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
@@ -32,7 +32,7 @@ const serverwhereinputSchema = z.object({
   createdAt: z.union([z.lazy(() => DateTimeFilterObjectSchema), z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time")]).optional(),
   updatedAt: z.union([z.lazy(() => DateTimeFilterObjectSchema), z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/, "Invalid RFC3339 date-time")]).optional(),
   pterodactylServerId: z.union([z.lazy(() => IntNullableFilterObjectSchema), z.number().int()]).optional().nullable(),
-  orderItem: z.union([z.lazy(() => OrderItemScalarRelationFilterObjectSchema), z.lazy(() => OrderItemWhereInputObjectSchema)]).optional(),
+  orderItem: z.union([z.lazy(() => OrderItemNullableScalarRelationFilterObjectSchema), z.lazy(() => OrderItemWhereInputObjectSchema)]).optional(),
   user: z.union([z.lazy(() => UserScalarRelationFilterObjectSchema), z.lazy(() => UserWhereInputObjectSchema)]).optional(),
   renewals: z.lazy(() => OrderListRelationFilterObjectSchema).optional()
 }).strict();
