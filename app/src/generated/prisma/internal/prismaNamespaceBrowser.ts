@@ -521,7 +521,12 @@ export const RazorpayConfigScalarFieldEnum = {
   updatedAt: 'updatedAt',
   createdAt: 'createdAt',
   pteroNodeId: 'pteroNodeId',
-  pteroNodeMode: 'pteroNodeMode'
+  pteroNodeMode: 'pteroNodeMode',
+  activeGateway: 'activeGateway',
+  cashfreeTestAppId: 'cashfreeTestAppId',
+  cashfreeTestSecret: 'cashfreeTestSecret',
+  cashfreeProdAppId: 'cashfreeProdAppId',
+  cashfreeProdSecret: 'cashfreeProdSecret'
 } as const
 
 export type RazorpayConfigScalarFieldEnum = (typeof RazorpayConfigScalarFieldEnum)[keyof typeof RazorpayConfigScalarFieldEnum]

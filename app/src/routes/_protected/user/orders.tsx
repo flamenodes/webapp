@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useSuspenseQuery, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { getOrders, cancelOrder } from '@/serverActions/billing/order.api'
-import { generatePaymentLink } from '@/serverActions/admin/orders.api'
 import { getInvoiceByOrderId } from '@/serverActions/invoice/invoice.api'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -21,6 +20,7 @@ import { formatDistanceToNow } from '@/lib/date-utils'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { RenewServerDialog } from '@/components/billing/RenewServerDialog'
+import { getServerPanelUrl } from '@/lib/server-address'
 
 export const Route = createFileRoute('/_protected/user/orders')({
   head: () => ({ meta: [{ title: 'My Orders | Flame Nodes' }] }),
@@ -67,30 +67,9 @@ function OrdersPage() {
   })
 
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null)
-  const [processingOrderId, setProcessingOrderId] = useState<string | null>(null)
   const [cancellingOrderId, setCancellingOrderId] = useState<string | null>(null)
   const [orderToCancel, setOrderToCancel] = useState<string | null>(null)
   const [renewServer, setRenewServer] = useState<any>(null)
-
-  const paymentMutation = useMutation({
-    mutationFn: (orderId: string) => generatePaymentLink({ data: { orderId } }),
-    onSuccess: (result, orderId) => {
-      if (result.success && result.data) {
-        const { razorpayOrderId } = result.data
-        navigate({
-          to: '/checkout/payment',
-          search: { orderId, razorpayOrderId },
-        })
-      } else {
-        toast.error(result.message || 'Failed to generate payment link')
-        setProcessingOrderId(null)
-      }
-    },
-    onError: () => {
-      toast.error('Failed to initiate payment')
-      setProcessingOrderId(null)
-    },
-  })
 
   const cancelMutation = useMutation({
     mutationFn: (orderId: string) => cancelOrder({ data: { orderId } }),
@@ -140,7 +119,7 @@ function OrdersPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {orders.map((order) => {
-              const status = statusConfig[order.status as keyof typeof statusConfig] || statusConfig.PENDING
+              const status = statusConfig[order.status]
               const isExpanded = expandedOrder === order.id
 
               return (
@@ -193,19 +172,34 @@ function OrdersPage() {
                     {isExpanded && (
                       <div className="space-y-2">
                         {order.items.map((item) => {
-                          const srv = item.server
+                          const srv = item.server ?? order.renewalForServer
                           const canRenew = srv && (srv.status === 'ACTIVE' || srv.status === 'SUSPENDED')
+                          const panelUrl = srv ? getServerPanelUrl(srv) : null
+                          const expiresAt = srv?.expiresAt ?? item.expiresAt
                           return (
-                            <div key={item.id} className="flex items-center justify-between text-sm bg-muted/30 rounded p-2.5">
-                              <div className="flex-1 min-w-0">
-                                <p className="font-medium text-sm truncate">{item.productName}</p>
-                                <p className="text-xs text-muted-foreground mt-0.5">
-                                  {item.quantity} × ₹{item.unitPrice.toLocaleString()} • {item.billingPeriod.toLowerCase()}
-                                </p>
+                            <div key={item.id} className="space-y-3 rounded border bg-muted/30 p-2.5">
+                              <div className="flex items-center justify-between gap-3 text-sm">
+                                <div className="min-w-0">
+                                  <p className="truncate font-medium">{item.productName}</p>
+                                  <p className="mt-0.5 text-xs text-muted-foreground">{item.quantity} × ₹{item.unitPrice.toLocaleString()} • {item.billingPeriod.toLowerCase()}</p>
+                                </div>
+                                <p className="shrink-0 font-semibold">₹{item.totalPrice.toLocaleString()}</p>
                               </div>
-                              <div className="flex items-center gap-2 ml-3 shrink-0">
-                                <p className="font-semibold text-sm">₹{item.totalPrice.toLocaleString()}</p>
-                                {canRenew && (
+                              {srv && (
+                                <div className="flex flex-wrap items-center justify-between gap-2 border-t pt-2.5">
+                                  <p className="text-xs text-muted-foreground">
+                                    {expiresAt ? <>Expires <span className="font-medium text-foreground">{new Date(expiresAt).toLocaleString()}</span></> : 'No expiry set'}
+                                  </p>
+                                  <div className="flex flex-wrap items-center gap-1.5">
+                                    <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => navigate({ to: '/user/servers', search: { serverId: srv.id } })}>
+                                      Track Server
+                                    </Button>
+                                    {panelUrl && (
+                                      <Button size="sm" variant="outline" className="h-7 text-xs" asChild>
+                                        <a href={panelUrl} target="_blank" rel="noopener noreferrer">Panel</a>
+                                      </Button>
+                                    )}
+                                    {canRenew && (
                                   <Button
                                     size="sm"
                                     variant="outline"
@@ -222,9 +216,11 @@ function OrdersPage() {
                                     <RefreshCw className="w-3 h-3 mr-1" />
                                     Renew
                                   </Button>
-                                )}
+                                    )}
+                                  </div>
+                                </div>
+                              )}
                               </div>
-                            </div>
                           )
                         })}
 
@@ -255,26 +251,21 @@ function OrdersPage() {
                           size="sm"
                           className="h-8 px-3"
                           onClick={() => {
-                            setProcessingOrderId(order.id)
-                            paymentMutation.mutate(order.id)
+                            navigate({
+                              to: '/billing/payment',
+                              search: { orderId: order.id },
+                            })
                           }}
-                          disabled={processingOrderId === order.id || cancellingOrderId === order.id}
+                          disabled={cancellingOrderId === order.id}
                         >
-                          {processingOrderId === order.id ? (
-                            <>
-                              <Loader2 className="w-3 h-3 mr-1.5 animate-spin" />
-                              Processing...
-                            </>
-                          ) : (
-                            'Pay Now'
-                          )}
+                          Pay Now
                         </Button>
                         <Button
                           size="sm"
                           variant="outline"
                           className="h-8 w-8 p-0"
                           onClick={() => setOrderToCancel(order.id)}
-                          disabled={processingOrderId === order.id || cancellingOrderId === order.id}
+                          disabled={cancellingOrderId === order.id}
                         >
                           {cancellingOrderId === order.id ? (
                             <Loader2 className="w-3 h-3 animate-spin" />

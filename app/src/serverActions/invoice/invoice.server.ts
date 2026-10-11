@@ -3,9 +3,63 @@ import { prisma } from '@/db'
 import { hasPermissionFn } from '@/lib/has-permission'
 import easyinvoice from 'easyinvoice'
 import { uploadInvoicePDF } from './upload-invoice'
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 
 const wrapSuccess = <T>(message: string, data?: T) => ({ success: true, message, data })
 const wrapError = (message: string) => ({ success: false, message })
+
+function createInvoiceTemplate(logoBase64: string) {
+  return `<!doctype html>
+<html><head><meta charset="utf-8"><style>
+  * { box-sizing: border-box; }
+  body { color: #202124; font-family: Arial, sans-serif; font-size: 10px; padding: 28px; }
+  table { border-collapse: collapse; width: 100%; }
+  .header td { vertical-align: top; width: 50%; }
+  .brand img { height: 58px; width: 58px; object-fit: contain; }
+  .brand-name { font-size: 16px; font-weight: bold; margin-top: 8px; }
+  .muted { color: #62666b; line-height: 1.55; }
+  .invoice-heading { color: #202124; font-size: 25px; margin: 0 0 12px; text-align: right; }
+  .meta td { padding: 3px 0; }
+  .meta td:first-child { color: #62666b; text-align: right; padding-right: 12px; }
+  .meta td:last-child { font-weight: bold; text-align: right; }
+  .parties { margin-top: 34px; }
+  .parties td { vertical-align: top; width: 50%; }
+  .section-label { color: #62666b; font-size: 9px; font-weight: bold; letter-spacing: .5px; margin-bottom: 7px; text-transform: uppercase; }
+  .products { margin-top: 30px; }
+  .products th { background: #f2f3f5; color: #30343a; font-size: 9px; padding: 10px 8px; text-align: left; }
+  .products td { border-bottom: 1px solid #e5e7eb; padding: 10px 8px; }
+  .right { text-align: right !important; }
+  .totals { margin: 18px 0 0 auto; width: 48%; }
+  .totals td { padding: 5px 4px; }
+  .grand-total td { border-top: 1px solid #c9cdd2; font-size: 13px; font-weight: bold; padding-top: 10px; }
+  .notice { border-top: 1px solid #e5e7eb; color: #62666b; margin-top: 36px; padding-top: 12px; }
+</style></head><body>
+  <table class="header"><tr>
+    <td class="brand"><img src="data:image/png;base64,${logoBase64}"><div class="brand-name">%company-from%</div>
+      <div class="muted">%address-from%<br>%city-from% %zip-from%<br>%country-from%<br>%sender-custom-1%</div>
+    </td>
+    <td><h1 class="invoice-heading">INVOICE</h1><table class="meta">
+      <tr><td>Invoice number</td><td>%number%</td></tr>
+      <tr><td>Invoice date</td><td>%date%</td></tr>
+      <tr><td>Due date</td><td>%due-date%</td></tr>
+    </table></td>
+  </tr></table>
+  <table class="parties"><tr>
+    <td><div class="section-label">Billed to</div><strong>%company-to%</strong><div class="muted">%address-to%<br>%city-to% %zip-to%<br>%country-to%<br>%client-custom-1%<br>%client-custom-2%</div></td>
+    <td><div class="section-label">Payment currency</div><strong>Rs (Indian Rupees)</strong></td>
+  </tr></table>
+  <table class="products"><thead><tr><th>%products-header-products%</th><th class="right">%products-header-quantity%</th><th class="right">%products-header-price%</th><th class="right">%products-header-total%</th></tr></thead>
+    <tbody><products><tr><td>%description%</td><td class="right">%quantity%</td><td class="right">Rs %price%</td><td class="right">Rs %row-total%</td></tr></products></tbody>
+  </table>
+  <table class="totals">
+    <tr><td>%subtotal-title%</td><td class="right">Rs %subtotal%</td></tr>
+    <tax><tr><td>%tax-notation% (%tax-rate%%)</td><td class="right">Rs %tax%</td></tr></tax>
+    <tr class="grand-total"><td>Total</td><td class="right">Rs %total%</td></tr>
+  </table>
+  <div class="notice">Thank you for your business. Please contact support@flamenodes.com for any queries.</div>
+</body></html>`
+}
 
 async function requireAdmin() {
   const session = await getSession()
@@ -41,17 +95,24 @@ async function nextInvoiceNumber(year: number) {
   return `${prefix}${String(nextSequence).padStart(6, '0')}`
 }
 
-async function buildAndSaveInvoice(orderId: string, razorpayData?: Record<string, any> | null) {
+export async function buildAndSaveInvoice(
+  orderId: string,
+  razorpayData?: Record<string, any> | null,
+  forceRegenerate = false,
+) {
   const [order, razorpayConfig, existingInvoice] = await Promise.all([
     prisma.order.findUnique({
       where: { id: orderId },
       include: { items: { include: { product: true, server: true } }, user: { include: { billingAddress: true } } },
     }),
     prisma.razorpayConfig.findFirst(),
-    prisma.invoice.findUnique({ where: { orderId }, select: { invoiceNumber: true } }),
+    prisma.invoice.findUnique({ where: { orderId } }),
   ])
 
   if (!order) throw new Error('Order not found')
+  // Payment verification can be retried (for example after a return URL).
+  // Reuse the existing invoice instead of queueing another PDF for the order.
+  if (existingInvoice && !forceRegenerate) return existingInvoice
 
   // Invoice date = order start (purchase) date. Due date = the server's
   // expiry — the day the paid-for period ends — falling back to the order
@@ -59,8 +120,10 @@ async function buildAndSaveInvoice(orderId: string, razorpayData?: Record<string
   const invoiceDate = new Date(order.createdAt)
   const linkedServer = order.items.map((i) => i.server).find(Boolean)
   const dueDate = linkedServer?.expiresAt ?? order.items[0]?.expiresAt ?? invoiceDate
+  const logo = await readFile(join(process.cwd(), 'public', 'flamenodes.png'))
 
   const invoiceData = {
+    images: { logo: logo.toString('base64') },
     sender: {
       company: razorpayConfig?.companyName || 'Flame Nodes',
       address: razorpayConfig?.companyAddress || '',
@@ -81,17 +144,18 @@ async function buildAndSaveInvoice(orderId: string, razorpayData?: Record<string
     products: order.items.map((item) => ({
       quantity: item.quantity,
       description: `${item.productName} (${item.billingPeriod.toLowerCase()})`,
-      'tax-rate': 18,
+      taxRate: 18,
       price: item.unitPrice,
     })),
-    'bottom-notice': 'Thank you for your business. Please contact support@flamenodes.com for any queries.',
+    bottomNotice: 'Thank you for your business. Please contact support@flamenodes.com for any queries.',
     settings: {
-      currency: 'INR',
-      'tax-notation': 'GST',
-      'margin-top': 25,
-      'margin-right': 25,
-      'margin-left': 25,
-      'margin-bottom': 25,
+      currency: '',
+      locale: 'en-IN',
+      taxNotation: 'GST',
+      marginTop: 25,
+      marginRight: 25,
+      marginLeft: 25,
+      marginBottom: 25,
     },
   }
 
@@ -107,10 +171,13 @@ async function buildAndSaveInvoice(orderId: string, razorpayData?: Record<string
 
     const result = await easyinvoice.createInvoice({
       ...invoiceData,
+      customize: {
+        template: Buffer.from(createInvoiceTemplate(logo.toString('base64'))).toString('base64'),
+      },
       information: {
         number: invoiceNumber,
         date: invoiceDate.toLocaleDateString('en-IN'),
-        'due-date': dueDate.toLocaleDateString('en-IN'),
+        dueDate: dueDate.toLocaleDateString('en-IN'),
       },
     })
     const pdfUrl = await uploadInvoicePDF(
@@ -185,7 +252,7 @@ export async function runRegenerateAllInvoices() {
   let failed = 0
   for (const order of orders) {
     try {
-      await buildAndSaveInvoice(order.id)
+      await buildAndSaveInvoice(order.id, null, true)
       success++
     } catch {
       failed++

@@ -51,6 +51,11 @@ export type RazorpayConfigMinAggregateOutputType = {
   createdAt: Date | null
   pteroNodeId: number | null
   pteroNodeMode: string | null
+  activeGateway: string | null
+  cashfreeTestAppId: string | null
+  cashfreeTestSecret: string | null
+  cashfreeProdAppId: string | null
+  cashfreeProdSecret: string | null
 }
 
 export type RazorpayConfigMaxAggregateOutputType = {
@@ -70,6 +75,11 @@ export type RazorpayConfigMaxAggregateOutputType = {
   createdAt: Date | null
   pteroNodeId: number | null
   pteroNodeMode: string | null
+  activeGateway: string | null
+  cashfreeTestAppId: string | null
+  cashfreeTestSecret: string | null
+  cashfreeProdAppId: string | null
+  cashfreeProdSecret: string | null
 }
 
 export type RazorpayConfigCountAggregateOutputType = {
@@ -89,6 +99,11 @@ export type RazorpayConfigCountAggregateOutputType = {
   createdAt: number
   pteroNodeId: number
   pteroNodeMode: number
+  activeGateway: number
+  cashfreeTestAppId: number
+  cashfreeTestSecret: number
+  cashfreeProdAppId: number
+  cashfreeProdSecret: number
   _all: number
 }
 
@@ -118,6 +133,11 @@ export type RazorpayConfigMinAggregateInputType = {
   createdAt?: true
   pteroNodeId?: true
   pteroNodeMode?: true
+  activeGateway?: true
+  cashfreeTestAppId?: true
+  cashfreeTestSecret?: true
+  cashfreeProdAppId?: true
+  cashfreeProdSecret?: true
 }
 
 export type RazorpayConfigMaxAggregateInputType = {
@@ -137,6 +157,11 @@ export type RazorpayConfigMaxAggregateInputType = {
   createdAt?: true
   pteroNodeId?: true
   pteroNodeMode?: true
+  activeGateway?: true
+  cashfreeTestAppId?: true
+  cashfreeTestSecret?: true
+  cashfreeProdAppId?: true
+  cashfreeProdSecret?: true
 }
 
 export type RazorpayConfigCountAggregateInputType = {
@@ -156,6 +181,11 @@ export type RazorpayConfigCountAggregateInputType = {
   createdAt?: true
   pteroNodeId?: true
   pteroNodeMode?: true
+  activeGateway?: true
+  cashfreeTestAppId?: true
+  cashfreeTestSecret?: true
+  cashfreeProdAppId?: true
+  cashfreeProdSecret?: true
   _all?: true
 }
 
@@ -262,6 +292,11 @@ export type RazorpayConfigGroupByOutputType = {
   createdAt: Date
   pteroNodeId: number | null
   pteroNodeMode: string | null
+  activeGateway: string
+  cashfreeTestAppId: string | null
+  cashfreeTestSecret: string | null
+  cashfreeProdAppId: string | null
+  cashfreeProdSecret: string | null
   _count: RazorpayConfigCountAggregateOutputType | null
   _avg: RazorpayConfigAvgAggregateOutputType | null
   _sum: RazorpayConfigSumAggregateOutputType | null
@@ -304,6 +339,11 @@ export type RazorpayConfigWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"RazorpayConfig"> | Date | string
   pteroNodeId?: Prisma.IntNullableFilter<"RazorpayConfig"> | number | null
   pteroNodeMode?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
+  activeGateway?: Prisma.StringFilter<"RazorpayConfig"> | string
+  cashfreeTestAppId?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
+  cashfreeTestSecret?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
+  cashfreeProdAppId?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
+  cashfreeProdSecret?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
 }
 
 export type RazorpayConfigOrderByWithRelationInput = {
@@ -323,6 +363,11 @@ export type RazorpayConfigOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   pteroNodeId?: Prisma.SortOrderInput | Prisma.SortOrder
   pteroNodeMode?: Prisma.SortOrderInput | Prisma.SortOrder
+  activeGateway?: Prisma.SortOrder
+  cashfreeTestAppId?: Prisma.SortOrderInput | Prisma.SortOrder
+  cashfreeTestSecret?: Prisma.SortOrderInput | Prisma.SortOrder
+  cashfreeProdAppId?: Prisma.SortOrderInput | Prisma.SortOrder
+  cashfreeProdSecret?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type RazorpayConfigWhereUniqueInput = Prisma.AtLeast<{
@@ -345,6 +390,11 @@ export type RazorpayConfigWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"RazorpayConfig"> | Date | string
   pteroNodeId?: Prisma.IntNullableFilter<"RazorpayConfig"> | number | null
   pteroNodeMode?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
+  activeGateway?: Prisma.StringFilter<"RazorpayConfig"> | string
+  cashfreeTestAppId?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
+  cashfreeTestSecret?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
+  cashfreeProdAppId?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
+  cashfreeProdSecret?: Prisma.StringNullableFilter<"RazorpayConfig"> | string | null
 }, "id">
 
 export type RazorpayConfigOrderByWithAggregationInput = {
@@ -364,6 +414,11 @@ export type RazorpayConfigOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   pteroNodeId?: Prisma.SortOrderInput | Prisma.SortOrder
   pteroNodeMode?: Prisma.SortOrderInput | Prisma.SortOrder
+  activeGateway?: Prisma.SortOrder
+  cashfreeTestAppId?: Prisma.SortOrderInput | Prisma.SortOrder
+  cashfreeTestSecret?: Prisma.SortOrderInput | Prisma.SortOrder
+  cashfreeProdAppId?: Prisma.SortOrderInput | Prisma.SortOrder
+  cashfreeProdSecret?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.RazorpayConfigCountOrderByAggregateInput
   _avg?: Prisma.RazorpayConfigAvgOrderByAggregateInput
   _max?: Prisma.RazorpayConfigMaxOrderByAggregateInput
@@ -391,6 +446,11 @@ export type RazorpayConfigScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"RazorpayConfig"> | Date | string
   pteroNodeId?: Prisma.IntNullableWithAggregatesFilter<"RazorpayConfig"> | number | null
   pteroNodeMode?: Prisma.StringNullableWithAggregatesFilter<"RazorpayConfig"> | string | null
+  activeGateway?: Prisma.StringWithAggregatesFilter<"RazorpayConfig"> | string
+  cashfreeTestAppId?: Prisma.StringNullableWithAggregatesFilter<"RazorpayConfig"> | string | null
+  cashfreeTestSecret?: Prisma.StringNullableWithAggregatesFilter<"RazorpayConfig"> | string | null
+  cashfreeProdAppId?: Prisma.StringNullableWithAggregatesFilter<"RazorpayConfig"> | string | null
+  cashfreeProdSecret?: Prisma.StringNullableWithAggregatesFilter<"RazorpayConfig"> | string | null
 }
 
 export type RazorpayConfigCreateInput = {
@@ -410,6 +470,11 @@ export type RazorpayConfigCreateInput = {
   createdAt?: Date | string
   pteroNodeId?: number | null
   pteroNodeMode?: string | null
+  activeGateway?: string
+  cashfreeTestAppId?: string | null
+  cashfreeTestSecret?: string | null
+  cashfreeProdAppId?: string | null
+  cashfreeProdSecret?: string | null
 }
 
 export type RazorpayConfigUncheckedCreateInput = {
@@ -429,6 +494,11 @@ export type RazorpayConfigUncheckedCreateInput = {
   createdAt?: Date | string
   pteroNodeId?: number | null
   pteroNodeMode?: string | null
+  activeGateway?: string
+  cashfreeTestAppId?: string | null
+  cashfreeTestSecret?: string | null
+  cashfreeProdAppId?: string | null
+  cashfreeProdSecret?: string | null
 }
 
 export type RazorpayConfigUpdateInput = {
@@ -448,6 +518,11 @@ export type RazorpayConfigUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pteroNodeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   pteroNodeMode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeGateway?: Prisma.StringFieldUpdateOperationsInput | string
+  cashfreeTestAppId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cashfreeTestSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cashfreeProdAppId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cashfreeProdSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RazorpayConfigUncheckedUpdateInput = {
@@ -467,6 +542,11 @@ export type RazorpayConfigUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pteroNodeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   pteroNodeMode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeGateway?: Prisma.StringFieldUpdateOperationsInput | string
+  cashfreeTestAppId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cashfreeTestSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cashfreeProdAppId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cashfreeProdSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RazorpayConfigCreateManyInput = {
@@ -486,6 +566,11 @@ export type RazorpayConfigCreateManyInput = {
   createdAt?: Date | string
   pteroNodeId?: number | null
   pteroNodeMode?: string | null
+  activeGateway?: string
+  cashfreeTestAppId?: string | null
+  cashfreeTestSecret?: string | null
+  cashfreeProdAppId?: string | null
+  cashfreeProdSecret?: string | null
 }
 
 export type RazorpayConfigUpdateManyMutationInput = {
@@ -505,6 +590,11 @@ export type RazorpayConfigUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pteroNodeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   pteroNodeMode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeGateway?: Prisma.StringFieldUpdateOperationsInput | string
+  cashfreeTestAppId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cashfreeTestSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cashfreeProdAppId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cashfreeProdSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RazorpayConfigUncheckedUpdateManyInput = {
@@ -524,6 +614,11 @@ export type RazorpayConfigUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pteroNodeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   pteroNodeMode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeGateway?: Prisma.StringFieldUpdateOperationsInput | string
+  cashfreeTestAppId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cashfreeTestSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cashfreeProdAppId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cashfreeProdSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RazorpayConfigCountOrderByAggregateInput = {
@@ -543,6 +638,11 @@ export type RazorpayConfigCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   pteroNodeId?: Prisma.SortOrder
   pteroNodeMode?: Prisma.SortOrder
+  activeGateway?: Prisma.SortOrder
+  cashfreeTestAppId?: Prisma.SortOrder
+  cashfreeTestSecret?: Prisma.SortOrder
+  cashfreeProdAppId?: Prisma.SortOrder
+  cashfreeProdSecret?: Prisma.SortOrder
 }
 
 export type RazorpayConfigAvgOrderByAggregateInput = {
@@ -566,6 +666,11 @@ export type RazorpayConfigMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   pteroNodeId?: Prisma.SortOrder
   pteroNodeMode?: Prisma.SortOrder
+  activeGateway?: Prisma.SortOrder
+  cashfreeTestAppId?: Prisma.SortOrder
+  cashfreeTestSecret?: Prisma.SortOrder
+  cashfreeProdAppId?: Prisma.SortOrder
+  cashfreeProdSecret?: Prisma.SortOrder
 }
 
 export type RazorpayConfigMinOrderByAggregateInput = {
@@ -585,6 +690,11 @@ export type RazorpayConfigMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   pteroNodeId?: Prisma.SortOrder
   pteroNodeMode?: Prisma.SortOrder
+  activeGateway?: Prisma.SortOrder
+  cashfreeTestAppId?: Prisma.SortOrder
+  cashfreeTestSecret?: Prisma.SortOrder
+  cashfreeProdAppId?: Prisma.SortOrder
+  cashfreeProdSecret?: Prisma.SortOrder
 }
 
 export type RazorpayConfigSumOrderByAggregateInput = {
@@ -610,6 +720,11 @@ export type RazorpayConfigSelect<ExtArgs extends runtime.Types.Extensions.Intern
   createdAt?: boolean
   pteroNodeId?: boolean
   pteroNodeMode?: boolean
+  activeGateway?: boolean
+  cashfreeTestAppId?: boolean
+  cashfreeTestSecret?: boolean
+  cashfreeProdAppId?: boolean
+  cashfreeProdSecret?: boolean
 }, ExtArgs["result"]["razorpayConfig"]>
 
 export type RazorpayConfigSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -629,6 +744,11 @@ export type RazorpayConfigSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   createdAt?: boolean
   pteroNodeId?: boolean
   pteroNodeMode?: boolean
+  activeGateway?: boolean
+  cashfreeTestAppId?: boolean
+  cashfreeTestSecret?: boolean
+  cashfreeProdAppId?: boolean
+  cashfreeProdSecret?: boolean
 }, ExtArgs["result"]["razorpayConfig"]>
 
 export type RazorpayConfigSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -648,6 +768,11 @@ export type RazorpayConfigSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   createdAt?: boolean
   pteroNodeId?: boolean
   pteroNodeMode?: boolean
+  activeGateway?: boolean
+  cashfreeTestAppId?: boolean
+  cashfreeTestSecret?: boolean
+  cashfreeProdAppId?: boolean
+  cashfreeProdSecret?: boolean
 }, ExtArgs["result"]["razorpayConfig"]>
 
 export type RazorpayConfigSelectScalar = {
@@ -667,9 +792,14 @@ export type RazorpayConfigSelectScalar = {
   createdAt?: boolean
   pteroNodeId?: boolean
   pteroNodeMode?: boolean
+  activeGateway?: boolean
+  cashfreeTestAppId?: boolean
+  cashfreeTestSecret?: boolean
+  cashfreeProdAppId?: boolean
+  cashfreeProdSecret?: boolean
 }
 
-export type RazorpayConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "mode" | "testKeyId" | "testKeySecret" | "prodKeyId" | "prodKeySecret" | "gstin" | "companyName" | "companyAddress" | "companyCity" | "companyZip" | "companyCountry" | "updatedAt" | "createdAt" | "pteroNodeId" | "pteroNodeMode", ExtArgs["result"]["razorpayConfig"]>
+export type RazorpayConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "mode" | "testKeyId" | "testKeySecret" | "prodKeyId" | "prodKeySecret" | "gstin" | "companyName" | "companyAddress" | "companyCity" | "companyZip" | "companyCountry" | "updatedAt" | "createdAt" | "pteroNodeId" | "pteroNodeMode" | "activeGateway" | "cashfreeTestAppId" | "cashfreeTestSecret" | "cashfreeProdAppId" | "cashfreeProdSecret", ExtArgs["result"]["razorpayConfig"]>
 
 export type $RazorpayConfigPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "RazorpayConfig"
@@ -691,6 +821,11 @@ export type $RazorpayConfigPayload<ExtArgs extends runtime.Types.Extensions.Inte
     createdAt: Date
     pteroNodeId: number | null
     pteroNodeMode: string | null
+    activeGateway: string
+    cashfreeTestAppId: string | null
+    cashfreeTestSecret: string | null
+    cashfreeProdAppId: string | null
+    cashfreeProdSecret: string | null
   }, ExtArgs["result"]["razorpayConfig"]>
   composites: {}
 }
@@ -1130,6 +1265,11 @@ export interface RazorpayConfigFieldRefs {
   readonly createdAt: Prisma.FieldRef<"RazorpayConfig", 'DateTime'>
   readonly pteroNodeId: Prisma.FieldRef<"RazorpayConfig", 'Int'>
   readonly pteroNodeMode: Prisma.FieldRef<"RazorpayConfig", 'String'>
+  readonly activeGateway: Prisma.FieldRef<"RazorpayConfig", 'String'>
+  readonly cashfreeTestAppId: Prisma.FieldRef<"RazorpayConfig", 'String'>
+  readonly cashfreeTestSecret: Prisma.FieldRef<"RazorpayConfig", 'String'>
+  readonly cashfreeProdAppId: Prisma.FieldRef<"RazorpayConfig", 'String'>
+  readonly cashfreeProdSecret: Prisma.FieldRef<"RazorpayConfig", 'String'>
 }
     
 

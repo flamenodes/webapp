@@ -63,13 +63,12 @@ export function RenewServerDialog({ open, onOpenChange, server }: RenewServerDia
         data: { serverId: server.id, billingPeriod: selectedPeriod },
       })
       if (res.success && res.data?.redirectUrl) {
-        toast.success('Redirecting to checkout...')
+        toast.success('Renewal created. Review the order and payment details.')
         onOpenChange(false)
         navigate({
-          to: '/checkout/payment',
+          to: '/billing/payment',
           search: {
             orderId: res.data.orderId,
-            razorpayOrderId: res.data.razorpayOrderId,
           } as any,
         })
       } else {

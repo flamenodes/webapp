@@ -107,6 +107,7 @@ export const getOrders = createServerFn({ method: "GET" }).handler(
         items: {
           include: { product: { include: { billingOptions: true } }, server: true },
         },
+        renewalForServer: true,
       },
       orderBy: { createdAt: "desc" },
     });
@@ -118,12 +119,14 @@ export const getOrder = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });
+    if (!session?.user) throw new Error("Unauthorized");
     
     const order = await prisma.order.findFirst({
-      where: { id: data.orderId },
+      where: { id: data.orderId, userId: session.user.id },
       include: {
-        items: { include: { product: true } },
-        user: { select: { id: true, name: true, email: true } }
+        items: { include: { product: true, server: true } },
+        user: { select: { id: true, name: true, email: true } },
+        renewalForServer: { select: { id: true, name: true, type: true } },
       },
     });
 
@@ -314,51 +317,17 @@ export const checkoutProduct = createServerFn({ method: "POST" })
       include: { items: true, user: true },
     })
 
-    // Create Razorpay order
-    let razorpayOrderId: string | null = null
-    try {
-      const { default: Razorpay } = await import('razorpay')
-      const rzp = new Razorpay({
-        key_id: process.env.RAZORPAY_KEY_ID!,
-        key_secret: process.env.RAZORPAY_KEY_SECRET!,
-      })
-      const rzpOrder = await rzp.orders.create({
-        amount: totalAmount * 100,
-        currency: 'INR',
-        receipt: `ord_${order.id.slice(0, 32)}`,
-        notes: {
-          orderId: order.id,
-          userId: session.user.id,
-          customerEmail: data.billingEmail,
+    await prisma.order.update({
+      where: { id: order.id },
+      data: {
+        deliveryData: {
+          billingName: data.billingName,
+          billingEmail: data.billingEmail,
+          billingPhone: data.billingPhone ?? null,
         },
-      })
-      razorpayOrderId = rzpOrder.id
-
-      await prisma.order.update({
-        where: { id: order.id },
-        data: {
-          deliveryData: {
-            razorpayOrderId: rzpOrder.id,
-            razorpayAmount: rzpOrder.amount,
-            billingName: data.billingName,
-            billingEmail: data.billingEmail,
-            billingPhone: data.billingPhone ?? null,
-          },
-        },
-      })
-    } catch (e: any) {
-      // Razorpay failed — still return the orderId so admin can manually generate link
-      console.error('Razorpay order creation failed:', e)
-    }
-
-    return wrapSuccess('Order created', {
-      orderId: order.id,
-      razorpayOrderId,
-      totalAmount,
-      productName: product.planName,
-      billingName: data.billingName,
-      billingEmail: data.billingEmail,
+      },
     })
+    return { id: order.id, totalAmount, productName: product.planName }
   })
 
 export const cancelOrder = createServerFn({ method: "POST" })

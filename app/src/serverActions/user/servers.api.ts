@@ -242,45 +242,10 @@ export const createRenewalOrder = createServerFn({ method: 'POST' })
       include: { items: true },
     })
 
-    // Create a Razorpay order server-side so the public payment page can be reused
-    let razorpayOrderId: string | null = null
-    try {
-      const { razorpay } = await import('../razorpay/instance')
-      const rzpOrder = await razorpay.orders.create({
-        amount: unitPrice * 100,
-        currency: 'INR',
-        receipt: `ren_${order.id.slice(0, 32)}`,
-        notes: {
-          orderId: order.id,
-          renewalServerId: server.id,
-          userId: session.user.id,
-        },
-      })
-      razorpayOrderId = rzpOrder.id
-
-      await prisma.order.update({
-        where: { id: order.id },
-        data: {
-          deliveryData: {
-            ...(order.deliveryData as any),
-            razorpayOrderId: rzpOrder.id,
-            razorpayAmount: rzpOrder.amount,
-          },
-        },
-      })
-    } catch (error: any) {
-      console.error('Razorpay order creation failed for renewal:', error)
-    }
-
-    if (!razorpayOrderId) {
-      return wrapError('Failed to create payment session. Please try again.')
-    }
-
-    const redirectUrl = `/checkout/payment?orderId=${order.id}&razorpayOrderId=${razorpayOrderId}`
+    const redirectUrl = `/billing/payment?orderId=${order.id}`
 
     return wrapSuccess('Renewal order created. Please complete payment.', {
       orderId: order.id,
-      razorpayOrderId,
       redirectUrl,
       totalAmount: unitPrice,
     })

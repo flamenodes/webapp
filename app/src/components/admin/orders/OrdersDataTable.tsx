@@ -2,10 +2,8 @@
 'use client'
 
 import * as React from 'react'
-import {
-  DataTable,
-  type DataTableFilterConfig,
-} from '#/components/ui/data-table'
+import { DataTable } from '#/components/ui/data-table'
+import type { DataTableFilterConfig } from '#/components/ui/data-table'
 import { Badge } from '#/components/ui/badge'
 import { Checkbox } from '#/components/ui/checkbox'
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
@@ -32,8 +30,8 @@ import {
 import {
   deleteOrder,
   deleteOrders,
-  type getAllOrders,
 } from '#/serverActions/admin/orders.api'
+import type { getAllOrders } from '#/serverActions/admin/orders.api'
 import { getServerConnectionString, getServerPanelUrl } from '#/lib/server-address'
 import {
   Link as LinkIcon,
@@ -77,6 +75,8 @@ interface OrdersDataTableProps {
   onDeploy?: (orderId: string) => void
   onChangePurchaseDate?: (orderId: string, purchasedOn: string) => void
   isPurchaseDatePending?: boolean
+  onChangeServerExpiry?: (orderId: string, serverId: string, billingPeriod: string, customDays?: number) => void
+  isServerExpiryPending?: boolean
   isGeneratingLink?: boolean
 }
 
@@ -114,6 +114,8 @@ export function OrdersDataTable({
   onDeploy,
   onChangePurchaseDate,
   isPurchaseDatePending,
+  onChangeServerExpiry,
+  isServerExpiryPending,
   isGeneratingLink,
 }: OrdersDataTableProps) {
   const qc = useQueryClient()
@@ -132,6 +134,13 @@ export function OrdersDataTable({
   const [purchaseDateDialog, setPurchaseDateDialog] = React.useState<{
     orderId: string
     purchasedOn: string
+  } | null>(null)
+  const [serverExpiryDialog, setServerExpiryDialog] = React.useState<{
+    orderId: string
+    serverId: string
+    serverName: string
+    billingPeriod: string
+    customDays: string
   } | null>(null)
 
   const handleGenerateLink = (orderId: string) => {
@@ -201,6 +210,17 @@ export function OrdersDataTable({
     setPurchaseDateDialog({
       orderId: order.id,
       purchasedOn: format(new Date(order.createdAt), 'yyyy-MM-dd'),
+    })
+  }
+
+  const handleChangeServerExpiry = (order: OrderRecord, server: NonNullable<OrderRecord['renewalForServer']>) => {
+    const linkedItem = order.items.find((item) => item.server?.id === server.id) ?? order.items[0]
+    setServerExpiryDialog({
+      orderId: order.id,
+      serverId: server.id,
+      serverName: server.name,
+      billingPeriod: linkedItem.billingPeriod,
+      customDays: '',
     })
   }
 
@@ -276,10 +296,12 @@ export function OrdersDataTable({
             header: 'Renewal',
             cell: ({ row }) => {
               const item = row.original.items[0]
-              if (!item?.expiresAt) {
+              const serverExpiry = row.original.renewalForServer?.expiresAt ?? row.original.items.find((orderItem) => orderItem.server?.expiresAt)?.server?.expiresAt
+              const expiry = serverExpiry ?? item.expiresAt
+              if (!expiry) {
                 return <span className="text-sm text-muted-foreground">—</span>
               }
-              const expiresAt = new Date(item.expiresAt)
+              const expiresAt = new Date(expiry)
               const expired = isPast(expiresAt)
               const days = differenceInDays(expiresAt, new Date())
               const label = expired
@@ -296,7 +318,7 @@ export function OrdersDataTable({
                 <div className="space-y-0.5">
                   <p className={`text-sm font-medium capitalize ${color}`}>{label}</p>
                   <p className="text-xs text-muted-foreground capitalize">
-                    {item.billingPeriod?.toLowerCase() || ''}
+                    {item.billingPeriod.toLowerCase()}
                   </p>
                 </div>
               )
@@ -369,14 +391,17 @@ export function OrdersDataTable({
             id: 'server',
             header: 'Server',
             cell: ({ row }) => {
-              const servers = row.original.items
+              const linkedServers = row.original.items
                 .map((item) => item.server)
                 .filter((server): server is NonNullable<typeof server> => Boolean(server))
+              const servers = row.original.renewalForServer
+                ? [row.original.renewalForServer, ...linkedServers]
+                : linkedServers
 
-              const server = servers[0]
-              if (!server) {
+              if (servers.length === 0) {
                 return <span className="text-sm text-muted-foreground">—</span>
               }
+              const server = servers[0]
 
               const address = getServerConnectionString(server)
               const panelUrl = getServerPanelUrl(server)
@@ -468,6 +493,18 @@ export function OrdersDataTable({
                       <Calendar className="w-4 h-4 mr-2" />
                       Change Purchase Date
                     </DropdownMenuItem>
+
+                    {(order.renewalForServer ?? order.items.find((item) => item.server)?.server) && (
+                      <DropdownMenuItem
+                        onClick={() => handleChangeServerExpiry(
+                          order,
+                          (order.renewalForServer ?? order.items.find((item) => item.server)?.server)!,
+                        )}
+                      >
+                        <Calendar className="w-4 h-4 mr-2" />
+                        Change Server Expiry
+                      </DropdownMenuItem>
+                    )}
 
                     <DropdownMenuSeparator />
 
@@ -562,6 +599,70 @@ export function OrdersDataTable({
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
               )}
               Save
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog
+        open={serverExpiryDialog !== null}
+        onOpenChange={(open) => { if (!open) setServerExpiryDialog(null) }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Change Server Expiry</AlertDialogTitle>
+            <AlertDialogDescription>
+              The expiry for {serverExpiryDialog?.serverName} will be calculated from the order purchase date and selected period.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          {serverExpiryDialog && (
+            <div className="space-y-2 py-2">
+              <Label>Expiry period</Label>
+              <Select
+                value={serverExpiryDialog.billingPeriod}
+                onValueChange={(billingPeriod) => setServerExpiryDialog((prev) => prev ? { ...prev, billingPeriod } : prev)}
+              >
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {[
+                    ['HOURLY', 'Hourly'], ['DAILY', 'Daily'], ['MONTHLY', 'Monthly'],
+                    ['QUARTERLY', 'Quarterly'], ['SEMIANNUALLY', 'Semi-annually'],
+                    ['YEARLY', 'Yearly'], ['CUSTOM', 'Custom days'],
+                  ].map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}
+                </SelectContent>
+              </Select>
+              {serverExpiryDialog.billingPeriod === 'CUSTOM' && (
+                <>
+                  <Label className="block pt-2">Number of days</Label>
+                  <Input
+                    type="number"
+                    min="1"
+                    step="1"
+                    value={serverExpiryDialog.customDays}
+                    onChange={(e) => setServerExpiryDialog((prev) => prev ? { ...prev, customDays: e.target.value } : prev)}
+                    placeholder="Enter days"
+                  />
+                </>
+              )}
+            </div>
+          )}
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              disabled={!serverExpiryDialog || (serverExpiryDialog.billingPeriod === 'CUSTOM' && (!serverExpiryDialog.customDays || Number(serverExpiryDialog.customDays) < 1)) || isServerExpiryPending}
+              onClick={() => {
+                if (!serverExpiryDialog) return
+                onChangeServerExpiry?.(
+                  serverExpiryDialog.orderId,
+                  serverExpiryDialog.serverId,
+                  serverExpiryDialog.billingPeriod,
+                  serverExpiryDialog.billingPeriod === 'CUSTOM' ? Number(serverExpiryDialog.customDays) : undefined,
+                )
+                setServerExpiryDialog(null)
+              }}
+            >
+              {isServerExpiryPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Save expiry
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

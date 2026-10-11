@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useSuspenseQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { getUserServersWithDetails, pingServer, updateCustomServer, reinstallServer } from '@/serverActions/user/servers.api'
 import { RenewServerDialog } from '@/components/billing/RenewServerDialog'
@@ -14,12 +14,14 @@ import {
 } from 'lucide-react'
 import { formatDistanceToNow } from '@/lib/date-utils'
 import { getServerConnectionString } from '@/lib/server-address'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { differenceInDays, isPast } from 'date-fns'
-import { useNavigate } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_protected/user/servers')({
+  validateSearch: (search) => ({
+    serverId: (search as any)?.serverId as string | undefined,
+  }),
   head: () => ({ meta: [{ title: 'My Servers | Flame Nodes' }] }),
   component: ServersPage,
 })
@@ -180,7 +182,7 @@ function EditCustomServerSheet({
   )
 }
 
-function ServerCard({ server }: { server: any }) {
+function ServerCard({ server, highlighted = false }: { server: any; highlighted?: boolean }) {
   const navigate = useNavigate()
   const [editOpen, setEditOpen] = useState(false)
   const [renewOpen, setRenewOpen] = useState(false)
@@ -223,7 +225,7 @@ function ServerCard({ server }: { server: any }) {
 
   return (
     <>
-      <Card className="overflow-hidden hover:shadow-md transition-shadow">
+      <Card id={`server-${server.id}`} className={`overflow-hidden transition-shadow hover:shadow-md ${highlighted ? 'ring-2 ring-primary ring-offset-2 ring-offset-background' : ''}`}>
         <CardHeader className="pb-2 pt-4">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
@@ -424,12 +426,22 @@ function ServerCard({ server }: { server: any }) {
 }
 
 function ServersPage() {
+  const { serverId } = Route.useSearch()
   const qc = useQueryClient()
+  const lastScrolledServerId = useRef<string | null>(null)
   const { data: servers } = useSuspenseQuery({
     queryKey: ['user-servers-detail'],
     queryFn: () => getUserServersWithDetails(),
     refetchInterval: 30_000,
   })
+
+  useEffect(() => {
+    if (!serverId || lastScrolledServerId.current === serverId || !servers.some((server) => server.id === serverId)) return
+    const card = document.getElementById(`server-${serverId}`)
+    if (!card) return
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    lastScrolledServerId.current = serverId
+  }, [serverId, servers])
 
   const activeCount = servers.filter((s) => s.status === 'ACTIVE').length
 
@@ -470,7 +482,7 @@ function ServersPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {servers.map((server) => (
-              <ServerCard key={server.id} server={server} />
+              <ServerCard key={server.id} server={server} highlighted={server.id === serverId} />
             ))}
           </div>
         )}

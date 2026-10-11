@@ -32,6 +32,7 @@ function AdminSettingsPage() {
   const config = response?.data
 
   const [mode, setMode] = useState<'test' | 'production'>(config?.mode as 'test' | 'production' || 'test')
+  const [activeGateway, setActiveGateway] = useState<'cashfree' | 'razorpay'>(config?.activeGateway || 'cashfree')
   const [showTestSecret, setShowTestSecret] = useState(false)
   const [showProdSecret, setShowProdSecret] = useState(false)
 
@@ -40,6 +41,10 @@ function AdminSettingsPage() {
     testKeySecret: config?.testKeySecret || '',
     prodKeyId: config?.prodKeyId || '',
     prodKeySecret: config?.prodKeySecret || '',
+    cashfreeTestAppId: config?.cashfreeTestAppId || '',
+    cashfreeTestSecret: config?.cashfreeTestSecret || '',
+    cashfreeProdAppId: config?.cashfreeProdAppId || '',
+    cashfreeProdSecret: config?.cashfreeProdSecret || '',
     gstin: config?.gstin || '',
     companyName: config?.companyName || 'Flame Nodes',
     companyAddress: config?.companyAddress || '',
@@ -81,6 +86,7 @@ function AdminSettingsPage() {
   const mutation = useMutation({
     mutationFn: () => updateRazorpayConfig({
       data: {
+        activeGateway,
         mode,
         ...form,
         pteroNodeId: form.pteroNodeMode === 'specific' ? form.pteroNodeId : null,
@@ -153,12 +159,23 @@ function AdminSettingsPage() {
                 <CreditCard className="w-4 h-4 text-primary" />
               </div>
               <div>
-                <CardTitle className="text-base">Razorpay Integration</CardTitle>
-                <CardDescription>Manage your payment gateway API keys</CardDescription>
+                <CardTitle className="text-base">Payment Gateway</CardTitle>
+                <CardDescription>Choose the active provider and manage its API credentials</CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-6">
+            <div className="space-y-2">
+              <Label>Active Payment Provider</Label>
+              <div className="flex gap-3">
+                {(['cashfree', 'razorpay'] as const).map((gateway) => (
+                  <Button key={gateway} type="button" variant={activeGateway === gateway ? 'default' : 'outline'} onClick={() => setActiveGateway(gateway)}>
+                    {gateway === 'cashfree' ? 'Cashfree' : 'Razorpay'}{activeGateway === gateway ? ' (Active)' : ''}
+                  </Button>
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground">The selected provider is used for all new payments. Existing payment sessions remain with their original provider.</p>
+            </div>
             {/* Test / Production toggle */}
             <div>
               <Label className="text-sm font-medium mb-3 block">Payment Mode</Label>
@@ -248,6 +265,19 @@ function AdminSettingsPage() {
               </div>
             </div>
             )}
+
+            {/* Cashfree credentials */}
+            <div className="grid gap-4 border-t pt-4">
+              <h3 className="text-sm font-semibold">Cashfree {mode === 'test' ? 'Test' : 'Production'} Credentials</h3>
+              <div className="space-y-2">
+                <Label>{mode === 'test' ? 'Test App ID' : 'Production App ID'}</Label>
+                <Input value={mode === 'test' ? form.cashfreeTestAppId : form.cashfreeProdAppId} onChange={(e) => setForm((f) => ({ ...f, [mode === 'test' ? 'cashfreeTestAppId' : 'cashfreeProdAppId']: e.target.value }))} className="font-mono" />
+              </div>
+              <div className="space-y-2">
+                <Label>{mode === 'test' ? 'Test Secret Key' : 'Production Secret Key'}</Label>
+                <Input type="password" value={mode === 'test' ? form.cashfreeTestSecret : form.cashfreeProdSecret} onChange={(e) => setForm((f) => ({ ...f, [mode === 'test' ? 'cashfreeTestSecret' : 'cashfreeProdSecret']: e.target.value }))} className="font-mono" />
+              </div>
+            </div>
 
             {/* Production Keys */}
             {mode === 'production' && (

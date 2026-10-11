@@ -469,6 +469,11 @@ model RazorpayConfig {
   createdAt      DateTime @default(now())
   pteroNodeId    Int?
   pteroNodeMode  String?  @default("balance")
+  activeGateway  String   @default("cashfree")
+  cashfreeTestAppId     String?
+  cashfreeTestSecret    String?
+  cashfreeProdAppId     String?
+  cashfreeProdSecret    String?
 }
 
 model AiSupportConfig {

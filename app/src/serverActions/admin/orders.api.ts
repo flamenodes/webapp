@@ -4,7 +4,6 @@ import { prisma } from '#/db'
 import { Prisma } from '#/generated/prisma/client'
 import { auth } from '@/lib/auth'
 import { z } from 'zod'
-import { razorpay } from '../razorpay/instance'
 import { ptero } from '../pterodactyl/client'
 import { resolvePteroServerId } from '../pterodactyl/server-resolver'
 import { resolveDeployOwnerId } from '../pterodactyl/user-resolver'
@@ -42,6 +41,16 @@ const changeOrderPurchaseDateSchema = z.object({
   purchasedOn: z.string(), // ISO date string, e.g. '2026-08-09'
 })
 
+const changeServerExpirySchema = z.object({
+  orderId: z.string(),
+  serverId: z.string(),
+  billingPeriod: z.enum(['HOURLY', 'DAILY', 'MONTHLY', 'QUARTERLY', 'SEMIANNUALLY', 'YEARLY', 'CUSTOM']),
+  customDays: z.number().int().positive().optional(),
+}).refine((data) => data.billingPeriod !== 'CUSTOM' || data.customDays !== undefined, {
+  message: 'Custom billing periods require a positive number of days',
+  path: ['customDays'],
+})
+
 export const getRazorpayKeyId = createServerFn({ method: 'GET' }).handler(async () => {
   return process.env.RAZORPAY_KEY_ID || ''
 })
@@ -64,6 +73,7 @@ export const getAllOrders = createServerFn({ method: 'GET' }).handler(async () =
       user: { select: { id: true, name: true, email: true, image: true } },
       // `server` makes the order → server pairing visible in the admin table.
       items: { include: { product: true, server: true } },
+      renewalForServer: true,
     },
     orderBy: { createdAt: 'desc' },
   })
@@ -220,45 +230,8 @@ export const createManualOrder = createServerFn({ method: 'POST' })
       return wrapSuccess('Order created and server linked', { order, server })
     }
 
-    // Pending + payment link: order is PENDING, generate a Razorpay link.
-    try {
-      const razorpayOrder = await razorpay.orders.create({
-        amount: totalPrice * 100,
-        currency: 'INR',
-        receipt: `ord_${order.id.slice(0, 32)}`,
-        notes: {
-          orderId: order.id,
-          userId: user.id,
-          customerEmail: user.email,
-        },
-      })
-
-      await prisma.order.update({
-        where: { id: order.id },
-        data: {
-          deliveryData: {
-            ...(order.deliveryData as any),
-            razorpayOrderId: razorpayOrder.id,
-            razorpayAmount: razorpayOrder.amount,
-          },
-        },
-      })
-
-      const paymentLink = `${process.env.VITE_CLIENT_URL || process.env.CLIENT_URL || 'http://localhost:3000'}/checkout/payment?orderId=${order.id}&razorpayOrderId=${razorpayOrder.id}`
-
-      return wrapSuccess('Order created. Payment link generated.', {
-        orderId: order.id,
-        razorpayOrderId: razorpayOrder.id,
-        paymentLink,
-      })
-    } catch (error: any) {
-      console.error('Razorpay error:', error)
-      return wrapSuccess('Order created. Payment link failed to generate — generate manually.', {
-        orderId: order.id,
-        razorpayOrderId: null,
-        paymentLink: null,
-      })
-    }
+    const paymentLink = `${process.env.VITE_CLIENT_URL || process.env.CLIENT_URL || 'http://localhost:3000'}/billing/payment?orderId=${order.id}`
+    return wrapSuccess('Order created. Cashfree payment link generated.', { orderId: order.id, paymentLink })
   })
 
 export const generatePaymentLink = createServerFn({ method: 'POST' })
@@ -287,40 +260,8 @@ export const generatePaymentLink = createServerFn({ method: 'POST' })
       return wrapError('Payment link can only be generated for pending orders')
     }
 
-    try {
-      const razorpayOrder = await razorpay.orders.create({
-        amount: order.totalAmount * 100,
-        currency: 'INR',
-        receipt: `ord_${order.id.slice(0, 32)}`,
-        notes: {
-          orderId: order.id,
-          userId: order.userId,
-          customerEmail: order.user.email,
-        },
-      })
-
-      await prisma.order.update({
-        where: { id: order.id },
-        data: {
-          deliveryData: {
-            razorpayOrderId: razorpayOrder.id,
-            razorpayAmount: razorpayOrder.amount,
-            razorpayCurrency: razorpayOrder.currency,
-          },
-        },
-      })
-
-      const paymentLink = `${process.env.VITE_CLIENT_URL || process.env.CLIENT_URL || 'http://localhost:3000'}/checkout/payment?orderId=${order.id}&razorpayOrderId=${razorpayOrder.id}`
-
-      return wrapSuccess('Payment link generated successfully', {
-        orderId: order.id,
-        razorpayOrderId: razorpayOrder.id,
-        paymentLink,
-      })
-    } catch (error: any) {
-      console.error('Razorpay error:', error)
-      return wrapError(error.message || 'Failed to create Razorpay order')
-    }
+    const paymentLink = `${process.env.VITE_CLIENT_URL || process.env.CLIENT_URL || 'http://localhost:3000'}/billing/payment?orderId=${order.id}`
+    return wrapSuccess('Cashfree payment link generated successfully', { orderId: order.id, paymentLink })
   })
 
 export const updateOrderStatus = createServerFn({ method: 'POST' })
@@ -413,6 +354,67 @@ export const changeOrderPurchaseDate = createServerFn({ method: 'POST' })
       order: updatedOrder,
       itemCount: updatedItems.length,
     })
+  })
+
+export const changeOrderServerExpiry = createServerFn({ method: 'POST' })
+  .validator((data: any) => changeServerExpirySchema.parse(data))
+  .handler(async ({ data }) => {
+    const headers = getRequestHeaders()
+    const session = await auth.api.getSession({ headers })
+    if (!session?.user) return wrapError('Unauthorized')
+
+    const adminUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { role: true },
+    })
+    const role = adminUser?.role?.toUpperCase()
+    if (role !== 'ADMIN' && role !== 'OWNER') return wrapError('Forbidden')
+
+    const [order, server] = await Promise.all([
+      prisma.order.findUnique({
+        where: { id: data.orderId },
+        include: { items: { include: { server: { select: { id: true } } } } },
+      }),
+      prisma.server.findUnique({ where: { id: data.serverId } }),
+    ])
+    if (!order) return wrapError('Order not found')
+    if (!server) return wrapError('Server not found')
+
+    const serverBelongsToOrder =
+      order.renewalForServerId === server.id ||
+      order.items.some((item) => item.server?.id === server.id)
+    if (!serverBelongsToOrder) return wrapError('Server is not linked to this order')
+
+    const purchaseDate = order.createdAt
+    const expiresAt = calculateExpiryDate(data.billingPeriod, data.customDays, purchaseDate)
+    const deliveryData = (order.deliveryData ?? {}) as any
+    await prisma.$transaction(async (tx) => {
+      await tx.server.update({ where: { id: server.id }, data: { expiresAt } })
+      if (server.orderItemId) {
+        await tx.orderItem.update({
+          where: { id: server.orderItemId },
+          data: { billingPeriod: data.billingPeriod, expiresAt },
+        })
+      }
+      if (order.renewalForServerId === server.id) {
+        await tx.orderItem.updateMany({
+          where: { orderId: order.id },
+          data: { billingPeriod: data.billingPeriod, expiresAt },
+        })
+      }
+      await tx.order.update({
+        where: { id: order.id },
+        data: {
+          deliveryData: {
+            ...deliveryData,
+            billingPeriod: data.billingPeriod,
+            customDays: data.billingPeriod === 'CUSTOM' ? data.customDays : null,
+          },
+        },
+      })
+    })
+
+    return wrapSuccess('Server expiry updated', { serverId: server.id, purchaseDate, billingPeriod: data.billingPeriod, expiresAt })
   })
 
 export const getAllProducts = createServerFn({ method: 'GET' }).handler(async () => {

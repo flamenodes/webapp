@@ -19,11 +19,16 @@ async function requireAdmin() {
 }
 
 const razorpayConfigSchema = z.object({
+  activeGateway: z.enum(['cashfree', 'razorpay']).default('cashfree'),
   mode: z.enum(['test', 'production']),
   testKeyId: z.string().optional(),
   testKeySecret: z.string().optional(),
   prodKeyId: z.string().optional(),
   prodKeySecret: z.string().optional(),
+  cashfreeTestAppId: z.string().optional(),
+  cashfreeTestSecret: z.string().optional(),
+  cashfreeProdAppId: z.string().optional(),
+  cashfreeProdSecret: z.string().optional(),
   gstin: z.string().optional(),
   companyName: z.string().optional(),
   companyAddress: z.string().optional(),
@@ -48,6 +53,11 @@ export const getRazorpayConfig = createServerFn({ method: 'GET' }).handler(
       testKeySecret: config?.testKeySecret || process.env.RAZORPAY_KEY_SECRET || '',
       prodKeyId: config?.prodKeyId || process.env.RAZORPAY_PROD_KEY_ID || '',
       prodKeySecret: config?.prodKeySecret || process.env.RAZORPAY_PROD_KEY_SECRET || '',
+      activeGateway: config?.activeGateway || 'cashfree',
+      cashfreeTestAppId: config?.cashfreeTestAppId || process.env.CASHFREE_TEST_APP_ID || '',
+      cashfreeTestSecret: config?.cashfreeTestSecret || process.env.CASHFREE_TEST_SECRET || '',
+      cashfreeProdAppId: config?.cashfreeProdAppId || process.env.CASHFREE_PROD_APP_ID || '',
+      cashfreeProdSecret: config?.cashfreeProdSecret || process.env.CASHFREE_PROD_SECRET || '',
     }
 
     return wrapSuccess('Config fetched', merged)

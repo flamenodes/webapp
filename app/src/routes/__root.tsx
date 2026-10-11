@@ -57,8 +57,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     select: (state) => state.location.pathname,
   })
   const [queryClient] = useState(() => new QueryClient())
-  const dashes = ['/user', '/admin', '/signup', '/billing']
+  const dashes = ['/user', '/admin', '/signup', '/billing', '/checkout']
   const hideNavbar = dashes.some((dash) => pathname.startsWith(dash))
+  const hideCheckoutAnnouncement = pathname.startsWith('/checkout') || pathname === '/billing/payment'
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -68,7 +69,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <AuthProvider>
           <ThemeProvider>
             <QueryClientProvider client={queryClient}>
-              <AnnouncementBanner />
+              {!hideCheckoutAnnouncement && <AnnouncementBanner />}
               {!hideNavbar && <Header />}
               {children}
               {!hideNavbar && <Footer />}

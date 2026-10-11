@@ -1,10 +1,9 @@
 import { createFileRoute, useNavigate, Link } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
-import { motion } from 'motion/react'
-import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
-import { CheckCircle2, ArrowRight, Package, Receipt } from 'lucide-react'
+import { CheckCircle2, Download, Loader2, Package, Receipt, ShieldCheck } from 'lucide-react'
 import { getOrder } from '#/serverActions/billing/order.api'
+import { generateInvoice, getInvoiceByOrderId } from '#/serverActions/invoice/invoice.api'
 import { toast } from 'sonner'
 import { ThemeSwitch } from '#/components/theme/ThemeSwitch'
 
@@ -20,6 +19,7 @@ function BillingSuccessPage() {
   const { orderId } = Route.useSearch()
   const [order, setOrder] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [invoiceLoading, setInvoiceLoading] = useState(false)
 
   useEffect(() => {
     if (!orderId) {
@@ -28,214 +28,100 @@ function BillingSuccessPage() {
       return
     }
 
-    async function fetchOrder() {
-      try {
-        const data = await getOrder({ data: { orderId } })
-        setOrder(data)
-      } catch (error: any) {
-        toast.error(error.message || 'Failed to load order')
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchOrder()
+    let cancelled = false
+    getOrder({ data: { orderId } })
+      .then((data) => { if (!cancelled) setOrder(data) })
+      .catch((error: any) => { if (!cancelled) toast.error(error.message || 'Failed to load order') })
+      .finally(() => { if (!cancelled) setLoading(false) })
+
+    return () => { cancelled = true }
   }, [orderId])
 
+  const downloadInvoice = async () => {
+    if (!orderId || invoiceLoading) return
+    setInvoiceLoading(true)
+    try {
+      let invoice: any
+      try {
+        invoice = await getInvoiceByOrderId({ data: { orderId } })
+      } catch {
+        const generated = await generateInvoice({ data: { orderId } })
+        if (!generated.success || !generated.data) throw new Error(generated.message || 'Invoice is not available yet')
+        invoice = generated.data
+      }
+
+      const anchor = document.createElement('a')
+      anchor.href = invoice.pdfUrl
+      anchor.target = '_blank'
+      anchor.rel = 'noopener noreferrer'
+      anchor.click()
+    } catch (error: any) {
+      toast.error(error?.message || 'Could not prepare your invoice')
+    } finally {
+      setInvoiceLoading(false)
+    }
+  }
+
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading order details...</p>
-        </div>
-      </div>
-    )
+    return <main className="grid min-h-screen place-items-center bg-muted/30 text-foreground"><div className="text-center"><Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" /><p className="mt-3 text-sm text-muted-foreground">Loading your order…</p></div></main>
   }
 
   if (!order) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-2">Order not found</h2>
-          <Button onClick={() => navigate({ to: '/billing/cart' })}>
-            Create New Order
-          </Button>
-        </div>
-      </div>
-    )
+    return <main className="grid min-h-screen place-items-center bg-muted/30 p-5 text-foreground"><section className="w-full max-w-md rounded-xl border border-border bg-card p-7 text-center"><h1 className="text-xl font-semibold">Order not found</h1><p className="mt-2 text-sm text-muted-foreground">We couldn’t load this order.</p><Button className="mt-5 w-full" onClick={() => navigate({ to: '/user/orders' })}>View my orders</Button></section></main>
   }
 
-  const billingDetails = (order.deliveryData as any)?.billingDetails
+  const hasServer = Boolean(order.renewalForServer?.id || order.items?.some((item: any) => item.server?.id))
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Minimal Header */}
-      <header className="border-b bg-card">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <img src="/flamenodes.png" alt="Flame Nodes" className="h-8 w-8" />
-            <span className="text-xl font-bold">Flame Nodes</span>
-          </Link>
-          <ThemeSwitch />
+    <div className="min-h-screen bg-muted/30 text-foreground">
+      <header className="border-b border-border bg-card">
+        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
+          <Link to="/" className="flex items-center gap-2.5"><img src="/flamenodes.png" alt="" className="h-8 w-8" /><span className="text-lg font-semibold">Flame Nodes</span></Link>
+          <div className="flex items-center gap-3"><span className="hidden items-center gap-1.5 text-sm text-muted-foreground sm:flex"><ShieldCheck className="h-4 w-4 text-primary" />Payment complete</span><ThemeSwitch /></div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="flex-1 bg-muted/30">
-        <div className="max-w-4xl mx-auto px-4 py-12">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-center mb-8"
-          >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-              className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-4"
-            >
-              <CheckCircle2 className="w-10 h-10 text-primary" />
-            </motion.div>
-            <h1 className="text-4xl font-bold mb-2">
-              Payment Successful!
-            </h1>
-            <p className="text-muted-foreground">
-              Your order has been confirmed and is being processed
-            </p>
-          </motion.div>
+      <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
+        <section className="mb-6 rounded-xl border border-border bg-card p-6 text-center shadow-sm sm:p-8">
+          <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-primary/10"><CheckCircle2 className="h-8 w-8 text-primary" /></div>
+          <h1 className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl">Payment successful</h1>
+          <p className="mt-2 text-sm text-muted-foreground">Your order is confirmed. We’ll email you when it’s ready.</p>
+          <p className="mt-3 text-xs text-muted-foreground">Order #{order.id.slice(-10).toUpperCase()}</p>
+        </section>
 
-          <div className="space-y-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-            <Card>
-              <CardHeader>
-                <CardTitle>Order Details</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p className="text-muted-foreground mb-1">Order ID</p>
-                    <p className="font-mono font-medium">{order.id}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground mb-1">Order Date</p>
-                    <p className="font-medium">{new Date(order.createdAt).toLocaleDateString()}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground mb-1">Status</p>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                      {order.status}
-                    </span>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground mb-1">Total Amount</p>
-                    <p className="text-2xl font-bold text-primary">₹{(order.totalAmount / 100).toFixed(2)}</p>
-                  </div>
+        <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <section className="overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm">
+            <div className="border-b border-border px-5 py-4 sm:px-6"><h2 className="font-semibold">Order summary</h2><p className="mt-1 text-xs text-muted-foreground">Placed {new Date(order.createdAt).toLocaleDateString()}</p></div>
+            <div className="divide-y divide-border px-5 sm:px-6">
+              {order.items.map((item: any) => (
+                <div key={item.id} className="flex items-start justify-between gap-4 py-5">
+                  <div><p className="font-medium">{item.productName}</p><p className="mt-1 text-sm text-muted-foreground">{item.billingPeriod} · Quantity {item.quantity}</p></div>
+                  <p className="shrink-0 font-medium">₹{item.totalPrice.toFixed(2)}</p>
                 </div>
+              ))}
+            </div>
+            <div className="border-t border-border bg-muted/40 px-5 py-4 sm:px-6">
+              <div className="flex justify-between text-sm text-muted-foreground"><span>Order status</span><span className="font-medium text-foreground">{order.status}</span></div>
+              <div className="mt-3 flex justify-between border-t border-border pt-3 font-semibold"><span>Total paid</span><span className="text-primary">₹{order.totalAmount.toFixed(2)}</span></div>
+            </div>
+          </section>
 
-                <div className="border-t pt-4">
-                  <h3 className="font-semibold mb-3">Order Items</h3>
-                  <div className="space-y-2">
-                    {order.items.map((item: any) => (
-                      <div key={item.id} className="flex justify-between items-center p-3 rounded-lg bg-muted/50">
-                        <div>
-                          <p className="font-medium">{item.productName}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {item.billingPeriod} • Quantity: {item.quantity}
-                          </p>
-                        </div>
-                        <p className="font-semibold">₹{(item.totalPrice / 100).toFixed(2)}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {billingDetails && (
-                  <div className="border-t pt-4">
-                    <h3 className="font-semibold mb-3">Billing Information</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                      <div>
-                        <p className="text-muted-foreground">Name</p>
-                        <p className="font-medium">{billingDetails.firstName} {billingDetails.lastName}</p>
-                      </div>
-                      <div>
-                        <p className="text-muted-foreground">Email</p>
-                        <p className="font-medium">{billingDetails.email}</p>
-                      </div>
-                      <div>
-                        <p className="text-muted-foreground">Phone</p>
-                        <p className="font-medium">{billingDetails.phone}</p>
-                      </div>
-                      <div>
-                        <p className="text-muted-foreground">Address</p>
-                        <p className="font-medium">
-                          {billingDetails.city}, {billingDetails.state}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-            <Card>
-              <CardContent className="pt-6">
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary mt-1" />
-                    <div>
-                      <h3 className="font-semibold mb-1">What's Next?</h3>
-                      <p className="text-sm text-muted-foreground">
-                        Your server will be provisioned within a few minutes. You'll receive an email with access credentials once it's ready.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="flex flex-col sm:flex-row gap-4"
-            >
-            <Button
-              className="flex-1 h-12"
-              onClick={() => navigate({ to: '/user/orders' })}
-            >
-              <Receipt className="w-5 h-5 mr-2" />
-              View My Orders
-            </Button>
-            <Button
-              variant="outline"
-              className="flex-1 h-12"
-              onClick={() => navigate({ to: '/pricing' })}
-            >
-              <Package className="w-5 h-5 mr-2" />
-              Browse More Products
-            </Button>
-            </motion.div>
-          </div>
+          <aside className="rounded-xl border border-border bg-card p-5 text-card-foreground shadow-sm sm:p-6">
+            <h2 className="font-semibold">What’s next?</h2>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">{hasServer ? 'Your service is available in your server dashboard. Provisioning may take a few minutes.' : 'We’re processing your order. You can follow its status from your orders page.'}</p>
+            <div className="mt-5 space-y-2.5">
+              <Button className="h-11 w-full" onClick={() => void downloadInvoice()} disabled={invoiceLoading || (order.status !== 'PAID' && order.status !== 'DELIVERED')}>
+                {invoiceLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                {invoiceLoading ? 'Preparing invoice…' : 'Download invoice'}
+              </Button>
+              <Button variant="outline" className="h-11 w-full" onClick={() => navigate({ to: hasServer ? '/user/servers' : '/user/orders' })}>
+                {hasServer ? <Package className="mr-2 h-4 w-4" /> : <Receipt className="mr-2 h-4 w-4" />}
+                {hasServer ? 'View your server' : 'View your order'}
+              </Button>
+            </div>
+          </aside>
         </div>
-      </div>
-
-      {/* Minimal Footer */}
-      <footer className="border-t bg-card py-4">
-        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Flame Nodes. All rights reserved.
-        </div>
-      </footer>
+      </main>
     </div>
   )
 }

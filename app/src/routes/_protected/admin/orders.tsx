@@ -4,7 +4,7 @@ import {
   getAllOrders, createManualOrder, generatePaymentLink,
   updateOrderStatus, getAllProducts,
   getPendingCustomOrders, deliverCustomOrder, deleteOrder,
-  deployOrder, deployCustomOrder, changeOrderPurchaseDate,
+  deployOrder, deployCustomOrder, changeOrderPurchaseDate, changeOrderServerExpiry,
 } from '@/serverActions/admin/orders.api'
 import { useState } from 'react'
 import { OrdersDataTable } from '@/components/admin/orders/OrdersDataTable'
@@ -119,6 +119,24 @@ function OrdersPage() {
       toast.success('Purchase date updated — renewal days recalculated')
     },
     onError: (error: any) => toast.error(error?.message || 'Failed to update purchase date'),
+  })
+
+  const changeServerExpiryMutation = useMutation({
+    mutationFn: ({ orderId, serverId, billingPeriod, customDays }: {
+      orderId: string
+      serverId: string
+      billingPeriod: string
+      customDays?: number
+    }) => changeOrderServerExpiry({ data: { orderId, serverId, billingPeriod, customDays } }),
+    onSuccess: (result) => {
+      if (result.success) {
+        qc.invalidateQueries({ queryKey: ['admin-orders'] })
+        toast.success('Server expiry updated')
+      } else {
+        toast.error(result.message || 'Failed to update server expiry')
+      }
+    },
+    onError: (error: any) => toast.error(error?.message || 'Failed to update server expiry'),
   })
 
   const deliverMutation = useMutation({
@@ -495,6 +513,10 @@ function OrdersPage() {
               changePurchaseDateMutation.mutate({ orderId, purchasedOn })
             }
             isPurchaseDatePending={changePurchaseDateMutation.isPending}
+            onChangeServerExpiry={(orderId, serverId, billingPeriod, customDays) =>
+              changeServerExpiryMutation.mutate({ orderId, serverId, billingPeriod, customDays })
+            }
+            isServerExpiryPending={changeServerExpiryMutation.isPending}
             isGeneratingLink={generateLinkMutation.isPending}
           />
         </div>
