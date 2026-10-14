@@ -8,7 +8,7 @@
 //
 // If you scale to multiple server replicas, set `DISABLE_INLINE_WORKERS=true` on
 // the web containers and run the workers in a separate process instead
-// (`pnpm workers`), so each job is only processed once.
+// (`bun run workers`), so each job is only processed once.
 import { definePlugin } from 'nitro'
 
 function startWorker(name: string, load: () => Promise<unknown>) {

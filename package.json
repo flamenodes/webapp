@@ -1,5 +1,6 @@
 {
   "name": "flamenodes-cloud",
+  "private": true,
   "version": "1.0.0",
   "description": "Flame Nodes cloud infra",
   "keywords": [
@@ -9,13 +10,21 @@
   "license": "ISC",
   "author": "aislx",
   "type": "module",
+  "packageManager": "bun@1.4.3",
   "main": "index.js",
   "scripts": {
-    "dev": "dotenv -e .env -- pnpm -r --parallel dev ",
-    "build": "dotenv -e .env -- pnpm -r --parallel build",
-    "start": "dotenv -e .env -- pnpm -r --parallel start "
+    "dev": "dotenv -e .env -- bun --filter '*' dev",
+    "build": "dotenv -e .env -- bun --filter '*' build",
+    "start": "dotenv -e .env -- bun --filter '*' start"
   },
   "devDependencies": {
     "dotenv-cli": "^11.0.0"
+  },
+  "workspaces": [
+    "app",
+    "server"
+  ],
+  "overrides": {
+    "cookie-es": "^3.1.1"
   }
 }

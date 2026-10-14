@@ -12,7 +12,7 @@
     "ghcr.io/parkervcp/yolks:nodejs_22": "ghcr.io/parkervcp/yolks:nodejs_22"
   },
   "file_denylist": [],
-  "startup": "if [ -f /home/container/app/.output/server/index.mjs ]; then pnpm start & pnpm workers; else pnpm install && pnpm db:push && pnpm build && pnpm start & pnpm workers; fi",
+  "startup": "if [ -f /home/container/app/.output/server/index.mjs ]; then bun --filter app start & bun --filter app workers; else bun install && bun --filter app db:push && bun run build && bun --filter app start & bun --filter app workers; fi",
   "config": {
     "files": "{\n    \"app/.env\": {\n        \"parser\": \"file\",\n        \"find\": {\n            \"DATABASE_URL\": \"DATABASE_URL={{server.build.env.DATABASE_URL}}\",\n            \"REDIS_URL\": \"REDIS_URL={{server.build.env.REDIS_URL}}\",\n            \"APP_URL\": \"APP_URL=http://{{server.build.default.ip}}:{{server.build.default.port}}\"\n        }\n    }\n}",
     "startup": "{\n    \"done\": \"Server started\"\n}",
@@ -21,7 +21,7 @@
   },
   "scripts": {
     "installation": {
-      "script": "#!/bin/bash\n\napt update\napt install -y git curl jq file unzip make gcc g++ python3 python3-dev libtool\n\ncurl -fsSL https://get.pnpm.io/install.sh | sh -\nexport PNPM_HOME=\"/root/.local/share/pnpm\"\nexport PATH=\"$PNPM_HOME:$PATH\"\n\ncd /mnt/server\n\nif [ -z \"${GIT_ADDRESS}\" ]; then\n    echo \"Git repository not provided\"\n    exit 1\nfi\n\ngit clone ${GIT_ADDRESS} .\n\npnpm install\ncd app && pnpm db:generate\n\necho \"Installation complete\"",
+      "script": "#!/bin/bash\n\napt update\napt install -y git curl jq file unzip make gcc g++ python3 python3-dev libtool\ncurl -fsSL https://bun.sh/install | bash\nexport PATH=\"/root/.bun/bin:$PATH\"\n\ncd /mnt/server\n\nif [ -z \"${GIT_ADDRESS}\" ]; then\n    echo \"Git repository not provided\"\n    exit 1\nfi\n\ngit clone ${GIT_ADDRESS} .\n\nbun install --frozen-lockfile\ncd app && bun run db:generate\n\necho \"Installation complete\"",
       "container": "ghcr.io/parkervcp/installers:debian",
       "entrypoint": "bash"
     }

@@ -1,17 +1,21 @@
-FROM node:22-alpine AS builder
+FROM oven/bun:1.4.3 AS builder
 WORKDIR /app
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable pnpm
 
-COPY package*.json pnpm-lock.yaml ./
+COPY package.json bun.lock ./
+COPY app/package.json app/package.json
+COPY server/package.json server/package.json
+RUN bun install --frozen-lockfile
 COPY . .
-RUN pnpm install --frozen-lockfile
-RUN pnpm build
+RUN bun run build
 
-FROM node:22-alpine
-WORKDIR /runtime 
-COPY --from=builder /app/app/.output /app/server/dist /app/server/node_modules /app/server/package*.json  ./
+FROM oven/bun:1.4.3
+WORKDIR /app
+COPY --from=builder /app/package.json /app/bun.lock ./
+COPY --from=builder /app/app/package.json app/package.json
+COPY --from=builder /app/app/.output app/.output
+COPY --from=builder /app/server/package.json server/package.json
+COPY --from=builder /app/server/dist server/dist
+COPY --from=builder /app/node_modules node_modules
 
 EXPOSE 3000 4000
-CMD ["pnpm", "start"]
+CMD ["bun", "run", "start"]

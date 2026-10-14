@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import * as React from 'react'
 import { DataTable } from '#/components/ui/data-table'
@@ -35,23 +35,25 @@ type CustomerRecord = Awaited<ReturnType<typeof getCustomers>>[number]
 
 function CustomersDataTable({ data }: { data: CustomerRecord[] }) {
   const queryClient = useQueryClient()
-  const [deleteTarget, setDeleteTarget] = React.useState<CustomerRecord | null>(null)
+  const [deleteTarget, setDeleteTarget] = React.useState<CustomerRecord | null>(
+    null,
+  )
   const [bulkDeleteOpen, setBulkDeleteOpen] = React.useState(false)
 
   const customers = Array.isArray(data) ? data : []
 
   const handleExportToExcel = (customers: CustomerRecord[]) => {
     const exportData = customers.map((customer) => ({
-      'Name': customer.name,
-      'Username': customer.username,
-      'Email': customer.email,
+      Name: customer.name,
+      Username: customer.username,
+      Email: customer.email,
       'Client ID': customer.clientId,
       'Email Verified': customer.emailVerified ? 'Yes' : 'No',
-      'Status': customer.banned ? 'Banned' : 'Active',
-      'Orders': customer._count.orders,
-      'Servers': customer._count.servers,
-      'Tickets': customer._count.tickets,
-      'Joined': new Date(customer.createdAt).toLocaleDateString(),
+      Status: customer.banned ? 'Banned' : 'Active',
+      Orders: customer._count.orders,
+      Servers: customer._count.servers,
+      Tickets: customer._count.tickets,
+      Joined: new Date(customer.createdAt).toLocaleDateString(),
     }))
 
     exportToCSV(exportData, 'customers')
@@ -112,7 +114,9 @@ function CustomersDataTable({ data }: { data: CustomerRecord[] }) {
             accessorKey: 'emailVerified',
             header: 'Verified',
             cell: ({ row }) => (
-              <Badge variant={row.original.emailVerified ? 'default' : 'secondary'}>
+              <Badge
+                variant={row.original.emailVerified ? 'default' : 'secondary'}
+              >
                 {row.original.emailVerified ? 'Yes' : 'No'}
               </Badge>
             ),
@@ -144,20 +148,30 @@ function CustomersDataTable({ data }: { data: CustomerRecord[] }) {
           {
             accessorKey: 'createdAt',
             header: 'Joined',
-            cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString(),
+            cell: ({ row }) =>
+              new Date(row.original.createdAt).toLocaleDateString(),
           },
           {
             id: 'billingAddress',
             header: 'Billing Address',
             cell: ({ row }) => {
               const ba = row.original.billingAddress
-              if (!ba) return <span className="text-xs text-muted-foreground">—</span>
+              if (!ba)
+                return <span className="text-xs text-muted-foreground">—</span>
               return (
                 <div className="text-xs space-y-0.5">
-                  <div className="font-medium">{ba.firstName} {ba.lastName}</div>
-                  <div className="text-muted-foreground">{ba.address}, {ba.city}</div>
-                  <div className="text-muted-foreground">{ba.zip} · {ba.country}</div>
-                  {ba.phone && <div className="text-muted-foreground">{ba.phone}</div>}
+                  <div className="font-medium">
+                    {ba.firstName} {ba.lastName}
+                  </div>
+                  <div className="text-muted-foreground">
+                    {ba.address}, {ba.city}
+                  </div>
+                  <div className="text-muted-foreground">
+                    {ba.zip} · {ba.country}
+                  </div>
+                  {ba.phone && (
+                    <div className="text-muted-foreground">{ba.phone}</div>
+                  )}
                 </div>
               )
             },
@@ -235,10 +249,13 @@ function CustomersDataTable({ data }: { data: CustomerRecord[] }) {
               </Button>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Delete selected customers?</AlertDialogTitle>
+                  <AlertDialogTitle>
+                    Delete selected customers?
+                  </AlertDialogTitle>
                   <AlertDialogDescription>
                     This will permanently delete {selectedIds.length} customer
-                    {selectedIds.length === 1 ? '' : 's'} and all their associated data.
+                    {selectedIds.length === 1 ? '' : 's'} and all their
+                    associated data.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -251,8 +268,12 @@ function CustomersDataTable({ data }: { data: CustomerRecord[] }) {
                         toast.success('Deleted selected customers.')
                         clearSelection()
                         setBulkDeleteOpen(false)
-                        await queryClient.invalidateQueries({ queryKey: ['customers'] })
-                        await queryClient.refetchQueries({ queryKey: ['customers'] })
+                        await queryClient.invalidateQueries({
+                          queryKey: ['customers'],
+                        })
+                        await queryClient.refetchQueries({
+                          queryKey: ['customers'],
+                        })
                       } catch (error) {
                         toast.error(
                           error instanceof Error
@@ -296,7 +317,9 @@ function CustomersDataTable({ data }: { data: CustomerRecord[] }) {
                   await deleteCustomer({ data: { id: deleteTarget.id } })
                   toast.success('Deleted customer.')
                   setDeleteTarget(null)
-                  await queryClient.invalidateQueries({ queryKey: ['customers'] })
+                  await queryClient.invalidateQueries({
+                    queryKey: ['customers'],
+                  })
                   await queryClient.refetchQueries({ queryKey: ['customers'] })
                 } catch (error) {
                   toast.error(

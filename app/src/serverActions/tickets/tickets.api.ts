@@ -32,7 +32,7 @@ function formatTicketId(seq: number) {
 function rethrowHelpful(err: unknown) {
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     if (err.code === 'P2021' || err.code === 'P2022') {
-      throw new Error('Tickets tables not found. Run `pnpm db:push` (or migrate) then refresh.')
+      throw new Error('Tickets tables not found. Run `bun run db:push` (or migrate) then refresh.')
     }
   }
   throw err instanceof Error ? err : new Error('Request failed')
