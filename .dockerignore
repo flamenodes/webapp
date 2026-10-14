@@ -1,0 +1,16 @@
+.DS_STORE
+.git
+.vscode
+node_modules
+**/node_modules
+dist
+**/dist
+.output
+**/.o1utput
+.nitro
+**/.nitro
+.tanstack
+**/.tanstack
+
+.env
+.env.*
